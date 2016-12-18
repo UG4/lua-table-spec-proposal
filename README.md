@@ -28,7 +28,7 @@ Der bisherige Ansatz löst die Trennung syntaktisch, d.h., für das Auge des Skr
 
 Einerseits implementiert die Methode, der die Struktur als Parametersatz übergeben wird, einige Checks, die auf fehlende oder ungültige Parameter hinweist:
 
-** Auszug aus `d3f_util.lua` (L80-L84)**
+**Auszug aus `d3f_util.lua` (L80-L84)**
 ```lua
 if problem.free_surface then
 		if type (problem.free_surface) ~= "table" then
@@ -40,7 +40,7 @@ if problem.free_surface then
 
 Andererseits existiert oft eine Dokumentation, die auf gültige Strukturierung hinweist. In einer Help-Message wird zusätzlich auf die korrekte Verwendung hingewiesen:
 
-** Auszug aus `d4f_util.lua` (L33-L46)**
+**Auszug aus `d4f_util.lua` (L33-L46)**
 ```lua
 function util.d3f.usage()
 	print("");
