@@ -18,13 +18,13 @@ problem = {
     -- specification for problem.myGroup.myVal
     myVal = {
         type = "String"
-    }
+    },
 
     mySubGroup = {
         -- specification for problem.myGroup.mySubGroup.mySubVal1
         mySubVal1 = {
             type = "Integer"
-        }
+        },
         
         -- specification for problem.myGroup.mySubGroup.mySubVal2
         mySubVal2 = {
