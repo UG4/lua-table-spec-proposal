@@ -16,7 +16,7 @@ solver = {
       lambdaReduce    = 0.5,  -- reduction factor for scaling parameter
       acceptBest      = true, -- check for best solution if true
       checkAll        = false -- check all maxSteps steps if true
-    }
+  }
 }
 ```
 
@@ -309,7 +309,7 @@ Jetzt können in der Spezifikation selbst diese Methoden eingesetzt werden, was 
 ```lua
 -- the actual specification
 problem = {
-	valueOne = myNumber(3.3 , "...",   1.4, 20.0),
+    valueOne = myNumber(3.3 , "...",   1.4, 20.0),
     valueTwo = myNumber(8.8,  "...", -10.0, 10.0)
 }
 ```
