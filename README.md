@@ -316,7 +316,7 @@ problem = {
 
 Man kann sich jetzt überlegen, ob diese Methoden in einen eigenen Namespace ausgelagert werden sollen. Für einige Muster, wie sie in tieferliegenden Util-Skripten vorkommen, ist das sicherlich sinnvoll. Voraussetzung für eine sinnvolle Nutzung ist natürlich, dass diese Hilfsmethoden sauber dokumentiert werden.
 
-Wichtig hierbei ist, dass am Ende, also nach der Auswertung der Spezifikation inklusive der Hilfsmethoden eine *flache* Spezifikation herauskommt, die ohne besonders komplexe Extra-Regeln auskommt (siehe Listing "**Skizze**"). Dadurch wird die anschließende Code-Generierung erheblich vereinfacht, da bei zu vielen impliziten Sonderregeln diese eine hohe Redundanz und Komplexität in jedem der möglichen Codegeneratoren hervorruft.
+Wichtig hierbei ist, dass am Ende, also nach der Auswertung der Spezifikation inklusive der Hilfsmethoden, eine *flache* Spezifikation herauskommt, die ohne besonders komplexe Extra-Regeln auskommt (siehe Listing "**Skizze**"). Dadurch wird die anschließende Code-Generierung erheblich vereinfacht, da bei zu vielen impliziten Sonderregeln diese eine hohe Redundanz und Komplexität in jedem der möglichen Codegeneratoren hervorruft.
 
 ### Beispielprojekt ###
 
