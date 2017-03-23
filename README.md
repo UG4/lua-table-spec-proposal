@@ -85,11 +85,11 @@ Von großem Vorteil ist, dass zusätzlich zur syntaktischen Trennung von Paramet
 
 ## Wie könnte so eine Spezifikation aussehen?
 
-###Welche Sprache?###
+### Welche Sprache? ###
 
 Bei der Wahl der Basis für eine Spezifikationssprache gilt es die Vorteile von Sprachen mit guter Compiler-API und mächtigen Werkzeugen zur Compilezeit-Metaprogrammierung gegen die bereits getroffenen Designentscheidungen von UG abzuwägen. Da UG häufig auf Rechnern läuft, bei denen nicht klar ist, ob eine Java-Laufzeitumgebung vorhanden ist, wäre eine Lua-basierte Spezifikationssprache praktisch. Leider müsste hier einiges nachgerüstet werden, um einen mit den in VRL vorhandenen Spezifikationsmöglichkeiten vergleichbaren Funktionsumfang zu erhalten. Allerdings kann Lua relativ leicht interpretiert und weiterverbarbeitet werden. Unter der Voraussetzung, dass die Spezifikation auch von UG selbst verwendet wird, wird wohl die Wahl auf Lua fallen.
 
-###Aufbau###
+### Aufbau ###
 
 Die Spezifikation folgt im Wesentlichen der Struktur der Daten. Aus
 
@@ -209,7 +209,7 @@ problem = {
 
 Wow, was soll denn das?!? Das ist ja super lang! Ja, das stimmt ;) Aber es lässt sich bei geschickter Definition von Default-Werten an sehr vielen Stellen Code sparen. Außerdem muss man diese Spezifikation nur einmal schreiben. Man könnte auch Profile mit Defaults einführen, was den Schreibaufwand weiter verkürzt.
 
-###Variable Typen & Parametersätze###
+### Variable Typen & Parametersätze ###
 
 Um Variablen abzubilden, die mehrere Typen erlauben, können pro Parameter mehrere Alternativen angegeben werden, die dann, im Falle einer statisch generierten API, auf mehrere Methodensignaturen abgebildet werden.
 
@@ -218,7 +218,7 @@ Angenommen, es sollen folgende Beispiele mit einer Spezifikation validiert werde
 **Beispiel 1**
 ```lua
 problem = {
-	valueOne = 3,
+    valueOne = 3,
     valueTwo = "abc"
 }
 ```
@@ -228,7 +228,7 @@ und
 **Beispiel 2**
 ```lua
 problem = {
-	valueOne = {
+    valueOne = {
     	subParam1 = 3.4,
         subParam2 = "def"
     },
@@ -318,7 +318,7 @@ Man kann sich jetzt überlegen, ob diese Methoden in einen eigenen Namespace aus
 
 Wichtig hierbei ist, dass am Ende, also nach der Auswertung der Spezifikation inklusive der Hilfsmethoden eine *flache* Spezifikation herauskommt, die ohne besonders komplexe Extra-Regeln auskommt (siehe Listing "**Skizze**"). Dadurch wird die anschließende Code-Generierung erheblich vereinfacht, da bei zu vielen impliziten Sonderregeln diese eine hohe Redundanz und Komplexität in jedem der möglichen Codegeneratoren hervorruft.
 
-###Beispielprojekt###
+### Beispielprojekt ###
 
 Im Ordner `VRL-LuaValidation` befindet sich ein Java-Projekt, mit dessen Hilfe der Spezifikationsentwurf entwickelt wurde. Die vorgeschlagene Spezifikationssprache lässt sich damit einlesen und steht als rudimentäre Datenstruktur zur Weiterverarbeitung bereit. Die Code-Generierung selbst ist nicht implementiert.
 
