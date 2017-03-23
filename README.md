@@ -9,7 +9,7 @@ Die Lua-Tables sehen prima aus und ermöglichen es, unter Ausnutzung der Lua-Syn
 ```lua
 solver = {
   type                = "newton",
-	lineSearch = {            -- ["standard", "none"]
+  lineSearch = {              -- ["standard", "none"]
       type            = "standard",
       maxSteps        = 30,   -- maximum number of line search steps
       lambdaStart     = 1,    -- start value for scaling parameter
