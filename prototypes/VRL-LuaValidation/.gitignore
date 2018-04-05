@@ -1,0 +1,11 @@
+/.gradle/
+/bin/
+/.classpath
+/.project
+/.idea
+/.nb-gradle
+/VRL-LuaValidation.iml
+/out
+/.settings
+/build
+
