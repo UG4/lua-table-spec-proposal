@@ -8,6 +8,7 @@ public class ValueData {
     private String tooltip = "";
     private double range_min;
     private double range_max;
+    private double[] values;
     private boolean visibility;
 
     public ValueData(String valueName){
@@ -38,6 +39,9 @@ public class ValueData {
     public boolean getVisibility(){
         return this.visibility;
     }
+    public double[] getValues(){
+        return this.values;
+    }
 
     public void setType(String aType){
         this.type = aType;
@@ -54,10 +58,13 @@ public class ValueData {
     public void setRangeMin(double rangemin){
         this.range_min = rangemin;
     }
-    public void set(double rangemax){
+    public void setRangeMax(double rangemax){
         this.range_max = rangemax;
     }
-    public void set(boolean vis){
+    public void setVisibility(boolean vis){
         this.visibility = vis;
+    }
+    public void setValues(double[] vals){
+        this.values = vals;
     }
 }

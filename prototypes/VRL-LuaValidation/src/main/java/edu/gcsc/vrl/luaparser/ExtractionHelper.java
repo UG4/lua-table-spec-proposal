@@ -15,6 +15,14 @@ public class ExtractionHelper {
             System.out.println("Default: "+ d.getDefaultVal());
             System.out.println("Style: "+ d.getStyle());
             System.out.println("Tooltip: "+ d.getTooltip());
+            System.out.println("range min: " + d.getRangeMin());
+            System.out.println("range max: " + d.getRangeMax());
+            System.out.println("values: ");
+            if(d.getValues() != null) {
+                for (double i : d.getValues()) {
+                    System.out.println(i);
+                }
+            }
             System.out.println("____________");
         }
     }
@@ -53,14 +61,17 @@ public class ExtractionHelper {
                             case "tooltip":
                                 actData.setTooltip(((Value) l).getValueAsString());
                                 break;
-                            /*case "values":
-                                break;
-                            case "visibility":
-                                break;*/
                         }
                     } else if(l instanceof Group){
                         switch (l.getName().toString()){
                             case "range":
+                                double[] myValues = getRange((Group)l);
+                                if(myValues.length == 2){
+                                    actData.setRangeMin(myValues[0]);
+                                    actData.setRangeMax(myValues[1]);
+                                } else if (myValues.length > 2){
+                                    actData.setValues(myValues);
+                                }
                                 break;
                             case "visibility":
                                 break;
@@ -77,6 +88,31 @@ public class ExtractionHelper {
                 visitE(h);
             }
         }
+    }
+
+    private static double[] getRange(Group range){
+        double min = 0;
+        double max = 0;
+        for(Entry e : range.getEntries()){
+            switch(e.getName().toString()){
+                case "min":
+                    min = Double.parseDouble(((Value)e).getValueAsString());
+                    break;
+                case "max":
+                    max = Double.parseDouble(((Value)e).getValueAsString());
+                    double[] vals = {min,max};
+                    return vals;
+                case "values":
+                    int counter = 0;
+                    double[] myVals = new double[((Group)e).getEntries().size()];
+                    for(Entry h : ((Group)e).getEntries()){
+                        myVals[counter] = Double.parseDouble(((Value)h).getValueAsString());
+                        counter++;
+                    }
+                    return myVals;
+            }
+        }
+        return null;
     }
 
     public static boolean checkVal(Entry e) {
