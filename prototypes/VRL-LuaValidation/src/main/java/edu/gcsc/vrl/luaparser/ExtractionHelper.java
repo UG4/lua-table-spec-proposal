@@ -1,6 +1,13 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.util.ArrayList;
+
 public class ExtractionHelper {
+    private static ArrayList<ValueData> myData;
+    public static ArrayList<ValueData> getData(){
+        return myData;
+    }
+
     public static void visitE(Entry e){
         if(e instanceof Value) {
             System.out.println("Val-Name: "+ e.getName().toString() + "  Val: "+ ((Value) e).getValueAsString());
@@ -20,12 +27,15 @@ public class ExtractionHelper {
             if(checkVal(e)) {
                 System.out.println(e.getName().toString() + " is a Value");
                 for (Entry l : ((Group) e).getEntries()) {
+                    switch (l.getName().toString()){
+                        case "type":
 
+                    }
                 }
             }
-            
+
             for(Entry h : ((Group) e).getEntries()){
-                //System.out.println("Group-Name: " + e.getName().toString());
+                System.out.println("Group-Name: " + e.getName().toString());
                 visitE(h);
             }
         }

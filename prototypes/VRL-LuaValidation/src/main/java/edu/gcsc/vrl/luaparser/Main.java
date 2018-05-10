@@ -94,11 +94,10 @@ public class Main {
      */
     private static void visit(Group g) {
         String indent = indent(g.distanceToRoot() + 1);
-
+        String nameOfVal = "";
         //System.out.println(indent + "#entries: " + g.getEntries().size());
 
         for (Entry e : g.getEntries()) {
-
             ExtractionHelper.visitE(e);
         }
     }
