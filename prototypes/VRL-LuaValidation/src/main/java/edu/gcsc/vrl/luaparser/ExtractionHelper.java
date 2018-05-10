@@ -3,14 +3,25 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 
 public class ExtractionHelper {
-    private static ArrayList<ValueData> myData;
+    private static ArrayList<ValueData> myData = new ArrayList<>();
     public static ArrayList<ValueData> getData(){
         return myData;
     }
 
+    public static void printElements(){
+        for(ValueData d : myData){
+            System.out.println("Name: "+ d.getValName());
+            System.out.println("Type: "+ d.getType());
+            System.out.println("Default: "+ d.getDefaultVal());
+            System.out.println("Style: "+ d.getStyle());
+            System.out.println("Tooltip: "+ d.getTooltip());
+            System.out.println("____________");
+        }
+    }
+
     public static void visitE(Entry e){
         if(e instanceof Value) {
-            System.out.println("Val-Name: "+ e.getName().toString() + "  Val: "+ ((Value) e).getValueAsString());
+            //System.out.println("Val-Name: "+ e.getName().toString() + "  Val: "+ ((Value) e).getValueAsString());
 
             Value v = (Value) e;
 
@@ -25,17 +36,32 @@ public class ExtractionHelper {
             }
         } else if(e instanceof Group){
             if(checkVal(e)) {
+                ValueData actData = new ValueData(e.getName().toString());
                 System.out.println(e.getName().toString() + " is a Value");
                 for (Entry l : ((Group) e).getEntries()) {
-                    switch (l.getName().toString()){
-                        case "type":
-
+                    if(l instanceof Value) {
+                        switch (l.getName().toString()) {
+                            case "type":
+                                actData.setType(((Value) l).getValueAsString());
+                                break;
+                            case "default":
+                                actData.setDefaultVal(((Value) l).getValueAsString());
+                                break;
+                            case "style":
+                                actData.setStyle(((Value) l).getValueAsString());
+                                break;
+                            case "tooltip":
+                                actData.setTooltip(((Value) l).getValueAsString());
+                        }
                     }
+                }
+                if(actData != null) {
+                    myData.add(actData);
                 }
             }
 
             for(Entry h : ((Group) e).getEntries()){
-                System.out.println("Group-Name: " + e.getName().toString());
+                //System.out.println("Group-Name: " + e.getName().toString());
                 visitE(h);
             }
         }

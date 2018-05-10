@@ -33,6 +33,7 @@ public class Main {
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
         visit(g);
+        ExtractionHelper.printElements();
     }
 
     /**

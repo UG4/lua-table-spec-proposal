@@ -14,50 +14,50 @@ public class ValueData {
         this.valName = valueName;
     }
 
-    private String getValName(){
+    public String getValName(){
         return this.valName;
     }
-    private String getType(){
+    public String getType(){
         return this.type;
     }
-    private String getDefaultVal(){
+    public String getDefaultVal(){
         return this.defaultVal;
     }
-    private String getStyle(){
+    public String getStyle(){
         return this.style;
     }
-    private String getTooltip(){
+    public String getTooltip(){
         return this.tooltip;
     }
-    private double getRangeMin(){
+    public double getRangeMin(){
         return this.range_min;
     }
-    private double getRangeMax(){
+    public double getRangeMax(){
         return this.range_max;
     }
-    private boolean getVisibility(){
+    public boolean getVisibility(){
         return this.visibility;
     }
 
-    private void setType(String aType){
+    public void setType(String aType){
         this.type = aType;
     }
-    private void setDefaultVal(String defVal){
+    public void setDefaultVal(String defVal){
         this.defaultVal = defVal;
     }
-    private void setStyle(String aStyle){
+    public void setStyle(String aStyle){
         this.style = aStyle;
     }
-    private void setTooltip(String aTooltip){
+    public void setTooltip(String aTooltip){
         this.tooltip = aTooltip;
     }
-    private void setRangeMin(double rangemin){
+    public void setRangeMin(double rangemin){
         this.range_min = rangemin;
     }
-    private void set(double rangemax){
+    public void set(double rangemax){
         this.range_max = rangemax;
     }
-    private void set(boolean vis){
+    public void set(boolean vis){
         this.visibility = vis;
     }
 }
