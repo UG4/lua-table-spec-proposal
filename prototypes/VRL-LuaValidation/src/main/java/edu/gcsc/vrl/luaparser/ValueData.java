@@ -1,5 +1,9 @@
 package edu.gcsc.vrl.luaparser;
-
+/*
+ * Die ValueData Klasse ist dazu da, die einzelnen Daten für die GUI-Generierung
+ * strukturiert zu erfassen und zu speichern. Hiermit wird dann die ObservableList
+ * befüllt und die cellFactory kann entsprechende Zellen rendern.
+ */
 public class ValueData {
     private String valName = "";
     private String type = "";

@@ -3,11 +3,20 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 
 public class ExtractionHelper {
+    /*
+    * in myData werden alle Werte, die visualisiert werden sollen, gespeichert
+    * und durch getData() verfügbar gemacht.
+    * Wahrscheinlich unschöner Ansatz - eventuell ändern ?????
+    * */
     private static ArrayList<ValueData> myData = new ArrayList<>();
     public static ArrayList<ValueData> getData(){
         return myData;
     }
 
+    /*
+    * Hier werden einfach nur die Elemente mit den enthaltenen Informationen
+    * geprintet - für Testzwecke!
+    * */
     public static void printElements(){
         for(ValueData d : myData){
             System.out.println("Name: "+ d.getValName());
@@ -27,6 +36,18 @@ public class ExtractionHelper {
         }
     }
 
+    /*
+    * Erweiterte Visit-Funktion, die wieder zwischen 'Value' und 'Group' differenziert.
+    * Dabei überprüft sie aber im Falle einer 'Group', ob diese 'Group' ein Wert ist,
+    * der nachher auch visualiert werden soll, mittels checkVal().
+    * Wenn dem so ist, wird ein neues Objekt von 'ValueData' angelegt und dann nacheinander
+    * den Einträgen entsprechend die Informationen herausgefiltert, die für die Visualisierung
+    * vonnöten sind. Um die Werte für die range bzw. die values zu bestimmen, wird die Methode
+    * getRange() aufgerufen.
+    *
+    * TO-DO: Visibility muss noch herausgefunden werden!!!!!!!!
+    *
+    * */
     public static void visitE(Entry e){
         if(e instanceof Value) {
             //System.out.println("Val-Name: "+ e.getName().toString() + "  Val: "+ ((Value) e).getValueAsString());
@@ -90,6 +111,9 @@ public class ExtractionHelper {
         }
     }
 
+    /*
+    * Funktion, die die Werte für range-min, range-max oder values herausfindet.
+    * */
     private static double[] getRange(Group range){
         double min = 0;
         double max = 0;
@@ -115,6 +139,10 @@ public class ExtractionHelper {
         return null;
     }
 
+    /*
+    * Prüft, ob die ausgewählte 'Group' ein Wert ist, der visualisiert werden soll.
+    * Dabei wird geschaut, ob in einem Eintrag der 'Value' "type" existierst.
+    * */
     public static boolean checkVal(Entry e) {
         boolean isVal = false;
 
