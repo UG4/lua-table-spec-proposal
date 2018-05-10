@@ -52,6 +52,18 @@ public class ExtractionHelper {
                                 break;
                             case "tooltip":
                                 actData.setTooltip(((Value) l).getValueAsString());
+                                break;
+                            /*case "values":
+                                break;
+                            case "visibility":
+                                break;*/
+                        }
+                    } else if(l instanceof Group){
+                        switch (l.getName().toString()){
+                            case "range":
+                                break;
+                            case "visibility":
+                                break;
                         }
                     }
                 }
