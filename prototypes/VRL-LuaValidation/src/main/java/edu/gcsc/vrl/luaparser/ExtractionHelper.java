@@ -10,16 +10,20 @@ public class ExtractionHelper {
             if (v.isFunction() && "eval".equals(v.getName())) {
                 try {
                     // invoke methods without arguments
-                    System.out.println("eval: "
-                            + v.asFunction().eval().getValueAsString());
+                    //System.out.println("eval: "
+                    //        + v.asFunction().eval().getValueAsString());
                 } catch (Exception ex) {
-                    System.out.print("-> ERROR: cannot call f!");
+                    //System.out.print("-> ERROR: cannot call f!");
                 }
             }
         } else if(e instanceof Group){
-            if(checkVal(e)){
+            if(checkVal(e)) {
                 System.out.println(e.getName().toString() + " is a Value");
+                for (Entry l : ((Group) e).getEntries()) {
+
+                }
             }
+            
             for(Entry h : ((Group) e).getEntries()){
                 //System.out.println("Group-Name: " + e.getName().toString());
                 visitE(h);
@@ -42,11 +46,10 @@ public class ExtractionHelper {
         return isVal;
     }
 
-    public static boolean isEqual(String a, String b){
+    private static boolean isEqual(String a, String b){
         boolean eq = false;
         if(a.equals(b)){
             eq = true;
-            System.out.println("Hat gefunzt!");
         }
         return eq;
     }
