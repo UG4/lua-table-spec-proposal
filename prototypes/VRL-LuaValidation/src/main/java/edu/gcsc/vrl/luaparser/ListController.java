@@ -9,6 +9,11 @@ import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 
+/*
+ * Der ListController interagiert zwischen Daten und Anzeige.
+ * Er wird mit den Daten aus ExtractionHelper initialisiert.
+ * */
+
 public class ListController {
     @FXML
     private TableView<ValueData> outputTable;

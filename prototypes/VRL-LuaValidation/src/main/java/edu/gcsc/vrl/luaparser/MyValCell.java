@@ -4,6 +4,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 
 public class MyValCell extends TableCell<ValueData, String> {
+    /*
+    * Hier werden spezifische Zellen gerendert - je nach type des Wertes,
+    * der dargestellt werden soll.
+    * */
     @Override
     protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);

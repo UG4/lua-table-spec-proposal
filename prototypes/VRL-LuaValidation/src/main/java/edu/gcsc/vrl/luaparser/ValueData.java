@@ -19,6 +19,9 @@ public class ValueData {
     private double[] values;
     private boolean visibility;
 
+    /*
+    * Die Properties für die cellFactorys usw.
+    * */
     private StringProperty defValProp;
     private StringProperty valNameProp;
     private StringProperty typeProp;
@@ -32,6 +35,9 @@ public class ValueData {
         return this.valName;
     }
 
+    /*
+    * Getter/Setter für die Properties
+    * */
     public StringProperty getTypeProp() {return typeProp;}
     public StringProperty getDefProp() {return defValProp;}
     public StringProperty getValNameProp() {return valNameProp;}
