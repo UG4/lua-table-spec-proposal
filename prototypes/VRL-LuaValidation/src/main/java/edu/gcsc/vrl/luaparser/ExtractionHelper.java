@@ -72,9 +72,11 @@ public class ExtractionHelper {
                         switch (l.getName().toString()) {
                             case "type":
                                 actData.setType(((Value) l).getValueAsString());
+                                actData.setTypeProp(((Value) l).getValueAsString());
                                 break;
                             case "default":
                                 actData.setDefaultVal(((Value) l).getValueAsString());
+                                actData.setDefValProp((((Value) l).getValueAsString()));
                                 break;
                             case "style":
                                 actData.setStyle(((Value) l).getValueAsString());
