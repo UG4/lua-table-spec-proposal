@@ -2,8 +2,29 @@ package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
+import javafx.application.Application;
+import javafx.collections.ObservableArray;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
-public class Main {
+
+public class Main extends Application{
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
+        TitledPane page = (TitledPane) loader.load();
+        Scene scene = new Scene(page);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
     /**
      * Test program.
@@ -13,6 +34,7 @@ public class Main {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
+        launch(args);
 
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(
