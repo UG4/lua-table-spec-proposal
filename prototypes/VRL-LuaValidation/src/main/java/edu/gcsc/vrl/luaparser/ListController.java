@@ -13,8 +13,6 @@ public class ListController {
     @FXML
     private TableView<ValueData> outputTable;
     @FXML
-    private Button aButton;
-    @FXML
     private TableColumn<ValueData, String> optionColumn;
     @FXML
     private TableColumn<ValueData, String> valueColumn;
@@ -35,5 +33,7 @@ public class ListController {
         valueColumn.setCellFactory(column -> {
             return new MyValCell();
         });
+
+        outputTable.setItems(inputData);
     }
 }
