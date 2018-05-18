@@ -34,11 +34,11 @@ public class Main extends Application{
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        launch(args);
+
 
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(
-                Main.class.getResourceAsStream("/validationtest01.lua"));
+                Main.class.getResourceAsStream("/validationtest02.lua"));
         String code = new String(code2Data, "UTF-8");
 
         // convert code to group
@@ -56,6 +56,7 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
         visit(g);
         ExtractionHelper.printElements();
+        launch(args);
     }
 
     /**
