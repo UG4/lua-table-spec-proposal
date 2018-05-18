@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 
 public class MyValCell extends TableCell<ValueData, String> {
@@ -11,8 +12,12 @@ public class MyValCell extends TableCell<ValueData, String> {
             setText(null);
             setStyle("");
         } else {
-            if (true){
-
+            if (item.toString().equals("Integer")) {
+                setText(item.toString());
+                setStyle("");
+            } else if(item.toString().equals("String")){
+                CheckBox checkBox = new CheckBox();
+                setGraphic(checkBox);
             }
         }
 
