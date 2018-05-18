@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /*
@@ -24,6 +25,7 @@ public class ValueData {
 
     public ValueData(String valueName){
         this.valName = valueName;
+        this.valNameProp = new SimpleStringProperty(valueName);
     }
 
     public String getValName(){
@@ -33,6 +35,9 @@ public class ValueData {
     public StringProperty getTypeProp() {return typeProp;}
     public StringProperty getDefProp() {return defValProp;}
     public StringProperty getValNameProp() {return valNameProp;}
+
+    public void setTypeProp(String aType){this.typeProp = new SimpleStringProperty(aType);}
+    public void setDefValProp(String defVal){this.defValProp = new SimpleStringProperty(defVal);}
 
     public String getType(){
         return this.type;
