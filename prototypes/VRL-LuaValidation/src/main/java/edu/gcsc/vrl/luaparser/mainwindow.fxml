@@ -20,7 +20,6 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
             </TableView>
-            <Button fx:id="aButton" layoutX="338.0" layoutY="146.0" mnemonicParsing="false" text="Do it" />
          </children>
       </Pane>
    </content>
