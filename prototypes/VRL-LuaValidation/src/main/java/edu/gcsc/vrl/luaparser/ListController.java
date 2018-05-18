@@ -30,10 +30,10 @@ public class ListController {
 
     public void initialize() throws InterruptedException{
         optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValNameProp());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getDefProp());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getTypeProp());
 
-        valueColumn.setCellValueFactory(column -> {
-            return new myValCell();
+        valueColumn.setCellFactory(column -> {
+            return new MyValCell();
         });
     }
 }

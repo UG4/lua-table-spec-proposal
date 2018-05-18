@@ -18,8 +18,9 @@ public class ValueData {
     private double[] values;
     private boolean visibility;
 
-    private StringProperty defVal;
+    private StringProperty defValProp;
     private StringProperty valNameProp;
+    private StringProperty typeProp;
 
     public ValueData(String valueName){
         this.valName = valueName;
@@ -29,7 +30,8 @@ public class ValueData {
         return this.valName;
     }
 
-    public StringProperty getDefProp() {return defVal;}
+    public StringProperty getTypeProp() {return typeProp;}
+    public StringProperty getDefProp() {return defValProp;}
     public StringProperty getValNameProp() {return valNameProp;}
 
     public String getType(){
