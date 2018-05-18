@@ -1,4 +1,7 @@
 package edu.gcsc.vrl.luaparser;
+
+import javafx.beans.property.StringProperty;
+
 /*
  * Die ValueData Klasse ist dazu da, die einzelnen Daten für die GUI-Generierung
  * strukturiert zu erfassen und zu speichern. Hiermit wird dann die ObservableList
@@ -15,6 +18,9 @@ public class ValueData {
     private double[] values;
     private boolean visibility;
 
+    private StringProperty defVal;
+    private StringProperty valNameProp;
+
     public ValueData(String valueName){
         this.valName = valueName;
     }
@@ -22,6 +28,10 @@ public class ValueData {
     public String getValName(){
         return this.valName;
     }
+
+    public StringProperty getDefProp() {return defVal;}
+    public StringProperty getValNameProp() {return valNameProp;}
+
     public String getType(){
         return this.type;
     }
