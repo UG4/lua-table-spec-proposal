@@ -7,6 +7,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
+import javax.xml.soap.Text;
+
 public class MyValCell extends TableCell<ValueData, ValProperty> {
     /*
     * Hier werden spezifische Zellen gerendert - je nach type des Wertes,
@@ -23,32 +25,28 @@ public class MyValCell extends TableCell<ValueData, ValProperty> {
             if(item.getStyle().equals("default")) {
                 switch (item.getType()) {
                     case "String":
-                        TextField stringField = new TextField();
-                        stringField.setText(item.getType());
+                        TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                        setGraphic(stringField);
                         setStyle("");
                         break;
                     case "Double":
                         if(item.getDefaultVal() != null){
-                            TextField doubleField = new TextField();
-                            doubleField.setText(item.getDefaultVal());
+                            TextField doubleField = UIHelper.tfDouble(item.getDefaultVal());
                             setGraphic(doubleField);
                             setStyle("");
                         } else {
-                            TextField doubleField = new TextField();
-                            doubleField.setText("");
+                            TextField doubleField = UIHelper.tfDouble("");
                             setGraphic(doubleField);
                             setStyle("");
                         }
                         break;
                     case "Integer":
                         if(item.getDefaultVal() != null){
-                            TextField integerField = new TextField();
-                            integerField.setText(item.getDefaultVal());
+                            TextField integerField = UIHelper.tfInteger(item.getDefaultVal());
                             setGraphic(integerField);
                             setStyle("");
                         } else {
-                            TextField integerField = new TextField();
-                            integerField.setText("");
+                            TextField integerField = UIHelper.tfInteger("");
                             setGraphic(integerField);
                             setStyle("");
                         }
@@ -58,12 +56,7 @@ public class MyValCell extends TableCell<ValueData, ValProperty> {
                 switch(item.getType()){
                     case "Double":
                         if(item.getDefaultVal() != null){
-                            ObservableList<Double> vals = FXCollections.observableArrayList();
-                            for(Double d : item.getValues()){
-                                vals.add(d);
-                            }
-                            ComboBox doubleBox = new ComboBox(vals);
-                            doubleBox.getSelectionModel().select(item.getDefaultVal());
+                            ComboBox doubleBox = UIHelper.cbDouble(item.getValues(),item.getDefaultVal());
                             setGraphic(doubleBox);
                             setStyle("");
                         }
