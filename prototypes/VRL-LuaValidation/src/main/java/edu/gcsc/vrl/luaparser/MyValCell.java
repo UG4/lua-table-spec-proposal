@@ -30,7 +30,7 @@ public class MyValCell extends TableCell<ValueData, ValProperty> {
                     setStyle("");
                     break;
                 case "Double":
-                    setText("Integer");
+                    setText("Double");
                     CheckBox checkBox = new CheckBox();
                     setGraphic(checkBox);
                     break;
