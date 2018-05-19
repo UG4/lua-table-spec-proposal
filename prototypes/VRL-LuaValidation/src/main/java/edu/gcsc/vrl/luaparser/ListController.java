@@ -20,7 +20,7 @@ public class ListController {
     @FXML
     private TableColumn<ValueData, String> optionColumn;
     @FXML
-    private TableColumn<ValueData, String> valueColumn;
+    private TableColumn<ValueData, ValProperty> valueColumn;
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
 
@@ -33,7 +33,7 @@ public class ListController {
 
     public void initialize() throws InterruptedException{
         optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValNameProp());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getTypeProp());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValprop());
 
         valueColumn.setCellFactory(column -> {
             return new MyValCell();

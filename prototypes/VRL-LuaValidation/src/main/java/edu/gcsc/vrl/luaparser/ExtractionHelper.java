@@ -66,6 +66,7 @@ public class ExtractionHelper {
         } else if(e instanceof Group){
             if(checkVal(e)) {
                 ValueData actData = new ValueData(e.getName().toString());
+                ValProperty actProp = new ValProperty(e.getName().toString());
                 System.out.println(e.getName().toString() + " is a Value");
                 for (Entry l : ((Group) e).getEntries()) {
                     if(l instanceof Value) {
@@ -73,10 +74,12 @@ public class ExtractionHelper {
                             case "type":
                                 actData.setType(((Value) l).getValueAsString());
                                 actData.setTypeProp(((Value) l).getValueAsString());
+                                actProp.setType(((Value) l).getValueAsString());
                                 break;
                             case "default":
                                 actData.setDefaultVal(((Value) l).getValueAsString());
                                 actData.setDefValProp((((Value) l).getValueAsString()));
+                                actProp.setDefaultVal((((Value) l).getValueAsString()));
                                 break;
                             case "style":
                                 actData.setStyle(((Value) l).getValueAsString());
@@ -101,6 +104,7 @@ public class ExtractionHelper {
                         }
                     }
                 }
+                actData.setValprop(actProp);
                 if(actData != null) {
                     myData.add(actData);
                 }
