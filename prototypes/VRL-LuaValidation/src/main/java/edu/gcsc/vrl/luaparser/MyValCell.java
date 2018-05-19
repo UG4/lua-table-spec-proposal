@@ -16,12 +16,29 @@ public class MyValCell extends TableCell<ValueData, ValProperty> {
             setText(null);
             setStyle("");
         } else {
-            if (item.toString().equals("Integer")) {
-                setText(item.toString());
+            /*if (item.getType().equals("String")) {
+                setText(item.getType());
                 setStyle("");
-            } else if(item.toString().equals("String")){
+            } else if(item.getType().equals("Integer")){
+                setText("Integer");
                 CheckBox checkBox = new CheckBox();
                 setGraphic(checkBox);
+            }*/
+            switch(item.getType()){
+                case "String":
+                    setText(item.getType());
+                    setStyle("");
+                    break;
+                case "Double":
+                    setText("Integer");
+                    CheckBox checkBox = new CheckBox();
+                    setGraphic(checkBox);
+                    break;
+                case "Integer":
+                    setText("Integer");
+                    CheckBox checkBox1 = new CheckBox();
+                    setGraphic(checkBox1);
+                    break;
             }
         }
 
