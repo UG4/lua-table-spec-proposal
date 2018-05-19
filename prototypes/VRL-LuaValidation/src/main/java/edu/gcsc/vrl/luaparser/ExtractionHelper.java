@@ -17,18 +17,19 @@ public class ExtractionHelper {
     * Hier werden einfach nur die Elemente mit den enthaltenen Informationen
     * geprintet - für Testzwecke!
     * */
-    public static void printElements(){
-        for(ValueData d : myData){
-            System.out.println("Name: "+ d.getValName());
-            System.out.println("Type: "+ d.getType());
-            System.out.println("Default: "+ d.getDefaultVal());
-            System.out.println("Style: "+ d.getStyle());
-            System.out.println("Tooltip: "+ d.getTooltip());
-            System.out.println("range min: " + d.getRangeMin());
-            System.out.println("range max: " + d.getRangeMax());
+
+    public static void printElemProp(){
+        for(ValueData d: myData){
+            System.out.println("Name: "+ d.getValprop().getValue().getValName());
+            System.out.println("Type: "+ d.getValprop().getValue().getType());
+            System.out.println("Default: "+ d.getValprop().getValue().getDefaultVal());
+            System.out.println("Style: "+ d.getValprop().getValue().getStyle());
+            System.out.println("Tooltip: "+ d.getValprop().getValue().getTooltip());
+            System.out.println("range min: " + d.getValprop().getValue().getRange_min());
+            System.out.println("range max: " + d.getValprop().getValue().getRange_max());
             System.out.println("values: ");
-            if(d.getValues() != null) {
-                for (double i : d.getValues()) {
+            if(d.getValprop().getValue().getValues() != null) {
+                for (double i : d.getValprop().getValue().getValues()) {
                     System.out.println(i);
                 }
             }
@@ -72,20 +73,22 @@ public class ExtractionHelper {
                     if(l instanceof Value) {
                         switch (l.getName().toString()) {
                             case "type":
-                                actData.setType(((Value) l).getValueAsString());
-                                actData.setTypeProp(((Value) l).getValueAsString());
+                                //actData.setType(((Value) l).getValueAsString());
+                                //actData.setTypeProp(((Value) l).getValueAsString());
                                 actProp.setType(((Value) l).getValueAsString());
                                 break;
                             case "default":
-                                actData.setDefaultVal(((Value) l).getValueAsString());
-                                actData.setDefValProp((((Value) l).getValueAsString()));
-                                actProp.setDefaultVal((((Value) l).getValueAsString()));
+                                //actData.setDefaultVal(((Value) l).getValueAsString());
+                                //actData.setDefValProp((((Value) l).getValueAsString()));
+                                actProp.setDefaultVal(((Value) l).getValueAsString());
                                 break;
                             case "style":
-                                actData.setStyle(((Value) l).getValueAsString());
+                                //actData.setStyle(((Value) l).getValueAsString());
+                                actProp.setStyle(((Value) l).getValueAsString());
                                 break;
                             case "tooltip":
-                                actData.setTooltip(((Value) l).getValueAsString());
+                                //actData.setTooltip(((Value) l).getValueAsString());
+                                actProp.setTooltip(((Value) l).getValueAsString());
                                 break;
                         }
                     } else if(l instanceof Group){
@@ -93,10 +96,13 @@ public class ExtractionHelper {
                             case "range":
                                 double[] myValues = getRange((Group)l);
                                 if(myValues.length == 2){
-                                    actData.setRangeMin(myValues[0]);
-                                    actData.setRangeMax(myValues[1]);
+                                    //actData.setRangeMin(myValues[0]);
+                                    //actData.setRangeMax(myValues[1]);
+                                    actProp.setRange_min(myValues[0]);
+                                    actProp.setRange_max(myValues[1]);
                                 } else if (myValues.length > 2){
-                                    actData.setValues(myValues);
+                                    //actData.setValues(myValues);
+                                    actProp.setValues(myValues);
                                 }
                                 break;
                             case "visibility":

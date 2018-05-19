@@ -38,7 +38,7 @@ public class Main extends Application{
 
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(
-                Main.class.getResourceAsStream("/validationtest02.lua"));
+                Main.class.getResourceAsStream("/validationtest01.lua"));
         String code = new String(code2Data, "UTF-8");
 
         // convert code to group
@@ -55,7 +55,7 @@ public class Main extends Application{
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
         visit(g);
-        ExtractionHelper.printElements();
+        ExtractionHelper.printElemProp();
         launch(args);
     }
 
