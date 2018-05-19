@@ -56,7 +56,21 @@ public class MyValCell extends TableCell<ValueData, ValProperty> {
                 switch(item.getType()){
                     case "Double":
                         if(item.getDefaultVal() != null){
-                            ComboBox doubleBox = UIHelper.cbDouble(item.getValues(),item.getDefaultVal());
+                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues(),item.getDefaultVal());
+                            setGraphic(doubleBox);
+                            setStyle("");
+                        } else {
+                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
+                            setGraphic(doubleBox);
+                            setStyle("");
+                        }
+                    case "Integer":
+                        if(item.getDefaultVal() != null){
+                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues(),item.getDefaultVal());
+                            setGraphic(doubleBox);
+                            setStyle("");
+                        } else {
+                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
                             setGraphic(doubleBox);
                             setStyle("");
                         }

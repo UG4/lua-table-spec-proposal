@@ -27,13 +27,22 @@ public class UIHelper {
         return integerField;
     }
 
-    public static ComboBox cbDouble(double[] values, String defaultVal){
+    public static ComboBox cbNumber(double[] values, String defaultVal){
         ObservableList<Double> vals = FXCollections.observableArrayList();
         for(Double d : values){
             vals.add(d);
         }
         ComboBox doubleBox = new ComboBox(vals);
         doubleBox.getSelectionModel().select(defaultVal);
+        return doubleBox;
+    }
+
+    public static ComboBox cbNumber(double[] values){
+        ObservableList<Double> vals = FXCollections.observableArrayList();
+        for(Double d : values){
+            vals.add(d);
+        }
+        ComboBox doubleBox = new ComboBox(vals);
         return doubleBox;
     }
 }
