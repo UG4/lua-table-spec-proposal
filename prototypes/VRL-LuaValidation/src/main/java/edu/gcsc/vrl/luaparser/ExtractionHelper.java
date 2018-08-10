@@ -1,15 +1,23 @@
 package edu.gcsc.vrl.luaparser;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ExtractionHelper {
+public final class ExtractionHelper {
+    /*
+    * Hier wird sicher gestellt, dass die Utility-Klasse nicht
+    * instanziiert werden kann.
+    * */
+    private ExtractionHelper(){
+        throw new AssertionError();
+    }
     /*
     * in myData werden alle Werte, die visualisiert werden sollen, gespeichert
     * und durch getData() verfügbar gemacht.
     * Wahrscheinlich unschöner Ansatz - eventuell ändern ?????
     * */
-    private static ArrayList<ValueData> myData = new ArrayList<>();
-    public static ArrayList<ValueData> getData(){
+    private static List<ValueData> myData = new ArrayList<>();
+    public static List<ValueData> getData(){
         return myData;
     }
 
@@ -49,7 +57,7 @@ public class ExtractionHelper {
     * TO-DO: Visibility muss noch herausgefunden werden!!!!!!!!
     *
     * */
-    public static void visitE(Entry e){
+    public static void visitE(Entry e, List<ValueData> dataList){
         if(e instanceof Value) {
             //System.out.println("Val-Name: "+ e.getName().toString() + "  Val: "+ ((Value) e).getValueAsString());
 
@@ -112,13 +120,13 @@ public class ExtractionHelper {
                 }
                 actData.setValprop(actProp);
                 if(actData != null) {
-                    myData.add(actData);
+                    dataList.add(actData); //vorher myData.add(actData);
                 }
             }
 
             for(Entry h : ((Group) e).getEntries()){
                 //System.out.println("Group-Name: " + e.getName().toString());
-                visitE(h);
+                visitE(h, dataList);
             }
         }
     }
@@ -176,5 +184,63 @@ public class ExtractionHelper {
             eq = true;
         }
         return eq;
+    }
+
+    /*
+    * Standart visit-Funktionen, die in der Main sind
+    * */
+
+    public static void visit(Entry e, List<ValueData> dataList) {
+        String indent;
+        indent = indent(e.distanceToRoot());
+        if (e instanceof Group) {
+            System.out.println(indent + e.getName() + " = {");
+            visit((Group) e, dataList);
+            System.out.println(indent + "}");
+        } else if (e instanceof Value) {
+
+            System.out.println(indent + e.getName()
+                    + " = " + ((Value) e).getValueAsString());
+
+            Value v = (Value) e;
+
+            if (v.isFunction() && "eval".equals(v.getName())) {
+                try {
+                    // invoke methods without arguments
+                    System.out.println(indent + "eval: "
+                            + v.asFunction().eval().getValueAsString());
+                } catch (Exception ex) {
+                    System.out.println(
+                            indent + "-> ERROR: cannot call f!");
+                }
+            }
+
+        } else {
+            System.out.println(indent + "unknown type: " + e);
+        }
+    }
+
+    private static void visit(Group g, List<ValueData> dataList) {
+        String indent = indent(g.distanceToRoot() + 1);
+        String nameOfVal = "";
+        //System.out.println(indent + "#entries: " + g.getEntries().size());
+
+        for (Entry e : g.getEntries()) {
+            ExtractionHelper.visitE(e, dataList);
+        }
+    }
+
+    /*
+    * Indent-Funktion, die in der Main ist
+    * */
+    private static String indent(int n) {
+        String s = "  ";
+        String result = "";
+
+        for (int i = 0; i < n; i++) {
+            result += s;
+        }
+
+        return result;
     }
 }
