@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,8 +25,8 @@ public class ListController {
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
 
-    public ListController(){
-        ArrayList<ValueData> controllerData = ExtractionHelper.getData();
+    public ListController(Validator v){
+        List<ValueData> controllerData = ExtractionHelper.getData();
         for(ValueData e : controllerData){
             inputData.add(e);
         }

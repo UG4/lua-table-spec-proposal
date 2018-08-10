@@ -18,6 +18,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        //Validator v = new Validator("/validationtest01.lua");
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
         TitledPane page = (TitledPane) loader.load();
         Scene scene = new Scene(page);
@@ -122,7 +123,7 @@ public class Main extends Application{
         //System.out.println(indent + "#entries: " + g.getEntries().size());
 
         for (Entry e : g.getEntries()) {
-            ExtractionHelper.visitE(e);
+           // ExtractionHelper.visitE(e);
         }
     }
 }
