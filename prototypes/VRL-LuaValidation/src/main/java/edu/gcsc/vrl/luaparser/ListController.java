@@ -25,12 +25,12 @@ public class ListController {
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
 
-    public ListController(Validator v){
+    /*public ListController(){
         List<ValueData> controllerData = ExtractionHelper.getData();
         for(ValueData e : controllerData){
             inputData.add(e);
         }
-    }
+    }*/
 
     public void initialize() throws InterruptedException{
         optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValNameProp());
@@ -41,5 +41,11 @@ public class ListController {
         });
 
         outputTable.setItems(inputData);
+    }
+
+    public void initData(List<ValueData> dataset){
+        for(ValueData v : dataset){
+            inputData.add(v);
+        }
     }
 }

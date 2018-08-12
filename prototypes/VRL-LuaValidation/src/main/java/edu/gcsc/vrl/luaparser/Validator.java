@@ -3,6 +3,12 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.common.io.ByteStreams;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.TitledPane;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class Validator {
@@ -43,5 +49,27 @@ public class Validator {
         }
     }
 
+    public void loadUI(){
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Stage stage = new Stage();
+                    stage.setTitle("Parameter Eingabe");
+
+                    TitledPane page = (TitledPane) loader.load();
+                    Scene scene = new Scene(page);
+                    stage.setScene(scene);
+
+                    ListController lCon = loader.<ListController>getController();
+                    lCon.initData(getData());
+
+                    stage.show();
+
+                } catch(IOException e){}
+            }
+        });
+    }
 }

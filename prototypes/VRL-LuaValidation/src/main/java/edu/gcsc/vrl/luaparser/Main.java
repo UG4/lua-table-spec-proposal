@@ -17,14 +17,14 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        /*
         //Validator v = new Validator("/validationtest01.lua");
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
         TitledPane page = (TitledPane) loader.load();
         Scene scene = new Scene(page);
 
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
     /**
@@ -38,7 +38,7 @@ public class Main extends Application{
 
 
         // load lua code from resources
-        byte[] code2Data = ByteStreams.toByteArray(
+        /*byte[] code2Data = ByteStreams.toByteArray(
                 Main.class.getResourceAsStream("/validationtest01.lua"));
         String code = new String(code2Data, "UTF-8");
 
@@ -57,7 +57,10 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
         visit(g);
         ExtractionHelper.printElemProp();
-        launch(args);
+        launch(args);*/
+        Validator v = new Validator("/validationtest02.lua");
+        v.visiting();
+        v.loadUI();
     }
 
     /**
