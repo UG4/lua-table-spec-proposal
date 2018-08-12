@@ -41,6 +41,9 @@ public class Validator {
     /*
     * Objekt - Methoden
     * */
+    /*
+    * Ist der Startpunkt, mit dem die Hilfsmethoden für das visiting aufgerufen werden
+    * */
     public void visiting(){
         List<ValueData> dataList = new ArrayList<>();
         if(importedCode != null) {
@@ -49,6 +52,12 @@ public class Validator {
         }
     }
 
+    /*
+    * Erstellt ein eigenständiges UI, das einen Controller zugeordnet bekommt.
+    * Platform.runLater() muss benutzt werden, weil Daten für das UI in JavaFX
+    * in einem speziellen JavaFX Thread bearbeitet werden.
+    * !!!!!!!!! Ergänzende Infos hinzufügen in die Beschreibung
+    * */
     public void loadUI(){
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
 

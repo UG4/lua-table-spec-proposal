@@ -11,7 +11,6 @@ public class ValProperty {
     * Daten enthält, mit denen das UI erstellt werden kann.
     * */
     private String valName = "";
-    //private List<ArrayList<TypeInfo>> type; // war mal vom Datentyp String
     private String type = "";
     private String defaultVal = "";
     private String style = "";
@@ -21,11 +20,6 @@ public class ValProperty {
     private double[] values;
     private boolean visibility;
 
-    // Konstruktoren
-    /*public ValProperty(String valueName, String atype){
-        this.valName = valueName;
-        this.type = atype;
-    }*/
 
     public ValProperty(String valueName){
         this.valName = valueName;

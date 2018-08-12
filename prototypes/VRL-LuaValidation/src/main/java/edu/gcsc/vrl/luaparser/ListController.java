@@ -25,13 +25,10 @@ public class ListController {
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
 
-    /*public ListController(){
-        List<ValueData> controllerData = ExtractionHelper.getData();
-        for(ValueData e : controllerData){
-            inputData.add(e);
-        }
-    }*/
-
+    /*
+    * Die Initialisierungsmethode für den Controller. Hier werden die
+    * CellValue/cell- Factory's zugeordnet
+    * */
     public void initialize() throws InterruptedException{
         optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValNameProp());
         valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValprop());
@@ -43,6 +40,9 @@ public class ListController {
         outputTable.setItems(inputData);
     }
 
+    /*
+    * Methode um einen Controller ein Datenset übergeben zu können
+    * */
     public void initData(List<ValueData> dataset){
         for(ValueData v : dataset){
             inputData.add(v);
