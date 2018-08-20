@@ -2,6 +2,8 @@ package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.collections.ObservableArray;
 import javafx.fxml.FXMLLoader;
@@ -38,8 +40,17 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
-        Validator v = new Validator("/validationtest02.lua");
+        Validator v = new Validator("/validationtest01.lua");
         v.visiting();
         v.loadUI();
+        v.getActDataFromUI();
+        List<ValueData> data = v.getDataUi();
+        if(data != null){
+            System.out.println(data.size());
+            for (ValueData g : data){
+                System.out.println(g.getValName());
+            }
+        }
+        //System.out.println(Integer.toString(data.size()));
     }
 }

@@ -48,4 +48,8 @@ public class ListController {
             inputData.add(v);
         }
     }
+
+    public List<ValueData> getActData(){
+        return inputData;
+    }
 }
