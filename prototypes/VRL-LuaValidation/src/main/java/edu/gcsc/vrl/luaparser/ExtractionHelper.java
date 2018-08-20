@@ -11,23 +11,14 @@ public final class ExtractionHelper {
     private ExtractionHelper(){
         throw new AssertionError();
     }
-    /*
-    * in myData werden alle Werte, die visualisiert werden sollen, gespeichert
-    * und durch getData() verfügbar gemacht.
-    * Wahrscheinlich unschöner Ansatz - eventuell ändern ?????
-    * */
-    private static List<ValueData> myData = new ArrayList<>();
-    public static List<ValueData> getData(){
-        return myData;
-    }
 
     /*
     * Hier werden einfach nur die Elemente mit den enthaltenen Informationen
     * geprintet - für Testzwecke!
     * */
 
-    public static void printElemProp(){
-        for(ValueData d: myData){
+    public static void printElemProp(Validator v){
+        for(ValueData d: v.getData()){
             System.out.println("Name: "+ d.getValprop().getValue().getValName());
             System.out.println("Type: "+ d.getValprop().getValue().getType());
             System.out.println("Default: "+ d.getValprop().getValue().getDefaultVal());
