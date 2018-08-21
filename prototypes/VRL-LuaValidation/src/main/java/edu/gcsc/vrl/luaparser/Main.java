@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableArray;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,14 +44,5 @@ public class Main extends Application{
         Validator v = new Validator("/validationtest01.lua");
         v.visiting();
         v.loadUI();
-        v.getActDataFromUI();
-        List<ValueData> data = v.getDataUi();
-        if(data != null){
-            System.out.println(data.size());
-            for (ValueData g : data){
-                System.out.println(g.getValName());
-            }
-        }
-        //System.out.println(Integer.toString(data.size()));
     }
 }

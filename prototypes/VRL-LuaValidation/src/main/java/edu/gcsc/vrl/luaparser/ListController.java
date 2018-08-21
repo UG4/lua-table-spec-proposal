@@ -2,6 +2,7 @@ package edu.gcsc.vrl.luaparser;
 
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
  * */
 
 public class ListController {
+    private Validator runtimeObject;
+
     @FXML
     private TableView<ValueData> outputTable;
     @FXML
@@ -47,9 +50,24 @@ public class ListController {
         for(ValueData v : dataset){
             inputData.add(v);
         }
+
+        inputData.addListener(new ListChangeListener<ValueData>() {
+            @Override
+            public void onChanged(Change<? extends ValueData> c) {
+                runtimeObject.setDataUi(inputData);
+                System.out.println("Change detected");
+                for(ValueData u : runtimeObject.getDataUi()){
+                    System.out.println(u.getValName());
+                }
+            }
+        });
     }
 
     public List<ValueData> getActData(){
         return inputData;
+    }
+
+    public void setValidator(Validator v){
+        this.runtimeObject = v;
     }
 }

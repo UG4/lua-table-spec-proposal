@@ -17,24 +17,9 @@ public class Validator {
     * */
     private List<ValueData> myData;
     private Group importedCode;
-    private ListController lc;
     private List<ValueData> dataUi;
 
-    public ListController getListController() {
-        return this.lc;
-    }
 
-    public void setLc(ListController lc) {
-        this.lc = lc;
-    }
-
-    public void setDataUi(List<ValueData> val){
-        this.dataUi = val;
-    }
-
-    public List<ValueData> getDataUi() {
-        return this.dataUi;
-    }
 
     /*
     * GETTER / SETTER Methoden
@@ -42,6 +27,10 @@ public class Validator {
     public List<ValueData> getData() {
         return this.myData;
     }
+    public void setDataUi(List<ValueData> val){
+        this.dataUi = val;
+    }
+    public List<ValueData> getDataUi() { return this.dataUi; }
 
     /*
     * Konstruktor
@@ -77,79 +66,23 @@ public class Validator {
     * !!!!!!!!! Ergänzende Infos hinzufügen in die Beschreibung
     * */
     public void loadUI(){
-
-
+        Validator valReference = this;
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try{
-                    //setNewLoader(new FXMLLoader(Main.class.getResource("mainwindow.fxml")));
                     FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
-
-
-                    Platform.runLater(new Runnable() {
-                        public void run() {
-                            setLc(loader.<ListController>getController());
-                        }
-                    });
-
-
                     Stage stage = new Stage();
-                    stage.setTitle("Parameter Eingabe");
-
-
+                    stage.setTitle("Parameter EIngabe");
                     TitledPane page = (TitledPane) loader.load();
-                    Scene scene = new Scene(page);
-                    stage.setScene(scene);
-
-                    //ListController lCon = loader.<ListController>getController();
-                    //ListController lCon = new ListController();
-                    //newLoader.setController(lCon);
-
-
-                    Platform.runLater(new Runnable() {
-                        public void run() {
-                            getListController().initData(getData());
-                        }
-                    });
-
-                    stage.show();
-
-                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    /*
-                    FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Parameter EIngabe");TitledPane page = (TitledPane) loader.load();
                     Scene scene = new Scene(page);
                     stage.setScene(scene);
                     ListController lCon = loader.<ListController>getController();
                     lCon.initData(getData());
-                    stage.show();*/
-
+                    lCon.setValidator(valReference);
+                    stage.show();
 
                 } catch(IOException e){}
-            }
-        });
-    }
-
-    public void getActDataFromUI(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Platform.runLater(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                List<ValueData> data = getListController().getActData();
-                                setDataUi(data);
-                                List<ValueData> test = getDataUi();
-                                for(ValueData g : test){
-                                    System.out.println(g.getValName());
-                                    System.out.println(g.getValprop().toString());
-                                }
-                            }
-                        }
-                );
             }
         });
     }
