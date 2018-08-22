@@ -5,9 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 
@@ -20,27 +18,35 @@ public class ListController {
     private Validator runtimeObject;
 
     @FXML
-    private TableView<ValueData> outputTable;
+    private TreeTableView<ValueData> outputTable;
     @FXML
-    private TableColumn<ValueData, String> optionColumn;
+    private TreeTableColumn<ValueData, String> optionColumn;
     @FXML
-    private TableColumn<ValueData, ValProperty> valueColumn;
+    private TreeTableColumn<ValueData, ValProperty> valueColumn;
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
+
+    public List<ValueData> getActData(){
+        return inputData;
+    }
+
+    public void setValidator(Validator v){
+        this.runtimeObject = v;
+    }
 
     /*
     * Die Initialisierungsmethode für den Controller. Hier werden die
     * CellValue/cell- Factory's zugeordnet
     * */
     public void initialize() throws InterruptedException{
-        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValNameProp());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValprop());
+        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValNameProp());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValprop());
 
         valueColumn.setCellFactory(column -> {
             return new MyValCell();
         });
 
-        outputTable.setItems(inputData);
+        //outputTable.setItems(inputData);
     }
 
     /*
@@ -61,13 +67,21 @@ public class ListController {
                 }
             }
         });
+
+        TreeItem<ValueData> root = new TreeItem<ValueData>();
+        root.setExpanded(true);
+        outputTable.setRoot(root);
+        outputTable.setShowRoot(false);
+
+        for(int i = 0; i < inputData.size(); i++){
+            TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
+            root.getChildren().add(actV);
+            /*
+            * Hier müssen dann noch die Subparameter abgefragt und eingefügt werden,
+            * als Child-Nodes!!!!!
+            * */
+        }
     }
 
-    public List<ValueData> getActData(){
-        return inputData;
-    }
 
-    public void setValidator(Validator v){
-        this.runtimeObject = v;
-    }
 }
