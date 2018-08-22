@@ -94,7 +94,6 @@ public final class ExtractionHelper {
                     } else if(l instanceof Group){
                         System.out.println(l.getName().toString() + "    NAME");
                         if(!checkVal(l)) {
-                            System.out.println("HAHAHA");
                             switch (l.getName().toString()) {
                                 case "range":
                                     double[] myValues = getRange((Group) l);
@@ -119,10 +118,10 @@ public final class ExtractionHelper {
                             ValueData subParamVD = new ValueData(l.toString());
                             ValProperty subParamProp = new ValProperty(l.toString());
 
-                            System.out.println(l.getName().toString() + "hahahahaah");
+                            System.out.println(l.getName().toString() + " test1");
                             if(l.getName().toString().equals("type")){
                                 subParamProp.setType(((Value) l).getValueAsString());
-                                System.out.println("HALLO");
+                                System.out.println("test2");
                             }
                             subParamVD.setValprop(subParamProp);
                             actData.addSubParam(subParamVD);
