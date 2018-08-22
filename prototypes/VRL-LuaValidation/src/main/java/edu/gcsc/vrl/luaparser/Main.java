@@ -41,7 +41,7 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
-        Validator v = new Validator("/validationtest01.lua");
+        Validator v = new Validator("/validationtest03.lua");
         v.visiting();
         v.loadUI();
     }

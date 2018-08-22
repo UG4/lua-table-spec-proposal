@@ -80,6 +80,11 @@ public class ListController {
             * Hier müssen dann noch die Subparameter abgefragt und eingefügt werden,
             * als Child-Nodes!!!!!
             * */
+            if(inputData.get(i).getSubParams() != null){
+                for(int j = 0; j < inputData.get(i).getSubParams().size(); j++){
+                    actV.getChildren().add(new TreeItem<ValueData>(inputData.get(i).getSubParams().get(j)));
+                }
+            }
         }
     }
 

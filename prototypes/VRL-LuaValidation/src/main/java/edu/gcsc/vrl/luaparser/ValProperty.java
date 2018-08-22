@@ -19,6 +19,7 @@ public class ValProperty {
     private double range_max;
     private double[] values;
     private boolean visibility;
+    //private List<ValueData> subParams;
 
 
     public ValProperty(String valueName){
@@ -44,6 +45,8 @@ public class ValProperty {
 
     public boolean isVisible() { return this.visibility; }
 
+    //public List<ValueData> getSubParams() { return subParams; }
+
     // SETTER - Methoden
     public void setType(String type) { this.type = type; }
 
@@ -60,4 +63,8 @@ public class ValProperty {
     public void setValues(double[] values) { this.values = values; }
 
     public void setVisibility(boolean visibility) { this.visibility = visibility; }
+
+    //public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
+
+    //public void addSubParam(ValueData a){ this.subParams.add(a); }
 }

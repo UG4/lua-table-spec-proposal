@@ -43,7 +43,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
                             setGraphic(integerField);
                             setStyle("");
                         } else {
-                            TextField integerField = UIHelper.tfInteger("");
+                            TextField integerField = UIHelper.tfInteger(" ");
                             setGraphic(integerField);
                             setStyle("");
                         }
@@ -73,6 +73,10 @@ public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
                         }
                 }
 
+            } else {
+                TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                setGraphic(stringField);
+                setStyle("");
             }
         }
 

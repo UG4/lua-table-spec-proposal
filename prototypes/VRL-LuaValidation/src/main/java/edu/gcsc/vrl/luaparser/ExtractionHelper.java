@@ -64,6 +64,7 @@ public final class ExtractionHelper {
                 }
             }
         } else if(e instanceof Group){
+            System.out.println(e.getName().toString() + " + Parent: " + e.getParent().getName().toString());
             if(checkVal(e)) {
                 ValueData actData = new ValueData(e.getName().toString());
                 ValProperty actProp = new ValProperty(e.getName().toString());
@@ -91,21 +92,40 @@ public final class ExtractionHelper {
                                 break;
                         }
                     } else if(l instanceof Group){
-                        switch (l.getName().toString()){
-                            case "range":
-                                double[] myValues = getRange((Group)l);
-                                if(myValues.length == 2){
-                                    //actData.setRangeMin(myValues[0]);
-                                    //actData.setRangeMax(myValues[1]);
-                                    actProp.setRange_min(myValues[0]);
-                                    actProp.setRange_max(myValues[1]);
-                                } else if (myValues.length > 2){
-                                    //actData.setValues(myValues);
-                                    actProp.setValues(myValues);
-                                }
-                                break;
-                            case "visibility":
-                                break;
+                        System.out.println(l.getName().toString() + "    NAME");
+                        if(!checkVal(l)) {
+                            System.out.println("HAHAHA");
+                            switch (l.getName().toString()) {
+                                case "range":
+                                    double[] myValues = getRange((Group) l);
+                                    if (myValues.length == 2) {
+                                        //actData.setRangeMin(myValues[0]);
+                                        //actData.setRangeMax(myValues[1]);
+                                        actProp.setRange_min(myValues[0]);
+                                        actProp.setRange_max(myValues[1]);
+                                    } else if (myValues.length > 2) {
+                                        //actData.setValues(myValues);
+                                        actProp.setValues(myValues);
+                                    }
+                                    break;
+                                case "visibility":
+                                    break;
+                            }
+                        } else {
+                            /*
+                             * Fragen, ob Subparameter auch default-Werte, range, usw
+                             * haben können.
+                             * */
+                            ValueData subParamVD = new ValueData(l.toString());
+                            ValProperty subParamProp = new ValProperty(l.toString());
+
+                            System.out.println(l.getName().toString() + "hahahahaah");
+                            if(l.getName().toString().equals("type")){
+                                subParamProp.setType(((Value) l).getValueAsString());
+                                System.out.println("HALLO");
+                            }
+                            subParamVD.setValprop(subParamProp);
+                            actData.addSubParam(subParamVD);
                         }
                     }
                 }

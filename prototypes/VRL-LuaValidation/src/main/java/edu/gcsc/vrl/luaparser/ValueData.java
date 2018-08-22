@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Die ValueData Klasse ist dazu da, die einzelnen Daten für die GUI-Generierung
@@ -16,6 +17,7 @@ public class ValueData {
     private String valName = "";
     private ObjectProperty<ValProperty> valprop;
     private StringProperty valNameProp;
+    private List<ValueData> subParams;
 
     public ValueData(String valueName){
         this.valName = valueName;
@@ -33,5 +35,11 @@ public class ValueData {
     }
 
     public StringProperty getValNameProp() { return this.valNameProp;}
+
+    public List<ValueData> getSubParams() { return subParams; }
+
+    public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
+
+    public void addSubParam(ValueData a){ this.subParams.add(a); }
 
 }
