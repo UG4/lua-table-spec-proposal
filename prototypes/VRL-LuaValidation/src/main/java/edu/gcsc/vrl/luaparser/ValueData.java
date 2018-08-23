@@ -17,7 +17,7 @@ public class ValueData {
     private String valName = "";
     private ObjectProperty<ValProperty> valprop;
     private StringProperty valNameProp;
-    private List<ValueData> subParams;
+    private List<ValueData> subParams = new ArrayList<>();
 
     public ValueData(String valueName){
         this.valName = valueName;

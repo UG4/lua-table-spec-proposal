@@ -147,7 +147,7 @@ public final class ExtractionHelper {
         }
     }
 
-    private static boolean checkForGroups(Group g){
+    public static boolean checkForGroups(Group g){
         boolean haveGroup;
         if(g.getEntries().size() > 0){
             for (Entry e : ((Group)g).getEntries()){
@@ -159,7 +159,7 @@ public final class ExtractionHelper {
         return false;
     }
 
-    private static boolean checkForValues(Group g){
+    public static boolean checkForValues(Group g){
         boolean haveGroup;
         if(g.getEntries().size() > 0){
             for (Entry e : ((Group)g).getEntries()){
@@ -277,8 +277,9 @@ public final class ExtractionHelper {
                         * Hier muss in eine spezielle visitFunktion für Subparameter übergeleitet werden.
                         * Dort werden dann die Subparameter erkannt und an die jeweilige Liste des Value's angehängt
                         * */
-                        System.out.println(e.getName().toString() + " has Subparams");
-                        visit((Group) e, dataList);
+                        System.out.println(e.getName().toString() + " has Subparams & is a Val");
+                        //visit((Group) e, dataList);
+                        ExtUtil.visit((Group)e, dataList);
                     } else {
                         System.out.println(e.getName().toString() + " is a Group");
                         visit((Group) e, dataList);
@@ -294,7 +295,7 @@ public final class ExtractionHelper {
         }
     }
 
-    private static boolean hasSubParams(Group g){
+    public static boolean hasSubParams(Group g){
         for(Entry e : ((Group)g).getEntries()){
             if(checkVal(e)){
                 return true;

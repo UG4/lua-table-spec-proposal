@@ -11,9 +11,9 @@
 <?import javafx.scene.control.TreeTableColumn?>
 <TitledPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.gcsc.vrl.luaparser.ListController">
    <content>
-      <Pane prefHeight="200.0" prefWidth="200.0">
+      <Pane prefHeight="800.0" prefWidth="500.0">
          <children>
-            <TreeTableView fx:id="outputTable" layoutX="41.0" layoutY="46.0" prefHeight="200.0" prefWidth="200.0" >
+            <TreeTableView fx:id="outputTable" layoutX="41.0" layoutY="46.0" prefHeight="600.0" prefWidth="400.0" >
                 <columns>
                     <TreeTableColumn fx:id="optionColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="Option" />
                     <TreeTableColumn fx:id="valueColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="Wert" />

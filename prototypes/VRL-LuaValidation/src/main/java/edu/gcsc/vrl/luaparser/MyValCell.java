@@ -17,7 +17,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
 
         if (item == null || empty) {
             setText(null);
-            setStyle("");
+            setStyle(null);
+            setGraphic(null);
         } else {
             if(item.getStyle().equals("default")) {
                 switch (item.getType()) {

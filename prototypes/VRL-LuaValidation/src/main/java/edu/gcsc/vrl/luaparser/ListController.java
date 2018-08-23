@@ -69,7 +69,7 @@ public class ListController {
         });
 
         TreeItem<ValueData> root = new TreeItem<ValueData>();
-        root.setExpanded(true);
+        root.setExpanded(false);
         outputTable.setRoot(root);
         outputTable.setShowRoot(false);
 
