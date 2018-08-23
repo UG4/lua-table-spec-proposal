@@ -57,14 +57,14 @@ public final class ExtractionHelper {
             if (v.isFunction() && "eval".equals(v.getName())) {
                 try {
                     // invoke methods without arguments
-                    //System.out.println("eval: "
-                    //        + v.asFunction().eval().getValueAsString());
+                    System.out.println("eval: "
+                            + v.asFunction().eval().getValueAsString());
                 } catch (Exception ex) {
                     //System.out.print("-> ERROR: cannot call f!");
                 }
             }
         } else if(e instanceof Group){
-            System.out.println(e.getName().toString() + " + Parent: " + e.getParent().getName().toString());
+            //System.out.println(e.getName().toString() + " + Parent: " + e.getParent().getName().toString());
             if(checkVal(e)) {
                 ValueData actData = new ValueData(e.getName().toString());
                 ValProperty actProp = new ValProperty(e.getName().toString());
@@ -132,6 +132,12 @@ public final class ExtractionHelper {
                 if(actData != null) {
                     dataList.add(actData); //vorher myData.add(actData);
                 }
+            } else {
+                for(Entry p : ((Group) e).getEntries()){
+                    if(checkVal(p) && !checkForGroups((Group)p)){
+                        System.out.println("SUBPARAM: " + p.getName().toString());
+                    }
+                }
             }
 
             for(Entry h : ((Group) e).getEntries()){
@@ -139,6 +145,30 @@ public final class ExtractionHelper {
                 visitE(h, dataList);
             }
         }
+    }
+
+    private static boolean checkForGroups(Group g){
+        boolean haveGroup;
+        if(g.getEntries().size() > 0){
+            for (Entry e : ((Group)g).getEntries()){
+                if(e instanceof Group){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkForValues(Group g){
+        boolean haveGroup;
+        if(g.getEntries().size() > 0){
+            for (Entry e : ((Group)g).getEntries()){
+                if(e instanceof Value){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*
@@ -201,6 +231,7 @@ public final class ExtractionHelper {
     * */
 
     public static void visit(Entry e, List<ValueData> dataList) {
+        System.out.println("TESTING");
         String indent;
         indent = indent(e.distanceToRoot());
         if (e instanceof Group) {
@@ -236,8 +267,36 @@ public final class ExtractionHelper {
         //System.out.println(indent + "#entries: " + g.getEntries().size());
 
         for (Entry e : g.getEntries()) {
-            ExtractionHelper.visitE(e, dataList);
+            System.out.println(indent + e.getName() + " = {");
+            if(e instanceof Group){
+                if(!checkForValues((Group)e)) {
+                    if(hasSubParams((Group)e) && !e.getName().toString().equals("problem")) // Konvention, dass erste Group Problem genannt werden muss?
+                                                                                            // sonst Unterscheidung schwierig
+                    {
+                        System.out.println(e.getName().toString() + " has Subparams");
+                        visit((Group) e, dataList);
+                    } else {
+                        System.out.println(e.getName().toString() + " is a Group");
+                        visit((Group) e, dataList);
+                    }
+
+                } else { // Hier könnte man noch die Funktion checkVal() einfügen, als Sicherheit. Wenn man später Fälle hat,
+                        // die man vorher noch nicht berücksichtigt hat!
+                    System.out.println(e.getName().toString() + " is a Val");
+                    ExtractionHelper.visitE(e, dataList);
+                }
+            }
+            System.out.println(indent + "}");
         }
+    }
+
+    private static boolean hasSubParams(Group g){
+        for(Entry e : ((Group)g).getEntries()){
+            if(checkVal(e)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
