@@ -273,6 +273,10 @@ public final class ExtractionHelper {
                     if(hasSubParams((Group)e) && !e.getName().toString().equals("problem")) // Konvention, dass erste Group Problem genannt werden muss?
                                                                                             // sonst Unterscheidung schwierig
                     {
+                        /*
+                        * Hier muss in eine spezielle visitFunktion für Subparameter übergeleitet werden.
+                        * Dort werden dann die Subparameter erkannt und an die jeweilige Liste des Value's angehängt
+                        * */
                         System.out.println(e.getName().toString() + " has Subparams");
                         visit((Group) e, dataList);
                     } else {
