@@ -17,9 +17,6 @@ public class Validator {
     * */
     private List<ValueData> myData;
     private Group importedCode;
-    private List<ValueData> dataUi;
-
-
 
     /*
     * GETTER / SETTER Methoden
@@ -27,10 +24,6 @@ public class Validator {
     public List<ValueData> getData() {
         return this.myData;
     }
-    public void setDataUi(List<ValueData> val){
-        this.dataUi = val;
-    }
-    public List<ValueData> getDataUi() { return this.dataUi; }
 
     /*
     * Konstruktor
@@ -80,6 +73,7 @@ public class Validator {
                     ListController lCon = loader.<ListController>getController();
                     lCon.initData(getData());
                     lCon.setValidator(valReference);
+                    lCon.setBtnAct();
                     stage.show();
 
                 } catch(IOException e){}

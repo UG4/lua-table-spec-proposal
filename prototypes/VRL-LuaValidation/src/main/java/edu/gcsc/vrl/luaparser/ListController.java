@@ -1,9 +1,11 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.awt.event.ActionEvent;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -17,6 +19,9 @@ import java.util.ArrayList;
 public class ListController {
     private Validator runtimeObject;
 
+
+    @FXML
+    private Button doLuaBut;
     @FXML
     private TreeTableView<ValueData> outputTable;
     @FXML
@@ -60,11 +65,9 @@ public class ListController {
         inputData.addListener(new ListChangeListener<ValueData>() {
             @Override
             public void onChanged(Change<? extends ValueData> c) {
-                runtimeObject.setDataUi(inputData);
-                System.out.println("Change detected");
-                for(ValueData u : runtimeObject.getDataUi()){
-                    System.out.println(u.getValName());
-                }
+                /*
+                * Zu einem späterem Zeitpunkt überprüfen, ob nötig
+                * */
             }
         });
 
@@ -85,5 +88,16 @@ public class ListController {
         }
     }
 
-
+    public void setBtnAct(){
+        doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+                List<ValueData> dat = runtimeObject.getData();
+                for(ValueData v : getActData()){
+                    System.out.println(v.getValName().get());
+                    System.out.println(v.getType().get());
+                }
+            }
+        });
+    }
 }
