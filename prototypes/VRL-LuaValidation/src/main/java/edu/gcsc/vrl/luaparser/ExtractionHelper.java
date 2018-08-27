@@ -67,7 +67,7 @@ public final class ExtractionHelper {
             //System.out.println(e.getName().toString() + " + Parent: " + e.getParent().getName().toString());
             if(checkVal(e)) {
                 ValueData actData = new ValueData(e.getName().toString());
-                System.out.println(e.getName().toString() + " is a Value");
+                //System.out.println(e.getName().toString() + " is a Value");
                 for (Entry l : ((Group) e).getEntries()) {
                     if(l instanceof Value) {
                         switch (l.getName().toString()) {
@@ -100,30 +100,11 @@ public final class ExtractionHelper {
                                 case "visibility":
                                     break;
                             }
-                        } else {
-                            /*
-                             * Fragen, ob Subparameter auch default-Werte, range, usw
-                             * haben können.
-                             * */
-                            /*ValueData subParamVD = new ValueData(l.toString());
-
-                            System.out.println(l.getName().toString() + " test1");
-                            if(l.getName().toString().equals("type")){
-                                subParamVD.setType(((Value) l).getValueAsString());
-                                System.out.println("test2");
-                            }
-                            actData.addSubParam(subParamVD);*/
                         }
                     }
                 }
                 if(actData != null) {
                     dataList.add(actData); //vorher myData.add(actData);
-                }
-            } else {
-                for(Entry p : ((Group) e).getEntries()){
-                    if(checkVal(p) && !checkForGroups((Group)p)){
-                        System.out.println("SUBPARAM: " + p.getName().toString());
-                    }
                 }
             }
 
@@ -161,7 +142,7 @@ public final class ExtractionHelper {
     /*
     * Funktion, die die Werte für range-min, range-max oder values herausfindet.
     * */
-    private static double[] getRange(Group range){
+    public static double[] getRange(Group range){
         double min = 0;
         double max = 0;
         for(Entry e : range.getEntries()){
@@ -257,7 +238,7 @@ public final class ExtractionHelper {
             System.out.println(indent + e.getName() + " = {");
             if(e instanceof Group){
                 if(!checkForValues((Group)e)) {
-                    if(hasSubParams((Group)e) && !e.getName().toString().equals("problem")) // Konvention, dass erste Group Problem genannt werden muss?
+                    if(hasSubParams((Group)e) && (!e.getName().toString().equals("problem"))) // Konvention, dass erste Group Problem genannt werden muss?
                                                                                             // sonst Unterscheidung schwierig
                     {
                         /*
@@ -272,11 +253,13 @@ public final class ExtractionHelper {
                         visit((Group) e, dataList);
                     }
 
-                } else { // Hier könnte man noch die Funktion checkVal() einfügen, als Sicherheit. Wenn man später Fälle hat,
+                } else if(checkVal(e)){ // Hier könnte man noch die Funktion checkVal() einfügen, als Sicherheit. Wenn man später Fälle hat,
                         // die man vorher noch nicht berücksichtigt hat!
                     System.out.println(e.getName().toString() + " is a Val");
                     ExtractionHelper.visitE(e, dataList);
                 }
+            } else {
+                System.out.println("TEST: " + e.getName().toString());
             }
             System.out.println(indent + "}");
         }
