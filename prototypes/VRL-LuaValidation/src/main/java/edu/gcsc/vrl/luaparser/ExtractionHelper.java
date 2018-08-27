@@ -105,14 +105,14 @@ public final class ExtractionHelper {
                              * Fragen, ob Subparameter auch default-Werte, range, usw
                              * haben können.
                              * */
-                            ValueData subParamVD = new ValueData(l.toString());
+                            /*ValueData subParamVD = new ValueData(l.toString());
 
                             System.out.println(l.getName().toString() + " test1");
                             if(l.getName().toString().equals("type")){
                                 subParamVD.setType(((Value) l).getValueAsString());
                                 System.out.println("test2");
                             }
-                            actData.addSubParam(subParamVD);
+                            actData.addSubParam(subParamVD);*/
                         }
                     }
                 }
@@ -283,8 +283,14 @@ public final class ExtractionHelper {
     }
 
     public static boolean hasSubParams(Group g){
+        /*
+        * Hier wird gecheckt, ob der Value Subparameter hat.
+        * Eine Eigenschaft von Subparametern ist, dass ihr Name eine
+        * natürliche Zahl ist. -> deswegen wurde der Längencheck
+        * in die if-Abfrage eingebaut.
+        * */
         for(Entry e : ((Group)g).getEntries()){
-            if(checkVal(e)){
+            if(checkVal(e) && (e.getName().toString().length() < 2)){
                 return true;
             }
         }

@@ -20,64 +20,70 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
             setStyle(null);
             setGraphic(null);
         } else {
-            if(item.getStyle().equals("default")) {
-                switch (item.getType().get()) {
-                    case "String":
-                        TextField stringField = UIHelper.tfString(item.getDefaultVal());
-                        setGraphic(stringField);
-                        setStyle("");
-                        break;
-                    case "Double":
-                        if(item.getDefaultVal() != null){
-                            TextField doubleField = UIHelper.tfDouble(item.getDefaultVal());
-                            setGraphic(doubleField);
+            if (item.getSubParams().size() < 1) {
+                if (item.getStyle().equals("default")) {
+                    switch (item.getType().get()) {
+                        case "String":
+                            TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                            setGraphic(stringField);
                             setStyle("");
-                        } else {
-                            TextField doubleField = UIHelper.tfDouble("");
-                            setGraphic(doubleField);
-                            setStyle("");
-                        }
-                        break;
-                    case "Integer":
-                        if(item.getDefaultVal() != null){
-                            TextField integerField = UIHelper.tfInteger(item.getDefaultVal());
-                            setGraphic(integerField);
-                            setStyle("");
-                        } else {
-                            TextField integerField = UIHelper.tfInteger(" ");
-                            setGraphic(integerField);
-                            setStyle("");
-                        }
-                        break;
-                }
-            } else if(item.getStyle().equals("selection")){
-                switch(item.getType().get()){
-                    case "Double":
-                        if(item.getDefaultVal() != null){
-                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues(),item.getDefaultVal());
-                            setGraphic(doubleBox);
-                            setStyle("");
-                        } else {
-                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
-                            setGraphic(doubleBox);
-                            setStyle("");
-                        }
-                    case "Integer":
-                        if(item.getDefaultVal() != null){
-                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues(),item.getDefaultVal());
-                            setGraphic(doubleBox);
-                            setStyle("");
-                        } else {
-                            ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
-                            setGraphic(doubleBox);
-                            setStyle("");
-                        }
-                }
+                            break;
+                        case "Double":
+                            if (item.getDefaultVal() != null) {
+                                TextField doubleField = UIHelper.tfDouble(item.getDefaultVal());
+                                setGraphic(doubleField);
+                                setStyle("");
+                            } else {
+                                TextField doubleField = UIHelper.tfDouble("");
+                                setGraphic(doubleField);
+                                setStyle("");
+                            }
+                            break;
+                        case "Integer":
+                            if (item.getDefaultVal() != null) {
+                                TextField integerField = UIHelper.tfInteger(item.getDefaultVal());
+                                setGraphic(integerField);
+                                setStyle("");
+                            } else {
+                                TextField integerField = UIHelper.tfInteger(" ");
+                                setGraphic(integerField);
+                                setStyle("");
+                            }
+                            break;
+                    }
+                } else if (item.getStyle().equals("selection")) {
+                    switch (item.getType().get()) {
+                        case "Double":
+                            if (item.getDefaultVal() != null) {
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal());
+                                setGraphic(doubleBox);
+                                setStyle("");
+                            } else {
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
+                                setGraphic(doubleBox);
+                                setStyle("");
+                            }
+                        case "Integer":
+                            if (item.getDefaultVal() != null) {
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal());
+                                setGraphic(doubleBox);
+                                setStyle("");
+                            } else {
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
+                                setGraphic(doubleBox);
+                                setStyle("");
+                            }
+                    }
 
+                } else {
+                    TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                    setGraphic(stringField);
+                    setStyle("");
+                }
             } else {
-                TextField stringField = UIHelper.tfString(item.getDefaultVal());
-                setGraphic(stringField);
-                setStyle("");
+                setText(null);
+                setStyle(null);
+                setGraphic(null);
             }
         }
 
