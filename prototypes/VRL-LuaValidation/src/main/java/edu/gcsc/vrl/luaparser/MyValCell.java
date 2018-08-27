@@ -6,13 +6,13 @@ import javafx.scene.control.*;
 
 import javax.xml.soap.Text;
 
-public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
+public class MyValCell extends TreeTableCell<ValueData, ValueData> {
     /*
     * Hier werden spezifische Zellen gerendert - je nach type des Wertes,
     * der dargestellt werden soll.
     * */
     @Override
-    protected void updateItem(ValProperty item, boolean empty) {
+    protected void updateItem(ValueData item, boolean empty) {
         super.updateItem(item, empty);
 
         if (item == null || empty) {
@@ -21,7 +21,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
             setGraphic(null);
         } else {
             if(item.getStyle().equals("default")) {
-                switch (item.getType()) {
+                switch (item.getType().get()) {
                     case "String":
                         TextField stringField = UIHelper.tfString(item.getDefaultVal());
                         setGraphic(stringField);
@@ -51,7 +51,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValProperty> {
                         break;
                 }
             } else if(item.getStyle().equals("selection")){
-                switch(item.getType()){
+                switch(item.getType().get()){
                     case "Double":
                         if(item.getDefaultVal() != null){
                             ComboBox doubleBox = UIHelper.cbNumber(item.getValues(),item.getDefaultVal());

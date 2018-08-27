@@ -22,7 +22,7 @@ public class ListController {
     @FXML
     private TreeTableColumn<ValueData, String> optionColumn;
     @FXML
-    private TreeTableColumn<ValueData, ValProperty> valueColumn;
+    private TreeTableColumn<ValueData, ValueData> valueColumn;
     @FXML
     private ObservableList<ValueData> inputData = FXCollections.observableArrayList();
 
@@ -39,8 +39,8 @@ public class ListController {
     * CellValue/cell- Factory's zugeordnet
     * */
     public void initialize() throws InterruptedException{
-        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValNameProp());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValprop());
+        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValName());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValProp());
 
         valueColumn.setCellFactory(column -> {
             return new MyValCell();
@@ -76,10 +76,7 @@ public class ListController {
         for(int i = 0; i < inputData.size(); i++){
             TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
             root.getChildren().add(actV);
-            /*
-            * Hier müssen dann noch die Subparameter abgefragt und eingefügt werden,
-            * als Child-Nodes!!!!!
-            * */
+
             if(inputData.get(i).getSubParams() != null){
                 for(int j = 0; j < inputData.get(i).getSubParams().size(); j++){
                     actV.getChildren().add(new TreeItem<ValueData>(inputData.get(i).getSubParams().get(j)));

@@ -19,16 +19,16 @@ public final class ExtractionHelper {
 
     public static void printElemProp(Validator v){
         for(ValueData d: v.getData()){
-            System.out.println("Name: "+ d.getValprop().getValue().getValName());
-            System.out.println("Type: "+ d.getValprop().getValue().getType());
-            System.out.println("Default: "+ d.getValprop().getValue().getDefaultVal());
-            System.out.println("Style: "+ d.getValprop().getValue().getStyle());
-            System.out.println("Tooltip: "+ d.getValprop().getValue().getTooltip());
-            System.out.println("range min: " + d.getValprop().getValue().getRange_min());
-            System.out.println("range max: " + d.getValprop().getValue().getRange_max());
+            System.out.println("Name: "+ d.getValName().get());
+            System.out.println("Type: "+ d.getType().get());
+            System.out.println("Default: "+ d.getDefaultVal());
+            System.out.println("Style: "+ d.getStyle());
+            System.out.println("Tooltip: "+ d.getTooltip());
+            System.out.println("range min: " + d.getRange_min());
+            System.out.println("range max: " + d.getRange_max());
             System.out.println("values: ");
-            if(d.getValprop().getValue().getValues() != null) {
-                for (double i : d.getValprop().getValue().getValues()) {
+            if(d.getValues() != null) {
+                for (double i : d.getValues()) {
                     System.out.println(i);
                 }
             }
@@ -67,28 +67,21 @@ public final class ExtractionHelper {
             //System.out.println(e.getName().toString() + " + Parent: " + e.getParent().getName().toString());
             if(checkVal(e)) {
                 ValueData actData = new ValueData(e.getName().toString());
-                ValProperty actProp = new ValProperty(e.getName().toString());
                 System.out.println(e.getName().toString() + " is a Value");
                 for (Entry l : ((Group) e).getEntries()) {
                     if(l instanceof Value) {
                         switch (l.getName().toString()) {
                             case "type":
-                                //actData.setType(((Value) l).getValueAsString());
-                                //actData.setTypeProp(((Value) l).getValueAsString());
-                                actProp.setType(((Value) l).getValueAsString());
+                                actData.setType(((Value) l).getValueAsString());
                                 break;
                             case "default":
-                                //actData.setDefaultVal(((Value) l).getValueAsString());
-                                //actData.setDefValProp((((Value) l).getValueAsString()));
-                                actProp.setDefaultVal(((Value) l).getValueAsString());
+                                actData.setDefaultVal(((Value) l).getValueAsString());
                                 break;
                             case "style":
-                                //actData.setStyle(((Value) l).getValueAsString());
-                                actProp.setStyle(((Value) l).getValueAsString());
+                                actData.setStyle(((Value) l).getValueAsString());
                                 break;
                             case "tooltip":
-                                //actData.setTooltip(((Value) l).getValueAsString());
-                                actProp.setTooltip(((Value) l).getValueAsString());
+                                actData.setTooltip(((Value) l).getValueAsString());
                                 break;
                         }
                     } else if(l instanceof Group){
@@ -98,13 +91,10 @@ public final class ExtractionHelper {
                                 case "range":
                                     double[] myValues = getRange((Group) l);
                                     if (myValues.length == 2) {
-                                        //actData.setRangeMin(myValues[0]);
-                                        //actData.setRangeMax(myValues[1]);
-                                        actProp.setRange_min(myValues[0]);
-                                        actProp.setRange_max(myValues[1]);
+                                        actData.setRange_min(myValues[0]);
+                                        actData.setRange_max(myValues[1]);
                                     } else if (myValues.length > 2) {
-                                        //actData.setValues(myValues);
-                                        actProp.setValues(myValues);
+                                        actData.setValues(myValues);
                                     }
                                     break;
                                 case "visibility":
@@ -116,19 +106,16 @@ public final class ExtractionHelper {
                              * haben können.
                              * */
                             ValueData subParamVD = new ValueData(l.toString());
-                            ValProperty subParamProp = new ValProperty(l.toString());
 
                             System.out.println(l.getName().toString() + " test1");
                             if(l.getName().toString().equals("type")){
-                                subParamProp.setType(((Value) l).getValueAsString());
+                                subParamVD.setType(((Value) l).getValueAsString());
                                 System.out.println("test2");
                             }
-                            subParamVD.setValprop(subParamProp);
                             actData.addSubParam(subParamVD);
                         }
                     }
                 }
-                actData.setValprop(actProp);
                 if(actData != null) {
                     dataList.add(actData); //vorher myData.add(actData);
                 }
@@ -314,7 +301,6 @@ public final class ExtractionHelper {
         for (int i = 0; i < n; i++) {
             result += s;
         }
-
         return result;
     }
 }
