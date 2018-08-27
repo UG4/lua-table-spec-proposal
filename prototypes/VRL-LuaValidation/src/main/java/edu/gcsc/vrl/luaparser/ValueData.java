@@ -39,6 +39,7 @@ public class ValueData {
     private double range_max;
     private double[] values;
     private boolean visibility;
+    private String actData = "";
 
     // GETTER - Methoden
     public ObjectProperty<ValueData> getValProp() { return this.valProp; }
@@ -65,6 +66,8 @@ public class ValueData {
 
     public boolean isVisible() { return this.visibility; }
 
+    public String getActData() { return this.actData; }
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
 
@@ -83,6 +86,8 @@ public class ValueData {
     public void setValues(double[] values) { this.values = values; }
 
     public void setVisibility(boolean visibility) { this.visibility = visibility; }
+
+    public void setActData(String dat) {this.actData = dat; }
 
 
 }

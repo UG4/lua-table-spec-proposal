@@ -9,25 +9,17 @@ import javafx.scene.control.TextField;
 
 public class UIHelper {
     // Erstellt ein Textfield für einen String
-    public static TextField tfString(String text){
+    public static TextField tfString(String text, ValueData v){
         TextField stringField = new TextField();
         stringField.setText(text);
+        stringField.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(v.getValName().get());
+            System.out.println("TEST: " + newValue);
+            v.setActData(newValue);});
         return stringField;
     }
 
-    public static TextField tfDouble(String val){
-        TextField doubleField = new TextField();
-        doubleField.setText(val);
-        return doubleField;
-    }
-
-    public static TextField tfInteger(String val){
-        TextField integerField = new TextField();
-        integerField.setText(val);
-        return integerField;
-    }
-
-    public static ComboBox cbNumber(double[] values, String defaultVal){
+    public static ComboBox cbNumber(double[] values, String defaultVal, ValueData v){
         ObservableList<Double> vals = FXCollections.observableArrayList();
         for(Double d : values){
             vals.add(d);
@@ -37,7 +29,7 @@ public class UIHelper {
         return doubleBox;
     }
 
-    public static ComboBox cbNumber(double[] values){
+    public static ComboBox cbNumber(double[] values, ValueData v){
         ObservableList<Double> vals = FXCollections.observableArrayList();
         for(Double d : values){
             vals.add(d);

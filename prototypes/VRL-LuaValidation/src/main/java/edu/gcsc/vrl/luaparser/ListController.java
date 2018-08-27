@@ -96,6 +96,17 @@ public class ListController {
                 List<ValueData> dat = runtimeObject.getData();
                 for(ValueData v : getActData()){
                     System.out.println(v.getValName().get());
+                    if(v.getActData() != null){
+                        System.out.println("Act-Val: " + v.getActData());
+                    }
+                    if(v.getSubParams() != null){
+                        for(ValueData x : v.getSubParams()){
+                            System.out.println(x.getValName().get() + " : " + x.getType().get());
+                            if(x.getActData() != null){
+                                System.out.println("Act-Val: " + v.getActData());
+                            }
+                        }
+                    }
                 }
             }
         });

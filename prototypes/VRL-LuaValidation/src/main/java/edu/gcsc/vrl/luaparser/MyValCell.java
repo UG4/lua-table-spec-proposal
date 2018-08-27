@@ -24,28 +24,28 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                 if (item.getStyle().equals("default")) {
                     switch (item.getType().get()) {
                         case "String":
-                            TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                            TextField stringField = UIHelper.tfString(item.getDefaultVal(), item);
                             setGraphic(stringField);
                             setStyle("");
                             break;
                         case "Double":
                             if (item.getDefaultVal() != null) {
-                                TextField doubleField = UIHelper.tfDouble(item.getDefaultVal());
+                                TextField doubleField = UIHelper.tfString(item.getDefaultVal(), item);
                                 setGraphic(doubleField);
                                 setStyle("");
                             } else {
-                                TextField doubleField = UIHelper.tfDouble("");
+                                TextField doubleField = UIHelper.tfString("", item);
                                 setGraphic(doubleField);
                                 setStyle("");
                             }
                             break;
                         case "Integer":
                             if (item.getDefaultVal() != null) {
-                                TextField integerField = UIHelper.tfInteger(item.getDefaultVal());
+                                TextField integerField = UIHelper.tfString(item.getDefaultVal(), item);
                                 setGraphic(integerField);
                                 setStyle("");
                             } else {
-                                TextField integerField = UIHelper.tfInteger(" ");
+                                TextField integerField = UIHelper.tfString(" ", item);
                                 setGraphic(integerField);
                                 setStyle("");
                             }
@@ -55,28 +55,28 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     switch (item.getType().get()) {
                         case "Double":
                             if (item.getDefaultVal() != null) {
-                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal());
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal(), item);
                                 setGraphic(doubleBox);
                                 setStyle("");
                             } else {
-                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item);
                                 setGraphic(doubleBox);
                                 setStyle("");
                             }
                         case "Integer":
                             if (item.getDefaultVal() != null) {
-                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal());
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal(), item);
                                 setGraphic(doubleBox);
                                 setStyle("");
                             } else {
-                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues());
+                                ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item);
                                 setGraphic(doubleBox);
                                 setStyle("");
                             }
                     }
 
                 } else {
-                    TextField stringField = UIHelper.tfString(item.getDefaultVal());
+                    TextField stringField = UIHelper.tfString(item.getDefaultVal(), item);
                     setGraphic(stringField);
                     setStyle("");
                 }
