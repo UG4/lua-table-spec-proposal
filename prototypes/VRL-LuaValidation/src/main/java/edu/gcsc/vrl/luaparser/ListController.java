@@ -55,7 +55,8 @@ public class ListController {
     }
 
     /*
-    * Methode um einen Controller ein Datenset übergeben zu können
+    * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt
+    * (Auch SubParameter)
     * */
     public void initData(List<ValueData> dataset){
         for(ValueData v : dataset){
@@ -95,7 +96,6 @@ public class ListController {
                 List<ValueData> dat = runtimeObject.getData();
                 for(ValueData v : getActData()){
                     System.out.println(v.getValName().get());
-                    System.out.println(v.getType().get());
                 }
             }
         });

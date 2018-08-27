@@ -18,6 +18,9 @@ public final class ExtUtil {
                         System.out.println(r.getName().toString()+ " is a Subparam from " + r.getParent().getParent().getName().toString());
                         ValueData subParamVD = new ValueData(r.getName().toString());
                         actData.addSubParam(subParamVD);
+                        /*
+                        * Hier müssen noch types usw. erkannt werden
+                        * */
                     }
                 } else if (ExtractionHelper.checkVal(e)){
                     System.out.println(e.getName().toString() + " is a Subparam from " + e.getParent().getName().toString());

@@ -14,12 +14,18 @@ import java.util.List;
  * befüllt und die cellFactory kann entsprechende Zellen rendern.
  */
 public class ValueData {
+    /*
+    * Konstruktor
+    * */
 
     public ValueData(String name){
         this.valName = new SimpleStringProperty(name);
         this.valProp = new SimpleObjectProperty<ValueData>(this);
     }
 
+    /*
+    * Klassenvariablen
+    * */
 
     private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
