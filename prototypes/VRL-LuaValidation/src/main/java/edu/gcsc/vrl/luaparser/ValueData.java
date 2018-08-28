@@ -44,7 +44,7 @@ public class ValueData {
     // GETTER - Methoden
     public ObjectProperty<ValueData> getValProp() { return this.valProp; }
 
-    public List<ValueData> getSubParams() { return this.subParams; }
+    public List<ValueData> getOptions() { return this.subParams; }
 
     public void addSubParam(ValueData a){ this.subParams.add(a); }
 
@@ -68,6 +68,7 @@ public class ValueData {
 
     public String getActData() { return this.actData; }
 
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
 
@@ -89,5 +90,68 @@ public class ValueData {
 
     public void setActData(String dat) {this.actData = dat; }
 
+    // Objektmethoden
 
+    public ValueData getParam(String subParamName){
+        if(getOptions() != null){
+            for(ValueData v : getOptions()){
+                if(subParamName.equals(v.getValName().get())){
+                    return v;
+                }
+            }
+        }
+        System.out.println("Sub-Param doesn't exist!");
+        return null;
+    }
+
+    public void setParam(String subParamName, Object val){
+        Object value;
+        switch(getType().get()) {
+            case "Integer":
+                try {
+                    value = (Integer) val;
+                } catch (ClassCastException c){
+                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
+                }
+                break;
+
+            case "Double":
+                try {
+                    value = (Double) val;
+                } catch (ClassCastException c){
+                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
+                }
+                break;
+
+            case "String":
+                try {
+                    value = (String) val;
+                } catch (ClassCastException c){
+                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
+                }
+                break;
+        }
+        ValueData v = getParam(subParamName);
+        if(v != null){
+            /*
+            * Hier muss der Code implementiert werden, der den Wert an die entsprechende Stelle
+            * des ValueData - Objekts setzt.
+            * Kann allerdings erst gemacht werden, wenn entschieden wurde, wie man den realen Wert abspeichert!
+            * */
+        } else {
+            System.out.println("The Sub-Parameter: " + subParamName + " doesn't exists!");
+        }
+    }
+
+    public boolean hasParam(String subParamName){
+        if(getOptions() != null){
+            for(ValueData v : getOptions()){
+                if(subParamName.equals(v.getValName().get())){
+                    return true;
+                }
+            }
+        }
+        System.out.println("Sub-Param doesn't exist!");
+        return false;
+    }
 }

@@ -81,9 +81,9 @@ public class ListController {
             TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
             root.getChildren().add(actV);
 
-            if(inputData.get(i).getSubParams() != null){
-                for(int j = 0; j < inputData.get(i).getSubParams().size(); j++){
-                    actV.getChildren().add(new TreeItem<ValueData>(inputData.get(i).getSubParams().get(j)));
+            if(inputData.get(i).getOptions() != null){
+                for(int j = 0; j < inputData.get(i).getOptions().size(); j++){
+                    actV.getChildren().add(new TreeItem<ValueData>(inputData.get(i).getOptions().get(j)));
                 }
             }
         }
@@ -99,8 +99,8 @@ public class ListController {
                     if(v.getActData() != null){
                         System.out.println("Act-Val: " + v.getActData());
                     }
-                    if(v.getSubParams() != null){
-                        for(ValueData x : v.getSubParams()){
+                    if(v.getOptions() != null){
+                        for(ValueData x : v.getOptions()){
                             System.out.println(x.getValName().get() + " : " + x.getType().get());
                             if(x.getActData() != null){
                                 System.out.println("Act-Val: " + v.getActData());

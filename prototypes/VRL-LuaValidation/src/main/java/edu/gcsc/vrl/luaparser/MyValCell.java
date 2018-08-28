@@ -20,7 +20,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
             setStyle(null);
             setGraphic(null);
         } else {
-            if (item.getSubParams().size() < 1) {
+            if (item.getOptions().size() < 1) {
                 if (item.getStyle().equals("default")) {
                     switch (item.getType().get()) {
                         case "String":
