@@ -67,7 +67,7 @@ public class Validator {
                 try{
                     FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
                     Stage stage = new Stage();
-                    stage.setTitle("Parameter EIngabe");
+                    stage.setTitle("Parameter Eingabe");
                     TitledPane page = (TitledPane) loader.load();
                     Scene scene = new Scene(page);
                     stage.setScene(scene);
