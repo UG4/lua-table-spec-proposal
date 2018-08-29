@@ -44,9 +44,5 @@ public class Main extends Application{
         Validator v = new Validator("/validationtest03.lua");
         v.visiting();
         v.loadUI();
-        List<ValueData> da = v.getData();
-        for(ValueData t : da){
-            System.out.println(t.getValName().get());
-        }
     }
 }

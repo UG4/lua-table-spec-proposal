@@ -40,6 +40,7 @@ public class ValueData {
     private double[] values;
     private boolean visibility;
     private String actData = "";
+    private boolean isNestedGroup;
 
     // GETTER - Methoden
     public ObjectProperty<ValueData> getValProp() { return this.valProp; }
@@ -68,6 +69,8 @@ public class ValueData {
 
     public String getActData() { return this.actData; }
 
+    public boolean isNestedGroup() { return this.isNestedGroup; }
+
 
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
@@ -89,6 +92,8 @@ public class ValueData {
     public void setVisibility(boolean visibility) { this.visibility = visibility; }
 
     public void setActData(String dat) {this.actData = dat; }
+
+    public void setNestedGroup(boolean isNestedGroup) {this.isNestedGroup = isNestedGroup; }
 
     // Objektmethoden
 

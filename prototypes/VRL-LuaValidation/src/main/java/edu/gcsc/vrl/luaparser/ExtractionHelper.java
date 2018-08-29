@@ -1,5 +1,8 @@
 package edu.gcsc.vrl.luaparser;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +131,6 @@ public final class ExtractionHelper {
     }
 
     public static boolean checkForValues(Group g){
-        boolean haveGroup;
         if(g.getEntries().size() > 0){
             for (Entry e : ((Group)g).getEntries()){
                 if(e instanceof Value){
@@ -273,11 +275,20 @@ public final class ExtractionHelper {
         * in die if-Abfrage eingebaut.
         * */
         for(Entry e : ((Group)g).getEntries()){
-            if(checkVal(e) && (e.getName().toString().length() < 2)){
+            if(checkVal(e) && (isANum(e.getName().toString()))){
                 return true;
             }
         }
         return false;
+    }
+    /*
+    * Methoden um zu überprüfen, ob ein String eine Zahl ist
+    * Benutzt 'NumberUtils'.
+    * */
+
+    public static boolean isANum(String str){
+        boolean isNum = NumberUtils.isNumber(str);
+        return isNum;
     }
 
     /*

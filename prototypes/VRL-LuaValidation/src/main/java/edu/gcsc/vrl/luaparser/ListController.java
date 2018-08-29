@@ -78,12 +78,34 @@ public class ListController {
         outputTable.setShowRoot(false);
 
         for(int i = 0; i < inputData.size(); i++){
+            System.out.println("SIZE: "+ inputData.size());
             TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
             root.getChildren().add(actV);
 
             if(inputData.get(i).getOptions() != null){
                 for(int j = 0; j < inputData.get(i).getOptions().size(); j++){
-                    actV.getChildren().add(new TreeItem<ValueData>(inputData.get(i).getOptions().get(j)));
+                    //TreeItem<ValueData> childNode = new TreeItem<ValueData>(inputData.get(i).getOptions().get(j));
+                    //actV.getChildren().add(childNode);
+                    System.out.println("OPTIONS: " + inputData.get(i).getOptions().get(j).getValName().get());
+                    setOptionsTreeElements(actV,inputData.get(i).getOptions().get(j));
+                }
+            }
+        }
+    }
+
+    private void setOptionsTreeElements(TreeItem<ValueData> ti, ValueData vd){
+        TreeItem<ValueData> childNode = new TreeItem<ValueData>(vd);
+        ti.getChildren().add(childNode);
+        //System.out.println("LALA: " + vd.getValName().get());
+        if(vd.getOptions() != null) {
+            for (ValueData v : vd.getOptions()) {
+                TreeItem<ValueData> child = new TreeItem<ValueData>(v);
+                System.out.println("CHILDNAME: " + child.getValue().getValName().get());
+                System.out.println("PARENTNAME: " + ti.getValue().getValName().get());
+                childNode.getChildren().add(child);
+                if (v.getOptions() != null) {
+                    //System.out.println("TEST :" + v.getValName().get());
+                    setOptionsTreeElements(child, v);
                 }
             }
         }
