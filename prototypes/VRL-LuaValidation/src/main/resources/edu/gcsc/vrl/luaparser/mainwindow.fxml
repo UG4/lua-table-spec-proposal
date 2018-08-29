@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+
+<TitledPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.gcsc.vrl.luaparser.ListController">
+   <content>
+      <BorderPane>
+          <center>
+              <Pane>
+                 <children>
+                    <TreeTableView fx:id="outputTable" layoutX="41.0" layoutY="46.0" >
+                        <columns>
+                            <TreeTableColumn fx:id="optionColumn" maxWidth="500.0" minWidth="10.0" prefWidth="120.0" text="Option" />
+                            <TreeTableColumn fx:id="valueColumn" maxWidth="800.0" minWidth="10.0" prefWidth="180.0" text="Wert" />
+                        </columns>
+                        <columnResizePolicy>
+                            <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TreeTableView>
+                 </children>
+              </Pane>
+          </center>
+          <bottom>
+              <HBox alignment="BOTTOM_RIGHT">
+                  <Button fx:id="doLuaBut" text="Produce .lua-File" alignment="BOTTOM_RIGHT" />
+                  <HBox.margin>
+                      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                  </HBox.margin>
+              </HBox>
+          </bottom>
+      </BorderPane>
+   </content>
+</TitledPane>
