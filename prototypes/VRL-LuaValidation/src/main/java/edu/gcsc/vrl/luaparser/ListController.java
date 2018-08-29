@@ -56,8 +56,7 @@ public class ListController {
     }
 
     /*
-     * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt
-     * (Auch SubParameter)
+     * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
      * */
     public void initData(List<ValueData> dataset) {
         for (ValueData v : dataset) {
@@ -92,6 +91,9 @@ public class ListController {
         }
     }
 
+    /*
+    * Geschaltete Groups und Sub-Parameter werden hier an das entsprechende TreeItem angehängt.
+    * */
     private void setOptionsTreeElements(TreeItem<ValueData> ti, ValueData vd) {
         TreeItem<ValueData> childNode = new TreeItem<ValueData>(vd);
         ti.getChildren().add(childNode);

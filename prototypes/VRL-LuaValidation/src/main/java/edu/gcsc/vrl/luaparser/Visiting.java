@@ -5,6 +5,11 @@ import org.apache.commons.lang.math.NumberUtils;
 import java.util.List;
 
 public final class Visiting {
+
+    /*
+     * Hier wird sicher gestellt, dass die Utility-Klasse nicht
+     * instanziiert werden kann.
+     * */
     public Visiting() {
         throw new AssertionError();
     }
@@ -55,7 +60,7 @@ public final class Visiting {
         }
     }
 
-    public static void visitTwo(Entry e, List<ValueData> dataList, ValueData v) {
+    private static void visitTwo(Entry e, List<ValueData> dataList, ValueData v) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
                 System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
