@@ -41,6 +41,11 @@ public class ValueData {
     private boolean visibility;
     private String actData = "";
     private boolean isNestedGroup;
+    // Only for GUI
+    private boolean selected = false;
+    private boolean disabled = false;
+    private ValueData parentNode;
+
 
     // GETTER - Methoden
     public ObjectProperty<ValueData> getValProp() { return this.valProp; }
@@ -71,6 +76,11 @@ public class ValueData {
 
     public boolean isNestedGroup() { return this.isNestedGroup; }
 
+    public boolean isSelected() { return selected; }
+
+    public boolean isDisabled() { return disabled; }
+
+    public ValueData getParentNode() { return parentNode; }
 
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
@@ -94,6 +104,12 @@ public class ValueData {
     public void setActData(String dat) {this.actData = dat; }
 
     public void setNestedGroup(boolean isNestedGroup) {this.isNestedGroup = isNestedGroup; }
+
+    public void setDisabled(boolean disabled) { this.disabled = disabled; }
+
+    public void setSelected(boolean selected) { this.selected = selected; }
+
+    public void setParentNode(ValueData parentNode) { this.parentNode = parentNode; }
 
     // Objektmethoden
 

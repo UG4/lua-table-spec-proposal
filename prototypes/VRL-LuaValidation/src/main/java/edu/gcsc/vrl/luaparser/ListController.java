@@ -26,7 +26,7 @@ public class ListController {
     @FXML
     private TreeTableView<ValueData> outputTable;
     @FXML
-    private TreeTableColumn<ValueData, String> optionColumn;
+    private TreeTableColumn<ValueData, ValueData> optionColumn;
     @FXML
     private TreeTableColumn<ValueData, ValueData> valueColumn;
     @FXML
@@ -45,12 +45,14 @@ public class ListController {
      * CellValue/cell- Factory's zugeordnet
      * */
     public void initialize() throws InterruptedException {
-        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValName());
+        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValProp());
         valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValProp());
 
         valueColumn.setCellFactory(column -> {
             return new MyValCell();
         });
+
+        optionColumn.setCellFactory(column -> { return new FirstColumnCell();});
 
         //outputTable.setItems(inputData);
     }
