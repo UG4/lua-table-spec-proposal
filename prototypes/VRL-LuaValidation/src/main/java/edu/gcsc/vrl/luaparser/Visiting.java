@@ -62,7 +62,7 @@ public final class Visiting {
 
     private static void visitTwo(Entry e, List<ValueData> dataList, ValueData v) {
         if (e instanceof Group) {
-            if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
+            if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && isNestedGroup(e)) {
                 System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
                 ValueData vd = new ValueData(e.getName().toString());
                 vd.setNestedGroup(true);
@@ -90,6 +90,16 @@ public final class Visiting {
                     for (Entry g : ((Group) e).getEntries()) {
                         visitTwo(g, dataList, cd);
                     }
+                }
+            } else if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
+                System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
+                ValueData vd = new ValueData(e.getName().toString());
+                //vd.setNestedGroup(true);
+                vd.setParentNode(v);
+                v.addSubParam(vd);
+                //dataList.add(vd);
+                for(Entry g: ((Group) e).getEntries()) {
+                    visitTwo(g, dataList, vd);
                 }
             }
 
@@ -132,6 +142,19 @@ public final class Visiting {
             }
         }
         return false;
+    }
+
+    private static boolean isNestedGroup(Entry e){
+        if(e instanceof Group){
+            if(((Group) e).getEntries() != null){
+                for(Entry en : ((Group) e).getEntries()){
+                    if(!isVal(en) || isANum(en.getName().toString())){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private static boolean isANum(String str) {
