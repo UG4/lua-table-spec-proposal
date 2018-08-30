@@ -28,9 +28,11 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                             if (newValue) {
                                 item.setSelected(true);
 
-                                for (ValueData vd : item.getParentNode().getOptions()) {
-                                    if (!item.equals(vd)) {
-                                        vd.setDisabled(true);
+                                if (!item.getParentNode().isNestedGroup()) {
+                                    for (ValueData vd : item.getParentNode().getOptions()) {
+                                        if (!item.equals(vd)) {
+                                            vd.setDisabled(true);
+                                        }
                                     }
                                 }
                             } else if (!newValue) {
