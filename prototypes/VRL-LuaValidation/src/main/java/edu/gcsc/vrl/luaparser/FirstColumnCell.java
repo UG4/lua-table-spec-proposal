@@ -19,7 +19,7 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
             if (item.getParentNode() != null) {
 
                 if (!item.isDisabled()) {
-
+                    setDisable(false);
                     CheckBox option = new CheckBox();
                     option.setSelected(item.isSelected());
                     option.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -49,6 +49,7 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                     setGraphic(option);
 
                 } else {
+                    setDisable(true);
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);
                     setText(item.getValName().get());
