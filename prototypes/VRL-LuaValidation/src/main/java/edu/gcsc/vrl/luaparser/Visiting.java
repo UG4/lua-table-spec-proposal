@@ -85,6 +85,7 @@ public final class Visiting {
                     xd.setActData(adv);
                     xd.setParentNode(v);
                     v.addSubParam(xd);
+                    System.out.println("NAME: " + v.getValName().get() + " OPT: " + v.getOptions().size());
                     //dataList.add(xd);
                 } else if (hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & SubParams" + " parent: " + v.getValName().get());

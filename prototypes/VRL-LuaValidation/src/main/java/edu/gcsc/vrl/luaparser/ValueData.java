@@ -15,17 +15,17 @@ import java.util.List;
  */
 public class ValueData {
     /*
-    * Konstruktor
-    * */
+     * Konstruktor
+     * */
 
-    public ValueData(String name){
+    public ValueData(String name) {
         this.valName = new SimpleStringProperty(name);
         this.valProp = new SimpleObjectProperty<ValueData>(this);
     }
 
     /*
-    * Klassenvariablen
-    * */
+     * Klassenvariablen
+     * */
 
     private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
@@ -48,75 +48,137 @@ public class ValueData {
 
 
     // GETTER - Methoden
-    public ObjectProperty<ValueData> getValProp() { return this.valProp; }
+    public ObjectProperty<ValueData> getValProp() {
+        return this.valProp;
+    }
 
-    public List<ValueData> getOptions() { return this.subParams; }
+    public List<ValueData> getOptions() {
+        return this.subParams;
+    }
 
-    public void addSubParam(ValueData a){ this.subParams.add(a); }
+    public void addSubParam(ValueData a) {
+        this.subParams.add(a);
+    }
 
-    public StringProperty getValName() { return this.valName; }
+    public StringProperty getValName() {
+        return this.valName;
+    }
 
-    public StringProperty getType() { return this.type; }
+    public StringProperty getType() {
+        return this.type;
+    }
 
-    public String getDefaultVal() { return this.defaultVal; }
+    public String getDefaultVal() {
+        return this.defaultVal;
+    }
 
-    public String getStyle() { return this.style; }
+    public String getStyle() {
+        return this.style;
+    }
 
-    public String getTooltip() { return this.tooltip; }
+    public String getTooltip() {
+        return this.tooltip;
+    }
 
-    public double getRange_min() { return this.range_min; }
+    public double getRange_min() {
+        return this.range_min;
+    }
 
-    public double getRange_max() { return this.range_max; }
+    public double getRange_max() {
+        return this.range_max;
+    }
 
-    public double[] getValues() { return this.values; }
+    public double[] getValues() {
+        return this.values;
+    }
 
-    public boolean isVisible() { return this.visibility; }
+    public boolean isVisible() {
+        return this.visibility;
+    }
 
-    public ActualDataValue getActData() { return this.actData; }
+    public ActualDataValue getActData() {
+        return this.actData;
+    }
 
-    public boolean isNestedGroup() { return this.isNestedGroup; }
+    public boolean isNestedGroup() {
+        return this.isNestedGroup;
+    }
 
-    public boolean isSelected() { return selected; }
+    public boolean isSelected() {
+        return selected;
+    }
 
-    public boolean isDisabled() { return disabled; }
+    public boolean isDisabled() {
+        return disabled;
+    }
 
-    public ValueData getParentNode() { return parentNode; }
+    public ValueData getParentNode() {
+        return parentNode;
+    }
 
     // SETTER - Methoden
-    public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
+    public void setSubParams(List<ValueData> subParams) {
+        this.subParams = subParams;
+    }
 
-    public void setType(String type) { this.type = new SimpleStringProperty(type); }
+    public void setType(String type) {
+        this.type = new SimpleStringProperty(type);
+    }
 
-    public void setDefaultVal(String defaultVal) { this.defaultVal = defaultVal; }
+    public void setDefaultVal(String defaultVal) {
+        this.defaultVal = defaultVal;
+    }
 
-    public void setStyle(String style) { this.style = style; }
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
-    public void setTooltip(String tooltip) { this.tooltip = tooltip; }
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
 
-    public void setRange_min(double range_min) { this.range_min = range_min; }
+    public void setRange_min(double range_min) {
+        this.range_min = range_min;
+    }
 
-    public void setRange_max(double range_max) { this.range_max = range_max; }
+    public void setRange_max(double range_max) {
+        this.range_max = range_max;
+    }
 
-    public void setValues(double[] values) { this.values = values; }
+    public void setValues(double[] values) {
+        this.values = values;
+    }
 
-    public void setVisibility(boolean visibility) { this.visibility = visibility; }
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
 
-    public void setActData(ActualDataValue dat) {this.actData = dat; }
+    public void setActData(ActualDataValue dat) {
+        this.actData = dat;
+    }
 
-    public void setNestedGroup(boolean isNestedGroup) {this.isNestedGroup = isNestedGroup; }
+    public void setNestedGroup(boolean isNestedGroup) {
+        this.isNestedGroup = isNestedGroup;
+    }
 
-    public void setDisabled(boolean disabled) { this.disabled = disabled; }
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
-    public void setSelected(boolean selected) { this.selected = selected; }
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
-    public void setParentNode(ValueData parentNode) { this.parentNode = parentNode; }
+    public void setParentNode(ValueData parentNode) {
+        this.parentNode = parentNode;
+    }
 
     // Objektmethoden
 
-    public ValueData getParam(String subParamName){
-        if(getOptions() != null){
-            for(ValueData v : getOptions()){
-                if(subParamName.equals(v.getValName().get())){
+    public ValueData getParam(String subParamName) {
+        if (getOptions() != null) {
+            for (ValueData v : getOptions()) {
+                if (subParamName.equals(v.getValName().get())) {
                     return v;
                 }
             }
@@ -125,29 +187,66 @@ public class ValueData {
         return null;
     }
 
-    public void setParam(String subParamName, Object val){
+    public void setParam(String subParamName, Object val) {
         ValueData v = getParam(subParamName);
-        if(v != null){
+        if (v != null) {
             /*
-            * Hier muss der Code implementiert werden, der den Wert an die entsprechende Stelle
-            * des ValueData - Objekts setzt.
-            * Kann allerdings erst gemacht werden, wenn entschieden wurde, wie man den realen Wert abspeichert!
-            * */
+             * Hier muss der Code implementiert werden, der den Wert an die entsprechende Stelle
+             * des ValueData - Objekts setzt.
+             * Kann allerdings erst gemacht werden, wenn entschieden wurde, wie man den realen Wert abspeichert!
+             * */
             v.getActData().setValue(val);
         } else {
             System.out.println("The Sub-Parameter: " + subParamName + " doesn't exists!");
         }
+
     }
 
-    public boolean hasParam(String subParamName){
-        if(getOptions() != null){
-            for(ValueData v : getOptions()){
-                if(subParamName.equals(v.getValName().get())){
+    public boolean hasParam(String subParamName) {
+        if (getOptions() != null) {
+            for (ValueData v : getOptions()) {
+                if (subParamName.equals(v.getValName().get())) {
                     return true;
                 }
             }
         }
         System.out.println("Sub-Param doesn't exist!");
         return false;
+    }
+
+    public ValueData xpath(String path) {
+        char[] charsOfPath = path.toCharArray();
+        ValueData currentNode = this;
+        String currentName = "";
+        boolean seperated = false;
+        System.out.println("TESTOMG: " + String.valueOf(charsOfPath));
+
+        for (char character : charsOfPath) {
+            System.out.println(character);
+            if (!"\\".equals(character)) {
+                //System.out.println("Stuf2");
+                currentName.concat(String.valueOf(character));
+            } else if("\\".equals(character)){
+                System.out.println("Stufe3");
+                if(currentName.equals(".")){
+                    System.out.println(currentName);
+                    currentNode = currentNode;
+                } else if(currentName.equals("..")){
+                    if(this.getParentNode() != null){
+                        System.out.println(currentName);
+                        currentNode = currentNode.getParentNode();
+                    } else {
+                        System.out.println(currentNode.getValName().get() + " hasn't a Parent-Node!");
+                    }
+                } else {
+                    if(currentNode.hasParam(currentName)){
+                        System.out.println(currentName);
+                        currentNode = currentNode.getParam(currentName);
+                    }
+                }
+                currentName = "";
+            }
+        }
+        return currentNode;
     }
 }

@@ -118,6 +118,7 @@ public class ListController {
         doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                /*
                 List<ValueData> dat = runtimeObject.getData();
                 for (ValueData v : getActData()) {
                     System.out.println(v.getValName().get());
@@ -132,7 +133,13 @@ public class ListController {
                             }
                         }
                     }
-                }
+                }*/
+                /*List<ValueData> test = runtimeObject.getData();
+                ValueData testData;
+                int a = test.get(test.size()-2).getParam("1").getOptions().size();
+                //ValueData searchedNode = testData.xpath()
+                //System.out.println(testData.getValName().get());
+                System.out.println(a);*/
             }
         });
     }
