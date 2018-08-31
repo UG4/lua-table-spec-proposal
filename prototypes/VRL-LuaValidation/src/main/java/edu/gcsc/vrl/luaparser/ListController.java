@@ -119,27 +119,8 @@ public class ListController {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 /*
-                List<ValueData> dat = runtimeObject.getData();
-                for (ValueData v : getActData()) {
-                    System.out.println(v.getValName().get());
-                    if (v.getActData() != null) {
-                        System.out.println("Act-Val: " + v.getActData());
-                    }
-                    if (v.getOptions() != null) {
-                        for (ValueData x : v.getOptions()) {
-                            System.out.println(x.getValName().get() + " : " + x.getType().get());
-                            if (x.getActData() != null) {
-                                System.out.println("Act-Val: " + v.getActData());
-                            }
-                        }
-                    }
-                }*/
-                /*List<ValueData> test = runtimeObject.getData();
-                ValueData testData;
-                int a = test.get(test.size()-2).getParam("1").getOptions().size();
-                //ValueData searchedNode = testData.xpath()
-                //System.out.println(testData.getValName().get());
-                System.out.println(a);*/
+                * Für Testzwecke!
+                * */
             }
         });
     }

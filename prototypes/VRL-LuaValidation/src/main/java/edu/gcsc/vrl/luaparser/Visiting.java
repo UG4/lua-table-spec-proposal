@@ -17,9 +17,7 @@ public final class Visiting {
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString())) {
-                //System.out.println("nested: " + e.getName().toString());
                 ValueData vd = new ValueData(e.getName().toString());
-                //vd.setNestedGroup(true);
                 dataList.add(vd);
                 for(Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, vd);
@@ -41,7 +39,6 @@ public final class Visiting {
                 }
             } else {
                 for (Entry l : ((Group) e).getEntries()) {
-                    //System.out.println("LOOP: " + l.getName().toString() + " parent : " + e.getName().toString());
                     visitOne(l, dataList);
                 }
             }
@@ -68,7 +65,7 @@ public final class Visiting {
                 vd.setNestedGroup(true);
                 vd.setParentNode(v);
                 v.addSubParam(vd);
-                //dataList.add(vd);
+
                 for(Entry g: ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }
@@ -86,14 +83,14 @@ public final class Visiting {
                     xd.setParentNode(v);
                     v.addSubParam(xd);
                     System.out.println("NAME: " + v.getValName().get() + " OPT: " + v.getOptions().size());
-                    //dataList.add(xd);
+
                 } else if (hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & SubParams" + " parent: " + v.getValName().get());
                     ValueData cd = new ValueData(e.getName().toString());
                     cd.setNestedGroup(false);
                     cd.setParentNode(v);
                     v.addSubParam(cd);
-                    //dataList.add(cd);
+
                     for (Entry g : ((Group) e).getEntries()) {
                         visitTwo(g, dataList, cd);
                     }
@@ -101,10 +98,9 @@ public final class Visiting {
             } else if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
                 System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
                 ValueData vd = new ValueData(e.getName().toString());
-                //vd.setNestedGroup(true);
                 vd.setParentNode(v);
                 v.addSubParam(vd);
-                //dataList.add(vd);
+
                 for(Entry g: ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }

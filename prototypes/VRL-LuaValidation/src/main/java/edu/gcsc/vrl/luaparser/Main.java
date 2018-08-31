@@ -43,19 +43,22 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
         Validator v = new Validator("/validationtest03.lua");
         v.visiting();
-        //v.loadUI();
+        v.loadUI();
         List<ValueData> test = v.getData();
         ValueData vd = test.get(test.size()-2).getParam("2");
         //v.printTree();
-        ValueData testNode = vd.xpath(".\\subParam1");
+        ValueData testNode = vd.xpath(".\\.\\1\\1\\");
 
         if(testNode != null){
-            print("test " + testNode.getValName().get());
+            print("valname " + testNode.getValName().get());
+            if(testNode.getActData() != null) {
+                if(testNode.getActData().getValue() != null) {
+                    print("val " + testNode.getActData().getValue());
+                }
+            }
         } else {
             print("Shit");
         }
-        //print(vd.getParam("2").getOptions().size());
-
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));

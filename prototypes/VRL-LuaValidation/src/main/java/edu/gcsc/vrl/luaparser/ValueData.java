@@ -190,11 +190,6 @@ public class ValueData {
     public void setParam(String subParamName, Object val) {
         ValueData v = getParam(subParamName);
         if (v != null) {
-            /*
-             * Hier muss der Code implementiert werden, der den Wert an die entsprechende Stelle
-             * des ValueData - Objekts setzt.
-             * Kann allerdings erst gemacht werden, wenn entschieden wurde, wie man den realen Wert abspeichert!
-             * */
             v.getActData().setValue(val);
         } else {
             System.out.println("The Sub-Parameter: " + subParamName + " doesn't exists!");
@@ -217,23 +212,20 @@ public class ValueData {
     public ValueData xpath(String path) {
         char[] charsOfPath = path.toCharArray();
         ValueData currentNode = this;
-        String currentName = "";
-        boolean seperated = false;
-        System.out.println("TESTOMG: " + String.valueOf(charsOfPath));
+        StringBuilder currentNameSb = new StringBuilder();
 
         for (char character : charsOfPath) {
             System.out.println(character);
-            if (!"\\".equals(character)) {
-                //System.out.println("Stuf2");
-                currentName.concat(String.valueOf(character));
-            } else if("\\".equals(character)){
-                System.out.println("Stufe3");
+            if (!"\\".equals(String.valueOf(character))) {
+                currentNameSb.append(character);
+            } else if("\\".equals(String.valueOf(character))){
+                String currentName = currentNameSb.toString();
+
                 if(currentName.equals(".")){
                     System.out.println(currentName);
                     currentNode = currentNode;
                 } else if(currentName.equals("..")){
                     if(this.getParentNode() != null){
-                        System.out.println(currentName);
                         currentNode = currentNode.getParentNode();
                     } else {
                         System.out.println(currentNode.getValName().get() + " hasn't a Parent-Node!");
@@ -244,7 +236,7 @@ public class ValueData {
                         currentNode = currentNode.getParam(currentName);
                     }
                 }
-                currentName = "";
+                currentNameSb = new StringBuilder();
             }
         }
         return currentNode;

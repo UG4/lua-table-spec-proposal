@@ -28,10 +28,14 @@ public class ActualDataValue {
         this.type = type;
     }
 
+
+    /*
+    * Hier müssen noch ein paar Funktionen überarbeitet/hinzugefügt werden. Siehe 'Functions', 'Functions[]'
+    * Ausserdem sowas wie der Cast von Booleans usw.
+    * */
     public void setValue(Object value) {
         if (getType().equals("String")){
             try{
-                System.out.println("HALLO");
                 this.value = String.valueOf(value);
             } catch(ClassCastException c){ System.out.println("Not a String!");}
         } else if(getType().equals("Integer")){

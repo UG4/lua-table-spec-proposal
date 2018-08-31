@@ -100,7 +100,6 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } catch (ClassCastException c) {
                                     stringField = UIHelper.tfString("", item);
                                     System.out.println(item.getActData().getValue().toString());
-                                    System.out.println("TEST IT");
                                 }
                             } else {stringField = UIHelper.tfString("", item);}
                         } else {
