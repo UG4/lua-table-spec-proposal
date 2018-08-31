@@ -58,10 +58,10 @@ public class ActualDataValue {
             try{
                 this.value = (List<Double>)value;
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
-        } else if(getType().equals("String[]")){
+        } else if(getType().equals("Boolean[]")){
             try{
                 this.value = (List<Boolean>)value;
-            } catch(ClassCastException c){ System.out.println("Not a List of Strings!");}
+            } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
         }
     }
 }
