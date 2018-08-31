@@ -25,13 +25,18 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     if (item.getStyle().equals("default")) {
                         switch (item.getType().get()) {
                             case "String":
-                                TextField stringField = UIHelper.tfString(item.getDefaultVal(), item);
+                                TextField stringField;
+                                if(item.getActData() != null) {
+                                    stringField = UIHelper.tfString(String.valueOf(item.getActData().getValue()), item);
+                                } else {
+                                    stringField = UIHelper.tfString("", item);
+                                }
                                 setGraphic(stringField);
                                 setStyle("");
                                 break;
                             case "Double":
-                                if (item.getDefaultVal() != null) {
-                                    TextField doubleField = UIHelper.tfString(item.getDefaultVal(), item);
+                                if (item.getActData() != null) {
+                                    TextField doubleField = UIHelper.tfString((String)item.getActData().getValue(), item);
                                     setGraphic(doubleField);
                                     setStyle("");
                                 } else {
@@ -41,8 +46,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 }
                                 break;
                             case "Integer":
-                                if (item.getDefaultVal() != null) {
-                                    TextField integerField = UIHelper.tfString(item.getDefaultVal(), item);
+                                if (item.getActData() != null) {
+                                    TextField integerField = UIHelper.tfString((String)item.getActData().getValue(), item);
                                     setGraphic(integerField);
                                     setStyle("");
                                 } else {
@@ -78,7 +83,29 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
 
 
                     } else {
-                        TextField stringField = UIHelper.tfString(item.getDefaultVal(), item);
+                        TextField stringField;
+                        if(item.getActData() != null) {
+                            if(item.getActData().getValue() != null) {
+                                try {
+                                    if(item.getActData().getType().equals("Integer")) {
+                                        stringField = UIHelper.tfString(Integer.toString((Integer) item.getActData().getValue()), item);
+                                    } else if(item.getActData().getType().equals("Double")) {
+                                        stringField = UIHelper.tfString(Double.toString((Double) item.getActData().getValue()), item);
+                                    } else if(item.getActData().getType().equals("String")){
+                                        stringField = UIHelper.tfString(String.valueOf(item.getActData().getValue()), item);
+                                    } else {
+                                        stringField = UIHelper.tfString("", item);
+                                    }
+
+                                } catch (ClassCastException c) {
+                                    stringField = UIHelper.tfString("", item);
+                                    System.out.println(item.getActData().getValue().toString());
+                                    System.out.println("TEST IT");
+                                }
+                            } else {stringField = UIHelper.tfString("", item);}
+                        } else {
+                            stringField = UIHelper.tfString("", item);
+                        }
                         setGraphic(stringField);
                         setStyle("");
                     }

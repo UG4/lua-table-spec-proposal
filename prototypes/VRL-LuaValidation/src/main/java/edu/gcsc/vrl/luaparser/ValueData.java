@@ -39,7 +39,7 @@ public class ValueData {
     private double range_max;
     private double[] values;
     private boolean visibility;
-    private String actData = "";
+    private ActualDataValue actData = null;
     private boolean isNestedGroup;
     // Only for GUI
     private boolean selected = false;
@@ -72,7 +72,7 @@ public class ValueData {
 
     public boolean isVisible() { return this.visibility; }
 
-    public String getActData() { return this.actData; }
+    public ActualDataValue getActData() { return this.actData; }
 
     public boolean isNestedGroup() { return this.isNestedGroup; }
 
@@ -101,7 +101,7 @@ public class ValueData {
 
     public void setVisibility(boolean visibility) { this.visibility = visibility; }
 
-    public void setActData(String dat) {this.actData = dat; }
+    public void setActData(ActualDataValue dat) {this.actData = dat; }
 
     public void setNestedGroup(boolean isNestedGroup) {this.isNestedGroup = isNestedGroup; }
 
@@ -126,32 +126,6 @@ public class ValueData {
     }
 
     public void setParam(String subParamName, Object val){
-        Object value;
-        switch(getType().get()) {
-            case "Integer":
-                try {
-                    value = (Integer) val;
-                } catch (ClassCastException c){
-                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
-                }
-                break;
-
-            case "Double":
-                try {
-                    value = (Double) val;
-                } catch (ClassCastException c){
-                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
-                }
-                break;
-
-            case "String":
-                try {
-                    value = (String) val;
-                } catch (ClassCastException c){
-                    System.out.println("Your given Option-Value doesn't fit with the Values Type!");
-                }
-                break;
-        }
         ValueData v = getParam(subParamName);
         if(v != null){
             /*
@@ -159,6 +133,7 @@ public class ValueData {
             * des ValueData - Objekts setzt.
             * Kann allerdings erst gemacht werden, wenn entschieden wurde, wie man den realen Wert abspeichert!
             * */
+            v.getActData().setValue(val);
         } else {
             System.out.println("The Sub-Parameter: " + subParamName + " doesn't exists!");
         }

@@ -77,6 +77,12 @@ public final class Visiting {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams" + " parent: " + v.getValName().get());
                     ValueData xd = new ValueData(e.getName().toString());
                     setInfos(xd, (Group) e);
+                    ActualDataValue adv = new ActualDataValue();
+                    adv.setType(xd.getType().get());
+                    if(xd.getDefaultVal() != null){
+                        adv.setValue(xd.getDefaultVal());
+                    }
+                    xd.setActData(adv);
                     xd.setParentNode(v);
                     v.addSubParam(xd);
                     //dataList.add(xd);

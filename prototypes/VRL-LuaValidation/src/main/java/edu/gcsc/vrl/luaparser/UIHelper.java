@@ -13,9 +13,18 @@ public class UIHelper {
         TextField stringField = new TextField();
         stringField.setText(text);
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(v.getValName().get());
-            System.out.println("TEST: " + newValue);
-            v.setActData(newValue);});
+                    System.out.println(v.getValName().get());
+                    System.out.println("TEST: " + newValue);
+                    if (v.getActData() != null) {
+                        v.getActData().setValue(newValue);
+                    } else {
+                        ActualDataValue adv = new ActualDataValue();
+                        adv.setType(v.getType().get());
+                        adv.setValue(newValue);
+                        v.setActData(adv);
+                    }
+                }
+            );
         return stringField;
     }
 
