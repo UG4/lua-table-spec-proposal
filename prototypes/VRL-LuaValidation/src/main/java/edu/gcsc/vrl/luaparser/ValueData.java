@@ -215,14 +215,12 @@ public class ValueData {
         StringBuilder currentNameSb = new StringBuilder();
 
         for (char character : charsOfPath) {
-            System.out.println(character);
             if (!"\\".equals(String.valueOf(character))) {
                 currentNameSb.append(character);
             } else if("\\".equals(String.valueOf(character))){
                 String currentName = currentNameSb.toString();
 
                 if(currentName.equals(".")){
-                    System.out.println(currentName);
                     currentNode = currentNode;
                 } else if(currentName.equals("..")){
                     if(this.getParentNode() != null){
@@ -232,7 +230,6 @@ public class ValueData {
                     }
                 } else {
                     if(currentNode.hasParam(currentName)){
-                        System.out.println(currentName);
                         currentNode = currentNode.getParam(currentName);
                     }
                 }
