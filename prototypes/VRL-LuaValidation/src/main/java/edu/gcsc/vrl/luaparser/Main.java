@@ -41,11 +41,11 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
-        Validator v = new Validator("/validationtest03.lua");
+        Validator v = new Validator("/validationtest02.lua");
         v.visiting();
         v.loadUI();
-        List<ValueData> test = v.getData();
-        ValueData vd = test.get(test.size()-2).getParam("2");
+        //List<ValueData> test = v.getData();
+        /*ValueData vd = test.get(test.size()-2).getParam("2");
         //v.printTree();
         ValueData testNode = vd.xpath(".\\.\\1\\1\\");
 
@@ -57,8 +57,8 @@ public class Main extends Application{
                 }
             }
         } else {
-            print("Shit");
-        }
+            print("Test");
+        }*/
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));
