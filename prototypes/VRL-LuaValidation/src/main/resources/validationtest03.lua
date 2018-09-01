@@ -17,6 +17,25 @@ problem = {
         },
         subParam2 = {
         	type = "String"
+        },
+        {
+            {
+                type = "Double",
+                default = 1.5
+            },
+            {
+                type = "Integer",
+                default = 2
+            },
+            {
+                {
+                    type = "String"
+                },
+                {
+                    type = "Integer",
+                    default = 40
+                }
+            }
         }
     }
   },

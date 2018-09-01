@@ -30,6 +30,10 @@ problem = {
         mySubVal2 = {
             type = "Integer"
         }
+    },
+
+    myVal2 = {
+        type = "String"
     }
   }
 }
