@@ -31,7 +31,11 @@ public final class ExportLua {
                         ValueData vd = opts.get(j);
                         if (vd.isAValue() && vd.isSelected()) {
                             if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                                sb.append(vd.getActData().getValue().toString());
+                                if(vd.getParentNode().isNestedGroup()) {
+                                    sb.append(vd.getValName().get() + " = " + vd.getActData().getValue().toString());
+                                } else {
+                                    sb.append(vd.getActData().getValue().toString());
+                                }
                                 if (j == opts.size() - 1) {
                                     if (i == data.size() - 1) {
                                         sb.append("\n } \n");
@@ -100,8 +104,13 @@ public final class ExportLua {
                             ValueData vd = opts.get(j);
                             if (vd.isAValue() && vd.isSelected()) {
                                 if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                                    //sb.append(vd.getValName().get() + " = ");
-                                    sb.append(vd.getActData().getValue().toString());
+                                    if(vd.getParentNode().isNestedGroup()) {
+                                        sb.append(vd.getValName().get() + " = " + vd.getActData().getValue().toString());
+                                    } else {
+                                        sb.append(vd.getActData().getValue().toString());
+                                    }
+
+                                    //sb.append(vd.getActData().getValue().toString());
                                     if (j == opts.size() - 1) {
                                         if (i == data.size() - 1) {
                                             sb.append("\n }\n ");
