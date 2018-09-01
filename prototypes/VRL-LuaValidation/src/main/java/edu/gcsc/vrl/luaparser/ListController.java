@@ -20,7 +20,8 @@ import java.util.ArrayList;
 public class ListController {
     private Validator runtimeObject;
 
-
+    @FXML
+    private Button test;
     @FXML
     private Button doLuaBut;
     @FXML
@@ -114,13 +115,28 @@ public class ListController {
     }
 
 
-    public void setBtnAct() {
-        doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+    public void setTestBtnAct() {
+        test.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 /*
                 * Für Testzwecke!
                 * */
+                List<ValueData> test = runtimeObject.getData();
+                ValueData vd = test.get(test.size()-2);
+                if(vd.getActData() != null && vd.getActData().getValue() != null){
+                    System.out.println(vd.getValName().get());
+                    System.out.println(vd.getActData().getValue());
+                }
+            }
+        });
+    }
+
+    public void setLuaBtnAct() {
+        doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+                ExportLua.doExport(runtimeObject.getData());
             }
         });
     }

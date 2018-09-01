@@ -74,7 +74,8 @@ public class Validator {
                     ListController lCon = loader.<ListController>getController();
                     lCon.initData(getData());
                     lCon.setValidator(valReference);
-                    lCon.setBtnAct();
+                    lCon.setTestBtnAct();
+                    lCon.setLuaBtnAct();
                     stage.show();
 
                 } catch(IOException e){}

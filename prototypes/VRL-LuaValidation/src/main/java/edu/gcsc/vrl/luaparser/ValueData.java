@@ -32,7 +32,7 @@ public class ValueData {
 
     private StringProperty valName;
     private StringProperty type;
-    private String defaultVal = "";
+    private String defaultVal;
     private String style = "";
     private String tooltip = "";
     private double range_min;
@@ -41,6 +41,8 @@ public class ValueData {
     private boolean visibility;
     private ActualDataValue actData = null;
     private boolean isNestedGroup;
+    private boolean isAValue = false;
+
     // Only for GUI
     private boolean selected = false;
     private boolean disabled = false;
@@ -116,6 +118,10 @@ public class ValueData {
         return parentNode;
     }
 
+    public boolean isAValue() {
+        return isAValue;
+    }
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) {
         this.subParams = subParams;
@@ -171,6 +177,10 @@ public class ValueData {
 
     public void setParentNode(ValueData parentNode) {
         this.parentNode = parentNode;
+    }
+
+    public void isValue(boolean AValue) {
+        isAValue = AValue;
     }
 
     // Objektmethoden

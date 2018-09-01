@@ -17,6 +17,7 @@ public final class Visiting {
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString())) {
+                //System.out.println("TEST: " + e.getName());
                 ValueData vd = new ValueData(e.getName().toString());
                 dataList.add(vd);
                 for(Entry p : ((Group) e).getEntries()) {
@@ -26,6 +27,7 @@ public final class Visiting {
                 if (!hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams");
                     ValueData xd = new ValueData(e.getName().toString());
+                    xd.isValue(true);
                     setInfos(xd, (Group) e);
                     dataList.add(xd);
                 } else if (hasSubParams((Group) e)) {
@@ -73,6 +75,7 @@ public final class Visiting {
                 if (!hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams" + " parent: " + v.getValName().get());
                     ValueData xd = new ValueData(e.getName().toString());
+                    xd.isValue(true);
                     setInfos(xd, (Group) e);
                     ActualDataValue adv = new ActualDataValue();
                     adv.setType(xd.getType().get());
@@ -82,7 +85,7 @@ public final class Visiting {
                     xd.setActData(adv);
                     xd.setParentNode(v);
                     v.addSubParam(xd);
-                    System.out.println("NAME: " + v.getValName().get() + " OPT: " + v.getOptions().size());
+                    //System.out.println("NAME: " + v.getValName().get() + " OPT: " + v.getOptions().size());
 
                 } else if (hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & SubParams" + " parent: " + v.getValName().get());
