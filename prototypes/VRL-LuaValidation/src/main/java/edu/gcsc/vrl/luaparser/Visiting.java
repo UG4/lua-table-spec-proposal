@@ -81,6 +81,16 @@ public final class Visiting {
                 for(Entry g: ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }
+            } else if(!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
+                System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
+                ValueData vd = new ValueData(e.getName().toString());
+                vd.setParentNode(v);
+                v.addSubParam(vd);
+
+                for(Entry g: ((Group) e).getEntries()) {
+                    visitTwo(g, dataList, vd);
+                }
+
             } else if (isVal(e)) {
                 if (!hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams" + " parent: " + v.getValName().get());
