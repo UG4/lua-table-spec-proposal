@@ -3,50 +3,112 @@ package edu.gcsc.vrl.luaparser;
 import java.util.List;
 
 public final class ExportLua {
-    public ExportLua(){ throw new AssertionError(); }
+    public ExportLua() {
+        throw new AssertionError();
+    }
 
-    //private static StringBuilder sb = new StringBuilder();
-
-    public static void doExport(List<ValueData> data){
+    public static void doExport(List<ValueData> data) {
         StringBuilder sb = new StringBuilder();
-        sb.append("root={\n");
-        for(ValueData v: data){
-            if(v.isAValue()){
-                if(v.getActData() != null && v.getActData().getValue() != null) {
-                    sb.append(v.getValName().get()+" = "+v.getActData().getValue().toString()+",\n");
-                } else {
-                    System.out.println(v.getValName().get() + " has no Value to save!");
+        sb.append("problem = {\n");
+
+        for (int i = 0; i < data.size(); i++) {
+            ValueData act = data.get(i);
+            if (act.isAValue()) {
+                if (act.getActData() != null && act.getActData().getValue() != null) {
+                    sb.append(act.getValName().get() + " = " + act.getActData().getValue().toString());
+                    if (i == data.size() - 1) {
+                        sb.append("\n}");
+                    } else {
+                        sb.append(",\n");
+                    }
                 }
-            } else if(!v.isAValue()){
-                sb.append(v.getValName().get()+" = "+ "{\n");
-                if(v.getOptions() != null){
-                    checkVals(v.getOptions(), sb);
+            } else if (!act.isAValue()) {
+                sb.append(act.getValName().get() + " = ");
+                if (act.getOptions() != null) {
+                    List<ValueData> opts = act.getOptions();
+
+                    for (int j = 0; j < opts.size(); j++) {
+                        ValueData vd = opts.get(j);
+                        if (vd.isAValue() && vd.isSelected()) {
+                            if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                                sb.append(vd.getActData().getValue().toString());
+                                if (j == opts.size() - 1) {
+                                    if (i == data.size() - 1) {
+                                        sb.append("\n }, ");
+                                    } else {
+                                        sb.append("\n },");
+                                    }
+                                } else {
+                                    sb.append(",\n");
+                                }
+                            }
+                        } else if (!vd.isAValue() && vd.isSelected()) {
+                            sb.append(" { \n");
+                            if (vd.getOptions() != null) {
+                                List<ValueData> optsNow = vd.getOptions();
+
+                                doExport(optsNow, sb);
+                            }
+                        }
+                    }
                 }
-                sb.append("\n }");
+
             }
         }
-        sb.append("\n}");
+        //sb.append("\n}");
         String lua = sb.toString();
         sb = new StringBuilder();
         System.out.print(lua);
     }
 
-    private static void checkVals(List<ValueData> data, StringBuilder sb){
-        for(ValueData v: data){
-            if(v.isAValue() && v.isSelected()){
-                if(v.getActData() != null && v.getActData().getValue() != null) {
-                    sb.append(v.getValName().get()+" = "+v.getActData().getValue().toString() + ",\n");
-                } else {
-                    System.out.println(v.getValName().get() + " has no Value to save!");
+    public static void doExport(List<ValueData> data, StringBuilder sb) {
+        //StringBuilder sb = new StringBuilder();
+        //sb.append("problem = {\n");
+
+        for (int i = 0; i < data.size(); i++) {
+            ValueData act = data.get(i);
+            if (act.isAValue() && act.isSelected()) {
+                if (act.getActData() != null && act.getActData().getValue() != null) {
+                    sb.append(act.getValName().get() + " = " + act.getActData().getValue());
+                    if (i == data.size() - 1) {
+                        sb.append("\n}");
+                    } else {
+                        sb.append(",\n");
+                    }
                 }
-            } else if(!v.isAValue() && v.isSelected()){
-                //sb.append(v.getValName().get()+" = "+ "{\n");
-                if(v.getOptions() != null){
-                    checkVals(v.getOptions(), sb);
+            } else if (!act.isAValue() && act.isSelected()) {
+                if (act.getActData() != null && act.getActData().getValue() != null) {
+                    sb.append(act.getValName().get() + " = ");
+                    if (act.getOptions() != null) {
+                        List<ValueData> opts = act.getOptions();
+
+                        for (int j = 0; j < opts.size(); j++) {
+                            ValueData vd = opts.get(j);
+                            if (vd.isAValue() && vd.isSelected()) {
+                                if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                                    sb.append(vd.getActData().getValue().toString());
+                                    if (j == opts.size() - 1) {
+                                        if (i == data.size() - 1) {
+                                            sb.append("\n }, ");
+                                        } else {
+                                            sb.append("\n },");
+                                        }
+                                    } else {
+                                        sb.append(",\n");
+                                    }
+                                } else if (!vd.isAValue() && vd.isSelected()) {
+                                    sb.append(" { \n");
+                                    if (vd.getOptions() != null) {
+                                        List<ValueData> optsNow = vd.getOptions();
+
+                                        doExport(optsNow, sb);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                sb.append("\n }");
             }
         }
     }
-
 }
