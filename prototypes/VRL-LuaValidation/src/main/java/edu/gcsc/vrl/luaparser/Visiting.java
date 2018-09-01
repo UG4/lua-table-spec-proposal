@@ -16,14 +16,24 @@ public final class Visiting {
 
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
-            if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString())) {
+            if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString()) && isNestedGroup(e)) {
                 //System.out.println("TEST: " + e.getName());
                 ValueData vd = new ValueData(e.getName().toString());
+                vd.setNestedGroup(true);
                 dataList.add(vd);
                 for(Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, vd);
                 }
-            } else if (isVal(e)) {
+            } else if(!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString()) ){
+                System.out.println("TEST: " + e.getName());
+                ValueData vd = new ValueData(e.getName().toString());
+                //vd.setNestedGroup(true);
+                dataList.add(vd);
+                for(Entry p : ((Group) e).getEntries()) {
+                    visitTwo(p, dataList, vd);
+                }
+            }
+            else if (isVal(e)) {
                 if (!hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams");
                     ValueData xd = new ValueData(e.getName().toString());
@@ -124,6 +134,17 @@ public final class Visiting {
         }
     }
 
+    private static boolean hasOnlyGroupsNoVal(Entry e) {
+        if (e instanceof Group) {
+            for (Entry f : ((Group) e).getEntries()) {
+                if (f instanceof Group && !isVal(f)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private static boolean hasOnlyGroups(Entry e) {
         if (e instanceof Group) {
             for (Entry f : ((Group) e).getEntries()) {
@@ -154,7 +175,7 @@ public final class Visiting {
         if(e instanceof Group){
             if(((Group) e).getEntries() != null){
                 for(Entry en : ((Group) e).getEntries()){
-                    if(!isVal(en) || isANum(en.getName().toString())){
+                    if(isANum(en.getName().toString())){
                         return false;
                     }
                 }
