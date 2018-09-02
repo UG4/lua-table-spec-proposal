@@ -17,7 +17,7 @@ public final class Visiting {
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString()) && isNestedGroup(e)) {
-                //System.out.println("TEST: " + e.getName());
+                System.out.println("Value: " + e.getName().toString() + " & SubParams");
                 ValueData vd = new ValueData(e.getName().toString());
                 vd.setNestedGroup(true);
                 dataList.add(vd);
