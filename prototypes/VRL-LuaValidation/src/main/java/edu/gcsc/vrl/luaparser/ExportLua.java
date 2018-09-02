@@ -54,9 +54,9 @@ public final class ExportLua {
                                 }
                                 if (j == opts.size() - 1) {
                                     if (i == data.size() - 1) {
-                                        sb.append(indent(1) + "\n } \n");
+                                        sb.append("\n"+indent(1)+"}\n");
                                     } else {
-                                        sb.append(indent(1) + "\n },\n");
+                                        sb.append("\n"+indent(1)+"},\n");
                                     }
                                 } else {
                                     sb.append(",\n");
@@ -86,7 +86,7 @@ public final class ExportLua {
                 }
             }
             if (i == data.size() - 1) {
-                sb.append(indent(1)+"\n}\n");
+                sb.append("\n}\n");
             }
         }
         String lua = sb.toString();
@@ -110,13 +110,13 @@ public final class ExportLua {
 
                     if (!lastIteration) {
                         if (i == data.size() - 1) {
-                            sb.append(indent(dis+1) + "\n},\n");
+                            sb.append("\n"+indent(dis)+"},\n");
                         } else {
                             sb.append(",\n");
                         }
                     } else if (lastIteration) {
                         if (i == data.size() - 1) {
-                            sb.append(indent(dis) + "\n}\n");
+                            sb.append("\n"+indent(dis)+"}\n");
                         } else {
                             sb.append(",\n");
                         }
@@ -144,9 +144,9 @@ public final class ExportLua {
 
                                 if (j == opts.size() - 1) {
                                     if (i == data.size() - 1) {
-                                        sb.append(indent(dis + 1) + "\n }\n ");
+                                        sb.append("\n}\n ");
                                     } else {
-                                        sb.append(indent(dis +1) + "\n },\n");
+                                        sb.append("\n"+indent(dis)+"},\n");
                                     }
                                 } else {
                                     sb.append(",\n");
