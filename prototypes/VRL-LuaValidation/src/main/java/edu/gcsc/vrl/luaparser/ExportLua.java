@@ -15,9 +15,11 @@ public final class ExportLua {
             ValueData act = data.get(i);
             if (act.isAValue()) {
                 if (act.getActData() != null && act.getActData().getValue() != null) {
-                    sb.append(indent(1)+ act.getValName().get() + " = " + act.getActData().getValue().toString());
+                    sb.append(indent(1) + act.getValName().get() + " = " + act.getActData().getValue().toString());
                     if (i < data.size() - 1) {
                         sb.append(",\n");
+                    } else if (i == data.size() - 1) {
+                        sb.append("\n}\n");
                     }
                 }
             } else if (!act.isAValue()) {
@@ -27,11 +29,11 @@ public final class ExportLua {
                         for (ValueData g : act.getOptions()) {
                             if (g.isSelected()) {
                                 if (g.isAValue()) {
-                                    sb.append(indent(2) + act.getValName().get() + " = ");
+                                    sb.append(indent(1) + act.getValName().get() + " = ");
                                 } else if (g.isNestedGroup()) {
-                                    sb.append(indent(2) + act.getValName().get() + " = {\n");
+                                    sb.append(indent(1) + act.getValName().get() + " = {\n");
                                 } else {
-                                    sb.append(indent(2) + act.getValName().get() + " = ");
+                                    sb.append(indent(1) + act.getValName().get() + " = ");
                                 }
                             }
                         }
@@ -50,13 +52,13 @@ public final class ExportLua {
                                 if (vd.getParentNode().isNestedGroup()) {
                                     sb.append(indent(2) + vd.getValName().get() + " = " + vd.getActData().getValue().toString());
                                 } else {
-                                    sb.append(indent(2) + vd.getActData().getValue().toString());
+                                    sb.append(vd.getActData().getValue().toString());
                                 }
                                 if (j == opts.size() - 1) {
                                     if (i == data.size() - 1) {
-                                        sb.append("\n"+indent(1)+"}\n");
+                                        sb.append("\n" + indent(1) + "}\n");
                                     } else {
-                                        sb.append("\n"+indent(1)+"},\n");
+                                        sb.append("\n" + indent(1) + "},\n");
                                     }
                                 } else {
                                     sb.append(",\n");
@@ -75,18 +77,26 @@ public final class ExportLua {
                                      * Testzwecke
                                      * */
                                 }
-                                if (i == opts.size() - 1) {
+                                /*if (i == data.size() - 1) {
                                     doExport(optsNow, sb, true,2);
                                 } else {
                                     doExport(optsNow, sb, false,2);
-                                }
+                                }*/
+                                doExport(optsNow, sb, 2);
+
+                                if (i == data.size() - 1 && j == opts.size() - 1) {
+                                    sb.append(indent(1) + "22}\n");
+                                } /*else if(i == data.size()-1 && j < opts.size()-1){
+                                    sb.append(indent(1)+"},\n");
+                                }*/
                             }
                         }
                     }
                 }
+
             }
             if (i == data.size() - 1) {
-                sb.append("\n}\n");
+                sb.append("11}\n");
             }
         }
         String lua = sb.toString();
@@ -94,7 +104,7 @@ public final class ExportLua {
         System.out.print(lua);
     }
 
-    public static void doExport(List<ValueData> data, StringBuilder sb, boolean lastIteration, int dis) {
+    public static void doExport(List<ValueData> data, StringBuilder sb, int dis) {
 
         for (int i = 0; i < data.size(); i++) {
             ValueData act = data.get(i);
@@ -102,13 +112,29 @@ public final class ExportLua {
                 if (act.getActData() != null && act.getActData().getValue() != null) {
                     if (act.getParentNode() != null) {
                         if (act.getParentNode().isNestedGroup()) {
-                            sb.append(indent(dis+1) + act.getValName().get() + " = " + act.getActData().getValue());
+                            sb.append(indent(dis + 1) + act.getValName().get() + " = " + act.getActData().getValue());
                         } else {
-                            sb.append(indent(dis+1) + act.getActData().getValue());
+                            sb.append(act.getActData().getValue());
                         }
                     }
 
-                    if (!lastIteration) {
+                    if((isLast(act.getParentNode().getParentNode().getOptions(),act.getParentNode())) && act.getParentNode().getParentNode() != null) {
+                        if (i == data.size() - 1) {
+                            sb.append("\n" + data.get(i).getValName().get() + "\n");
+                            sb.append("\n" + indent(dis) + "}66\n");
+                        } else {
+                            sb.append("6,\n");
+                        }
+                    } else {
+                        if (i == data.size() - 1) {
+                            sb.append("\n" + data.get(i).getValName().get() + "\n");
+                            sb.append("\n" + indent(dis) + "}66,\n");
+                        } else {
+                            sb.append("6,\n");
+                        }
+                    }
+
+                    /*if (!lastIteration) {
                         if (i == data.size() - 1) {
                             sb.append("\n"+indent(dis)+"},\n");
                         } else {
@@ -116,11 +142,11 @@ public final class ExportLua {
                         }
                     } else if (lastIteration) {
                         if (i == data.size() - 1) {
-                            sb.append("\n"+indent(dis)+"}\n");
+                            sb.append("\n"+indent(dis)+"00}\n");
                         } else {
                             sb.append(",\n");
                         }
-                    }
+                    }*/
                 }
             } else if (!act.isAValue() && act.isSelected()) {
                 if (act.getParentNode() != null) {
@@ -143,13 +169,12 @@ public final class ExportLua {
                                 }
 
                                 if (j == opts.size() - 1) {
-                                    if (i == data.size() - 1) {
-                                        sb.append("\n}\n ");
-                                    } else {
-                                        sb.append("\n"+indent(dis)+"},\n");
-                                    }
+                                    sb.append("\n}\n");
                                 } else {
-                                    sb.append(",\n");
+                                    sb.append("\n" + indent(dis) + "}99,\n");
+                                }
+                                if (i == data.size() - 1) {
+                                    sb.append("\n}\n");
                                 }
                             }
 
@@ -159,7 +184,22 @@ public final class ExportLua {
                             }
                             if (vd.getOptions() != null) {
                                 List<ValueData> optsNow = vd.getOptions();
-                                doExport(optsNow, sb, lastIteration, dis + 1);
+                                if (i == opts.size() - 1) {
+                                    doExport(optsNow, sb, dis + 1);
+                                } else {
+                                    doExport(optsNow, sb, dis + 1);
+                                }
+
+                                if (j == opts.size() - 1) {
+                                    if (vd.getParentNode().isNestedGroup()) {
+                                        sb.append("\n}\n");
+                                    }
+                                } else {
+                                    sb.append("\n" + indent(dis) + "55},\n");
+                                }
+                                if (i == data.size() - 1) {
+                                    sb.append("\n}\n");
+                                }
                             }
                         }
                     }
@@ -177,5 +217,18 @@ public final class ExportLua {
         }
 
         return result;
+    }
+
+    private static boolean isLast(List<ValueData> lv, ValueData v) {
+        System.out.println("ff : " + lv.get(lv.size() - 1).getValName().get());
+        for(int j = 0; j < lv.size();j++){
+            System.out.println("OBJ: "+ lv.get(j).getValName().get());
+        }
+
+        if (lv.get(lv.size() - 1).getValName().get().equals(v.getValName().get())) {
+            System.out.println("true : " + lv.get(lv.size() - 1).getValName().get());
+            return true;
+        }
+        return false;
     }
 }
