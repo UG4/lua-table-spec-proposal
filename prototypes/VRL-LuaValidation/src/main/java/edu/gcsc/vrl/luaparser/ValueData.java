@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.apache.commons.lang.math.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,6 +217,17 @@ public class ValueData {
             }
         }
         System.out.println("Sub-Param doesn't exist!");
+        return false;
+    }
+
+    public boolean havingParams(){
+        if(getOptions() != null){
+            for(ValueData v : getOptions()){
+                if(v.isAValue() && NumberUtils.isNumber(v.getValName().get())){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
