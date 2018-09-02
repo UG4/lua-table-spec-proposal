@@ -60,12 +60,12 @@ public final class Expo {
                 }
             }
         }
-        sb.append("\n" + indent(dis) + "}\n");
+        sb.append("\n"+indent(dis) + "}\n");
 
     }
 
     private static void doNested2(List<ValueData> vl, StringBuilder sb, int dis) {
-        sb.append(indent(dis+1) + "{\n");
+        sb.append("{\n");
         for (int i = 0; i < vl.size(); i++) {
             if (vl.get(i).isNestedGroup() && vl.get(i).isSelected()) {
                 if (i < vl.size() - 1) {
@@ -84,7 +84,7 @@ public final class Expo {
                 }
             }
         }
-        sb.append("\n" + indent(dis+1) + "},\n");
+        sb.append("\n" + indent(dis) + "},\n");
     }
 
     private static void doVal(ValueData v, StringBuilder sb, boolean last) {
