@@ -136,7 +136,8 @@ public class ListController {
         doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                ExportLua.doExport(runtimeObject.getData());
+                //ExportLua.doExport(runtimeObject.getData());
+                Expo.doExport(runtimeObject.getData());
             }
         });
     }

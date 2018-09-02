@@ -231,6 +231,17 @@ public class ValueData {
         return false;
     }
 
+    public boolean havingParamsExtended(){
+        if(getOptions() != null){
+            for(ValueData v : getOptions()){
+                if((v.isAValue() && NumberUtils.isNumber(v.getValName().get())) || v.havingParams()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public ValueData xpath(String path) {
         char[] charsOfPath = path.toCharArray();
         ValueData currentNode = this;
