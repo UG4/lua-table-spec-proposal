@@ -4,13 +4,13 @@ import org.apache.commons.lang.math.NumberUtils;
 
 import java.util.List;
 
-public final class Visiting {
+public final class VisitingValidatorSpec {
 
     /*
      * Hier wird sicher gestellt, dass die Utility-Klasse nicht
      * instanziiert werden kann.
      * */
-    public Visiting() {
+    public VisitingValidatorSpec() {
         throw new AssertionError();
     }
 

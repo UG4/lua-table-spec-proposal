@@ -47,8 +47,7 @@ public class Validator {
     public void visiting(){
         List<ValueData> dataList = new ArrayList<>();
         if(importedCode != null) {
-            //ExtractionHelper.visit(importedCode, dataList);
-            Visiting.visitOne(importedCode,dataList);
+            VisitingValidatorSpec.visitOne(importedCode,dataList);
             this.myData = dataList;
         }
     }
