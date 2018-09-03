@@ -35,9 +35,9 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
 
 
-        Validator v = new Validator("/validationtest02.lua");
-        //v.visiting();
-        //v.loadUI();
+        /*Validator v = new Validator("/validationtest02.lua");
+        v.visiting();
+        v.loadUI();*/
 
 
         //List<ValueData> test = v.getData();
@@ -55,7 +55,9 @@ public class Main extends Application{
         } else {
             print("Test");
         }*/
-        Group g = LoadLua.parseLuaFile("/test.lua");
+
+
+        Group g = LoadLua.parseLuaFile("/test2.lua");
         List<ValueData> li = new ArrayList();
         LoadLua.visitingLuaCode(g,li);
         for(ValueData vd : li){

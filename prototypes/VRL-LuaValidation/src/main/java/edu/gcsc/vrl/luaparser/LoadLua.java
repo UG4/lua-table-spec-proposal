@@ -31,7 +31,7 @@ public final class LoadLua {
             v.setActData(adv);
             lv.add(v);
         } else if(e instanceof Group){
-            if(!e.getName().toString().equals("problem")){
+            if(!e.getName().toString().equals("problem") && !e.getName().toString().equals("root")){
                 ValueData v = new ValueData(e.getName().toString());
                 lv.add(v);
                 if (onlyGroups((Group) e)) {
@@ -42,9 +42,28 @@ public final class LoadLua {
                     for (Entry ed : ((Group) e).getEntries()) {
                         ValueData d = new ValueData(ed.getName().toString());
                         ActualDataValue adv = new ActualDataValue();
+                        settingType((Value)ed,adv);
                         adv.setValue(((Value) ed).getValueAsString());
                         d.setActData(adv);
                         v.addSubParam(d);
+                    }
+                } else {
+                    System.out.println(e.getName().toString()+ " ++++");
+                    for(Entry ed : ((Group)e).getEntries()){
+                        if(ed instanceof Value){
+                            System.out.println(ed.getName().toString() + " VAL");
+                            ValueData vf = new ValueData(ed.getName().toString());
+                            ActualDataValue adv = new ActualDataValue();
+                            settingType((Value)ed,adv);
+                            adv.setValue(((Value) ed).getValueAsString());
+                            vf.setActData(adv);
+                            v.addSubParam(vf);
+                        } else if(ed instanceof Group) {
+                            System.out.println(ed.getName().toString() + " GROUP");
+                            ValueData vf = new ValueData(ed.getName().toString());
+                            v.addSubParam(vf);
+                            visitGroup(ed,vf);
+                        }
                     }
                 }
             } else {
@@ -56,7 +75,9 @@ public final class LoadLua {
     }
 
     public static void visitGroup(Entry e, ValueData v){
+        //System.out.println("lalal : " + e.getName().toString());
         if(e instanceof Group){
+            //System.out.println("lalal : " + e.getName().toString());
             for(Entry ede : ((Group)e).getEntries()){
                 if(ede instanceof Value){
                     ValueData vd = new ValueData(ede.getName().toString());
@@ -67,7 +88,8 @@ public final class LoadLua {
                     v.addSubParam(vd);
                 } else if(ede instanceof Group){
                     //TEST
-                    if(!ede.getName().toString().equals("problem")){
+                    if(!ede.getName().toString().equals("problem") && !ede.getName().toString().equals("root")){
+                        //System.out.println("TEST : "+ ede.getName().toString());
                         ValueData vd = new ValueData(ede.getName().toString());
                         v.addSubParam(vd);
 
@@ -84,6 +106,21 @@ public final class LoadLua {
                                 d.setActData(adv);
                                 vd.addSubParam(d);
                             }
+                        } else {
+                            for(Entry ed : ((Group)ede).getEntries()){
+                                if(ed instanceof Value){
+                                    ValueData vf = new ValueData(ed.getName().toString());
+                                    ActualDataValue adv = new ActualDataValue();
+                                    settingType((Value)ed,adv);
+                                    adv.setValue(((Value) ed).getValueAsString());
+                                    vf.setActData(adv);
+                                    vd.addSubParam(vf);
+                                } else if(ed instanceof Group) {
+                                    ValueData vf = new ValueData(ed.getName().toString());
+                                    vd.addSubParam(vf);
+                                    visitGroup(ed,vf);
+                                }
+                            }
                         }
                     } else {
 
@@ -91,6 +128,12 @@ public final class LoadLua {
                     //TEST
                 }
             }
+        } else if (e instanceof Value){
+            ValueData ve = new ValueData(e.getName().toString());
+            ActualDataValue adv = new ActualDataValue();
+            settingType((Value)e, adv);
+            adv.setValue(((Value)e).getValueAsString());
+            v.setActData(adv);
         }
     }
 
