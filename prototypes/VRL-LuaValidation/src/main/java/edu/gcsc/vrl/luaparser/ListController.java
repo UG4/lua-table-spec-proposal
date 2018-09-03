@@ -1,6 +1,5 @@
 package edu.gcsc.vrl.luaparser;
 
-import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -9,8 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import java.util.ArrayList;
 
 /*
  * Der ListController interagiert zwischen Daten und Anzeige.
@@ -137,7 +134,7 @@ public class ListController {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 //ExportLua.doExport(runtimeObject.getData());
-                Expo.doExport(runtimeObject.getData());
+                ExportLua.doExport(runtimeObject.getData());
             }
         });
     }

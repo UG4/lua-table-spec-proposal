@@ -2,8 +2,8 @@ package edu.gcsc.vrl.luaparser;
 
 import java.util.List;
 
-public final class Expo {
-    public Expo() {
+public final class ExportLua {
+    public ExportLua() {
         throw new AssertionError();
     }
 

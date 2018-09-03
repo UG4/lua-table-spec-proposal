@@ -1,18 +1,10 @@
 package edu.gcsc.vrl.luaparser;
 
-import com.google.common.io.ByteStreams;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ObservableArray;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -41,9 +33,13 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
+
+
         Validator v = new Validator("/validationtest02.lua");
-        v.visiting();
-        v.loadUI();
+        //v.visiting();
+        //v.loadUI();
+
+
         //List<ValueData> test = v.getData();
         /*ValueData vd = test.get(test.size()-2).getParam("2");
         //v.printTree();
@@ -59,8 +55,37 @@ public class Main extends Application{
         } else {
             print("Test");
         }*/
+        Group g = LoadLua.parseLuaFile("/test.lua");
+        List<ValueData> li = new ArrayList();
+        LoadLua.visitingLuaCode(g,li);
+        for(ValueData vd : li){
+            //System.out.println(vd.getValName().get());
+            if(vd.getActData() != null && vd.getActData().getValue() != null){
+                System.out.println(vd.getValName().get());
+                System.out.println(vd.getActData().getValue().toString());
+            }
+            if(vd.getOptions() != null){
+                for(ValueData a : vd.getOptions()){
+                    printOpt(a);
+                }
+            }
+        }
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));
+    }
+
+    private static void printOpt(ValueData v){
+        //System.out.println(v.getValName().get()+"!!");
+        if(v.getActData() != null && v.getActData().getValue() != null){
+            //System.out.println("TEST");
+            System.out.println(v.getValName().get());
+            System.out.println(v.getActData().getValue().toString());
+        }
+        if(v.getOptions() != null){
+            for(ValueData a : v.getOptions()){
+                printOpt(a);
+            }
+        }
     }
 }
