@@ -271,4 +271,23 @@ public class ValueData {
         }
         return currentNode;
     }
+
+    public ValueData getRootNode() {
+        if(this.getParentNode() != null){
+            return loopRootNode(this);
+        } else {
+            return this;
+        }
+    }
+
+    private ValueData loopRootNode(ValueData v){
+        ValueData rootNode;
+
+        if(v.getParentNode() != null){
+            rootNode = loopRootNode(v.getParentNode());
+            return rootNode;
+        } else {
+            return v;
+        }
+    }
 }

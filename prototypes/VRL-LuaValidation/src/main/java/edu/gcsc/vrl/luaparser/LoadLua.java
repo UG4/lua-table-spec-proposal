@@ -36,6 +36,9 @@ public final class LoadLua {
                 lv.add(v);
                 if (onlyGroups((Group) e)) {
                     for (Entry ed : ((Group) e).getEntries()) {
+                        /*ValueData d = new ValueData(ed.getName().toString());
+                        v.addSubParam(d);
+                        d.setParentNode(v);*/
                         visitGroup((Group) ed, v);
                     }
                 } else if (onlyValues((Group) e)) {
@@ -46,6 +49,7 @@ public final class LoadLua {
                         adv.setValue(((Value) ed).getValueAsString());
                         d.setActData(adv);
                         v.addSubParam(d);
+                        d.setParentNode(v);
                     }
                 } else {
                     System.out.println(e.getName().toString() + " ++++");
@@ -58,10 +62,12 @@ public final class LoadLua {
                             adv.setValue(((Value) ed).getValueAsString());
                             vf.setActData(adv);
                             v.addSubParam(vf);
+                            vf.setParentNode(v);
                         } else if (ed instanceof Group) {
                             System.out.println(ed.getName().toString() + " GROUP");
                             ValueData vf = new ValueData(ed.getName().toString());
                             v.addSubParam(vf);
+                            vf.setParentNode(v);
                             visitGroup(ed, vf);
                         }
                     }
@@ -84,13 +90,18 @@ public final class LoadLua {
                     adv.setValue(((Value) ede).getValueAsString());
                     vd.setActData(adv);
                     v.addSubParam(vd);
+                    vd.setParentNode(v);
                 } else if (ede instanceof Group) {
                     if (!ede.getName().toString().equals("problem") && !ede.getName().toString().equals("root")) {
                         ValueData vd = new ValueData(ede.getName().toString());
                         v.addSubParam(vd);
+                        vd.setParentNode(v);
 
                         if (onlyGroups((Group) ede)) {
                             for (Entry ed : ((Group) ede).getEntries()) {
+                                /*ValueData d = new ValueData(ed.getName().toString());
+                                vd.addSubParam(d);
+                                d.setParentNode(vd);*/
                                 visitGroup((Group) ed, vd);
                             }
                         } else if (onlyValues((Group) ede)) {
@@ -101,6 +112,7 @@ public final class LoadLua {
                                 adv.setValue(((Value) ed).getValueAsString());
                                 d.setActData(adv);
                                 vd.addSubParam(d);
+                                d.setParentNode(vd);
                             }
                         } else {
                             for (Entry ed : ((Group) ede).getEntries()) {
@@ -111,9 +123,11 @@ public final class LoadLua {
                                     adv.setValue(((Value) ed).getValueAsString());
                                     vf.setActData(adv);
                                     vd.addSubParam(vf);
+                                    vf.setParentNode(vd);
                                 } else if (ed instanceof Group) {
                                     ValueData vf = new ValueData(ed.getName().toString());
                                     vd.addSubParam(vf);
+                                    vf.setParentNode(vd);
                                     visitGroup(ed, vf);
                                 }
                             }
@@ -128,7 +142,10 @@ public final class LoadLua {
             ActualDataValue adv = new ActualDataValue();
             settingType((Value) e, adv);
             adv.setValue(((Value) e).getValueAsString());
-            v.setActData(adv);
+            ve.setActData(adv);
+            //v.setActData(adv);
+            v.addSubParam(ve);
+            ve.setParentNode(v);
         }
     }
 
