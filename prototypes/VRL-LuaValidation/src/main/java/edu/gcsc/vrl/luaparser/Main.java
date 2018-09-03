@@ -35,9 +35,9 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
 
 
-        /*Validator v = new Validator("/validationtest02.lua");
+        Validator v = new Validator("/validationtest03.lua");
         v.visiting();
-        v.loadUI();*/
+        v.loadUI();
 
 
         //List<ValueData> test = v.getData();
@@ -57,7 +57,7 @@ public class Main extends Application{
         }*/
 
 
-        Group g = LoadLua.parseLuaFile("/test2.lua");
+        /*Group g = LoadLua.parseLuaFile("/test.lua");
         List<ValueData> li = new ArrayList();
         LoadLua.visitingLuaCode(g,li);
         for(ValueData vd : li){
@@ -65,13 +65,14 @@ public class Main extends Application{
             if(vd.getActData() != null && vd.getActData().getValue() != null){
                 System.out.println(vd.getValName().get());
                 System.out.println(vd.getActData().getValue().toString());
+                System.out.println(vd.getValName().get() + " - ROOT: " + vd.getRootNode().getValName().get());
             }
             if(vd.getOptions() != null){
                 for(ValueData a : vd.getOptions()){
                     printOpt(a);
                 }
             }
-        }
+        }*/
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));
@@ -83,6 +84,11 @@ public class Main extends Application{
             //System.out.println("TEST");
             System.out.println(v.getValName().get());
             System.out.println(v.getActData().getValue().toString());
+            if(v.getRootNode() != null) {
+                System.out.println(v.getValName().get() + " - ROOT: " + v.getRootNode().getValName().get());
+            } else {
+                System.out.println(v.getValName().get() + " - ROOT: " + " is root!");
+            }
         }
         if(v.getOptions() != null){
             for(ValueData a : v.getOptions()){

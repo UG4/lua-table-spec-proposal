@@ -29,6 +29,7 @@ public final class LoadLua {
             settingType((Value) e, adv);
             adv.setValue(((Value) e).getValueAsString());
             v.setActData(adv);
+            v.isValue(true);
             lv.add(v);
         } else if (e instanceof Group) {
             if (!e.getName().toString().equals("problem") && !e.getName().toString().equals("root")) {
@@ -36,9 +37,6 @@ public final class LoadLua {
                 lv.add(v);
                 if (onlyGroups((Group) e)) {
                     for (Entry ed : ((Group) e).getEntries()) {
-                        /*ValueData d = new ValueData(ed.getName().toString());
-                        v.addSubParam(d);
-                        d.setParentNode(v);*/
                         visitGroup((Group) ed, v);
                     }
                 } else if (onlyValues((Group) e)) {
@@ -48,6 +46,7 @@ public final class LoadLua {
                         settingType((Value) ed, adv);
                         adv.setValue(((Value) ed).getValueAsString());
                         d.setActData(adv);
+                        d.isValue(true);
                         v.addSubParam(d);
                         d.setParentNode(v);
                     }
@@ -61,6 +60,7 @@ public final class LoadLua {
                             settingType((Value) ed, adv);
                             adv.setValue(((Value) ed).getValueAsString());
                             vf.setActData(adv);
+                            vf.isValue(true);
                             v.addSubParam(vf);
                             vf.setParentNode(v);
                         } else if (ed instanceof Group) {
@@ -89,6 +89,7 @@ public final class LoadLua {
                     settingType((Value) ede, adv);
                     adv.setValue(((Value) ede).getValueAsString());
                     vd.setActData(adv);
+                    vd.isValue(true);
                     v.addSubParam(vd);
                     vd.setParentNode(v);
                 } else if (ede instanceof Group) {
@@ -99,9 +100,6 @@ public final class LoadLua {
 
                         if (onlyGroups((Group) ede)) {
                             for (Entry ed : ((Group) ede).getEntries()) {
-                                /*ValueData d = new ValueData(ed.getName().toString());
-                                vd.addSubParam(d);
-                                d.setParentNode(vd);*/
                                 visitGroup((Group) ed, vd);
                             }
                         } else if (onlyValues((Group) ede)) {
@@ -111,6 +109,7 @@ public final class LoadLua {
                                 settingType((Value) ed, adv);
                                 adv.setValue(((Value) ed).getValueAsString());
                                 d.setActData(adv);
+                                d.isValue(true);
                                 vd.addSubParam(d);
                                 d.setParentNode(vd);
                             }
@@ -122,6 +121,7 @@ public final class LoadLua {
                                     settingType((Value) ed, adv);
                                     adv.setValue(((Value) ed).getValueAsString());
                                     vf.setActData(adv);
+                                    vf.isValue(true);
                                     vd.addSubParam(vf);
                                     vf.setParentNode(vd);
                                 } else if (ed instanceof Group) {
@@ -144,6 +144,7 @@ public final class LoadLua {
             adv.setValue(((Value) e).getValueAsString());
             ve.setActData(adv);
             //v.setActData(adv);
+            ve.isValue(true);
             v.addSubParam(ve);
             ve.setParentNode(v);
         }
@@ -175,5 +176,9 @@ public final class LoadLua {
         } else if (v.isInteger()) {
             adv.setType("Integer");
         }
+    }
+
+    public static void matchingValues(List<ValueData> runtimeSpec, List<ValueData> loadedLuaFileVals){
+
     }
 }
