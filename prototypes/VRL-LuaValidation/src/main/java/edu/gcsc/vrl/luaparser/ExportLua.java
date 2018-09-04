@@ -88,7 +88,11 @@ public final class ExportLua {
     }
 
     private static void doVal(ValueData v, StringBuilder sb, boolean last) {
-        sb.append(v.getActData().getValue());
+        if(v.getActData() != null) {
+            sb.append(v.getActData().getValue());
+        } else {
+            System.out.println(v.getValName().get() + " has no Value!");
+        }
         if (last) {
             sb.append("\n");
         } else {

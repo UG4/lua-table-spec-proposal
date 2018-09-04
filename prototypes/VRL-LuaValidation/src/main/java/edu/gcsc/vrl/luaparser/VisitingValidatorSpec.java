@@ -39,6 +39,12 @@ public final class VisitingValidatorSpec {
                     ValueData xd = new ValueData(e.getName().toString());
                     xd.isValue(true);
                     setInfos(xd, (Group) e);
+                    ActualDataValue adv = new ActualDataValue();
+                    adv.setType(xd.getType().get());
+                    if(xd.getDefaultVal() != null){
+                        adv.setValue(xd.getDefaultVal());
+                    }
+                    xd.setActData(adv);
                     dataList.add(xd);
                 } else if (hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & SubParams");

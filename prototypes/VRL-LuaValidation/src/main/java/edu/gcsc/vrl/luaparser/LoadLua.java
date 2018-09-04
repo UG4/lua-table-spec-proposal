@@ -175,6 +175,10 @@ public final class LoadLua {
             adv.setType("Double");
         } else if (v.isInteger()) {
             adv.setType("Integer");
+        } else if (v.isBoolean()) {
+            adv.setType("Boolean");
+        } else if (v.isFunction()) {
+            adv.setType("Function");
         }
     }
 

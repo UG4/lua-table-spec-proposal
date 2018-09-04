@@ -43,21 +43,28 @@ public class ActualDataValue {
         } else if(getType().equals("Integer")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Integer.parseInt((String) value);
+                    this.value = Integer.parseInt(value.toString());
                 }
             } catch(ClassCastException | NumberFormatException n){ System.out.println("Not a Integer!" + " " + value + " " + getType());}
         } else if(getType().equals("Double")){
+            System.out.println(getType().toString());
+            System.out.println(value.toString());
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Double.parseDouble((String) value);
+                    this.value = Double.parseDouble(value.toString());
                 }
-            } catch(ClassCastException c){ System.out.println("Not a Double!");}
+            } catch(ClassCastException | NumberFormatException c){ System.out.println("Not a Double!");}
         } else if(getType().equals("Boolean")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Boolean.valueOf((String) value);
+                    this.value = Boolean.valueOf(value.toString());
                 }
             } catch(ClassCastException c){ System.out.println("Not a Boolean!");}
+        } else if(getType().equals("Function")){
+            try {
+                // Muss noch hinzugefügt werden!
+            } catch (ClassCastException c){System.out.println("Not a Function!");}
+
         } else if(getType().equals("String[]")){
             try{
                 if(!value.toString().isEmpty()) {

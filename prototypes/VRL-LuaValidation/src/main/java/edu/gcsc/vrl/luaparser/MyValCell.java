@@ -36,7 +36,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 break;
                             case "Double":
                                 if (item.getActData() != null) {
-                                    TextField doubleField = UIHelper.tfString((String)item.getActData().getValue(), item);
+                                    TextField doubleField = UIHelper.tfString(item.getActData().getValue().toString(), item);
                                     setGraphic(doubleField);
                                     setStyle("");
                                 } else {
@@ -47,7 +47,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 break;
                             case "Integer":
                                 if (item.getActData() != null) {
-                                    TextField integerField = UIHelper.tfString((String)item.getActData().getValue(), item);
+                                    TextField integerField = UIHelper.tfString(item.getActData().getValue().toString(), item);
                                     setGraphic(integerField);
                                     setStyle("");
                                 } else {
@@ -60,25 +60,17 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     } else if (item.getStyle().equals("selection")) {
                         switch (item.getType().get()) {
                             case "Double":
-                                if (item.getDefaultVal() != null) {
-                                    ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal(), item);
-                                    setGraphic(doubleBox);
-                                    setStyle("");
-                                } else {
-                                    ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item);
-                                    setGraphic(doubleBox);
-                                    setStyle("");
-                                }
+                                ComboBox doubleBox1 = UIHelper.cbNumber(item);
+                                setGraphic(doubleBox1);
+                                setStyle("");
+
                             case "Integer":
-                                if (item.getDefaultVal() != null) {
-                                    ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item.getDefaultVal(), item);
-                                    setGraphic(doubleBox);
-                                    setStyle("");
-                                } else {
-                                    ComboBox doubleBox = UIHelper.cbNumber(item.getValues(), item);
-                                    setGraphic(doubleBox);
-                                    setStyle("");
-                                }
+                                /*
+                                * Hier muss noch eine ComboBox für Integer eingebaut werden!
+                                * */
+                                ComboBox doubleBox2 = UIHelper.cbNumber(item);
+                                setGraphic(doubleBox2);
+                                setStyle("");
                         }
 
 
