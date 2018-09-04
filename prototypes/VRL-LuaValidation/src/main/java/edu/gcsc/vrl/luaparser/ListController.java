@@ -119,12 +119,12 @@ public class ListController {
                 /*
                 * Für Testzwecke!
                 * */
-                List<ValueData> test = runtimeObject.getData();
+                /*List<ValueData> test = runtimeObject.getData();
                 ValueData vd = test.get(test.size()-2);
                 if(vd.getActData() != null && vd.getActData().getValue() != null){
                     System.out.println(vd.getValName().get());
                     System.out.println(vd.getActData().getValue());
-                }
+                }*/
             }
         });
     }
