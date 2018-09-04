@@ -32,6 +32,18 @@ problem = {
         }
     },
 
+    mySubGroup2 = {
+            -- specification for problem.myGroup.mySubGroup.mySubVal1
+            mySubVal11 = {
+                type = "Integer"
+            },
+
+            -- specification for problem.myGroup.mySubGroup.mySubVal2
+            mySubVal22 = {
+                type = "Integer"
+            }
+        },
+
     myVal2 = {
         type = "String"
     }
