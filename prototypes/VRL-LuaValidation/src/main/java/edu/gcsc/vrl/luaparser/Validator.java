@@ -73,8 +73,9 @@ public class Validator {
                     Scene scene = new Scene(page);
                     stage.setScene(scene);
                     ListController lCon = loader.<ListController>getController();
-                    lCon.initData(getData());
+                    //lCon.initData(getData());
                     lCon.setValidator(valReference);
+                    lCon.setLoadValidation();
                     //lCon.setTestBtnAct();
                     //lCon.setLuaBtnAct();
                     stage.show();

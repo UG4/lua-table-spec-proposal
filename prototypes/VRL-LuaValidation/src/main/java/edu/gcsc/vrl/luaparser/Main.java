@@ -35,9 +35,10 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
 
 
-        /*Validator v = new Validator("/validationtest03.lua");
+        Validator v = new Validator("/validationtest03.lua");
         v.visiting();
-        v.loadUI();*/
+        v.loadUI();
+
 
 
         /*List<ValueData> test = v.getData();

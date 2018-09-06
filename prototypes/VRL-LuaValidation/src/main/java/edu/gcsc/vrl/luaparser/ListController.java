@@ -58,7 +58,9 @@ public class ListController {
             return new MyValCell();
         });
 
-        optionColumn.setCellFactory(column -> { return new FirstColumnCell();});
+        optionColumn.setCellFactory(column -> {
+            return new FirstColumnCell();
+        });
 
         //outputTable.setItems(inputData);
     }
@@ -100,8 +102,8 @@ public class ListController {
     }
 
     /*
-    * Geschaltete Groups und Sub-Parameter werden hier an das entsprechende TreeItem angehängt.
-    * */
+     * Geschaltete Groups und Sub-Parameter werden hier an das entsprechende TreeItem angehängt.
+     * */
     private void setOptionsTreeElements(TreeItem<ValueData> ti, ValueData vd) {
         TreeItem<ValueData> childNode = new TreeItem<ValueData>(vd);
         ti.getChildren().add(childNode);
@@ -119,15 +121,15 @@ public class ListController {
         }
     }
 
-    public void setLoadValidation(){
+    public void setLoadValidation() {
         loadValSpec.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    Validator v = new Validator("/validationtest01.lua");
-                    v.visiting();
-                    v.loadUI();
-                } catch(IOException i){ UIHelper.logging("Can't get the file!", loggingField);}
+
+                //Validator v = new Validator("/validationtest01.lua");
+                //v.visiting();
+                //v.loadUI();
+                initData(runtimeObject.getData());
             }
         });
     }
