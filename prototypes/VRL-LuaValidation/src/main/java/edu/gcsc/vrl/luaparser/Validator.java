@@ -53,35 +53,4 @@ public class Validator {
             this.myData = dataList;
         }
     }
-
-    /*
-    * Erstellt ein eigenständiges UI, das einen Controller zugeordnet bekommt.
-    * Platform.runLater() muss benutzt werden, weil Daten für das UI in JavaFX
-    * in einem speziellen JavaFX Thread bearbeitet werden.
-    * !!!!!!!!! Ergänzende Infos hinzufügen in die Beschreibung
-    * */
-    public void loadUI(){
-        Validator valReference = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Parameter Eingabe");
-                    BorderPane page = (BorderPane) loader.load();
-                    Scene scene = new Scene(page);
-                    stage.setScene(scene);
-                    ListController lCon = loader.<ListController>getController();
-                    //lCon.initData(getData());
-                    lCon.setValidator(valReference);
-                    lCon.setLoadValidation();
-                    //lCon.setTestBtnAct();
-                    //lCon.setLuaBtnAct();
-                    stage.show();
-
-                } catch(IOException e){}
-            }
-        });
-    }
 }

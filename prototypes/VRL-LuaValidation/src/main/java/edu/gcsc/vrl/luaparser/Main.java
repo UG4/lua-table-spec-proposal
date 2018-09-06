@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 
@@ -12,7 +15,16 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Parameter Eingabe");
+        BorderPane page = (BorderPane) loader.load();
+        Scene scene = new Scene(page);
+        stage.setScene(scene);
+        ListController lCon = loader.<ListController>getController();
+        lCon.setLoadValidation();
 
+        stage.show();
     }
 
     /**
@@ -33,49 +45,7 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
-
-
-        Validator v = new Validator("/validationtest03.lua");
-        v.visiting();
-        v.loadUI();
-
-
-
-        /*List<ValueData> test = v.getData();
-        ValueData vd = test.get(test.size()-2).getParam("2");
-        //v.printTree();
-        ValueData testNode = vd.xpath(".\\.\\1\\1\\");
-
-        if(testNode != null){
-            print("_________________");
-            print("valname " + testNode.getValName().get());
-            if(testNode.getActData() != null) {
-                if(testNode.getActData().getValue() != null) {
-                    print("val " + testNode.getActData().getValue());
-                }
-            }
-            print("___________");
-        } else {
-            print("Test");
-        }*/
-
-
-        /*Group g = LoadLua.parseLuaFile("/test.lua");
-        List<ValueData> li = new ArrayList();
-        LoadLua.visitingLuaCode(g,li);
-        for(ValueData vd : li){
-            //System.out.println(vd.getValName().get());
-            if(vd.getActData() != null && vd.getActData().getValue() != null){
-                System.out.println(vd.getValName().get());
-                System.out.println(vd.getActData().getValue().toString());
-                System.out.println(vd.getValName().get() + " - ROOT: " + vd.getRootNode().getValName().get());
-            }
-            if(vd.getOptions() != null){
-                for(ValueData a : vd.getOptions()){
-                    printOpt(a);
-                }
-            }
-        }*/
+        launch(args);
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));

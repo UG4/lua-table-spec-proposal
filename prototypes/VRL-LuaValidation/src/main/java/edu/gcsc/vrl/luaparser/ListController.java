@@ -125,23 +125,13 @@ public class ListController {
         loadValSpec.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                //Validator v = new Validator("/validationtest01.lua");
-                //v.visiting();
-                //v.loadUI();
-                initData(runtimeObject.getData());
+                try {
+                    Validator v = new Validator("/validationtest01.lua");
+                    setValidator(v);
+                    v.visiting();
+                    initData(runtimeObject.getData());
+                } catch(IOException io){UIHelper.logging("Cant find the file!", loggingField);}
             }
         });
     }
-
-
-    /*public void setLuaBtnAct() {
-        doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            @Override
-            public void handle(javafx.event.ActionEvent event) {
-                //ExportLua.doExport(runtimeObject.getData());
-                ExportLua.doExport(runtimeObject.getData());
-            }
-        });
-    }*/
 }
