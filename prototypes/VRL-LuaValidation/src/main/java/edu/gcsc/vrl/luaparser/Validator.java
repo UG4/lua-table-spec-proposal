@@ -33,8 +33,7 @@ public class Validator {
     * */
     public Validator(String filepath) throws IOException{
         //System.out.println(filepath);
-        // load lua code from resources
-        //byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
+        // load lua code
         byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
         String code = new String(code2Data, "UTF-8");
 

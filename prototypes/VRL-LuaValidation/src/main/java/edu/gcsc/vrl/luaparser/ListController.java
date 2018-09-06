@@ -135,14 +135,11 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    /*final FileChooser fc = new FileChooser();
-                    File file = fc.showOpenDialog(bp.getScene().getWindow());
-                    if(file != null){
-
-                    }*/
                     String path = "";
                     final FileChooser fc = new FileChooser();
                     fc.setTitle("Select a Validator-File(*.lua)");
+                    fc.setInitialDirectory(new File("C:/Users/"));
+                    // Funktioniert vllt nicht für jedes OS
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)","*.lua");
                     fc.getExtensionFilters().add(extLua);
 
@@ -151,7 +148,6 @@ public class ListController {
                         path = selecDir.getAbsolutePath();
                     }
 
-                    //Validator v = new Validator("/validationtest02.lua");
                     if(!path.isEmpty()) {
                         Validator v = new Validator(path);
                         setValidator(v);
