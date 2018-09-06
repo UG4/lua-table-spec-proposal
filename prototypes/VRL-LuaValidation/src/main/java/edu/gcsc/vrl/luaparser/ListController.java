@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,6 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 /*
  * Der ListController interagiert zwischen Daten und Anzeige.
@@ -19,6 +23,8 @@ import javafx.scene.control.*;
 public class ListController {
     private Validator runtimeObject;
 
+    @FXML
+    BorderPane bp;
     @FXML
     private MenuItem loadValSpec;
     @FXML
@@ -129,10 +135,29 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    Validator v = new Validator("/validationtest02.lua");
-                    setValidator(v);
-                    v.visiting();
-                    initData(runtimeObject.getData());
+                    /*final FileChooser fc = new FileChooser();
+                    File file = fc.showOpenDialog(bp.getScene().getWindow());
+                    if(file != null){
+
+                    }*/
+                    String path = "";
+                    final FileChooser fc = new FileChooser();
+                    fc.setTitle("Select a Lua-File");
+                    FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)","*.lua");
+                    fc.getExtensionFilters().add(extLua);
+
+                    final File selecDir = fc.showOpenDialog(bp.getScene().getWindow());
+                    if(selecDir != null){
+                        path = selecDir.getAbsolutePath();
+                    }
+
+                    //Validator v = new Validator("/validationtest02.lua");
+                    if(!path.isEmpty()) {
+                        Validator v = new Validator(path);
+                        setValidator(v);
+                        v.visiting();
+                        initData(runtimeObject.getData());
+                    }
                 } catch(IOException io){UIHelper.logging("Cant find the file!", loggingField);}
             }
         });

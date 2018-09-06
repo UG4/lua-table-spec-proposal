@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.common.io.ByteStreams;
@@ -31,8 +32,10 @@ public class Validator {
     * Konstruktor
     * */
     public Validator(String filepath) throws IOException{
+        //System.out.println(filepath);
         // load lua code from resources
-        byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
+        //byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
+        byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
         String code = new String(code2Data, "UTF-8");
 
         // convert code to group
