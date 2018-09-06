@@ -122,15 +122,45 @@ public class ListController {
     }
 
     public void setLoadValidation() {
+        /*
+         * File-Dialog einbauen!!!!
+         * */
         loadValSpec.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    Validator v = new Validator("/validationtest01.lua");
+                    Validator v = new Validator("/validationtest02.lua");
                     setValidator(v);
                     v.visiting();
                     initData(runtimeObject.getData());
                 } catch(IOException io){UIHelper.logging("Cant find the file!", loggingField);}
+            }
+        });
+    }
+
+    public void setLoadLua() {
+        loadLuaFile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+    }
+
+    public void setValidateLua() {
+        validateLua.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+    }
+
+    public void setExportLua() {
+        exportLua.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
             }
         });
     }
