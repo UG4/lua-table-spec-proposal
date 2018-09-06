@@ -142,7 +142,7 @@ public class ListController {
                     }*/
                     String path = "";
                     final FileChooser fc = new FileChooser();
-                    fc.setTitle("Select a Lua-File");
+                    fc.setTitle("Select a Validator-File(*.lua)");
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)","*.lua");
                     fc.getExtensionFilters().add(extLua);
 
