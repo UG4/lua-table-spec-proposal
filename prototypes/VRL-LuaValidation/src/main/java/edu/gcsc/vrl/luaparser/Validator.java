@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -67,14 +69,14 @@ public class Validator {
                     FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainwindow.fxml"));
                     Stage stage = new Stage();
                     stage.setTitle("Parameter Eingabe");
-                    TitledPane page = (TitledPane) loader.load();
+                    BorderPane page = (BorderPane) loader.load();
                     Scene scene = new Scene(page);
                     stage.setScene(scene);
                     ListController lCon = loader.<ListController>getController();
                     lCon.initData(getData());
                     lCon.setValidator(valReference);
-                    lCon.setTestBtnAct();
-                    lCon.setLuaBtnAct();
+                    //lCon.setTestBtnAct();
+                    //lCon.setLuaBtnAct();
                     stage.show();
 
                 } catch(IOException e){}

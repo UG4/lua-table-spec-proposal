@@ -4,10 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class UIHelper {
     // Erstellt ein Textfield für einen String
@@ -56,5 +53,9 @@ public class UIHelper {
             }
         });
         return doubleBox;
+    }
+
+    public static void logging(String msg, TextArea ta){
+        ta.appendText(msg+"\n");
     }
 }

@@ -24,8 +24,7 @@ problem = {
                 default = 1.5
             },
             {
-                type = "Integer",
-                default = 2
+                type = "String",
             },
             {
                 {

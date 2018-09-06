@@ -35,23 +35,25 @@ public class Main extends Application{
         //      - generate vrl components swing/javafx)
 
 
-        Validator v = new Validator("/validationtest03.lua");
+        /*Validator v = new Validator("/validationtest03.lua");
         v.visiting();
-        v.loadUI();
+        v.loadUI();*/
 
 
-        //List<ValueData> test = v.getData();
-        /*ValueData vd = test.get(test.size()-2).getParam("2");
+        /*List<ValueData> test = v.getData();
+        ValueData vd = test.get(test.size()-2).getParam("2");
         //v.printTree();
         ValueData testNode = vd.xpath(".\\.\\1\\1\\");
 
         if(testNode != null){
+            print("_________________");
             print("valname " + testNode.getValName().get());
             if(testNode.getActData() != null) {
                 if(testNode.getActData().getValue() != null) {
                     print("val " + testNode.getActData().getValue());
                 }
             }
+            print("___________");
         } else {
             print("Test");
         }*/

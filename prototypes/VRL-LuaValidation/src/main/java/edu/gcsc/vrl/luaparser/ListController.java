@@ -1,10 +1,12 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.io.IOException;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,9 +20,15 @@ public class ListController {
     private Validator runtimeObject;
 
     @FXML
-    private Button test;
+    private MenuItem loadValSpec;
     @FXML
-    private Button doLuaBut;
+    private MenuItem loadLuaFile;
+    @FXML
+    private MenuItem validateLua;
+    @FXML
+    private MenuItem exportLua;
+    @FXML
+    private TextArea loggingField;
     @FXML
     private TreeTableView<ValueData> outputTable;
     @FXML
@@ -111,25 +119,21 @@ public class ListController {
         }
     }
 
-
-    public void setTestBtnAct() {
-        test.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+    public void setLoadValidation(){
+        loadValSpec.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(javafx.event.ActionEvent event) {
-                /*
-                * Für Testzwecke!
-                * */
-                /*List<ValueData> test = runtimeObject.getData();
-                ValueData vd = test.get(test.size()-2);
-                if(vd.getActData() != null && vd.getActData().getValue() != null){
-                    System.out.println(vd.getValName().get());
-                    System.out.println(vd.getActData().getValue());
-                }*/
+            public void handle(ActionEvent event) {
+                try {
+                    Validator v = new Validator("/validationtest01.lua");
+                    v.visiting();
+                    v.loadUI();
+                } catch(IOException i){ UIHelper.logging("Can't get the file!", loggingField);}
             }
         });
     }
 
-    public void setLuaBtnAct() {
+
+    /*public void setLuaBtnAct() {
         doLuaBut.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
@@ -137,5 +141,5 @@ public class ListController {
                 ExportLua.doExport(runtimeObject.getData());
             }
         });
-    }
+    }*/
 }
