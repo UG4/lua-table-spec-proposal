@@ -20,34 +20,21 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
 
                 if (!item.isDisabled()) {
                     setDisable(false);
-                    CheckBox option = new CheckBox();
-                    option.setSelected(item.isSelected());
-                    option.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                            if (newValue) {
-                                item.setSelected(true);
-
-                                if (!item.getParentNode().isNestedGroup()) {
-                                    for (ValueData vd : item.getParentNode().getOptions()) {
-                                        if (!item.equals(vd)) {
-                                            vd.setDisabled(true);
-                                        }
-                                    }
-                                }
-                            } else if (!newValue) {
-                                item.setSelected(false);
-                                for (ValueData vd : item.getParentNode().getOptions()) {
-                                    if (!item.equals(vd)) {
-                                        vd.setDisabled(false);
-                                    }
-                                }
+                    if(!item.getParentNode().isNestedGroup()) {
+                        CheckBox option = new CheckBox();
+                        option.setSelected(item.isSelected());
+                        option.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                item.setSelectedNew(newValue);
                             }
-                        }
-                    });
-                    setText(item.getValName().get());
-                    setGraphic(option);
-
+                        });
+                        setText(item.getValName().get());
+                        setGraphic(option);
+                    } else {
+                        item.setSelectedNew(true);
+                        setText(item.getValName().get());
+                    }
                 } else {
                     setDisable(true);
                     CheckBox cb = new CheckBox();

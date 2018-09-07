@@ -172,7 +172,7 @@ public class ValueData {
         this.disabled = disabled;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelection(boolean selected) {
         this.selected = selected;
     }
 
@@ -288,6 +288,35 @@ public class ValueData {
             return rootNode;
         } else {
             return v;
+        }
+    }
+
+    public void setSelectedNew(boolean sel){
+        if(sel){
+            setSelection(sel);
+
+            if(!this.getParentNode().isNestedGroup()){
+                for(ValueData vd : this.getParentNode().getOptions()){
+                    if(!this.equals(vd)){
+                        vd.setDisabled(true);
+                    }
+                }
+            } else {
+                for(ValueData vd: this.getParentNode().getOptions()){
+                    vd.setSelection(true);
+                }
+            }
+        } else if(!sel){
+            if(!this.getParentNode().isNestedGroup()) {
+                setSelection(false);
+                for (ValueData vd : this.getParentNode().getOptions()) {
+                    if (!this.equals(vd)) {
+                        vd.setDisabled(false);
+                    }
+                }
+            } else {
+                System.out.println("Parameter can't be disabled. It's a Subparam!");
+            }
         }
     }
 }

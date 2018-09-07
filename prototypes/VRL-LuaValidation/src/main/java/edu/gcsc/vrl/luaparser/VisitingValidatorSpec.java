@@ -21,19 +21,18 @@ public final class VisitingValidatorSpec {
                 ValueData vd = new ValueData(e.getName().toString());
                 vd.setNestedGroup(true);
                 dataList.add(vd);
-                for(Entry p : ((Group) e).getEntries()) {
+                for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, vd);
                 }
-            } else if(!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString()) ){
+            } else if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e) && !"root".equals(e.getName().toString())) {
                 System.out.println("TEST: " + e.getName());
                 ValueData vd = new ValueData(e.getName().toString());
                 //vd.setNestedGroup(true);
                 dataList.add(vd);
-                for(Entry p : ((Group) e).getEntries()) {
+                for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, vd);
                 }
-            }
-            else if (isVal(e)) {
+            } else if (isVal(e)) {
                 if (!hasSubParams((Group) e)) {
                     System.out.println("Value: " + e.getName().toString() + " & no SubParams");
                     ValueData xd = new ValueData(e.getName().toString());
@@ -41,7 +40,7 @@ public final class VisitingValidatorSpec {
                     setInfos(xd, (Group) e);
                     ActualDataValue adv = new ActualDataValue();
                     adv.setType(xd.getType().get());
-                    if(xd.getDefaultVal() != null){
+                    if (xd.getDefaultVal() != null) {
                         adv.setValue(xd.getDefaultVal());
                     }
                     xd.setActData(adv);
@@ -51,7 +50,7 @@ public final class VisitingValidatorSpec {
                     ValueData cd = new ValueData(e.getName().toString());
                     cd.setNestedGroup(false);
                     dataList.add(cd);
-                    for(Entry p : ((Group) e).getEntries()) {
+                    for (Entry p : ((Group) e).getEntries()) {
                         visitTwo(p, dataList, cd);
                     }
                 }
@@ -84,16 +83,16 @@ public final class VisitingValidatorSpec {
                 vd.setParentNode(v);
                 v.addSubParam(vd);
 
-                for(Entry g: ((Group) e).getEntries()) {
+                for (Entry g : ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }
-            } else if(!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
+            } else if (!"problem".equals(e.getName().toString()) && hasOnlyGroups(e) && !isVal(e)) {
                 System.out.println("nested: " + e.getName().toString() + " parent: " + v.getValName().get());
                 ValueData vd = new ValueData(e.getName().toString());
                 vd.setParentNode(v);
                 v.addSubParam(vd);
 
-                for(Entry g: ((Group) e).getEntries()) {
+                for (Entry g : ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }
 
@@ -105,7 +104,7 @@ public final class VisitingValidatorSpec {
                     setInfos(xd, (Group) e);
                     ActualDataValue adv = new ActualDataValue();
                     adv.setType(xd.getType().get());
-                    if(xd.getDefaultVal() != null){
+                    if (xd.getDefaultVal() != null) {
                         adv.setValue(xd.getDefaultVal());
                     }
                     xd.setActData(adv);
@@ -130,7 +129,7 @@ public final class VisitingValidatorSpec {
                 vd.setParentNode(v);
                 v.addSubParam(vd);
 
-                for(Entry g: ((Group) e).getEntries()) {
+                for (Entry g : ((Group) e).getEntries()) {
                     visitTwo(g, dataList, vd);
                 }
             }
@@ -187,11 +186,11 @@ public final class VisitingValidatorSpec {
         return false;
     }
 
-    private static boolean isNestedGroup(Entry e){
-        if(e instanceof Group){
-            if(((Group) e).getEntries() != null){
-                for(Entry en : ((Group) e).getEntries()){
-                    if(isANum(en.getName().toString())){
+    private static boolean isNestedGroup(Entry e) {
+        if (e instanceof Group) {
+            if (((Group) e).getEntries() != null) {
+                for (Entry en : ((Group) e).getEntries()) {
+                    if (isANum(en.getName().toString())) {
                         return false;
                     }
                 }
