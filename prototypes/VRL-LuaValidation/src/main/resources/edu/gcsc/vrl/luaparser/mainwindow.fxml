@@ -34,6 +34,11 @@
                         <MenuItem mnemonicParsing="false" text="...Lua-File" fx:id="exportLua"/>
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Preferences...">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Set Prefs" fx:id="setPrefs"/>
+                    </items>
+                </Menu>
             </menus>
         </MenuBar>
     </top>

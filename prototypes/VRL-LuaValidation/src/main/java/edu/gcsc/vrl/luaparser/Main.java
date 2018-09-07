@@ -24,6 +24,7 @@ public class Main extends Application{
         ListController lCon = loader.<ListController>getController();
         lCon.setLoadValidation();
         lCon.setExportLua();
+        lCon.setPrefs();
 
         stage.show();
     }
@@ -49,27 +50,5 @@ public class Main extends Application{
         PreferencesUtil.loadPreferences();
         launch(args);
 
-    }
-    public static void print(Object str){
-        System.out.println(String.valueOf(str));
-    }
-
-    private static void printOpt(ValueData v){
-        //System.out.println(v.getValName().get()+"!!");
-        if(v.getActData() != null && v.getActData().getValue() != null){
-            //System.out.println("TEST");
-            System.out.println(v.getValName().get());
-            System.out.println(v.getActData().getValue().toString());
-            if(v.getRootNode() != null) {
-                System.out.println(v.getValName().get() + " - ROOT: " + v.getRootNode().getValName().get());
-            } else {
-                System.out.println(v.getValName().get() + " - ROOT: " + " is root!");
-            }
-        }
-        if(v.getOptions() != null){
-            for(ValueData a : v.getOptions()){
-                printOpt(a);
-            }
-        }
     }
 }

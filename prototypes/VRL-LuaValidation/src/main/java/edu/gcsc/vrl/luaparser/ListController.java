@@ -33,6 +33,8 @@ public class ListController {
     @FXML
     private MenuItem exportLua;
     @FXML
+    private MenuItem setPrefs;
+    @FXML
     private TextArea loggingField;
     @FXML
     private TreeTableView<ValueData> outputTable;
@@ -99,7 +101,7 @@ public class ListController {
     }
 
     /*
-     * Geschaltete Groups und Sub-Parameter werden hier an das entsprechende TreeItem angehängt.
+     * Geschachtelte Groups und Sub-Parameter werden hier an das entsprechende TreeItem angehängt.
      * */
     private void setOptionsTreeElements(TreeItem<ValueData> ti, ValueData vd) {
         TreeItem<ValueData> childNode = new TreeItem<ValueData>(vd);
@@ -126,7 +128,11 @@ public class ListController {
                     String path = "";
                     final FileChooser fc = new FileChooser();
                     fc.setTitle("Select a Validator-File(*.lua)");
-                    fc.setInitialDirectory(new File("C:/Users/"));
+                    if(!PreferencesUtil.getInitValidationImportPath().isEmpty()) {
+                        fc.setInitialDirectory(new File(PreferencesUtil.getInitValidationImportPath()));
+                    } else {
+                        fc.setInitialDirectory(new File("C:/Users/"));
+                    }
                     // Funktioniert vllt nicht für jedes OS
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
                     fc.getExtensionFilters().add(extLua);
@@ -177,7 +183,12 @@ public class ListController {
                     // Choose Path
                     final DirectoryChooser dc = new DirectoryChooser();
                     dc.setTitle("Select a .lua-File");
-                    dc.setInitialDirectory(new File("C:/Users/"));
+
+                    if(!PreferencesUtil.getInitValidationImportPath().isEmpty()) {
+                        dc.setInitialDirectory(new File(PreferencesUtil.getInitialLuaExportPath()));
+                    } else {
+                        dc.setInitialDirectory(new File("C:/Users/"));
+                    }
 
                     final File selecDir = dc.showDialog(bp.getScene().getWindow());
                     if (selecDir != null) {
@@ -190,6 +201,18 @@ public class ListController {
                     filewriter.close();
 
                 } catch(IOException fnf){}
+            }
+        });
+    }
+
+    public void setPrefs() {
+        setPrefs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                /*
+                * Muss noch hinzugefügt werden.
+                * Hier soll die Preferences.xml Datei geöffnet werde, damit man sie bearbeiten kann.
+                * */
             }
         });
     }
