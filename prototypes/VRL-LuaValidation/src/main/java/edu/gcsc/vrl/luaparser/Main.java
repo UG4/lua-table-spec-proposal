@@ -23,6 +23,7 @@ public class Main extends Application{
         stage.setScene(scene);
         ListController lCon = loader.<ListController>getController();
         lCon.setLoadValidation();
+        lCon.setExportLua();
 
         stage.show();
     }

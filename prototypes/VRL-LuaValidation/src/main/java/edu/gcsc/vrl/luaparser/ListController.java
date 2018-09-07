@@ -1,7 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -75,18 +74,10 @@ public class ListController {
      * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
      * */
     public void initData(List<ValueData> dataset) {
+        inputData.clear();
         for (ValueData v : dataset) {
             inputData.add(v);
         }
-
-        inputData.addListener(new ListChangeListener<ValueData>() {
-            @Override
-            public void onChanged(Change<? extends ValueData> c) {
-                /*
-                 * Zu einem späterem Zeitpunkt überprüfen, ob nötig
-                 * */
-            }
-        });
 
         TreeItem<ValueData> root = new TreeItem<ValueData>();
         root.setExpanded(false);
@@ -128,9 +119,6 @@ public class ListController {
     }
 
     public void setLoadValidation() {
-        /*
-         * File-Dialog einbauen!!!!
-         * */
         loadValSpec.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -140,21 +128,23 @@ public class ListController {
                     fc.setTitle("Select a Validator-File(*.lua)");
                     fc.setInitialDirectory(new File("C:/Users/"));
                     // Funktioniert vllt nicht für jedes OS
-                    FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)","*.lua");
+                    FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
                     fc.getExtensionFilters().add(extLua);
 
                     final File selecDir = fc.showOpenDialog(bp.getScene().getWindow());
-                    if(selecDir != null){
+                    if (selecDir != null) {
                         path = selecDir.getAbsolutePath();
                     }
 
-                    if(!path.isEmpty()) {
+                    if (!path.isEmpty()) {
                         Validator v = new Validator(path);
                         setValidator(v);
                         v.visiting();
                         initData(runtimeObject.getData());
                     }
-                } catch(IOException io){UIHelper.logging("Cant find the file!", loggingField);}
+                } catch (IOException io) {
+                    UIHelper.logging("Cant find the file!", loggingField);
+                }
             }
         });
     }
@@ -181,7 +171,25 @@ public class ListController {
         exportLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                String luaCode = ExportLua.doExport(runtimeObject.getData());
+                String path = "";
+                try {
+                    // Choose Path
+                    final DirectoryChooser dc = new DirectoryChooser();
+                    dc.setTitle("Select a .lua-File");
+                    dc.setInitialDirectory(new File("C:/Users/"));
 
+                    final File selecDir = dc.showDialog(bp.getScene().getWindow());
+                    if (selecDir != null) {
+                        path = selecDir.getAbsolutePath();
+                    }
+
+                    // Writing Lua-File
+                    Writer filewriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path+"/luaexpo.lua"), "utf-8"));
+                    filewriter.write(luaCode);
+                    filewriter.close();
+
+                } catch(IOException fnf){}
             }
         });
     }

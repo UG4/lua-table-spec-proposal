@@ -7,7 +7,7 @@ public final class ExportLua {
         throw new AssertionError();
     }
 
-    public static void doExport(List<ValueData> data) {
+    public static String doExport(List<ValueData> data) {
         StringBuilder sb = new StringBuilder();
         sb.append("problem = {\n");
 
@@ -35,7 +35,8 @@ public final class ExportLua {
         }
         sb.append("}");
         String str = sb.toString();
-        System.out.println(str);
+        //System.out.println(str);
+        return str;
     }
 
 
