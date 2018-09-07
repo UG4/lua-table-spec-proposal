@@ -1,0 +1,7 @@
+<?xml version = "1.0"?>
+<class>
+    <Preferences name="path">
+        <initialValidationImportPath>C:/Users/</initialValidationImportPath>
+        <initialLuaExportPath>C:/Users/</initialLuaExportPath>
+    </Preferences>
+</class>

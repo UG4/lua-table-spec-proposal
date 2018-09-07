@@ -46,7 +46,9 @@ public class Main extends Application{
         //        -- needs clarification: decide whether we use run-time or
         //           compile-time metaprogramming 
         //      - generate vrl components swing/javafx)
+        PreferencesUtil.loadPreferences();
         launch(args);
+
     }
     public static void print(Object str){
         System.out.println(String.valueOf(str));
