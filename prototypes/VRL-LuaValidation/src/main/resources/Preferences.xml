@@ -1,7 +1,7 @@
 <?xml version = "1.0"?>
 <class>
     <Preferences name="path">
-        <initialValidationImportPath>C:/Users/Max/Documents/GitHub/lua-table-spec-proposal/prototypes/VRL-LuaValidation/src/main/resources/</initialValidationImportPath>
-        <initialLuaExportPath>C:/Users/Max/Desktop/Bachelorarbeit_Code/TEST_OUTPUT/</initialLuaExportPath>
+        <initialValidationImportPath>C:/Users/</initialValidationImportPath>
+        <initialLuaExportPath>C:/Users/</initialLuaExportPath>
     </Preferences>
 </class>
