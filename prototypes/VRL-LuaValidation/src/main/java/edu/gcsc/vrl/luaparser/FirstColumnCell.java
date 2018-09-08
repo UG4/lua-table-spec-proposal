@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeTableCell;
+import org.apache.commons.lang.math.NumberUtils;
 
 public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
 
@@ -20,19 +21,30 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
 
                 if (!item.isDisabled()) {
                     setDisable(false);
-                    if(!item.getParentNode().isNestedGroup()) {
+                    if (!item.getParentNode().isNestedGroup()) {
                         CheckBox option = new CheckBox();
                         option.setSelected(item.isSelected());
                         option.selectedProperty().addListener(new ChangeListener<Boolean>() {
                             @Override
                             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
                                 item.setSelectedNew(newValue);
+
                             }
                         });
                         setText(item.getValName().get());
                         setGraphic(option);
                     } else {
-                        item.setSelectedNew(true);
+                        //System.out.println("TESTING");
+                        //System.out.println(item.getValName().get());
+                        //if(item.isSelected()) {
+                        //System.out.println("is selected");
+                        //}
+                        //System.out.println("__________");
+                        //CheckBox l = new CheckBox();
+                        //item.setSelectedNew(true);
+                        //item.setSelectedNew(true);
+                        item.setSelection(true);
                         setText(item.getValName().get());
                     }
                 } else {

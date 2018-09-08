@@ -21,11 +21,12 @@ public final class ExportLua {
                 }
             } else if (data.get(i).isAValue()) {
                 if (i < data.size() - 1) {
-                    doVal(data.get(i), sb, false);
+                    doVal(data.get(i), sb, false, false);
                 } else {
-                    doVal(data.get(i), sb, true);
+                    doVal(data.get(i), sb, true, false);
                 }
-            } else if (data.get(i).havingParams()) {
+            } else if (data.get(i).isOption()) {
+                System.out.println("LALA: "+data.get(i).getValName().get());
                 if (i < data.size() - 1) {
                     doSub(data.get(i).getOptions(), sb, false, 1);
                 } else {
@@ -47,10 +48,10 @@ public final class ExportLua {
             if (vl.get(i).isNestedGroup() && vl.get(i).isSelected()) {
                 if (i < vl.size() - 1) {
                     sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
-                    doNested2(vl.get(i).getOptions(), sb, dis+1);
+                    doNested2(vl.get(i).getOptions(), sb, dis + 1);
                 } else {
                     sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
-                    doLastNested(vl.get(i).getOptions(), sb, dis+1);
+                    doLastNested(vl.get(i).getOptions(), sb, dis + 1);
                 }
             } else if (vl.get(i).isAValue() && vl.get(i).isSelected()) {
                 sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = " + vl.get(i).getActData().getValue());
@@ -59,9 +60,19 @@ public final class ExportLua {
                 } else {
 
                 }
+            } else if(vl.get(i).isOption() && vl.get(i).isSelected()) {
+                if (i < vl.size() - 1) {
+                    //sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
+                    //doNested2(vl.get(i).getOptions(), sb, dis + 1);
+                    doSub(vl.get(i).getOptions(), sb, false,dis+1);
+                } else {
+                    //sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
+                    //doLastNested(vl.get(i).getOptions(), sb, dis + 1);
+                    doSub(vl.get(i).getOptions(), sb, true,dis+1);
+                }
             }
         }
-        sb.append("\n"+indent(dis) + "}\n");
+        sb.append("\n" + indent(dis) + "}\n");
 
     }
 
@@ -83,14 +94,30 @@ public final class ExportLua {
                 } else {
                     // Zum Testen
                 }
+            } else if(vl.get(i).isOption() && vl.get(i).isSelected()) {
+                if (i < vl.size() - 1) {
+                    //sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
+                    //doNested2(vl.get(i).getOptions(), sb, dis + 1);
+                    doSub(vl.get(i).getOptions(), sb, false,dis+1);
+                } else {
+                    //sb.append(indent(dis + 1) + vl.get(i).getValName().get() + " = ");
+                    //doLastNested(vl.get(i).getOptions(), sb, dis + 1);
+                    doSub(vl.get(i).getOptions(), sb, true,dis+1);
+                }
             }
         }
         sb.append("\n" + indent(dis) + "},\n");
     }
 
-    private static void doVal(ValueData v, StringBuilder sb, boolean last) {
-        if(v.getActData() != null) {
-            sb.append(v.getActData().getValue());
+    private static void doVal(ValueData v, StringBuilder sb, boolean last, boolean opt) {
+        if (v.getActData() != null) {
+            if(v.getParentNode() != null) {
+                if (opt || v.getParentNode().isNestedGroup()) {
+                    sb.append(v.getValName().get() + " 11= " + v.getActData().getValue());
+                } else {
+                    sb.append(v.getActData().getValue());
+                }
+            }
         } else {
             System.out.println(v.getValName().get() + " has no Value!");
         }
@@ -102,6 +129,7 @@ public final class ExportLua {
     }
 
     private static void doSub(List<ValueData> vl, StringBuilder sb, boolean last, int dis) {
+        System.out.println("TEST");
         for (int i = 0; i < vl.size(); i++) {
             if (vl.get(i).isNestedGroup() && vl.get(i).isSelected()) {
                 if (last) {
@@ -110,7 +138,13 @@ public final class ExportLua {
                     doNested2(vl.get(i).getOptions(), sb, dis);
                 }
             } else if (vl.get(i).isAValue() && vl.get(i).isSelected()) {
-                doVal(vl.get(i), sb, last);
+                sb.append(indent(dis));
+                if(vl.get(i).getParentNode().isOption()){
+                    System.out.println("fals "+vl.get(i).getValName().get());
+                    doVal(vl.get(i), sb, last, false);
+                } else {
+                    doVal(vl.get(i), sb, last, true);
+                }
             } else if (vl.get(i).havingParamsExtended() && vl.get(i).isSelected()) {
                 doSub(vl.get(i).getOptions(), sb, last, dis);
             }

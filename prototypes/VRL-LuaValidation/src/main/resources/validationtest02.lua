@@ -20,7 +20,7 @@ problem = {
         type = "String"
     },
 
-    mySubGroup = {
+    mySubGroup1 = {
         -- specification for problem.myGroup.mySubGroup.mySubVal1
         mySubVal1 = {
             type = "Integer"
@@ -32,7 +32,7 @@ problem = {
         }
     },
 
-    mySubGroup2 = {
+        {
             -- specification for problem.myGroup.mySubGroup.mySubVal1
             mySubVal11 = {
                 type = "Integer"

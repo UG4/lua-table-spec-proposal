@@ -42,6 +42,7 @@ public class ValueData {
     private boolean visibility;
     private ActualDataValue actData = null;
     private boolean isNestedGroup;
+    private boolean option;
     private boolean isAValue = false;
 
     // Only for GUI
@@ -123,6 +124,8 @@ public class ValueData {
         return isAValue;
     }
 
+    public boolean isOption() { return option; }
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) {
         this.subParams = subParams;
@@ -179,6 +182,8 @@ public class ValueData {
     public void setParentNode(ValueData parentNode) {
         this.parentNode = parentNode;
     }
+
+    public void setOptional(boolean isOpt){ this.option = isOpt; }
 
     public void isValue(boolean AValue) {
         isAValue = AValue;
