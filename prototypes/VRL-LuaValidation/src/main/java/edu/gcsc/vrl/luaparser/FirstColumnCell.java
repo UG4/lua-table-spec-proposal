@@ -37,11 +37,13 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                 }
             } else {
                 if(item.isOption()) {
+                    //setDisable(true);
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);
                     setText(item.getValName().get());
                     setGraphic(cb);
                 } else {
+                    //setDisable(true);
                     setText(item.getValName().get());
                 }
             }

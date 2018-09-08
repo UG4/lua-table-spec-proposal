@@ -306,8 +306,8 @@ public class ValueData {
                             if (v.isOption() && !v.equals(this)) {
                                 //Hier muss noch hinzugefügt werden, dann bis in die Blatt-Knoten 'disabled'
                                 // und setSelection(false) ausgeführt wird
-                                v.setDisabled(true);
-                                v.setSelection(false);
+                                //v.setDisabled(true);
+                                GeneralUtil.disableWithAllChildNodes(v);
                             }
                         }
                     }
@@ -324,10 +324,11 @@ public class ValueData {
                     setSelection(false);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
                         for (ValueData v : getParentNode().getOptions()) {
-                            if (v.isOption()) {
+                            if (v.isOption() && !v.equals(this)) {
                                 // Hier muss auch noch hinzugefügt werden, dass in beliebiger Tiefe alle Knoten
                                 // wieder freigegeben werden.
-                                v.setDisabled(false);
+                                //v.setDisabled(false);
+                                GeneralUtil.enableWithAllChildNodes(v);
                             }
                         }
                     }
