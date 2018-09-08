@@ -297,30 +297,49 @@ public class ValueData {
     }
 
     public void setSelectedNew(boolean sel){
-        if(sel){
-            setSelection(sel);
-
-            if(!this.getParentNode().isNestedGroup()){
-                for(ValueData vd : this.getParentNode().getOptions()){
-                    if(!this.equals(vd)){
-                        vd.setDisabled(true);
+        if(!this.isDisabled()) {
+            if (sel) {
+                if (isOption()) {
+                    setSelection(true);
+                    if (getParentNode() != null && getParentNode().getOptions() != null) {
+                        for (ValueData v : getParentNode().getOptions()) {
+                            if (v.isOption() && !v.equals(this)) {
+                                //Hier muss noch hinzugefügt werden, dann bis in die Blatt-Knoten 'disabled'
+                                // und setSelection(false) ausgeführt wird
+                                v.setDisabled(true);
+                                v.setSelection(false);
+                            }
+                        }
+                    }
+                    if (getOptions() != null) {
+                        for (ValueData v : getOptions()) {
+                            if (!v.isOption()) {
+                                v.setSelection(true);
+                            }
+                        }
                     }
                 }
-            } else {
-                for(ValueData vd: this.getParentNode().getOptions()){
-                    vd.setSelection(true);
-                }
-            }
-        } else if(!sel){
-            if(!this.getParentNode().isNestedGroup()) {
-                setSelection(false);
-                for (ValueData vd : this.getParentNode().getOptions()) {
-                    if (!this.equals(vd)) {
-                        vd.setDisabled(false);
+            } else if(!sel){
+                if (isOption()) {
+                    setSelection(false);
+                    if (getParentNode() != null && getParentNode().getOptions() != null) {
+                        for (ValueData v : getParentNode().getOptions()) {
+                            if (v.isOption()) {
+                                // Hier muss auch noch hinzugefügt werden, dass in beliebiger Tiefe alle Knoten
+                                // wieder freigegeben werden.
+                                v.setDisabled(false);
+                            }
+                        }
+                    }
+                    if (getOptions() != null) {
+                        for (ValueData v : getOptions()) {
+                            /*if (!v.isOption()) {
+                                v.setSelection(true);
+                            }*/
+                            v.setSelection(false);
+                        }
                     }
                 }
-            } else {
-                System.out.println("Parameter can't be disabled. It's a Subparam!");
             }
         }
     }
