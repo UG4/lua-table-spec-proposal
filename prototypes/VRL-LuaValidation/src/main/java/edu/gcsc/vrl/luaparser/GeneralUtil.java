@@ -37,4 +37,19 @@ public final class GeneralUtil {
             }
         }
     }
+
+    public static void selectAllParentNodes(ValueData v) {
+        if (v.getParentNode() != v.getRootNode()) {
+            if (v.getParentNode() != null) {
+                if (v.getParentNode().isOption()) {
+                    v.getParentNode().setSelection(true);
+                    if (v.getParentNode().getParentNode() != null) {
+                        selectAllParentNodes(v.getParentNode().getParentNode());
+                    }
+                } else {
+                    selectAllParentNodes(v.getParentNode());
+                }
+            }
+        }
+    }
 }

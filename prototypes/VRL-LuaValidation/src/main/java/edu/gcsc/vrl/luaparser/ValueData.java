@@ -302,6 +302,7 @@ public class ValueData {
                 if (isOption()) {
                     setSelection(true);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
+                        GeneralUtil.selectAllParentNodes(this);
                         for (ValueData v : getParentNode().getOptions()) {
                             if (v.isOption() && !v.equals(this)) {
                                 //Hier muss noch hinzugefügt werden, dann bis in die Blatt-Knoten 'disabled'
@@ -323,6 +324,7 @@ public class ValueData {
                 if (isOption()) {
                     setSelection(false);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
+
                         for (ValueData v : getParentNode().getOptions()) {
                             if (v.isOption() && !v.equals(this)) {
                                 // Hier muss auch noch hinzugefügt werden, dass in beliebiger Tiefe alle Knoten
