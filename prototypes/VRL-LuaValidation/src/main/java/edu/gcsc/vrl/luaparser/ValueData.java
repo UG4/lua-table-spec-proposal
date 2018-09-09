@@ -43,6 +43,7 @@ public class ValueData {
     private ActualDataValue actData = null;
     private boolean isNestedGroup;
     private boolean option;
+    private boolean isOptVal;
     private boolean isAValue = false;
 
     // Only for GUI
@@ -126,6 +127,8 @@ public class ValueData {
 
     public boolean isOption() { return option; }
 
+    public boolean isOptValue() { return this.isOptVal; }
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) {
         this.subParams = subParams;
@@ -188,6 +191,8 @@ public class ValueData {
     public void isValue(boolean AValue) {
         isAValue = AValue;
     }
+
+    public void setOptVal(boolean opt){ this.isOptVal = opt; }
 
     // Objektmethoden
 
@@ -299,47 +304,26 @@ public class ValueData {
     public void setSelectedNew(boolean sel){
         if(!this.isDisabled()) {
             if (sel) {
-                if (isOption()) {
+                if (isOption() || isOptValue()) {
                     setSelection(true);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
                         GeneralUtil.selectAllParentNodes(this);
                         for (ValueData v : getParentNode().getOptions()) {
-                            if (v.isOption() && !v.equals(this)) {
-                                //Hier muss noch hinzugefügt werden, dann bis in die Blatt-Knoten 'disabled'
-                                // und setSelection(false) ausgeführt wird
-                                //v.setDisabled(true);
+                            if ((v.isOption()||v.isOptValue()) && !v.equals(this)) {
                                 GeneralUtil.disableWithAllChildNodes(v);
-                            }
-                        }
-                    }
-                    if (getOptions() != null) {
-                        for (ValueData v : getOptions()) {
-                            if (!v.isOption()) {
-                                v.setSelection(true);
                             }
                         }
                     }
                 }
             } else if(!sel){
-                if (isOption()) {
+                if (isOption() || isOptValue()) {
                     setSelection(false);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
 
                         for (ValueData v : getParentNode().getOptions()) {
-                            if (v.isOption() && !v.equals(this)) {
-                                // Hier muss auch noch hinzugefügt werden, dass in beliebiger Tiefe alle Knoten
-                                // wieder freigegeben werden.
-                                //v.setDisabled(false);
+                            if ((v.isOption()||v.isOptValue())) {
                                 GeneralUtil.enableWithAllChildNodes(v);
                             }
-                        }
-                    }
-                    if (getOptions() != null) {
-                        for (ValueData v : getOptions()) {
-                            /*if (!v.isOption()) {
-                                v.setSelection(true);
-                            }*/
-                            v.setSelection(false);
                         }
                     }
                 }

@@ -19,7 +19,7 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
         } else {
             //TEST
             if(!item.isDisabled()) {
-                if (item.isOption()) {
+                if (item.isOption() || item.isOptValue()) {
                     CheckBox cb = new CheckBox();
                     cb.setSelected(item.isSelected());
 
@@ -39,7 +39,7 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                     setText(item.getValName().get());
                 }
             } else {
-                if(item.isOption()) {
+                if(item.isOption() || item.isOptValue()) {
                     //setDisable(true);
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);

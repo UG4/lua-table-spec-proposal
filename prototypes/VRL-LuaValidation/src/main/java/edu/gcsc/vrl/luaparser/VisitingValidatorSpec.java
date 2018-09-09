@@ -31,7 +31,7 @@ public final class VisitingValidatorSpec {
                 xd.setActData(adv);
                 dataList.add(xd);
 
-            } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isVal(e) && !"root".equals(e.getName())) {
+            } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isOptVal(e) && !isVal(e) && !"root".equals(e.getName())) {
                 // NICHT-OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
@@ -41,7 +41,7 @@ public final class VisitingValidatorSpec {
                     visitTwo(p, dataList, xd);
                 }
 
-            } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !"root".equals(e.getName())) {
+            } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !"root".equals(e.getName()) && !isOptVal(e)) {
                 //OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
@@ -50,6 +50,21 @@ public final class VisitingValidatorSpec {
                 for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, xd);
                 }
+
+            } else if(!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
+                //OPTIONALER VALUE
+                System.out.println(e.getName() + " is a optional Value!");
+
+                ValueData xd = new ValueData(e.getName().toString());
+                xd.setOptVal(true);
+                setInfos(xd, (Group) e);
+                ActualDataValue adv = new ActualDataValue();
+                adv.setType(xd.getType().get());
+                if (xd.getDefaultVal() != null) {
+                    adv.setValue(xd.getDefaultVal());
+                }
+                xd.setActData(adv);
+                dataList.add(xd);
 
             } else {
                 for (Entry l : ((Group) e).getEntries()) {
@@ -88,7 +103,7 @@ public final class VisitingValidatorSpec {
                 xd.setActData(adv);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
-            } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isVal(e)) {
+            } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isVal(e) && !isOptVal(e)) {
                 //NICHT-OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
@@ -99,7 +114,7 @@ public final class VisitingValidatorSpec {
                 for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, xd);
                 }
-            } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName())) {
+            } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !isOptVal(e)) {
                 //OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
@@ -110,6 +125,22 @@ public final class VisitingValidatorSpec {
                 for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, xd);
                 }
+
+            } else if(!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
+                //OPTIONALER VALUE
+                System.out.println(e.getName() + " is a optional Value!");
+
+                ValueData xd = new ValueData(e.getName().toString());
+                xd.setOptVal(true);
+                setInfos(xd, (Group) e);
+                ActualDataValue adv = new ActualDataValue();
+                adv.setType(xd.getType().get());
+                if (xd.getDefaultVal() != null) {
+                    adv.setValue(xd.getDefaultVal());
+                }
+                xd.setActData(adv);
+                xd.setParentNode(v);
+                v.addSubParam(xd);
 
             }
         } else if (e instanceof Value) {
@@ -133,6 +164,21 @@ public final class VisitingValidatorSpec {
                 for (Entry p : ((Group) e).getEntries()) {
                     if (p instanceof Value) {
                         if ("type".equals(p.getName())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isOptVal(Entry e){
+        if(e instanceof Group){
+            if(NumberUtils.isNumber(e.getName())){
+                for(Entry p : ((Group) e).getEntries()){
+                    if(p instanceof Value){
+                        if("type".equals(p.getName())){
                             return true;
                         }
                     }
