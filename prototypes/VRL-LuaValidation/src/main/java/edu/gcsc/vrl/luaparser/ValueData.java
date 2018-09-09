@@ -311,9 +311,18 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue()) && !v.equals(this)) {
                                 GeneralUtil.disableWithAllChildNodes(v);
-                            }
+                            } /*else if(!v.equals(this)){
+                                v.setSelection(true);
+                            }*/
                         }
                     }
+                    /*if(getOptions() != null){
+                        for(ValueData f : getOptions()){
+                            if(f.isAValue()){
+                                f.setSelection(true);
+                            }
+                        }
+                    }*/
                 }
             } else if(!sel){
                 if (isOption() || isOptValue()) {
@@ -323,9 +332,18 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue())) {
                                 GeneralUtil.enableWithAllChildNodes(v);
-                            }
+                            } /*else if(!v.equals(this)){
+                                v.setSelection(false);
+                            }*/
                         }
                     }
+                    /*if(getOptions() != null){
+                        for(ValueData f : getOptions()){
+                            if(f.isAValue()){
+                                f.setSelection(false);
+                            }
+                        }
+                    }*/
                 }
             }
         }

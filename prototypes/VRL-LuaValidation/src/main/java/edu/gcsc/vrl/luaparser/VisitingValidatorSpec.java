@@ -21,6 +21,8 @@ public final class VisitingValidatorSpec {
                 //VALUE
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = new ValueData(e.getName());
+                //TESTING
+                xd.setSelection(true);
                 xd.isValue(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
@@ -36,6 +38,8 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
                 xd.setOptional(false);
+                //TESTING
+                xd.setSelection(true);
                 dataList.add(xd);
                 for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, xd);
@@ -94,6 +98,8 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = new ValueData(e.getName().toString());
                 xd.isValue(true);
+                //TESTING
+                xd.setSelection(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType().get());
@@ -107,6 +113,8 @@ public final class VisitingValidatorSpec {
                 //NICHT-OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
+                //TESTING
+                xd.setSelection(true);
                 xd.setOptional(false);
                 xd.setParentNode(v);
                 v.addSubParam(xd);

@@ -18,6 +18,8 @@ public final class GeneralUtil {
                             disableWithAllChildNodes(ve);
                         }
                     }
+                } else {
+                    vd.setSelection(false);
                 }
             }
         }
