@@ -1,7 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
-public final class GeneralUtil {
-    public GeneralUtil() {
+public final class GenUtil {
+    public GenUtil() {
         throw new AssertionError();
     }
 

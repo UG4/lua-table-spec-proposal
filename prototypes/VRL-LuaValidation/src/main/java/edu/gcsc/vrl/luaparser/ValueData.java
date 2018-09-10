@@ -312,10 +312,10 @@ public class ValueData {
                 if (isOption() || isOptValue()) {
                     setSelection(true);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
-                        GeneralUtil.selectAllParentNodes(this);
+                        GenUtil.selectAllParentNodes(this);
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue()) && !v.equals(this)) {
-                                GeneralUtil.disableWithAllChildNodes(v);
+                                GenUtil.disableWithAllChildNodes(v);
                             }
                         }
                     }
@@ -327,7 +327,7 @@ public class ValueData {
 
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue())) {
-                                GeneralUtil.enableWithAllChildNodes(v);
+                                GenUtil.enableWithAllChildNodes(v);
                             }
                         }
                     }
