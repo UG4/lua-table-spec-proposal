@@ -71,4 +71,17 @@ public final class GeneralUtil {
         }
         return false;
     }
+
+    public static boolean haveOptValSelected(ValueData v){
+        if(!v.isOption()) {
+            if (v.getOptions() != null) {
+                for (ValueData vd : v.getOptions()) {
+                    if(vd.isOptValue() && vd.isSelected()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
