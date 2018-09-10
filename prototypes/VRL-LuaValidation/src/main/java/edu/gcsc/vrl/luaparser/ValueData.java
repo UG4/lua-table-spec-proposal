@@ -42,7 +42,8 @@ public class ValueData {
     private boolean visibility;
     private ActualDataValue actData = null;
     private boolean isNestedGroup;
-    private boolean option;
+    private boolean optGroup;
+    private boolean notOptGroup;
     private boolean isOptVal;
     private boolean isAValue = false;
 
@@ -125,9 +126,11 @@ public class ValueData {
         return isAValue;
     }
 
-    public boolean isOption() { return option; }
+    public boolean isOption() { return optGroup; }
 
     public boolean isOptValue() { return this.isOptVal; }
+
+    public boolean isNotOptGroup() { return this.notOptGroup; }
 
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) {
@@ -186,13 +189,15 @@ public class ValueData {
         this.parentNode = parentNode;
     }
 
-    public void setOptional(boolean isOpt){ this.option = isOpt; }
+    public void setOptional(boolean isOpt){ this.optGroup = isOpt; }
 
     public void isValue(boolean AValue) {
         isAValue = AValue;
     }
 
     public void setOptVal(boolean opt){ this.isOptVal = opt; }
+
+    public void setNotOptGroup(boolean notOpt) { this.notOptGroup = notOpt; }
 
     // Objektmethoden
 
@@ -311,18 +316,9 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue()) && !v.equals(this)) {
                                 GeneralUtil.disableWithAllChildNodes(v);
-                            } /*else if(!v.equals(this)){
-                                v.setSelection(true);
-                            }*/
-                        }
-                    }
-                    /*if(getOptions() != null){
-                        for(ValueData f : getOptions()){
-                            if(f.isAValue()){
-                                f.setSelection(true);
                             }
                         }
-                    }*/
+                    }
                 }
             } else if(!sel){
                 if (isOption() || isOptValue()) {
@@ -332,18 +328,9 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue())) {
                                 GeneralUtil.enableWithAllChildNodes(v);
-                            } /*else if(!v.equals(this)){
-                                v.setSelection(false);
-                            }*/
-                        }
-                    }
-                    /*if(getOptions() != null){
-                        for(ValueData f : getOptions()){
-                            if(f.isAValue()){
-                                f.setSelection(false);
                             }
                         }
-                    }*/
+                    }
                 }
             }
         }

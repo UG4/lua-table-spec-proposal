@@ -14,14 +14,12 @@ public final class VisitingValidatorSpec {
         throw new AssertionError();
     }
 
-    ////TEST
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName()) && isVal(e) && !"root".equals(e.getName())) {
                 //VALUE
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = new ValueData(e.getName());
-                //TESTING
                 xd.setSelection(true);
                 xd.isValue(true);
                 setInfos(xd, (Group) e);
@@ -37,8 +35,7 @@ public final class VisitingValidatorSpec {
                 // NICHT-OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
-                xd.setOptional(false);
-                //TESTING
+                xd.setNotOptGroup(true);
                 xd.setSelection(true);
                 dataList.add(xd);
                 for (Entry p : ((Group) e).getEntries()) {
@@ -98,7 +95,6 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = new ValueData(e.getName().toString());
                 xd.isValue(true);
-                //TESTING
                 xd.setSelection(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
@@ -113,9 +109,8 @@ public final class VisitingValidatorSpec {
                 //NICHT-OPTIONALE GRUPPE
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
-                //TESTING
                 xd.setSelection(true);
-                xd.setOptional(false);
+                xd.setNotOptGroup(true);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
 
@@ -195,8 +190,6 @@ public final class VisitingValidatorSpec {
         }
         return false;
     }
-
-    ////TEST
 
     private static void setInfos(ValueData vd, Group e) {
         for (Entry l : ((Group) e).getEntries()) {
