@@ -13,11 +13,11 @@ public class UIHelper {
         stringField.setText(text);
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
-                        v.getActData().setValue(newValue);
+                        v.getActData().setValue(newValue,stringField);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
                         adv.setType(v.getType().get());
-                        adv.setValue(newValue);
+                        adv.setValue(newValue, stringField);
                         v.setActData(adv);
                     }
                 }

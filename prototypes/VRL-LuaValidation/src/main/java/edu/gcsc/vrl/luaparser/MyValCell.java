@@ -31,36 +31,54 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     stringField = UIHelper.tfString("", item);
                                 }
+                                if(!item.getTooltip().isEmpty()) {
+                                    Tooltip tip = new Tooltip();
+                                    tip.setText(item.getTooltip());
+                                    stringField.setTooltip(tip);
+                                }
                                 setGraphic(stringField);
-                                setStyle("");
+                                //setStyle("");
                                 break;
                             case "Double":
+                                TextField doubleField;
                                 if (item.getActData() != null) {
-                                    TextField doubleField = UIHelper.tfString(item.getActData().getValue().toString(), item);
-                                    setGraphic(doubleField);
-                                    setStyle("");
+                                    doubleField = UIHelper.tfString(item.getActData().getValue().toString(), item);
                                 } else {
-                                    TextField doubleField = UIHelper.tfString("", item);
-                                    setGraphic(doubleField);
-                                    setStyle("");
+                                    doubleField = UIHelper.tfString("", item);
                                 }
+                                if(!item.getTooltip().isEmpty()) {
+                                    Tooltip tip = new Tooltip();
+                                    tip.setText(item.getTooltip());
+                                    doubleField.setTooltip(tip);
+                                }
+                                setGraphic(doubleField);
+                                //setStyle("");
                                 break;
                             case "Integer":
+                                TextField integerField;
                                 if (item.getActData() != null) {
-                                    TextField integerField = UIHelper.tfString(item.getActData().getValue().toString(), item);
-                                    setGraphic(integerField);
-                                    setStyle("");
+                                    integerField = UIHelper.tfString(item.getActData().getValue().toString(), item);
                                 } else {
-                                    TextField integerField = UIHelper.tfString(" ", item);
-                                    setGraphic(integerField);
-                                    setStyle("");
+                                    integerField = UIHelper.tfString(" ", item);
                                 }
+                                if(!item.getTooltip().isEmpty()) {
+                                    Tooltip tip = new Tooltip();
+                                    tip.setText(item.getTooltip());
+                                    integerField.setTooltip(tip);
+                                }
+                                setGraphic(integerField);
+                                //setStyle("");
                                 break;
                         }
                     } else if (item.getStyle().equals("selection")) {
                         switch (item.getType().get()) {
                             case "Double":
                                 ComboBox doubleBox1 = UIHelper.cbNumber(item);
+                                if(!item.getTooltip().isEmpty()) {
+                                    Tooltip tip = new Tooltip();
+                                    tip.setText(item.getTooltip());
+                                    doubleBox1.setTooltip(tip);
+                                }
                                 setGraphic(doubleBox1);
                                 setStyle("");
 
@@ -69,6 +87,11 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 * Hier muss noch eine ComboBox für Integer eingebaut werden!
                                 * */
                                 ComboBox doubleBox2 = UIHelper.cbNumber(item);
+                                if(!item.getTooltip().isEmpty()) {
+                                    Tooltip tip = new Tooltip();
+                                    tip.setText(item.getTooltip());
+                                    doubleBox2.setTooltip(tip);
+                                }
                                 setGraphic(doubleBox2);
                                 setStyle("");
                         }
@@ -97,8 +120,13 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         } else {
                             stringField = UIHelper.tfString("", item);
                         }
+                        if(!item.getTooltip().isEmpty()) {
+                            Tooltip tip = new Tooltip();
+                            tip.setText(item.getTooltip());
+                            stringField.setTooltip(tip);
+                        }
                         setGraphic(stringField);
-                        setStyle("");
+                        //setStyle("");
                     }
 
                 } else {
