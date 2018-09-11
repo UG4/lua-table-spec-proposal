@@ -1,18 +1,22 @@
 problem = {
   valueOne = {
     {
-        type = "Integer"
+        type = "Integer",
+        default = 20
     },
     {
         subParam1 = {
-        	type = "Double"
+        	type = "String",
+        	default = "lala"
         },
         subParam2 = {
-        	type = "String"
+        	type = "String",
+        	default = "hshs"
         }
     }
   },
   valueTwo = {
-    type = "String"
+    type = "String",
+    default = "lala"
   }
 }

@@ -1,6 +1,6 @@
 problem = {
   myGroup = {
-    mySubGroup = {
+    mySubGroup1 = {
         mySubVal1 = 1,
         mySubVal2 = 2
     },

@@ -17,35 +17,41 @@ problem = {
         
     -- specification for problem.myGroup.myVal
     myVal = {
-        type = "String"
+        type = "String",
+        default = "zz"
     },
 
     mySubGroup1 = {
         -- specification for problem.myGroup.mySubGroup.mySubVal1
         mySubVal1 = {
-            type = "Integer"
+            type = "Integer",
+            default = 10
         },
         
         -- specification for problem.myGroup.mySubGroup.mySubVal2
         mySubVal2 = {
-            type = "Integer"
+            type = "Integer",
+            default = 10
         }
     },
 
     mySubGroup2 = {
             -- specification for problem.myGroup.mySubGroup.mySubVal1
             mySubVal11 = {
-                type = "Integer"
+                type = "Integer",
+                default = 10
             },
 
             -- specification for problem.myGroup.mySubGroup.mySubVal2
             mySubVal22 = {
-                type = "Integer"
+                type = "Integer",
+                default = 10
             }
         },
 
     myVal2 = {
-        type = "String"
+        type = "String",
+        default = "xx"
     }
   }
 }

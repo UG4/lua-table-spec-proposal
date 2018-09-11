@@ -203,12 +203,17 @@ public final class LoadLua {
                 ValueData jrt = runtimeSpec.get(j);
                 if (loadedLuaFileVals.get(i).isAValue()) {
                     if (jrt.getValName().get().equals(iLua.getValName().get())) {
+                        // Wenn der Value-Name direkt matched
                         jrt.getActData().setValue(iLua.getActData().getValue());
                     } else if(jrt.hasOptValue()){
+                        // Falls beim Runtime-Objekt ein optionaler-Value vorhanden ist
                         searchOptions(jrt,iLua);
                     }
                 } else if (iLua.getOptions() != null) {
                     if (jrt.getValName().get().equals(iLua.getValName().get())) {
+                        // Falls das Objekt aus dem Lua-File eine Gruppe ist, die Optionen besitzt
+                        // Eventuell muss man noch den Fall hinzufügen, dass diese Optionen im Runtime-Objekt
+                        // in einer optionalen Gruppe geschachtelt sind ?!?!
                         searchSubparams(jrt,iLua);
                     }
                 }
@@ -217,6 +222,8 @@ public final class LoadLua {
     }
 
     private static void searchOptions(ValueData rt, ValueData vLua) {
+        // Hier wird nach optionalen Werten in Tiefe 1 gesucht, da
+        // alle tieferen optionalen Werte nicht mehr zugeordnet werden können
         for(ValueData v : rt.getOptions()){
             if(v.isOptValue()){
                 v.getActData().setValue(vLua.getActData().getValue());
@@ -225,15 +232,27 @@ public final class LoadLua {
     }
 
     private static void searchSubparams(ValueData rt, ValueData vLua) {
+        // Hier werden alle Subparameter durchsucht
         for (ValueData v : vLua.getOptions()) {
             for (ValueData rtV : rt.getOptions()) {
                 if (v.isAValue()) {
-                    if (v.getValName().get().equals(rtV.getValName().get())) {
-                        rtV.getActData().setValue(v.getActData().getValue());
+                    if(rtV.isOption()) {
+                        // Hier wird der Fall überprüft, ob die Subparameter im Runtime-Objekt in einer
+                        // optionalen Gruppe geschachtelt sind
+                        for(ValueData vd : rtV.getOptions()){
+                            searchSubparams(rtV,vLua);
+                        }
                     } else {
-                        searchOptions(rtV,v);
+                        if (v.getValName().get().equals(rtV.getValName().get())) {
+                            // Hier wird geprüft, ob der Name direkt matched
+                            rtV.getActData().setValue(v.getActData().getValue());
+                        } else {
+                            // Hier wird überprüft, ob ein optionaler Value in Tiefe 1 vorhanden ist.
+                            searchOptions(rtV, v);
+                        }
                     }
                 } else if (v.getOptions() != null) {
+                    // Subparameter werden gecheckt
                     if(v.getValName().get().equals(rtV.getValName().get())){
                         searchSubparams(rtV, v);
                     }
