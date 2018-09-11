@@ -2,31 +2,31 @@ package edu.gcsc.vrl.luaparser;
 
 import java.util.List;
 
-public final class ExportLua {
-    public ExportLua() {
+public final class ExportLuaAlternative {
+
+    public ExportLuaAlternative() {
         throw new AssertionError();
     }
 
     public static String doExport(List<ValueData> data) {
         StringBuilder sb = new StringBuilder();
-        sb.append("problem = {\n");
+        sb.append("problem={");
 
         for (int i = 0; i < data.size(); i++) {
-            sb.append(indent(1) + data.get(i).getValName().get() + " = ");
+            sb.append(data.get(i).getValName().get() + "=");
 
             if (data.get(i).isAValue()) {
-                System.out.println("HALLO1");
                 if (i < data.size() - 1) {
                     if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
-                        sb.append(data.get(i).getActData().getValue() + ",\n");
+                        sb.append(data.get(i).getActData().getValue()+"#");
                     }
                 } else {
                     if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
-                        sb.append(data.get(i).getActData().getValue() + "\n");
+                        sb.append(data.get(i).getActData().getValue()+"#");
                     }
                 }
             } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i))) {
-                if(GenUtil.haveOptValSelected(data.get(i))) {
+                if (GenUtil.haveOptValSelected(data.get(i))) {
                     if (i < data.size() - 1) {
                         doSubParams(data.get(i).getOptions(), sb, 1, false);
                     } else {
@@ -34,13 +34,13 @@ public final class ExportLua {
                     }
                 } else {
                     if (i < data.size() - 1) {
-                        sb.append("{\n");
+                        sb.append("{");
                         doSubParams(data.get(i).getOptions(), sb, 1, false);
-                        sb.append("\n"+indent(1)+"},\n");
+                        sb.append("}");
                     } else {
-                        sb.append("{\n");
+                        sb.append("{");
                         doSubParams(data.get(i).getOptions(), sb, 1, true);
-                        sb.append("\n"+indent(1)+"}\n");
+                        sb.append("}");
                     }
                 }
             } else if (data.get(i).isOption() && !GenUtil.haveOptValue(data.get(i))) {
@@ -56,7 +56,7 @@ public final class ExportLua {
                     doNotOpt(data.get(i).getOptions(), sb, 1, true);
                 }
             } else if (data.get(i).isOptValue()) {
-                System.out.println("HALLO4");
+                //System.out.println("HALLO4");
                 if (i < data.size() - 1) {
                     doOptVal(data.get(i), sb, 1, false);
                 } else {
@@ -66,7 +66,7 @@ public final class ExportLua {
         }
 
         sb.append("}");
-        String str = sb.toString();
+        String str = doFormatting(sb);
 
         return str;
     }
@@ -78,14 +78,14 @@ public final class ExportLua {
             } else if (vList.get(i).isOptValue() && vList.get(i).isSelected()) {
                 doOptVal(vList.get(i), sb, dis + 1, last);
             } else if (((vList.get(i).isOption() || vList.get(i).isNotOptGroup()) && GenUtil.haveOptValue(vList.get(i))) && vList.get(i).isSelected()) {
-                if(GenUtil.haveOptValSelected(vList.get(i))){
+                if (GenUtil.haveOptValSelected(vList.get(i))) {
                     doSubParams(vList.get(i).getOptions(), sb, dis + 1, last);
                 } else {
-                    sb.append("{\n");
+                    sb.append("{");
                     doSubParams(vList.get(i).getOptions(), sb, dis + 1, last);
-                    sb.append("\n" + indent(dis) + "}\n");
+                    sb.append("}");
                 }
-            } else if(vList.get(i).isOption() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()){
+            } else if (vList.get(i).isOption() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
                     doOption(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
@@ -93,10 +93,10 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                 }
             }
@@ -105,23 +105,23 @@ public final class ExportLua {
 
     private static void doVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            sb.append(vData.getValName().get() + " = " + vData.getActData().getValue());
+            sb.append(vData.getValName().get() + "=" + vData.getActData().getValue()+"#");
 
             if (!last) {
-                sb.append(",\n");
+                //sb.append(",\n");
             } else {
-                sb.append("\n");
+                //sb.append("\n");
             }
         }
     }
 
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
-        System.out.println("Opt val");
+        //System.out.println("Opt val");
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
             sb.append(vData.getActData().getValue());
 
             if (!last) {
-                sb.append(",");
+                //sb.append(",");
             } else {
                 //sb.append("}");
             }
@@ -129,7 +129,7 @@ public final class ExportLua {
     }
 
     public static void doNotOpt(List<ValueData> vList, StringBuilder sb, int dis, boolean last) {
-        sb.append("{\n");
+        sb.append("{");
 
         for (int i = 0; i < vList.size(); i++) {
             if (vList.get(i).isAValue() && vList.get(i).isSelected()) { // Value
@@ -147,7 +147,7 @@ public final class ExportLua {
                     doOptVal(vList.get(i), sb, dis + 1, true);
                 }
             } else if (((vList.get(i).isOption() || vList.get(i).isNotOptGroup()) && GenUtil.haveOptValue(vList.get(i))) && vList.get(i).isSelected()) {
-                if(GenUtil.haveOptValSelected(vList.get(i))) {
+                if (GenUtil.haveOptValSelected(vList.get(i))) {
                     if (i < vList.size() - 1) {
                         doSubParams(vList.get(i).getOptions(), sb, dis + 1, false);
                     } else {
@@ -155,10 +155,10 @@ public final class ExportLua {
                     }
                 } else {
                     if (i < vList.size() - 1) {
-                        sb.append("{\n");
+                        sb.append("{");
                         doSubParams(vList.get(i).getOptions(), sb, dis + 1, false);
                     } else {
-                        sb.append("{\n");
+                        sb.append("{");
                         doSubParams(vList.get(i).getOptions(), sb, dis + 1, true);
                     }
                 }
@@ -170,18 +170,18 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                 }
             }
         }
         if (last) {
-            sb.append("\n" + indent(dis) + "}\n");
+            sb.append("}");
         } else {
-            sb.append("\n" + indent(dis) + "},\n");
+            sb.append("}");
         }
     }
 
@@ -208,11 +208,11 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                     //sb.append("\n" + indent(dis) + "}\n");
                 } else {
-                    sb.append(vList.get(i).getValName().get() + " = ");
+                    sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                     //sb.append("\n" + indent(dis) + "}\n");
                 }
@@ -237,4 +237,53 @@ public final class ExportLua {
 
         return result;
     }
+
+    private static String doFormatting(StringBuilder sb) {
+        StringBuilder sbNew = new StringBuilder();
+
+        for (int i = 0; i < sb.length() - 1; i++) {
+            if (!Character.toString(sb.charAt(i)).equals("#")) {
+                if (Character.toString(sb.charAt(i)).equals("}")) {
+                    sbNew.append("\n}");
+                } else {
+                    sbNew.append(sb.charAt(i));
+                }
+            }
+
+            if (Character.toString(sb.charAt(i)).equals("{")) {
+                sbNew.append("\n");
+            } else if (Character.toString(sb.charAt(i)).equals("}")) {
+                if (Character.toString(sb.charAt(i + 1)).equals("{")) {
+                    sbNew.append(",");
+                } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
+                    // Nichts zu tun
+                } else {
+                    sbNew.append(",\n");
+                }
+            } else if (Character.toString(sb.charAt(i)).equals("#")) {
+                if (Character.toString(sb.charAt(i + 1)).equals("{")) {
+                    sbNew.append(",\n");
+                } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
+                    // Nichts zu tun
+                } else {
+                    sbNew.append(",\n");
+                }
+
+            } else if (Character.toString(sb.charAt(i)).equals("=")) {
+
+            } else {
+                if (Character.toString(sb.charAt(i + 1)).equals("{")) {
+                    sbNew.append(",\n");
+                } else {
+                    // Nichts zu tun
+                }
+            }
+        }
+        sbNew.append("\n}");
+
+        String str = sbNew.toString();
+        System.out.println(str);
+        return str;
+    }
+
 }

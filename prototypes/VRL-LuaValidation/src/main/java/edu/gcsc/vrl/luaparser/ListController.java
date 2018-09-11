@@ -177,7 +177,8 @@ public class ListController {
         exportLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String luaCode = ExportLua.doExport(runtimeObject.getData());
+                //String luaCode = ExportLua.doExport(runtimeObject.getData());
+                String luaCode = ExportLuaAlternative.doExport(runtimeObject.getData());
                 String path = "";
                 try {
                     // Choose Path
