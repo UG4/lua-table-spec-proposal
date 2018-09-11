@@ -182,7 +182,7 @@ public class ListController {
                         List<ValueData> data = new ArrayList<>();
                         Group loadedLua = LoadLua.parseLuaFile(path);
                         LoadLua.visitingLuaCode(loadedLua, data);
-
+                        LoadLua.matchingValues(runtimeObject.getData(),data);
                         /*for(ValueData d : data){
                             System.out.println(d.getValName().get());
                             if(d.getActData() != null && d.getActData().getValue() != null){

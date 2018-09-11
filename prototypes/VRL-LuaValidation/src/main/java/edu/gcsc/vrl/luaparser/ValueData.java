@@ -335,4 +335,15 @@ public class ValueData {
             }
         }
     }
+
+    public boolean hasOptValue(){
+        if(getOptions() != null){
+            for(ValueData v : getOptions()){
+                if(v.isOptValue()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
