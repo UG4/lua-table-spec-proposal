@@ -1,6 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -159,7 +160,40 @@ public class ListController {
         loadLuaFile.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                try {
+                    String path = "";
+                    final FileChooser fc = new FileChooser();
+                    fc.setTitle("Select a Lua-File(*.lua)");
+                    if(!PreferencesUtil.getInitialLuaLoadPath().isEmpty()) {
+                        fc.setInitialDirectory(new File(PreferencesUtil.getInitialLuaLoadPath()));
+                    } else {
+                        fc.setInitialDirectory(new File("C:/Users/"));
+                    }
+                    // Funktioniert vllt nicht für jedes OS
+                    FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
+                    fc.getExtensionFilters().add(extLua);
 
+                    final File selecDir = fc.showOpenDialog(bp.getScene().getWindow());
+                    if (selecDir != null) {
+                        path = selecDir.getAbsolutePath();
+                    }
+
+                    if (!path.isEmpty()) {
+                        List<ValueData> data = new ArrayList<>();
+                        Group loadedLua = LoadLua.parseLuaFile(path);
+                        LoadLua.visitingLuaCode(loadedLua, data);
+
+                        /*for(ValueData d : data){
+                            System.out.println(d.getValName().get());
+                            if(d.getActData() != null && d.getActData().getValue() != null){
+                                System.out.println(d.getActData().getValue());
+                            }
+                            System.out.println("_______-");
+                        }*/
+                    }
+                } catch (IOException io) {
+                    UIHelper.logging("Cant find the file!", loggingField);
+                }
             }
         });
     }

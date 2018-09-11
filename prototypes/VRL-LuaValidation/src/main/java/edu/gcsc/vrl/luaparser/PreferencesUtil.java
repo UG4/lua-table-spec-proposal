@@ -22,9 +22,11 @@ public final class PreferencesUtil {
 
     private static String initialValidationImportPath;
     private static String initialLuaExportPath;
+    private static String initialLuaLoadPath;
 
     private static void setInitialValidationImportPath(String path){ initialValidationImportPath = path; }
     private static void setInitialLuaExportPath(String path){ initialLuaExportPath = path; }
+    private static void setInitialLuaLoadPath(String path){ initialLuaLoadPath = path; }
 
     public static void loadPreferences() throws IOException {
         byte[] xml2data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/Preferences.xml"));
@@ -51,6 +53,8 @@ public final class PreferencesUtil {
                         setInitialValidationImportPath(val);
                         String lua = e.getElementsByTagName("initialLuaExportPath").item(0).getTextContent();
                         setInitialLuaExportPath(lua);
+                        String loadlua = e.getElementsByTagName("initialLuaLoadPath").item(0).getTextContent();
+                        setInitialLuaLoadPath(loadlua);
                     }
                 }
             }
@@ -71,4 +75,6 @@ public final class PreferencesUtil {
     public static String getInitialLuaExportPath(){
         return initialLuaExportPath;
     }
+
+    public static String getInitialLuaLoadPath() { return initialLuaLoadPath; }
 }

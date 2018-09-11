@@ -25,6 +25,7 @@ public class Main extends Application{
         lCon.setLoadValidation();
         lCon.setExportLua();
         lCon.setPrefs();
+        lCon.setLoadLua();
 
         stage.show();
     }
