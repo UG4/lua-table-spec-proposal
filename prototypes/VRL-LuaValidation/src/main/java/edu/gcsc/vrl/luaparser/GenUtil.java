@@ -1,5 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.util.List;
+
 public final class GenUtil {
     public GenUtil() {
         throw new AssertionError();
@@ -78,5 +80,93 @@ public final class GenUtil {
             }
         }
         return false;
+    }
+
+
+    // XPath - Funktionen
+    // Soll eine Liste mit ValueData's zurückgeben, die die Ergebnisse enthält
+    // -> return List<ValueData> ergebnisse;
+    public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
+        ValueData rootNode;
+        ValueData resultNode = null;
+
+        for (ValueData v : treeToSearch) {
+            if ("problem".equals(v.getValName().get())) {
+                rootNode = v;
+
+                if (xpath_expression.startsWith("/")) {
+                    resultNode = doAbsoluteSearch(rootNode, xpath_expression.substring(1));
+                } else if (xpath_expression.startsWith("./")) {
+                    resultNode = doRelativeSearch(rootNode, xpath_expression.substring(2));
+                }
+            } else {
+                rootNode = null;
+                System.out.println("Root-Node doesn't exists!");
+            }
+        }
+        return resultNode;
+    }
+
+    private static ValueData doAbsoluteSearch(ValueData rootNode, String xpath){
+        char[] charsOfPath = xpath.toCharArray();
+        ValueData currentNode = rootNode;
+        StringBuilder currentNameSb = new StringBuilder();
+
+        for (char character : charsOfPath) {
+            if (!"/".equals(String.valueOf(character))) {
+                currentNameSb.append(character);
+            } else if("/".equals(String.valueOf(character))){
+                String currentName = currentNameSb.toString();
+
+                if(currentNode.hasParam(currentName)){
+                    currentNode = currentNode.getParam(currentName);
+                } else {
+                    System.out.println("Given XPath returns no result!");
+                }
+                currentNameSb = new StringBuilder();
+            }
+        }
+        return currentNode;
+    }
+
+    private static ValueData doRelativeSearch(ValueData rootNode, String xpath){
+        boolean firstNode = true;
+        char[] charsOfPath = xpath.toCharArray();
+        ValueData currentNode = rootNode;
+        StringBuilder currentNameSb = new StringBuilder();
+
+        for (char character : charsOfPath) {
+            if (!"/".equals(String.valueOf(character))) {
+                currentNameSb.append(character);
+            } else if("/".equals(String.valueOf(character))){
+                String currentName = currentNameSb.toString();
+                if(firstNode){
+                    firstNode = false;
+                    currentNode = searchCompleteDoc(rootNode, currentName);
+                } else {
+                    if (currentNode.hasParam(currentName)) {
+                        currentNode = currentNode.getParam(currentName);
+                    } else {
+                        System.out.println("Given XPath returns no result!");
+                    }
+                    currentNameSb = new StringBuilder();
+                }
+            }
+        }
+        return currentNode;
+    }
+
+    private static ValueData searchCompleteDoc(ValueData rootNode, String name){
+        if(rootNode.hasParam(name)){
+            return rootNode.getParam(name);
+        } else {
+            if(rootNode.getOptions() != null) {
+                for (ValueData v : rootNode.getOptions()) {
+                    searchCompleteDoc(v,name);
+                }
+            }
+        }
+        System.out.println("Given XPath returns no result!");
+        return null;
     }
 }

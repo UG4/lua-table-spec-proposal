@@ -203,7 +203,11 @@ public class ListController {
         validateLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                // Zum Testen
+                ValueData v = GenUtil.doXPath(runtimeObject.getData(), "./mySubGroup1/mySubVal1/");
+                if(v != null){
+                    System.out.println("Got: "+v.getValName().get());
+                }
             }
         });
     }
