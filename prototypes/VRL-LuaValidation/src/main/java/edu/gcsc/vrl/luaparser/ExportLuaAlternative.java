@@ -15,11 +15,11 @@ public final class ExportLuaAlternative {
         for (int i = 0; i < data.size(); i++) {
             sb.append(data.get(i).getValName().get() + "=");
 
-            if (data.get(i).isAValue()) {
+            if (data.get(i).isAValue() && data.get(i).isSelected()) {
                 if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
                     sb.append(data.get(i).getActData().getValue() + "#");
                 }
-            } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i))) {
+            } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (GenUtil.haveOptValSelected(data.get(i))) {
                     if (i < data.size() - 1) {
                         doSubParams(data.get(i).getOptions(), sb, 1, false);
@@ -37,19 +37,19 @@ public final class ExportLuaAlternative {
                         sb.append("}");
                     }
                 }
-            } else if (data.get(i).isOption() && !GenUtil.haveOptValue(data.get(i))) {
+            } else if (data.get(i).isOption() && !GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (i < data.size() - 1) {
                     doOption(data.get(i).getOptions(), sb, 1, false);
                 } else {
                     doOption(data.get(i).getOptions(), sb, 1, true);
                 }
-            } else if (data.get(i).isNotOptGroup() && !GenUtil.haveOptValue(data.get(i))) {
+            } else if (data.get(i).isNotOptGroup() && !GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (i < data.size() - 1) {
                     doNotOpt(data.get(i).getOptions(), sb, 1, false);
                 } else {
                     doNotOpt(data.get(i).getOptions(), sb, 1, true);
                 }
-            } else if (data.get(i).isOptValue()) {
+            } else if (data.get(i).isOptValue() && data.get(i).isSelected()) {
                 if (i < data.size() - 1) {
                     doOptVal(data.get(i), sb, 1, false);
                 } else {
@@ -105,7 +105,7 @@ public final class ExportLuaAlternative {
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         //System.out.println("Opt val");
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            sb.append(vData.getActData().getValue());
+            sb.append(vData.getActData().getValue() + "#");
         }
     }
 
@@ -216,6 +216,7 @@ public final class ExportLuaAlternative {
 
     private static String doFormatting(StringBuilder sb) {
         StringBuilder sbNew = new StringBuilder();
+        System.out.println(sb.toString());
 
         for (int i = 0; i < sb.length() - 1; i++) {
             if (!Character.toString(sb.charAt(i)).equals("#")) {

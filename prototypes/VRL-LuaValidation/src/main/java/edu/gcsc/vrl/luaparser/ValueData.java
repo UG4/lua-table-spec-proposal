@@ -270,6 +270,7 @@ public class ValueData {
     }
 
     public void setSelectedNew(boolean sel){
+        ValueData act = this;
         if(!this.isDisabled()) {
             if (sel) {
                 if (isOption() || isOptValue()) {
@@ -277,7 +278,7 @@ public class ValueData {
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
                         GenUtil.selectAllParentNodes(this);
                         for (ValueData v : getParentNode().getOptions()) {
-                            if ((v.isOption()||v.isOptValue()) && !v.equals(this)) {
+                            if ((v.isOption()||v.isOptValue()) && !v.equals(act)) {
                                 GenUtil.disableWithAllChildNodes(v);
                             }
                         }
@@ -287,10 +288,11 @@ public class ValueData {
                 if (isOption() || isOptValue()) {
                     setSelection(false);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
-
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue())) {
                                 GenUtil.enableWithAllChildNodes(v);
+                            } else {
+
                             }
                         }
                     }
