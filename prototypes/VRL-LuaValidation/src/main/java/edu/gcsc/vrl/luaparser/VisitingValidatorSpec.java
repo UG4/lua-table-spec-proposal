@@ -52,7 +52,7 @@ public final class VisitingValidatorSpec {
                     visitTwo(p, dataList, xd);
                 }
 
-            } else if(!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
+            } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
                 //OPTIONALER VALUE
                 System.out.println(e.getName() + " is a optional Value!");
 
@@ -129,7 +129,7 @@ public final class VisitingValidatorSpec {
                     visitTwo(p, dataList, xd);
                 }
 
-            } else if(!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
+            } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
                 //OPTIONALER VALUE
                 System.out.println(e.getName() + " is a optional Value!");
 
@@ -176,12 +176,12 @@ public final class VisitingValidatorSpec {
         return false;
     }
 
-    private static boolean isOptVal(Entry e){
-        if(e instanceof Group){
-            if(NumberUtils.isNumber(e.getName())){
-                for(Entry p : ((Group) e).getEntries()){
-                    if(p instanceof Value){
-                        if("type".equals(p.getName())){
+    private static boolean isOptVal(Entry e) {
+        if (e instanceof Group) {
+            if (NumberUtils.isNumber(e.getName())) {
+                for (Entry p : ((Group) e).getEntries()) {
+                    if (p instanceof Value) {
+                        if ("type".equals(p.getName())) {
                             return true;
                         }
                     }
@@ -222,8 +222,10 @@ public final class VisitingValidatorSpec {
                             }
                             break;
                         case "visibility":
+                            setVisibilityInfos((Group) l, vd);
                             break;
                         case "validation":
+                            setValidationInfos((Group) l, vd);
                             break;
                     }
                 }
@@ -255,5 +257,47 @@ public final class VisitingValidatorSpec {
             }
         }
         return null;
+    }
+
+    private static void setVisibilityInfos(Group visib, ValueData vd) {
+        for (Entry e : visib.getEntries()) {
+            switch (e.getName()) {
+                case "dependsOn":
+                    String[] dO = new String[((Group) e).getEntries().size()];
+                    for (int i = 0; i < ((Group) e).getEntries().size(); i++) {
+                        Value h = (Value) ((Group) e).getEntries().get(i);
+                        dO[i] = h.getValueAsString();
+                    }
+                    vd.setVis_dependsOn(dO);
+                    break;
+                case "eval":
+                    Value eval = ((Value) e);
+                    if (eval.isFunction()) {
+                        vd.setVis_eval(eval);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private static void setValidationInfos(Group valid, ValueData vd) {
+        for (Entry e : valid.getEntries()) {
+            switch (e.getName()) {
+                case "dependsOn":
+                    String[] dO = new String[((Group) e).getEntries().size()];
+                    for (int i = 0; i < ((Group) e).getEntries().size(); i++) {
+                        Value h = (Value) ((Group) e).getEntries().get(i);
+                        dO[i] = h.getValueAsString();
+                    }
+                    vd.setValid_dependsOn(dO);
+                    break;
+                case "eval":
+                    Value eval = ((Value) e);
+                    if (eval.isFunction()) {
+                        vd.setValid_eval(eval);
+                    }
+                    break;
+            }
+        }
     }
 }
