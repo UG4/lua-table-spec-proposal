@@ -117,7 +117,7 @@ public final class GenUtil {
                 if (currentNode.hasParam(currentName)) {
                     currentNode = currentNode.getParam(currentName);
                 } else {
-                    System.out.println("Given XPath returns no result!");
+
                 }
                 currentNameSb = new StringBuilder();
             }
@@ -150,7 +150,7 @@ public final class GenUtil {
                                 if (currentNode.hasParam(currentName)) {
                                     currentNode = currentNode.getParam(currentName);
                                 } else {
-                                    System.out.println("Given XPath returns no result!");
+
                                 }
                                 currentNameSb = new StringBuilder();
                             }
@@ -159,7 +159,7 @@ public final class GenUtil {
                 }
             }
         } else {
-            System.out.println("FAIL");
+
         }
         return currentNode;
     }

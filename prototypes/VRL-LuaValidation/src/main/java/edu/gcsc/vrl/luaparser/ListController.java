@@ -203,12 +203,15 @@ public class ListController {
         validateLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // Zum Testen
+                // Zum Testen 3 verschiedene Varianten, um zum selben Parameter zu gelangen
                 ValueData x = GenUtil.doXPath(runtimeObject.getData(), "/problem/myGroup/mySubGroup1/mySubVal1/");
                 ValueData v = GenUtil.doXPath(runtimeObject.getData(), "./mySubGroup1/mySubVal1/");
+                ValueData y = GenUtil.doXPath(runtimeObject.getData(), "./mySubVal1/");
+
                 if(v != null && x != null){
                     System.out.println("Got: "+x.getValName().get());
                     System.out.println("Got: "+v.getValName().get());
+                    System.out.println("Got: "+y.getValName().get());
                 }
             }
         });
