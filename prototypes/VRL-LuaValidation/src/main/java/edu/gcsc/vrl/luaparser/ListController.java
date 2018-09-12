@@ -204,8 +204,10 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 // Zum Testen
+                ValueData x = GenUtil.doXPath(runtimeObject.getData(), "/problem/myGroup/mySubGroup1/mySubVal1/");
                 ValueData v = GenUtil.doXPath(runtimeObject.getData(), "./mySubGroup1/mySubVal1/");
-                if(v != null){
+                if(v != null && x != null){
+                    System.out.println("Got: "+x.getValName().get());
                     System.out.println("Got: "+v.getValName().get());
                 }
             }
