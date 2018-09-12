@@ -223,6 +223,8 @@ public final class VisitingValidatorSpec {
                             break;
                         case "visibility":
                             break;
+                        case "validation":
+                            break;
                     }
                 }
             }

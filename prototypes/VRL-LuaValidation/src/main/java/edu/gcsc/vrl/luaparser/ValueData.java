@@ -39,13 +39,20 @@ public class ValueData {
     private double range_min;
     private double range_max;
     private double[] values;
-    private boolean visibility;
     private ActualDataValue actData = null;
     private boolean isNestedGroup;
     private boolean optGroup;
     private boolean notOptGroup;
     private boolean isOptVal;
     private boolean isAValue = false;
+    /* Alle Parameter, die zu visibility gehören*/
+    private boolean visibility;
+    private String[] vis_dependsOn;
+    private Value vis_eval;
+    /* Alle Parameter, die zu validation gehören*/
+    private boolean validationIsValid;
+    private String[] valid_dependsOn;
+    private Value valid_eval;
 
     // Only for GUI
     private boolean selected = false;
@@ -58,146 +65,102 @@ public class ValueData {
         return this.valProp;
     }
 
-    public List<ValueData> getOptions() {
-        return this.subParams;
-    }
+    public List<ValueData> getOptions() { return this.subParams; }
 
-    public void addSubParam(ValueData a) {
-        this.subParams.add(a);
-    }
+    public void addSubParam(ValueData a) { this.subParams.add(a); }
 
-    public StringProperty getValName() {
-        return this.valName;
-    }
+    public StringProperty getValName() { return this.valName; }
 
-    public StringProperty getType() {
-        return this.type;
-    }
+    public StringProperty getType() { return this.type; }
 
-    public String getDefaultVal() {
-        return this.defaultVal;
-    }
+    public String getDefaultVal() { return this.defaultVal; }
 
-    public String getStyle() {
-        return this.style;
-    }
+    public String getStyle() { return this.style; }
 
-    public String getTooltip() {
-        return this.tooltip;
-    }
+    public String getTooltip() { return this.tooltip; }
 
-    public double getRange_min() {
-        return this.range_min;
-    }
+    public double getRange_min() { return this.range_min; }
 
-    public double getRange_max() {
-        return this.range_max;
-    }
+    public double getRange_max() { return this.range_max; }
 
-    public double[] getValues() {
-        return this.values;
-    }
+    public double[] getValues() { return this.values; }
 
-    public boolean isVisible() {
-        return this.visibility;
-    }
+    public boolean isVisible() { return this.visibility; }
 
-    public ActualDataValue getActData() {
-        return this.actData;
-    }
+    public ActualDataValue getActData() { return this.actData; }
 
-    public boolean isNestedGroup() {
-        return this.isNestedGroup;
-    }
+    public boolean isNestedGroup() { return this.isNestedGroup; }
 
-    public boolean isSelected() {
-        return selected;
-    }
+    public boolean isSelected() { return this.selected; }
 
-    public boolean isDisabled() {
-        return disabled;
-    }
+    public boolean isDisabled() { return this.disabled; }
 
-    public ValueData getParentNode() {
-        return parentNode;
-    }
+    public ValueData getParentNode() { return this.parentNode; }
 
-    public boolean isAValue() {
-        return isAValue;
-    }
+    public boolean isAValue() { return this.isAValue; }
 
-    public boolean isOption() { return optGroup; }
+    public String[] getValid_dependsOn() { return this.valid_dependsOn; }
+
+    public String[] getVis_dependsOn() { return this.vis_dependsOn; }
+
+    public boolean isValidationValid() { return this.validationIsValid; }
+
+    public Value getValid_eval() { return this.valid_eval; }
+
+    public Value getVis_eval() { return this.vis_eval; }
+
+    public boolean isOption() { return this.optGroup; }
 
     public boolean isOptValue() { return this.isOptVal; }
 
     public boolean isNotOptGroup() { return this.notOptGroup; }
 
     // SETTER - Methoden
-    public void setSubParams(List<ValueData> subParams) {
-        this.subParams = subParams;
-    }
+    public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
 
-    public void setType(String type) {
-        this.type = new SimpleStringProperty(type);
-    }
+    public void setType(String type) { this.type = new SimpleStringProperty(type); }
 
-    public void setDefaultVal(String defaultVal) {
-        this.defaultVal = defaultVal;
-    }
+    public void setDefaultVal(String defaultVal) { this.defaultVal = defaultVal; }
 
-    public void setStyle(String style) {
-        this.style = style;
-    }
+    public void setStyle(String style) { this.style = style; }
 
-    public void setTooltip(String tooltip) {
-        this.tooltip = tooltip;
-    }
+    public void setTooltip(String tooltip) { this.tooltip = tooltip; }
 
-    public void setRange_min(double range_min) {
-        this.range_min = range_min;
-    }
+    public void setRange_min(double range_min) { this.range_min = range_min; }
 
-    public void setRange_max(double range_max) {
-        this.range_max = range_max;
-    }
+    public void setRange_max(double range_max) { this.range_max = range_max; }
 
-    public void setValues(double[] values) {
-        this.values = values;
-    }
+    public void setValues(double[] values) { this.values = values; }
 
-    public void setVisibility(boolean visibility) {
-        this.visibility = visibility;
-    }
+    public void setVisibility(boolean visibility) { this.visibility = visibility; }
 
-    public void setActData(ActualDataValue dat) {
-        this.actData = dat;
-    }
+    public void setActData(ActualDataValue dat) { this.actData = dat; }
 
-    public void setNestedGroup(boolean isNestedGroup) {
-        this.isNestedGroup = isNestedGroup;
-    }
+    public void setNestedGroup(boolean isNestedGroup) { this.isNestedGroup = isNestedGroup; }
 
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
+    public void setDisabled(boolean disabled) { this.disabled = disabled; }
 
-    public void setSelection(boolean selected) {
-        this.selected = selected;
-    }
+    public void setSelection(boolean selected) { this.selected = selected; }
 
-    public void setParentNode(ValueData parentNode) {
-        this.parentNode = parentNode;
-    }
+    public void setParentNode(ValueData parentNode) { this.parentNode = parentNode; }
 
     public void setOptional(boolean isOpt){ this.optGroup = isOpt; }
 
-    public void isValue(boolean AValue) {
-        isAValue = AValue;
-    }
+    public void isValue(boolean AValue) { this.isAValue = AValue; }
 
     public void setOptVal(boolean opt){ this.isOptVal = opt; }
 
     public void setNotOptGroup(boolean notOpt) { this.notOptGroup = notOpt; }
+
+    public void setValid_dependsOn(String[] valid_dependsOn) { this.valid_dependsOn = valid_dependsOn; }
+
+    public void setValid_eval(Value valid_eval) { this.valid_eval = valid_eval; }
+
+    public void setVis_dependsOn(String[] vis_dependsOn) { this.vis_dependsOn = vis_dependsOn; }
+
+    public void setVis_eval(Value vis_eval) { this.vis_eval = vis_eval; }
+
+    public void setValidationIsValid(boolean validationIsValid) { this.validationIsValid = validationIsValid; }
 
     // Objektmethoden
 
