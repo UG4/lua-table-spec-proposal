@@ -84,8 +84,7 @@ public final class GenUtil {
 
 
     // XPath - Funktionen
-    // Soll eine Liste mit ValueData's zurückgeben, die die Ergebnisse enthält
-    // -> return List<ValueData> ergebnisse;
+
     public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
         ValueData rootNode = new ValueData("problem");
         for (ValueData x : treeToSearch) {
@@ -95,19 +94,12 @@ public final class GenUtil {
         treeToSearch.add(0, rootNode);
         ValueData resultNode = null;
 
-        //for (ValueData v : treeToSearch) {
-        //if ("problem".equals(v.getValName().get())) {
-
         if (xpath_expression.startsWith("/")) {
             resultNode = doAbsoluteSearch(rootNode, xpath_expression.substring(1));
         } else if (xpath_expression.startsWith("./")) {
             resultNode = doRelativeSearch(rootNode, xpath_expression.substring(2));
         }
-        //} else {
-        rootNode = null;
-        System.out.println("Root-Node doesn't exists!");
-        //}
-        //}
+
         return resultNode;
     }
 
