@@ -1,7 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
-import jdk.internal.util.xml.impl.Input;
+//import jdk.internal.util.xml.impl.Input;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
