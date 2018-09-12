@@ -146,6 +146,7 @@ public class ListController {
                     if (!path.isEmpty()) {
                         Validator v = new Validator(path);
                         setValidator(v);
+                        v.setValidationFileName(selecDir.getName());
                         v.visiting();
                         initData(runtimeObject.getData());
                     }
@@ -212,7 +213,7 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 //String luaCode = ExportLua.doExport(runtimeObject.getData());
-                String luaCode = ExportLuaAlternative.doExport(runtimeObject.getData());
+                String luaCode = ExportLuaAlternative.doExport(runtimeObject.getData(), runtimeObject.getValidationFileName());
                 String path = "";
                 try {
                     // Choose Path

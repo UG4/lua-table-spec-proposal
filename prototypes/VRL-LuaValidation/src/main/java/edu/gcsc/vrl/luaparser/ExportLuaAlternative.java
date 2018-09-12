@@ -8,7 +8,7 @@ public final class ExportLuaAlternative {
         throw new AssertionError();
     }
 
-    public static String doExport(List<ValueData> data) {
+    public static String doExport(List<ValueData> data, String filename) {
         StringBuilder sb = new StringBuilder();
         sb.append("problem={");
 
@@ -59,7 +59,7 @@ public final class ExportLuaAlternative {
         }
 
         sb.append("}");
-        String str = doFormatting(sb);
+        String str = doFormatting(sb, filename);
 
         return str;
     }
@@ -214,8 +214,9 @@ public final class ExportLuaAlternative {
         return result;
     }
 
-    private static String doFormatting(StringBuilder sb) {
+    private static String doFormatting(StringBuilder sb, String filename) {
         StringBuilder sbNew = new StringBuilder();
+        sbNew.append("--validation file: " + filename + "\n");
         System.out.println(sb.toString());
 
         for (int i = 0; i < sb.length() - 1; i++) {

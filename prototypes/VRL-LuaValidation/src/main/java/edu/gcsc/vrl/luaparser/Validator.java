@@ -20,6 +20,8 @@ public class Validator {
     * */
     private List<ValueData> myData;
     private Group importedCode;
+    private String validationFileName;
+    private String validationFilePath;
 
     /*
     * GETTER / SETTER Methoden
@@ -28,11 +30,18 @@ public class Validator {
         return this.myData;
     }
 
+    public String getValidationFileName() { return validationFileName; }
+
+    public String getValidationFilePath() { return validationFilePath; }
+
+    public void setValidationFileName(String fileName){ this.validationFileName = fileName; }
+
     /*
     * Konstruktor
     * */
     public Validator(String filepath) throws IOException{
-        //System.out.println(filepath);
+        // Set the filepath
+        this.validationFilePath = filepath;
         // load lua code
         byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
         String code = new String(code2Data, "UTF-8");
