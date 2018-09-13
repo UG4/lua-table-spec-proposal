@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -222,7 +221,7 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 //String luaCode = ExportLua.doExport(runtimeObject.getData());
-                String luaCode = ExportLuaAlternative.doExport(runtimeObject.getData(), runtimeObject.getValidationFileName());
+                String luaCode = ExportLua.doExport(runtimeObject.getData(), runtimeObject.getValidationFileName());
                 String path = "";
                 try {
                     // Choose Path

@@ -40,7 +40,6 @@ public class ValueData {
     private double range_max;
     private double[] values;
     private ActualDataValue actData = null;
-    private boolean isNestedGroup;
     private boolean optGroup;
     private boolean notOptGroup;
     private boolean isOptVal;
@@ -89,8 +88,6 @@ public class ValueData {
 
     public ActualDataValue getActData() { return this.actData; }
 
-    public boolean isNestedGroup() { return this.isNestedGroup; }
-
     public boolean isSelected() { return this.selected; }
 
     public boolean isDisabled() { return this.disabled; }
@@ -135,8 +132,6 @@ public class ValueData {
     public void setVisibility(boolean visibility) { this.visibility = visibility; }
 
     public void setActData(ActualDataValue dat) { this.actData = dat; }
-
-    public void setNestedGroup(boolean isNestedGroup) { this.isNestedGroup = isNestedGroup; }
 
     public void setDisabled(boolean disabled) { this.disabled = disabled; }
 
@@ -195,28 +190,6 @@ public class ValueData {
             }
         }
         //System.out.println("Sub-Param doesn't exist!");
-        return false;
-    }
-
-    public boolean havingParams(){
-        if(getOptions() != null){
-            for(ValueData v : getOptions()){
-                if(v.isAValue() && NumberUtils.isNumber(v.getValName().get())){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean havingParamsExtended(){
-        if(getOptions() != null){
-            for(ValueData v : getOptions()){
-                if((v.isAValue() && NumberUtils.isNumber(v.getValName().get())) || v.havingParams()){
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
