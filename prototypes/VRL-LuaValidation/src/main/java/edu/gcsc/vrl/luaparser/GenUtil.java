@@ -1,11 +1,14 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class GenUtil {
     public GenUtil() {
         throw new AssertionError();
     }
+
+    // Helping-Functions: Selection Model for Params
 
     public static void disableWithAllChildNodes(ValueData v) {
         v.setDisabled(true);
@@ -82,8 +85,55 @@ public final class GenUtil {
         return false;
     }
 
+    // Helping-Functions: DependsOn
+    public static List<ValueData> getDependingValues(List<ValueData> dataToSearch){
+        List<ValueData> dependingValues = new ArrayList<>();
 
-    // XPath - Funktionen
+        for(ValueData v : dataToSearch){
+            if(v.dependsOn()){
+                dependingValues.add(v);
+            }
+            if(v.getOptions() != null){
+                for(ValueData vd: v.getOptions()){
+                    searchDependingValues(dependingValues,vd);
+                }
+            }
+        }
+
+        return dependingValues;
+    }
+
+    private static void searchDependingValues(List<ValueData> dependingValues, ValueData actObj){
+        if(actObj.dependsOn()){
+            dependingValues.add(actObj);
+        }
+        if(actObj.getOptions() != null){
+            for(ValueData v : actObj.getOptions()){
+                searchDependingValues(dependingValues,v);
+            }
+        }
+    }
+
+    public static void validateAValue(ValueData objectToValidate, List<ValueData> runtimeData){
+        List<ValueData> valuesObjDependsOn = new ArrayList<>();
+
+        for(String dependsOnVal : objectToValidate.getValid_dependsOn()){
+            ValueData act = doXPath(runtimeData,dependsOnVal);
+            if(act != null){
+                valuesObjDependsOn.add(act);
+            }
+        }
+
+    }
+
+    private static void visibilityValidation(){}
+
+    private static void validationValidate(){}
+
+    private static void cycleCheck(){}
+
+
+    // Helping-Functions: XPath Implementation
 
     public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
         ValueData rootNode = new ValueData("problem");

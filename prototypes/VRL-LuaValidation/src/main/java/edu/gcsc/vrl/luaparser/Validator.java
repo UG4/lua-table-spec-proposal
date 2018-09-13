@@ -64,4 +64,9 @@ public class Validator {
             this.myData = dataList;
         }
     }
+
+    public void validate(){
+        List<ValueData> dependingValues = GenUtil.getDependingValues(getData());
+
+    }
 }
