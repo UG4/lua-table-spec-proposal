@@ -66,7 +66,37 @@ public class Validator {
     }
 
     public void validate(){
-        List<ValueData> dependingValues = GenUtil.getDependingValues(getData());
+        List<ValueData> dependingValidValues = GenUtil.getDependingValidateValues(getData());
+        List<ValueData> allValues = GenUtil.getAllValues(getData());
+        ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
+        boolean circle = false;
+
+        for(int i = 0; i < allValues.size(); i++){
+            dependings[i] = GenUtil.validateAValue(allValues.get(i), getData(),allValues.size());
+        }
+
+        int[][] dep = new int[allValues.size()][allValues.size()];
+
+        for (int i = 0; i < allValues.size(); i++) {
+            for(int j = 0; j < allValues.size(); j++){
+                if(GenUtil.containsVD(dependings[i],allValues.get(j))){
+                    dep[i][j] = 1;
+                } else {
+                    dep[i][j] = 0;
+                }
+            }
+        }
+
+        for (int i = 0; i < allValues.size(); i++) {
+            for(int j = 0; j < allValues.size(); j++){
+                if((dep[i][j] == 1) && (dep[j][i] == 1)){
+                    circle = true;
+                }
+            }
+        }
+
+        System.out.println("CIRCLE: " + circle);
+
 
     }
 }

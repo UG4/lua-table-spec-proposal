@@ -263,7 +263,7 @@ public final class VisitingValidatorSpec {
         for (Entry e : visib.getEntries()) {
             switch (e.getName()) {
                 case "dependsOn":
-                    vd.setDependsOn(true);
+                    vd.setDependsOnVisible(true);
                     String[] dO = new String[((Group) e).getEntries().size()];
                     for (int i = 0; i < ((Group) e).getEntries().size(); i++) {
                         Value h = (Value) ((Group) e).getEntries().get(i);
@@ -285,7 +285,7 @@ public final class VisitingValidatorSpec {
         for (Entry e : valid.getEntries()) {
             switch (e.getName()) {
                 case "dependsOn":
-                    vd.setDependsOn(true);
+                    vd.setDependsOnValidate(true);
                     String[] dO = new String[((Group) e).getEntries().size()];
                     for (int i = 0; i < ((Group) e).getEntries().size(); i++) {
                         Value h = (Value) ((Group) e).getEntries().get(i);

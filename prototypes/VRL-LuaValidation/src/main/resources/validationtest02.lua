@@ -25,13 +25,21 @@ problem = {
         -- specification for problem.myGroup.mySubGroup.mySubVal1
         mySubVal1 = {
             type = "Integer",
-            default = 10
+            default = 10,
+
+            validation = {
+                dependsOn = {"./mySubGroup1/mySubVal2/"}
+            }
         },
         
         -- specification for problem.myGroup.mySubGroup.mySubVal2
         mySubVal2 = {
             type = "Integer",
-            default = 10
+            default = 10,
+
+            validation = {
+                dependsOn = {"./mySubGroup2/mySubVal11/"}
+            }
         }
     },
 

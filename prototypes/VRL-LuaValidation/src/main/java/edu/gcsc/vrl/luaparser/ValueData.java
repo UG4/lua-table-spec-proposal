@@ -44,7 +44,8 @@ public class ValueData {
     private boolean notOptGroup;
     private boolean isOptVal;
     private boolean isAValue = false;
-    private boolean dependsOnValue;
+    private boolean dependsOnValidate;
+    private boolean dependsOnVisible;
     /* Alle Parameter, die zu visibility gehören*/
     private boolean visibility;
     private String[] vis_dependsOn;
@@ -113,7 +114,9 @@ public class ValueData {
 
     public boolean isNotOptGroup() { return this.notOptGroup; }
 
-    public boolean dependsOn(){ return this.dependsOnValue; }
+    public boolean dependsOnValidate(){ return this.dependsOnValidate; }
+
+    public boolean dependsOnVisible() { return this.dependsOnVisible; }
 
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
@@ -160,7 +163,9 @@ public class ValueData {
 
     public void setValidationIsValid(boolean validationIsValid) { this.validationIsValid = validationIsValid; }
 
-    public void setDependsOn(boolean dependsOn){ this.dependsOnValue = dependsOn; }
+    public void setDependsOnValidate(boolean dependsOn){ this.dependsOnValidate = dependsOn; }
+
+    public void setDependsOnVisible(boolean dependsOn) { this.dependsOnVisible = dependsOn; }
 
     // Objektmethoden
 

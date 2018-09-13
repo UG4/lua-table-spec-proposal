@@ -86,16 +86,16 @@ public final class GenUtil {
     }
 
     // Helping-Functions: DependsOn
-    public static List<ValueData> getDependingValues(List<ValueData> dataToSearch){
+    public static List<ValueData> getDependingValidateValues(List<ValueData> dataToSearch){
         List<ValueData> dependingValues = new ArrayList<>();
 
         for(ValueData v : dataToSearch){
-            if(v.dependsOn()){
+            if(v.dependsOnValidate()){
                 dependingValues.add(v);
             }
             if(v.getOptions() != null){
                 for(ValueData vd: v.getOptions()){
-                    searchDependingValues(dependingValues,vd);
+                    searchDependingValidateValues(dependingValues,vd);
                 }
             }
         }
@@ -103,34 +103,96 @@ public final class GenUtil {
         return dependingValues;
     }
 
-    private static void searchDependingValues(List<ValueData> dependingValues, ValueData actObj){
-        if(actObj.dependsOn()){
+    private static void searchDependingValidateValues(List<ValueData> dependingValues, ValueData actObj){
+        if(actObj.dependsOnValidate()){
             dependingValues.add(actObj);
         }
         if(actObj.getOptions() != null){
             for(ValueData v : actObj.getOptions()){
-                searchDependingValues(dependingValues,v);
+                searchDependingValidateValues(dependingValues,v);
             }
         }
     }
 
-    public static void validateAValue(ValueData objectToValidate, List<ValueData> runtimeData){
-        List<ValueData> valuesObjDependsOn = new ArrayList<>();
+    public static ValueData[] validateAValue(ValueData objectToValidate, List<ValueData> runtimeData, int len){
+        List<ValueData> validObjDependsOn = new ArrayList<>();
+        //List<ValueData> visibObjDependsOn = new ArrayList<>();
 
-        for(String dependsOnVal : objectToValidate.getValid_dependsOn()){
-            ValueData act = doXPath(runtimeData,dependsOnVal);
-            if(act != null){
-                valuesObjDependsOn.add(act);
+        if(objectToValidate.getValid_dependsOn() != null) {
+            for (String dependsOnVal : objectToValidate.getValid_dependsOn()) {
+                ValueData act = doXPath(runtimeData, dependsOnVal);
+                if (act != null) {
+                    validObjDependsOn.add(act);
+                }
+            }
+            // Was wird mit den Werten gemacht
+        }
+        ValueData[] result = new ValueData[len];
+
+        for(int i = 0; i < validObjDependsOn.size(); i++){
+            result[i] = validObjDependsOn.get(i);
+        }
+
+        return result;
+
+        /*if(objectToValidate.getVis_dependsOn() != null){
+            for(String dependsOnVal : objectToValidate.getVis_dependsOn()){
+                ValueData act = doXPath(runtimeData, dependsOnVal);
+                if(act != null){
+                    visibObjDependsOn.add(act);
+                }
+            }
+            // Was wird mit den Werten gemacht
+        }*/
+
+    }
+
+    public static boolean containsVD(ValueData[] vData, ValueData v){
+        for(int i = 0; i < vData.length; i++){
+            if(vData[i] != null){
+                if(vData[i].equals(v)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Alle Values (nicht die optionalen!) herausfinden TEIL1
+    public static List<ValueData> getAllValues(List<ValueData> data){
+        List<ValueData> vals = new ArrayList<>();
+
+        for(ValueData v : data){
+            if(v.isAValue()){
+                vals.add(v);
+            }
+            if(v.getOptions() != null){
+                for(ValueData vd : v.getOptions()) {
+                    getVal(vals, vd);
+                }
             }
         }
 
+        return vals;
+    }
+
+    // Alle Values (nicht die optionalen!) herausfinden TEIL2
+    private static void getVal(List<ValueData> vals, ValueData act){
+        if(act.isAValue()){
+            vals.add(act);
+        }
+        if(act.getOptions() != null){
+            for(ValueData v : act.getOptions()){
+                getVal(vals,v);
+            }
+        }
     }
 
     private static void visibilityValidation(){}
 
     private static void validationValidate(){}
 
-    private static void cycleCheck(){}
+    private static void cycleCheck(List<ValueData> runtimeData, List<ValueData> valuesToCheck){}
 
 
     // Helping-Functions: XPath Implementation
