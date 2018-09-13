@@ -38,7 +38,7 @@ problem = {
             default = 10,
 
             validation = {
-                dependsOn = {"./mySubGroup2/mySubVal11/"}
+                dependsOn = {"./mySubGroup1/mySubVal1/"}
             }
         }
     },

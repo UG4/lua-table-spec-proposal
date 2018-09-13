@@ -86,6 +86,35 @@ public final class GenUtil {
     }
 
     // Helping-Functions: DependsOn
+
+    public static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
+        int[] initCoord = getCoor(node,len);
+        int x = initCoord[0];
+        int y = initCoord[1];
+        boolean cyc = false;
+
+        if(markierung[node] == 1){
+            cyc = true;
+        } else if(markierung[node] == 0){
+            markierung[node] = 1;
+            for(int i = 0; i < len; i++){
+                if(adjazenz[i][node] == 1) {
+                    cyc = cycle(i,markierung,adjazenz,len);
+                    markierung[node] = 2;
+                }
+            }
+        }
+        return cyc;
+    }
+
+    private static int[] getCoor(int nodeNum, int len){
+        int x = nodeNum%len;
+        int y = nodeNum/len;
+        int[] xy = {x,y};
+        return xy;
+    }
+
+
     public static List<ValueData> getDependingValidateValues(List<ValueData> dataToSearch){
         List<ValueData> dependingValues = new ArrayList<>();
 
@@ -114,9 +143,9 @@ public final class GenUtil {
         }
     }
 
-    public static ValueData[] validateAValue(ValueData objectToValidate, List<ValueData> runtimeData, int len){
+    public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData){
         List<ValueData> validObjDependsOn = new ArrayList<>();
-        //List<ValueData> visibObjDependsOn = new ArrayList<>();
+
 
         if(objectToValidate.getValid_dependsOn() != null) {
             for (String dependsOnVal : objectToValidate.getValid_dependsOn()) {
@@ -127,13 +156,9 @@ public final class GenUtil {
             }
             // Was wird mit den Werten gemacht
         }
-        ValueData[] result = new ValueData[len];
 
-        for(int i = 0; i < validObjDependsOn.size(); i++){
-            result[i] = validObjDependsOn.get(i);
-        }
 
-        return result;
+        return validObjDependsOn;
 
         /*if(objectToValidate.getVis_dependsOn() != null){
             for(String dependsOnVal : objectToValidate.getVis_dependsOn()){
@@ -148,6 +173,7 @@ public final class GenUtil {
     }
 
     public static boolean containsVD(ValueData[] vData, ValueData v){
+        //System.out.println(vData[0] + " Val: " + v.getValName().get());
         for(int i = 0; i < vData.length; i++){
             if(vData[i] != null){
                 if(vData[i].equals(v)){
