@@ -76,9 +76,9 @@ public class Validator {
         List<ValueData> allValues = GenUtil.getAllValues(getData());
         ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
 
+        // Matrix mit den Abhängigkeiten für jeden Parameter erstellen
         for (int i = 0; i < allValues.size(); i++) {
             List<ValueData> vals = GenUtil.validateAValue(allValues.get(i), getData());
-            ValueData[] kl = new ValueData[allValues.size()];
             for (int j = 0; j < vals.size(); j++) {
                 dependings[i][j] = vals.get(j);
             }
@@ -107,10 +107,8 @@ public class Validator {
         System.out.println(sh.toString());
 
 
-        // 0 = noch nicht bearbeitet
-        // 1 = in bearbeitung
-        // 2 = bereits bearbeitet
 
+        // Zyklen werden erkannt
         for (int x = 0; x < allValues.size(); x++) {
             int[] marking = new int[allValues.size()];
             for (int i = 0; i < allValues.size(); i++) {

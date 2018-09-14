@@ -86,7 +86,8 @@ public final class GenUtil {
     }
 
     // Helping-Functions: DependsOn
-
+    // Erweiterte Tiefensuche mit Zyklenerkennung
+    // 0 = noch nicht bearbeitet; 1 = in Bearbeitung; 2 = bereits bearbeitet
     public static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
         int[] initCoord = getCoor(node,len);
         int x = initCoord[0];
@@ -107,6 +108,7 @@ public final class GenUtil {
         return cyc;
     }
 
+    // Hilfsfunktion, um für einen bestimmten Knoten die Koordinaten in der Adjazenzmatrix heraus zu finden
     private static int[] getCoor(int nodeNum, int len){
         int x = nodeNum%len;
         int y = nodeNum/len;
@@ -114,7 +116,7 @@ public final class GenUtil {
         return xy;
     }
 
-
+    // Alle Parameter mit einer dependsOn-Abhängigkeit herausfinden( bzgl. validate)
     public static List<ValueData> getDependingValidateValues(List<ValueData> dataToSearch){
         List<ValueData> dependingValues = new ArrayList<>();
 
@@ -132,6 +134,7 @@ public final class GenUtil {
         return dependingValues;
     }
 
+    // Hilfsfunktion für dependsOn-Funktion
     private static void searchDependingValidateValues(List<ValueData> dependingValues, ValueData actObj){
         if(actObj.dependsOnValidate()){
             dependingValues.add(actObj);
@@ -143,6 +146,7 @@ public final class GenUtil {
         }
     }
 
+    // Alle dependsOn-Werte für einen Parameter herausfinden und in einer Liste speichern
     public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData){
         List<ValueData> validObjDependsOn = new ArrayList<>();
 
@@ -172,6 +176,7 @@ public final class GenUtil {
 
     }
 
+    // Hilfsfunktion, die checkt, ob ein Array ein bestimmtes ValueData-Objekt enthält
     public static boolean containsVD(ValueData[] vData, ValueData v){
         //System.out.println(vData[0] + " Val: " + v.getValName().get());
         for(int i = 0; i < vData.length; i++){
@@ -217,9 +222,6 @@ public final class GenUtil {
     private static void visibilityValidation(){}
 
     private static void validationValidate(){}
-
-    private static void cycleCheck(List<ValueData> runtimeData, List<ValueData> valuesToCheck){}
-
 
     // Helping-Functions: XPath Implementation
 
