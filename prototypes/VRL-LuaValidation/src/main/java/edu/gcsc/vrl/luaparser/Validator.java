@@ -73,52 +73,17 @@ public class Validator {
     }
 
     public void validate() {
+        // Alle Parameter herausfinden
         List<ValueData> allValues = GenUtil.getAllValues(getData());
-        ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
 
-        // Matrix mit den Abhängigkeiten für jeden Parameter erstellen
-        for (int i = 0; i < allValues.size(); i++) {
-            List<ValueData> vals = GenUtil.validateAValue(allValues.get(i), getData());
-            for (int j = 0; j < vals.size(); j++) {
-                dependings[i][j] = vals.get(j);
-            }
+        // Diese Parameter auf Zyklen checken und an Zyklen beteiligte Nodes in einer Liste speichern
+        List<ValueData> cycleNodes = GraphUtil.checkForCycles(getData(), allValues);
+        for(ValueData v : cycleNodes){
+            System.out.println(v.getValName().get());
         }
 
-        int[][] dep = new int[allValues.size()][allValues.size()];
 
 
-        // Erstellen der Adjazenzmatrix
-        StringBuilder sh = new StringBuilder();
-        for (int i = 0; i < allValues.size(); i++) {
-            for (int j = 0; j < allValues.size(); j++) {
-                if (GenUtil.containsVD(dependings[i], allValues.get(j))) {
-                    dep[i][j] = 1;
-                    sh.append(1);
-                } else {
-                    dep[i][j] = 0;
-                    sh.append(0);
-                }
-
-            }
-            sh.append("\n");
-        }
-
-        // Testzwecke
-        System.out.println(sh.toString());
-
-
-
-        // Zyklen werden erkannt
-        for (int x = 0; x < allValues.size(); x++) {
-            int[] marking = new int[allValues.size()];
-            for (int i = 0; i < allValues.size(); i++) {
-                marking[i] = 0;
-            }
-
-            boolean cycle = GenUtil.cycle(x, marking, dep, allValues.size());
-            System.out.println(allValues.get(x).getValName().get());
-            System.out.println("CYCLE: " + cycle);
-        }
     }
 }
 
