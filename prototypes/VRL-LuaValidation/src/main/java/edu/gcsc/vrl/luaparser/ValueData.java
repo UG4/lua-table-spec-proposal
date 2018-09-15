@@ -263,6 +263,8 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue()) && !v.equals(act)) {
                                 GenUtil.disableWithAllChildNodes(v);
+                            } else if(v.isAValue()){
+                                v.setDisabled(true);
                             }
                         }
                     }
@@ -274,8 +276,8 @@ public class ValueData {
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue())) {
                                 GenUtil.enableWithAllChildNodes(v);
-                            } else {
-
+                            } else if(v.isAValue()) {
+                                v.setDisabled(false);
                             }
                         }
                     }

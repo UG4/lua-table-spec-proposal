@@ -24,7 +24,8 @@ public final class GenUtil {
                             disableWithAllChildNodes(ve);
                         }
                     }
-                } else {
+                } else if(vd.isAValue()){
+                    vd.setDisabled(true);
                 }
             }
         }
@@ -32,16 +33,20 @@ public final class GenUtil {
 
     public static void enableWithAllChildNodes(ValueData v) {
         v.setDisabled(false);
+        v.setSelection(false);
 
         if (v.getOptions() != null) {
             for (ValueData vd : v.getOptions()) {
                 if (vd.isOption() || vd.isOptValue()) {
                     vd.setDisabled(false);
+                    vd.setSelection(false);
                     if (vd.getOptions() != null) {
                         for (ValueData ve : vd.getOptions()) {
                             enableWithAllChildNodes(ve);
                         }
                     }
+                } else if(vd.isAValue()) {
+                    vd.setDisabled(false);
                 }
             }
         }

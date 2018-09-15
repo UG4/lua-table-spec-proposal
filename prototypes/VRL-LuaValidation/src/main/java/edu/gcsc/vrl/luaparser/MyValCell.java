@@ -131,7 +131,11 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     setGraphic(null);
                 }
             } else if(item.isDisabled()){
-                setText("Disabled");
+                if(item.getActData() != null && item.getActData().getValue() != null) {
+                    setText("Param: "+item.getValName().get()+" Value:"+item.getActData().getValue().toString());
+                } else {
+                    setText("Param: "+item.getValName().get());
+                }
             }
         }
 

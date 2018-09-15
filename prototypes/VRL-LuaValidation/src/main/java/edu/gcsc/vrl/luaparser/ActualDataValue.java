@@ -38,7 +38,7 @@ public class ActualDataValue {
         if (getType().equals("String")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = String.valueOf(value);
+                    this.value = ("\""+String.valueOf(value)+"\"");
                 }
             } catch(ClassCastException c){ System.out.println("Not a String!");}
         } else if(getType().equals("Integer")){
