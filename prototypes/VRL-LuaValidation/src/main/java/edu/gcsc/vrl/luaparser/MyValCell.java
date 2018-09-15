@@ -1,10 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-
-import javax.xml.soap.Text;
 
 public class MyValCell extends TreeTableCell<ValueData, ValueData> {
     /*
@@ -27,9 +23,9 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                             case "String":
                                 TextField stringField;
                                 if(item.getActData() != null) {
-                                    stringField = UIHelper.tfString(String.valueOf(item.getActData().getValue()), item);
+                                    stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                                 } else {
-                                    stringField = UIHelper.tfString("", item);
+                                    stringField = UIUtil.tfString("", item);
                                 }
                                 if(!item.getTooltip().isEmpty()) {
                                     Tooltip tip = new Tooltip();
@@ -42,9 +38,9 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                             case "Double":
                                 TextField doubleField;
                                 if (item.getActData() != null) {
-                                    doubleField = UIHelper.tfString(item.getActData().getValue().toString(), item);
+                                    doubleField = UIUtil.tfString(item.getActData().getValue().toString(), item);
                                 } else {
-                                    doubleField = UIHelper.tfString("", item);
+                                    doubleField = UIUtil.tfString("", item);
                                 }
                                 if(!item.getTooltip().isEmpty()) {
                                     Tooltip tip = new Tooltip();
@@ -57,9 +53,9 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                             case "Integer":
                                 TextField integerField;
                                 if (item.getActData() != null) {
-                                    integerField = UIHelper.tfString(item.getActData().getValue().toString(), item);
+                                    integerField = UIUtil.tfString(item.getActData().getValue().toString(), item);
                                 } else {
-                                    integerField = UIHelper.tfString(" ", item);
+                                    integerField = UIUtil.tfString(" ", item);
                                 }
                                 if(!item.getTooltip().isEmpty()) {
                                     Tooltip tip = new Tooltip();
@@ -73,7 +69,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     } else if (item.getStyle().equals("selection")) {
                         switch (item.getType().get()) {
                             case "Double":
-                                ComboBox doubleBox1 = UIHelper.cbNumber(item);
+                                ComboBox doubleBox1 = UIUtil.cbNumber(item);
                                 if(!item.getTooltip().isEmpty()) {
                                     Tooltip tip = new Tooltip();
                                     tip.setText(item.getTooltip());
@@ -86,7 +82,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 /*
                                 * Hier muss noch eine ComboBox für Integer eingebaut werden!
                                 * */
-                                ComboBox doubleBox2 = UIHelper.cbNumber(item);
+                                ComboBox doubleBox2 = UIUtil.cbNumber(item);
                                 if(!item.getTooltip().isEmpty()) {
                                     Tooltip tip = new Tooltip();
                                     tip.setText(item.getTooltip());
@@ -103,22 +99,22 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                             if(item.getActData().getValue() != null) {
                                 try {
                                     if(item.getActData().getType().equals("Integer")) {
-                                        stringField = UIHelper.tfString(Integer.toString((Integer) item.getActData().getValue()), item);
+                                        stringField = UIUtil.tfString(Integer.toString((Integer) item.getActData().getValue()), item);
                                     } else if(item.getActData().getType().equals("Double")) {
-                                        stringField = UIHelper.tfString(Double.toString((Double) item.getActData().getValue()), item);
+                                        stringField = UIUtil.tfString(Double.toString((Double) item.getActData().getValue()), item);
                                     } else if(item.getActData().getType().equals("String")){
-                                        stringField = UIHelper.tfString(String.valueOf(item.getActData().getValue()), item);
+                                        stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                                     } else {
-                                        stringField = UIHelper.tfString("", item);
+                                        stringField = UIUtil.tfString("", item);
                                     }
 
                                 } catch (ClassCastException c) {
-                                    stringField = UIHelper.tfString("", item);
+                                    stringField = UIUtil.tfString("", item);
                                     System.out.println(item.getActData().getValue().toString());
                                 }
-                            } else {stringField = UIHelper.tfString("", item);}
+                            } else {stringField = UIUtil.tfString("", item);}
                         } else {
-                            stringField = UIHelper.tfString("", item);
+                            stringField = UIUtil.tfString("", item);
                         }
                         if(!item.getTooltip().isEmpty()) {
                             Tooltip tip = new Tooltip();

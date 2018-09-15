@@ -76,7 +76,9 @@ public class ListController {
      * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
      * */
     public void initData(List<ValueData> dataset) {
+        inputData.removeAll();
         inputData.clear();
+
         for (ValueData v : dataset) {
             inputData.add(v);
         }
@@ -150,7 +152,7 @@ public class ListController {
                         initData(runtimeObject.getData());
                     }
                 } catch (IOException io) {
-                    UIHelper.logging("Cant find the file!", loggingField);
+                    UIUtil.logging("Cant find the file!", loggingField);
                 }
             }
         });
@@ -185,7 +187,7 @@ public class ListController {
                         LoadLua.matchingValues(runtimeObject.getData(),data);
                     }
                 } catch (IOException io) {
-                    UIHelper.logging("Cant find the file!", loggingField);
+                    UIUtil.logging("Cant find the file!", loggingField);
                 }
             }
         });

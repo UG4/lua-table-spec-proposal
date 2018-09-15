@@ -362,6 +362,8 @@ public final class GenUtil {
     // Helping-Functions: XPath Implementation
 
     public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
+        // Hier muss noch eine Lösung gefunden werden, um nicht immer 'problem' behelfsmässig als
+        // root-Node hinzu zu fügen
         ValueData rootNode = new ValueData("problem");
         for (ValueData x : treeToSearch) {
             rootNode.addSubParam(x);
@@ -375,6 +377,8 @@ public final class GenUtil {
         } else if (xpath_expression.startsWith("./")) {
             resultNode = doRelativeSearch(rootNode, xpath_expression.substring(2));
         }
+
+        treeToSearch.remove(0);
 
         return resultNode;
     }

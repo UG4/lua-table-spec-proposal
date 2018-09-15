@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
-public class UIHelper {
+public class UIUtil {
     // Erstellt ein Textfield für einen String
     public static TextField tfString(String text, ValueData v) {
         TextField stringField = new TextField();
