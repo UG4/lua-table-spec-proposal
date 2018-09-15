@@ -29,9 +29,6 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                             item.setSelectedNew(newValue);
                         }
                     });
-                    //System.out.println("NAME: " + item.getValName().get());
-                    //System.out.println("ROOT: "+ item.getRootNode().getValName().get());
-
 
                     setText(item.getValName().get());
                     setGraphic(cb);

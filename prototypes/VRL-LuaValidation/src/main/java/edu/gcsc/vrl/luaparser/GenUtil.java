@@ -468,7 +468,7 @@ public final class GenUtil {
     }
 
     // Sonstige Hilfsfunktionen
-    public static String deleteQuoteMark(String input){
+    /*public static String deleteQuoteMark(String input){
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
 
@@ -478,9 +478,9 @@ public final class GenUtil {
             }
         }
         return sb.toString();
-    }
+    }*/
 
-    public static String doQuoteMark(String input){
+    /*public static String doQuoteMark(String input){
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
 
@@ -492,5 +492,5 @@ public final class GenUtil {
         }
         sb.append("\"");
         return sb.toString();
-    }
+    }*/
 }

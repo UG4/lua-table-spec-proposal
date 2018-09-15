@@ -10,7 +10,7 @@ public class UIUtil {
     // Erstellt ein Textfield für einen String
     public static TextField tfString(String text, ValueData v) {
         TextField stringField = new TextField();
-        stringField.setText(GenUtil.deleteQuoteMark(text));
+        stringField.setText(text);
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
                         v.getActData().setValue(newValue,stringField);
@@ -53,6 +53,24 @@ public class UIUtil {
             }
         });
         return doubleBox;
+    }
+
+    public static Tooltip doTooltip(ValueData item){
+        Tooltip tip = new Tooltip();
+        if(!item.getTooltip().isEmpty()) {
+            if(item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: "+ item.getActData().getType()+ "\n" +item.getTooltip());
+            } else {
+                tip.setText(item.getTooltip());
+            }
+        } else {
+            if(item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: "+ item.getActData().getType());
+            } else {
+                tip.setText("");
+            }
+        }
+        return tip;
     }
 
     public static void logging(String msg, TextArea ta){

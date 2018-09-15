@@ -27,11 +27,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     stringField = UIUtil.tfString("", item);
                                 }
-                                if(!item.getTooltip().isEmpty()) {
-                                    Tooltip tip = new Tooltip();
-                                    tip.setText(item.getTooltip());
-                                    stringField.setTooltip(tip);
-                                }
+                                Tooltip tip = UIUtil.doTooltip(item);
+                                stringField.setTooltip(tip);
                                 setGraphic(stringField);
                                 //setStyle("");
                                 break;
@@ -42,11 +39,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     doubleField = UIUtil.tfString("", item);
                                 }
-                                if(!item.getTooltip().isEmpty()) {
-                                    Tooltip tip = new Tooltip();
-                                    tip.setText(item.getTooltip());
-                                    doubleField.setTooltip(tip);
-                                }
+                                Tooltip tip2 = UIUtil.doTooltip(item);
+                                doubleField.setTooltip(tip2);
                                 setGraphic(doubleField);
                                 //setStyle("");
                                 break;
@@ -57,11 +51,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     integerField = UIUtil.tfString(" ", item);
                                 }
-                                if(!item.getTooltip().isEmpty()) {
-                                    Tooltip tip = new Tooltip();
-                                    tip.setText(item.getTooltip());
-                                    integerField.setTooltip(tip);
-                                }
+                                Tooltip tip3 = UIUtil.doTooltip(item);
+                                integerField.setTooltip(tip3);
                                 setGraphic(integerField);
                                 //setStyle("");
                                 break;
@@ -99,9 +90,9 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                             if(item.getActData().getValue() != null) {
                                 try {
                                     if(item.getActData().getType().equals("Integer")) {
-                                        stringField = UIUtil.tfString(Integer.toString((Integer) item.getActData().getValue()), item);
+                                        stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
                                     } else if(item.getActData().getType().equals("Double")) {
-                                        stringField = UIUtil.tfString(Double.toString((Double) item.getActData().getValue()), item);
+                                        stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
                                     } else if(item.getActData().getType().equals("String")){
                                         stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                                     } else {
@@ -116,11 +107,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         } else {
                             stringField = UIUtil.tfString("", item);
                         }
-                        if(!item.getTooltip().isEmpty()) {
-                            Tooltip tip = new Tooltip();
-                            tip.setText(item.getTooltip());
-                            stringField.setTooltip(tip);
-                        }
+                        Tooltip tip = UIUtil.doTooltip(item);
+                        stringField.setTooltip(tip);
                         setGraphic(stringField);
                         //setStyle("");
                     }
@@ -132,9 +120,14 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                 }
             } else if(item.isDisabled()){
                 if(item.getActData() != null && item.getActData().getValue() != null) {
-                    setText("Param: "+item.getValName().get()+" Value:"+item.getActData().getValue().toString());
+                    TextField tf = UIUtil.tfString(item.getActData().getValue().toString(),item);
+                    Tooltip tip = UIUtil.doTooltip(item);
+                    tf.setTooltip(tip);
+                    tf.setEditable(false);
+                    tf.setDisable(true);
+                    setGraphic(tf);
                 } else {
-                    setText("Param: "+item.getValName().get());
+                    //setText("Param: "+item.getValName().get());
                 }
             }
         }

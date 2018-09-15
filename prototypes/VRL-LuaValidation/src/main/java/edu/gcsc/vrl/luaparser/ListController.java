@@ -4,7 +4,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -68,14 +73,13 @@ public class ListController {
         optionColumn.setCellFactory(column -> {
             return new FirstColumnCell();
         });
-
-        //outputTable.setItems(inputData);
     }
 
     /*
      * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
      * */
     public void initData(List<ValueData> dataset) {
+
         inputData.removeAll();
         inputData.clear();
 
