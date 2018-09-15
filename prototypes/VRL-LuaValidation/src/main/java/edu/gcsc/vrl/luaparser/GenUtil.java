@@ -90,44 +90,68 @@ public final class GenUtil {
 
     // Hilfsfunktionen dependsOn()
     public static boolean validate(ValueData vd, List<ValueData> runtimeData) {
-        if(vd.getValid_eval() != null) {
+        // Als erstes wird überprüft, ob der Parameter eine eval-Funktion hat.
+        // Wenn nicht, dann ist die Validation immer true, da ja kein 'falscher'
+        // Fall eintreten kann.
+        if (vd.getValid_eval() != null) {
+            // Hier werden alle Parameter herausgesucht, von denen er abhängig ist
             List<ValueData> dependsOn = new ArrayList<>();
             if (vd.dependsOnValidate()) {
                 dependsOn = validateAValue(vd, runtimeData);
             }
+            boolean valid = true;
+            // Die Parameter von denen er abhängig ist, werden validiert.
+            // Erst wenn alle diese Parameter valide sind, kann der eigentliche
+            // Parameter validiert werden.
+            for (int i = 0; i < dependsOn.size(); i++) {
+                boolean temp = validate(dependsOn.get(i), runtimeData);
+                if (temp == false) {
+                    valid = false;
+                }
+            }
+            // Hier wird der Parameter validiert
+            if(valid) {
 
-            List<ValueData> vals = new ArrayList<>();
+                List<ValueData> vals = new ArrayList<>();
 
-            for (ValueData v : dependsOn) {
-                vals.add(getActualData(v, runtimeData));
+                // Alle Werte der von denen der Parameter abhängig ist, werden herausgesucht
+                for (ValueData v : dependsOn) {
+                    vals.add(getActualData(v, runtimeData));
+                }
+
+                List<Value> valsForEval = new ArrayList<>();
+
+                // Hier werden die Werte, die als Argument für die eval-Funktion dienen
+                // in einer Liste gespeichert.
+                if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                    System.out.println("Test " + vd.getValName().get());
+                    doArgList(vd, valsForEval);
+                }
+
+                if (!vals.isEmpty() && !valsForEval.isEmpty()) {
+                    doArgList(vals, valsForEval);
+                }
+
+                String resultOfEval = "";
+                // Jetzt wird versucht die eval-Funktion mit den Argumenten aufzurufen
+                try {
+                    resultOfEval = vd.getValid_eval().asFunction().eval(valsForEval).getValueAsString();
+                } catch (Exception ex) {
+                    System.out.println("Cannot call f !");
+                }
+
+                boolean result = false;
+                if (!resultOfEval.isEmpty()) {
+                    result = Boolean.valueOf(resultOfEval);
+                }
+
+                return result;
+            } else {
+                // Falls einer der Parameter, von denen der eigentliche Parameter abhängig ist, nicht valide ist,
+                // kann der zu überprüfende Parameter auch nicht valide sein -> return false
+                return false;
             }
 
-            // Hier muss noch die eval - Funktion validiert werden
-
-            List<Value> valsForEval = new ArrayList<>();
-
-            if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                System.out.println("Test " + vd.getValName().get());
-                doArgList(vd, valsForEval);
-            }
-
-            if (!vals.isEmpty() && !valsForEval.isEmpty()) {
-                doArgList(vals, valsForEval);
-            }
-
-            String resultOfEval = "";
-            try {
-                resultOfEval = vd.getValid_eval().asFunction().eval(valsForEval).getValueAsString();
-            } catch (Exception ex) {
-                System.out.println("Cannot call f !");
-            }
-
-            boolean result = false;
-            if (!resultOfEval.isEmpty()) {
-                result = Boolean.valueOf(resultOfEval);
-            }
-
-            return result;
         } else {
             return true;
         }
@@ -135,8 +159,10 @@ public final class GenUtil {
     }
 
     private static void doArgList(List<ValueData> vData, List<Value> vals) {
+        // Hier wird die List von Values erstellt, die die Argumente für die eval-Funktion enthalten.
+        // WEITERE DATENTYPEN HINZUFÜGEN: ARRAYS UND FUNCTION
         for (ValueData v : vData) {
-            if(v.getActData() != null && v.getActData().getValue() != null) {
+            if (v.getActData() != null && v.getActData().getValue() != null) {
                 Object temp = v.getActData().getValue();
                 String name = v.getValName().get();
 
@@ -162,6 +188,7 @@ public final class GenUtil {
     }
 
     private static void doArgList(ValueData v, List<Value> vals) {
+        // Hier kann ein einzelnes Argument der Argumentenliste hinzugefügt werden
         Object temp = v.getActData().getValue();
         String name = v.getValName().get();
 
@@ -186,7 +213,11 @@ public final class GenUtil {
     }
 
     private static ValueData getActualData(ValueData vd, List<ValueData> runtimeData) {
+        // Hier werden die Werte der Parameter herausgesucht, die übergeben werden sollen
         if (!vd.dependsOnValidate()) {
+            // Wenn der Parameter von keinem Anderen abhängig ist, kann direkt das ValueData-Objekt
+            // mit dem Value zurückgegeben werden.(dafür muss dieses ValueData-Objekt natürlich auch einen
+            // Value besitzen)
             if (vd.getActData() != null && vd.getActData().getValue() != null) {
                 return vd;
             } else {
@@ -194,14 +225,19 @@ public final class GenUtil {
                 return null;
             }
         } else {
+            // Falls der Parameter abbhängig ist, müssen die Parameter von denen der zu überprüfende
+            // Parameter abhängig ist, natürlich auch erst überprüft werden.
             List<ValueData> dependsOn = validateAValue(vd, runtimeData);
             boolean valid = true;
+
+            //Falls einer der Parameter nicht valide ist, wird null zurückgegeben.
+            // EVENTUELL ÄNDERN
+            // Wenn alle Parameter valide sind, wird der zu überprüfende Parameter zurückgegeben.
 
             for (int i = 0; i < dependsOn.size(); i++) {
                 boolean temp = validate(dependsOn.get(i), runtimeData);
                 if (temp == false) {
                     valid = false;
-                    //return null;
                 }
             }
             if (valid) {
