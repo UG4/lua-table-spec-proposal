@@ -79,7 +79,20 @@ public class Validator {
         // Diese Parameter auf Zyklen checken und an Zyklen beteiligte Nodes in einer Liste speichern
         List<ValueData> cycleNodes = GraphUtil.checkForCycles(getData(), allValues);
         for(ValueData v : cycleNodes){
-            System.out.println(v.getValName().get());
+            System.out.println("Cycle: "+ v.getValName().get());
+        }
+
+        // Alle Parameter herausfinden, die von anderen Parametern abhängig sind
+        List<ValueData> allDependingValues = GenUtil.getAllDependingValidateValues(getData());
+        for (ValueData v : allDependingValues){
+            System.out.println("Depending: "+ v.getValName().get());
+        }
+
+        for(ValueData v : allDependingValues){
+            if(!cycleNodes.contains(v)){
+                boolean valid = GenUtil.validate(v,getData());
+                System.out.println(v.getValName().get() + " validation: " + valid);
+            }
         }
 
 

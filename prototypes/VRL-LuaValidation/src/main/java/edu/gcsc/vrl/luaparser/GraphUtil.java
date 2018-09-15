@@ -5,7 +5,9 @@ import java.util.List;
 
 public final class GraphUtil {
     public GraphUtil(){ throw new AssertionError(); }
-
+    /*
+    * Die folgenden Funktionen sind dazu da, Zyklen in den Parametern zu erkennen.
+    * */
     public static List<ValueData> checkForCycles(List<ValueData> runtimeData,List<ValueData> allValues){
         ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
 
@@ -50,12 +52,42 @@ public final class GraphUtil {
                 marking[i] = 0;
             }
 
-            boolean cycle = GenUtil.cycle(x, marking, dep, allValues.size());
+            boolean cycle = cycle(x, marking, dep, allValues.size());
             if(cycle){
                 cycleNodes.add(allValues.get(x));
             }
         }
 
         return cycleNodes;
+    }
+
+    // Erweiterte Tiefensuche mit Zyklenerkennung
+    // 0 = noch nicht bearbeitet; 1 = in Bearbeitung; 2 = bereits bearbeitet
+    private static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
+        int[] initCoord = getCoor(node,len);
+        int x = initCoord[0];
+        int y = initCoord[1];
+        boolean cyc = false;
+
+        if(markierung[node] == 1){
+            cyc = true;
+        } else if(markierung[node] == 0){
+            markierung[node] = 1;
+            for(int i = 0; i < len; i++){
+                if(adjazenz[i][node] == 1) {
+                    cyc = cycle(i,markierung,adjazenz,len);
+                    markierung[node] = 2;
+                }
+            }
+        }
+        return cyc;
+    }
+
+    // Hilfsfunktion, um für einen bestimmten Knoten die Koordinaten in der Adjazenzmatrix heraus zu finden
+    private static int[] getCoor(int nodeNum, int len){
+        int x = nodeNum%len;
+        int y = nodeNum/len;
+        int[] xy = {x,y};
+        return xy;
     }
 }

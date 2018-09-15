@@ -1,5 +1,8 @@
 package edu.gcsc.vrl.luaparser;
 
+import org.luaj.vm2.Lua;
+import org.luaj.vm2.LuaValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,48 +88,143 @@ public final class GenUtil {
         return false;
     }
 
-    // Helping-Functions: DependsOn
-    // Erweiterte Tiefensuche mit Zyklenerkennung
-    // 0 = noch nicht bearbeitet; 1 = in Bearbeitung; 2 = bereits bearbeitet
-    public static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
-        int[] initCoord = getCoor(node,len);
-        int x = initCoord[0];
-        int y = initCoord[1];
-        boolean cyc = false;
+    // Hilfsfunktionen dependsOn()
+    public static boolean validate(ValueData vd, List<ValueData> runtimeData) {
+        if(vd.getValid_eval() != null) {
+            List<ValueData> dependsOn = new ArrayList<>();
+            if (vd.dependsOnValidate()) {
+                dependsOn = validateAValue(vd, runtimeData);
+            }
 
-        if(markierung[node] == 1){
-            cyc = true;
-        } else if(markierung[node] == 0){
-            markierung[node] = 1;
-            for(int i = 0; i < len; i++){
-                if(adjazenz[i][node] == 1) {
-                    cyc = cycle(i,markierung,adjazenz,len);
-                    markierung[node] = 2;
+            List<ValueData> vals = new ArrayList<>();
+
+            for (ValueData v : dependsOn) {
+                vals.add(getActualData(v, runtimeData));
+            }
+
+            // Hier muss noch die eval - Funktion validiert werden
+
+            List<Value> valsForEval = new ArrayList<>();
+
+            if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                System.out.println("Test " + vd.getValName().get());
+                doArgList(vd, valsForEval);
+            }
+
+            if (!vals.isEmpty() && !valsForEval.isEmpty()) {
+                doArgList(vals, valsForEval);
+            }
+
+            String resultOfEval = "";
+            try {
+                resultOfEval = vd.getValid_eval().asFunction().eval(valsForEval).getValueAsString();
+            } catch (Exception ex) {
+                System.out.println("Cannot call f !");
+            }
+
+            boolean result = false;
+            if (!resultOfEval.isEmpty()) {
+                result = Boolean.valueOf(resultOfEval);
+            }
+
+            return result;
+        } else {
+            return true;
+        }
+
+    }
+
+    private static void doArgList(List<ValueData> vData, List<Value> vals) {
+        for (ValueData v : vData) {
+            if(v.getActData() != null && v.getActData().getValue() != null) {
+                Object temp = v.getActData().getValue();
+                String name = v.getValName().get();
+
+                if (v.getActData().getType().equals("String")) {
+                    LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
+                    Value val = new Value(lua, name);
+                    vals.add(val);
+                } else if (v.getActData().getType().equals("Integer")) {
+                    LuaValue lua = LuaValue.valueOf(Integer.parseInt(temp.toString()));
+                    Value val = new Value(lua, name);
+                    vals.add(val);
+                } else if (v.getActData().getType().equals("Double")) {
+                    LuaValue lua = LuaValue.valueOf(Double.parseDouble(temp.toString()));
+                    Value val = new Value(lua, name);
+                    vals.add(val);
+                } else if (v.getActData().getType().equals("Boolean")) {
+                    LuaValue lua = LuaValue.valueOf(Boolean.valueOf(temp.toString()));
+                    Value val = new Value(lua, name);
+                    vals.add(val);
                 }
             }
         }
-        return cyc;
     }
 
-    // Hilfsfunktion, um für einen bestimmten Knoten die Koordinaten in der Adjazenzmatrix heraus zu finden
-    private static int[] getCoor(int nodeNum, int len){
-        int x = nodeNum%len;
-        int y = nodeNum/len;
-        int[] xy = {x,y};
-        return xy;
+    private static void doArgList(ValueData v, List<Value> vals) {
+        Object temp = v.getActData().getValue();
+        String name = v.getValName().get();
+
+        if (v.getActData().getType().equals("String")) {
+            LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
+            Value val = new Value(lua, name);
+            vals.add(val);
+        } else if (v.getActData().getType().equals("Integer")) {
+            LuaValue lua = LuaValue.valueOf(Integer.parseInt(temp.toString()));
+            Value val = new Value(lua, name);
+            vals.add(val);
+        } else if (v.getActData().getType().equals("Double")) {
+            LuaValue lua = LuaValue.valueOf(Double.parseDouble(temp.toString()));
+            Value val = new Value(lua, name);
+            vals.add(val);
+        } else if (v.getActData().getType().equals("Boolean")) {
+            LuaValue lua = LuaValue.valueOf(Boolean.valueOf(temp.toString()));
+            Value val = new Value(lua, name);
+            vals.add(val);
+        }
+
     }
+
+    private static ValueData getActualData(ValueData vd, List<ValueData> runtimeData) {
+        if (!vd.dependsOnValidate()) {
+            if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                return vd;
+            } else {
+                System.out.println(vd.getValName().get() + " has no Value!");
+                return null;
+            }
+        } else {
+            List<ValueData> dependsOn = validateAValue(vd, runtimeData);
+            boolean valid = true;
+
+            for (int i = 0; i < dependsOn.size(); i++) {
+                boolean temp = validate(dependsOn.get(i), runtimeData);
+                if (temp == false) {
+                    valid = false;
+                    //return null;
+                }
+            }
+            if (valid) {
+                return vd;
+            }
+
+        }
+        // Temporär
+        return null;
+    }
+
 
     // Alle Parameter mit einer dependsOn-Abhängigkeit herausfinden( bzgl. validate)
-    public static List<ValueData> getDependingValidateValues(List<ValueData> dataToSearch){
+    public static List<ValueData> getAllDependingValidateValues(List<ValueData> dataToSearch) {
         List<ValueData> dependingValues = new ArrayList<>();
 
-        for(ValueData v : dataToSearch){
-            if(v.dependsOnValidate()){
+        for (ValueData v : dataToSearch) {
+            if (v.dependsOnValidate() && !dependingValues.contains(v)) {
                 dependingValues.add(v);
             }
-            if(v.getOptions() != null){
-                for(ValueData vd: v.getOptions()){
-                    searchDependingValidateValues(dependingValues,vd);
+            if (v.getOptions() != null) {
+                for (ValueData vd : v.getOptions()) {
+                    searchDependingValidateValues(dependingValues, vd);
                 }
             }
         }
@@ -135,23 +233,23 @@ public final class GenUtil {
     }
 
     // Hilfsfunktion für dependsOn-Funktion
-    private static void searchDependingValidateValues(List<ValueData> dependingValues, ValueData actObj){
-        if(actObj.dependsOnValidate()){
+    private static void searchDependingValidateValues(List<ValueData> dependingValues, ValueData actObj) {
+        if (actObj.dependsOnValidate() && !dependingValues.contains(actObj)) {
             dependingValues.add(actObj);
         }
-        if(actObj.getOptions() != null){
-            for(ValueData v : actObj.getOptions()){
-                searchDependingValidateValues(dependingValues,v);
+        if (actObj.getOptions() != null) {
+            for (ValueData v : actObj.getOptions()) {
+                searchDependingValidateValues(dependingValues, v);
             }
         }
     }
 
     // Alle dependsOn-Werte für einen Parameter herausfinden und in einer Liste speichern
-    public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData){
+    public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData) {
         List<ValueData> validObjDependsOn = new ArrayList<>();
 
 
-        if(objectToValidate.getValid_dependsOn() != null) {
+        if (objectToValidate.getValid_dependsOn() != null) {
             for (String dependsOnVal : objectToValidate.getValid_dependsOn()) {
                 ValueData act = doXPath(runtimeData, dependsOnVal);
                 if (act != null) {
@@ -177,11 +275,11 @@ public final class GenUtil {
     }
 
     // Hilfsfunktion, die checkt, ob ein Array ein bestimmtes ValueData-Objekt enthält
-    public static boolean containsVD(ValueData[] vData, ValueData v){
+    public static boolean containsVD(ValueData[] vData, ValueData v) {
         //System.out.println(vData[0] + " Val: " + v.getValName().get());
-        for(int i = 0; i < vData.length; i++){
-            if(vData[i] != null){
-                if(vData[i].equals(v)){
+        for (int i = 0; i < vData.length; i++) {
+            if (vData[i] != null) {
+                if (vData[i].equals(v)) {
                     return true;
                 }
             }
@@ -190,15 +288,15 @@ public final class GenUtil {
     }
 
     // Alle Values (nicht die optionalen!) herausfinden TEIL1
-    public static List<ValueData> getAllValues(List<ValueData> data){
+    public static List<ValueData> getAllValues(List<ValueData> data) {
         List<ValueData> vals = new ArrayList<>();
 
-        for(ValueData v : data){
-            if(v.isAValue()){
+        for (ValueData v : data) {
+            if (v.isAValue()) {
                 vals.add(v);
             }
-            if(v.getOptions() != null){
-                for(ValueData vd : v.getOptions()) {
+            if (v.getOptions() != null) {
+                for (ValueData vd : v.getOptions()) {
                     getVal(vals, vd);
                 }
             }
@@ -208,20 +306,22 @@ public final class GenUtil {
     }
 
     // Alle Values (nicht die optionalen!) herausfinden TEIL2
-    private static void getVal(List<ValueData> vals, ValueData act){
-        if(act.isAValue()){
+    private static void getVal(List<ValueData> vals, ValueData act) {
+        if (act.isAValue()) {
             vals.add(act);
         }
-        if(act.getOptions() != null){
-            for(ValueData v : act.getOptions()){
-                getVal(vals,v);
+        if (act.getOptions() != null) {
+            for (ValueData v : act.getOptions()) {
+                getVal(vals, v);
             }
         }
     }
 
-    private static void visibilityValidation(){}
+    private static void visibilityValidation() {
+    }
 
-    private static void validationValidate(){}
+    private static void validationValidate() {
+    }
 
     // Helping-Functions: XPath Implementation
 
@@ -284,7 +384,7 @@ public final class GenUtil {
                             currentNode = actual;
                         }
                         currentNameSb = new StringBuilder();
-                    } else if(!firstNode){
+                    } else if (!firstNode) {
                         if (currentNode.getOptions() != null) {
                             if (currentNode.getOptions().size() > 0) {
                                 if (currentNode.hasParam(currentName)) {
@@ -313,7 +413,7 @@ public final class GenUtil {
             if (rootNode.getOptions() != null) {
                 for (ValueData v : rootNode.getOptions()) {
                     ValueData temp = searchCompleteDoc(v, name);
-                    if(temp != null){
+                    if (temp != null) {
                         current = temp;
                     }
                 }
