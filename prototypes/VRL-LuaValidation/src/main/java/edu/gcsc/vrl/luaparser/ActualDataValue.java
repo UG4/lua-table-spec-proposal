@@ -38,7 +38,8 @@ public class ActualDataValue {
         if (getType().equals("String")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = ("\""+String.valueOf(value)+"\"");
+                    String editedString = GenUtil.deleteQuoteMark(value.toString());
+                    this.value = ("\""+String.valueOf(editedString)+"\"");
                 }
             } catch(ClassCastException c){ System.out.println("Not a String!");}
         } else if(getType().equals("Integer")){

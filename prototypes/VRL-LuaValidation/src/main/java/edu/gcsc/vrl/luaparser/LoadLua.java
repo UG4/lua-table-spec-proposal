@@ -205,6 +205,9 @@ public final class LoadLua {
                     if (jrt.getValName().get().equals(iLua.getValName().get())) {
                         // Wenn der Value-Name direkt matched
                         jrt.getActData().setValue(iLua.getActData().getValue());
+                        if(jrt.getParentNode() != null && (jrt.getParentNode().isOption()||jrt.getParentNode().isOptValue())){
+                            jrt.getParentNode().setSelectedNew(true);
+                        }
                     } else if(jrt.hasOptValue()){
                         // Falls beim Runtime-Objekt ein optionaler-Value vorhanden ist
                         searchOptions(jrt,iLua);
@@ -227,6 +230,9 @@ public final class LoadLua {
         for(ValueData v : rt.getOptions()){
             if(v.isOptValue()){
                 v.getActData().setValue(vLua.getActData().getValue());
+                if(v.getParentNode() != null && (v.getParentNode().isOption()||v.getParentNode().isOptValue())){
+                    v.getParentNode().setSelectedNew(true);
+                }
             }
         }
     }
@@ -246,6 +252,9 @@ public final class LoadLua {
                         if (v.getValName().get().equals(rtV.getValName().get())) {
                             // Hier wird geprüft, ob der Name direkt matched
                             rtV.getActData().setValue(v.getActData().getValue());
+                            if(rtV.getParentNode() != null && (rtV.getParentNode().isOption()||rtV.getParentNode().isOptValue())){
+                                rtV.getParentNode().setSelectedNew(true);
+                            }
                         } else {
                             // Hier wird überprüft, ob ein optionaler Value in Tiefe 1 vorhanden ist.
                             searchOptions(rtV, v);

@@ -10,7 +10,7 @@ public class UIUtil {
     // Erstellt ein Textfield für einen String
     public static TextField tfString(String text, ValueData v) {
         TextField stringField = new TextField();
-        stringField.setText(text);
+        stringField.setText(GenUtil.deleteQuoteMark(text));
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
                         v.getActData().setValue(newValue,stringField);

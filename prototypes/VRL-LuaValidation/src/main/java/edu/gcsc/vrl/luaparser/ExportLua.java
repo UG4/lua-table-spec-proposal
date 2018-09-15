@@ -103,7 +103,6 @@ public final class ExportLua {
     }
 
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
-        //System.out.println("Opt val");
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
             sb.append(vData.getActData().getValue() + "#");
         }
@@ -186,11 +185,9 @@ public final class ExportLua {
                 if (i < vList.size() - 1) {
                     sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
-                    //sb.append("\n" + indent(dis) + "}\n");
                 } else {
                     sb.append(vList.get(i).getValName().get() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
-                    //sb.append("\n" + indent(dis) + "}\n");
                 }
             } else if (vList.get(i).isOptValue() && vList.get(i).isSelected()) { // Optionaler Value
                 if (i < vList.size() - 1) {
