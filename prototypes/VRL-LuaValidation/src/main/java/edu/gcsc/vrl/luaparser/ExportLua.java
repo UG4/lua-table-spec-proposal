@@ -17,7 +17,7 @@ public final class ExportLua {
 
             if (data.get(i).isAValue() && data.get(i).isSelected()) {
                 if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
-                    sb.append(data.get(i).getActData().getValue() + "#");
+                    doStr(data.get(i),sb);
                 }
             } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (GenUtil.haveOptValSelected(data.get(i))) {
@@ -98,13 +98,14 @@ public final class ExportLua {
 
     private static void doVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            sb.append(vData.getValName().get() + "=" + vData.getActData().getValue() + "#");
+            sb.append(vData.getValName().get() + "=");
+            doStr(vData,sb);
         }
     }
 
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            sb.append(vData.getActData().getValue() + "#");
+            doStr(vData,sb);
         }
     }
 
@@ -119,8 +120,6 @@ public final class ExportLua {
                     doVal(vList.get(i), sb, dis + 1, true);
                 }
             } else if (vList.get(i).isOptValue() && vList.get(i).isSelected()) { // Optionaler Value
-                System.out.println("TEST OPT");
-                System.out.println(vList.get(i).getValName().get());
                 if (i < vList.size() - 1) {
                     doOptVal(vList.get(i), sb, dis + 1, false);
                 } else {
@@ -209,6 +208,17 @@ public final class ExportLua {
         }
 
         return result;
+    }
+
+    // Diese Funktion setzt Anführungszeichen beim Export von String-Werten
+    private static void doStr(ValueData vd, StringBuilder sb){
+        if(vd.getActData().getType().equals("String")){
+            String temp = GenUtil.doQuoteMark(vd.getActData().getValue().toString());
+            sb.append(temp);
+            sb.append("#");
+        } else {
+            sb.append(vd.getActData().getValue()+"#");
+        }
     }
 
     private static String doFormatting(StringBuilder sb, String filename) {

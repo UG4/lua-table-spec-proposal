@@ -480,7 +480,8 @@ public final class GenUtil {
         return sb.toString();
     }*/
 
-    /*public static String doQuoteMark(String input){
+    // Fügt Anführungszeichen am Anfang und am Ende eines Strings ein
+    public static String doQuoteMark(String input){
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
 
@@ -492,5 +493,5 @@ public final class GenUtil {
         }
         sb.append("\"");
         return sb.toString();
-    }*/
+    }
 }
