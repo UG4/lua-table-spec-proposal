@@ -27,8 +27,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     stringField = UIUtil.tfString("", item);
                                 }
-                                Tooltip tip = UIUtil.doTooltip(item);
-                                stringField.setTooltip(tip);
+                                UIUtil.doTooltip(item,stringField);
                                 setGraphic(stringField);
                                 //setStyle("");
                                 break;
@@ -39,8 +38,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     doubleField = UIUtil.tfString("", item);
                                 }
-                                Tooltip tip2 = UIUtil.doTooltip(item);
-                                doubleField.setTooltip(tip2);
+                                UIUtil.doTooltip(item,doubleField);
                                 setGraphic(doubleField);
                                 //setStyle("");
                                 break;
@@ -51,8 +49,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     integerField = UIUtil.tfString(" ", item);
                                 }
-                                Tooltip tip3 = UIUtil.doTooltip(item);
-                                integerField.setTooltip(tip3);
+                                UIUtil.doTooltip(item,integerField);
                                 setGraphic(integerField);
                                 //setStyle("");
                                 break;
@@ -61,11 +58,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         switch (item.getType().get()) {
                             case "Double":
                                 ComboBox doubleBox1 = UIUtil.cbNumber(item);
-                                if(!item.getTooltip().isEmpty()) {
-                                    Tooltip tip = new Tooltip();
-                                    tip.setText(item.getTooltip());
-                                    doubleBox1.setTooltip(tip);
-                                }
+                                UIUtil.doTooltip(item,doubleBox1);
                                 setGraphic(doubleBox1);
                                 setStyle("");
 
@@ -74,11 +67,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 * Hier muss noch eine ComboBox für Integer eingebaut werden!
                                 * */
                                 ComboBox doubleBox2 = UIUtil.cbNumber(item);
-                                if(!item.getTooltip().isEmpty()) {
-                                    Tooltip tip = new Tooltip();
-                                    tip.setText(item.getTooltip());
-                                    doubleBox2.setTooltip(tip);
-                                }
+                                UIUtil.doTooltip(item, doubleBox2);
                                 setGraphic(doubleBox2);
                                 setStyle("");
                         }
@@ -107,8 +96,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         } else {
                             stringField = UIUtil.tfString("", item);
                         }
-                        Tooltip tip = UIUtil.doTooltip(item);
-                        stringField.setTooltip(tip);
+                        UIUtil.doTooltip(item, stringField);
                         setGraphic(stringField);
                         //setStyle("");
                     }
@@ -121,11 +109,11 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
             } else if(item.isDisabled()){
                 if(item.getActData() != null && item.getActData().getValue() != null) {
                     TextField tf = UIUtil.tfString(item.getActData().getValue().toString(),item);
-                    Tooltip tip = UIUtil.doTooltip(item);
-                    tf.setTooltip(tip);
+                    UIUtil.doTooltip(item,tf);
                     tf.setEditable(false);
-                    tf.setDisable(true);
+                    //tf.setDisable(true);
                     setGraphic(tf);
+                    setStyle("-fx-control-inner-background: orange;-fx-opacity: 0.5");
                 } else {
                     //setText("Param: "+item.getValName().get());
                 }

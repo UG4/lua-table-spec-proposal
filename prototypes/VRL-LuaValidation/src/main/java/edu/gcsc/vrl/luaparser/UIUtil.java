@@ -55,7 +55,7 @@ public class UIUtil {
         return doubleBox;
     }
 
-    public static Tooltip doTooltip(ValueData item){
+    public static void doTooltip(ValueData item, TextField t){
         Tooltip tip = new Tooltip();
         if(!item.getTooltip().isEmpty()) {
             if(item.getActData() != null && item.getActData().getType() != null) {
@@ -70,7 +70,25 @@ public class UIUtil {
                 tip.setText("");
             }
         }
-        return tip;
+        t.setTooltip(tip);
+    }
+
+    public static void doTooltip(ValueData item, ComboBox t){
+        Tooltip tip = new Tooltip();
+        if(!item.getTooltip().isEmpty()) {
+            if(item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: "+ item.getActData().getType()+ "\n" +item.getTooltip());
+            } else {
+                tip.setText(item.getTooltip());
+            }
+        } else {
+            if(item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: "+ item.getActData().getType());
+            } else {
+                tip.setText("");
+            }
+        }
+        t.setTooltip(tip);
     }
 
     public static void logging(String msg, TextArea ta){
