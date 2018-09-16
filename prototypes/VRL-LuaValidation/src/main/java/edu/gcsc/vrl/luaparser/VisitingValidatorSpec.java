@@ -2,6 +2,7 @@ package edu.gcsc.vrl.luaparser;
 
 import org.apache.commons.lang.math.NumberUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class VisitingValidatorSpec {
@@ -27,6 +28,8 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
+                } else if(xd.getDefaultVals() != null){
+                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 dataList.add(xd);
@@ -63,6 +66,8 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
+                } else if(xd.getDefaultVals() != null){
+                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 dataList.add(xd);
@@ -101,6 +106,8 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
+                } else if(xd.getDefaultVals() != null){
+                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 xd.setParentNode(v);
@@ -140,6 +147,8 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
+                } else if(xd.getDefaultVals() != null){
+                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 xd.setParentNode(v);
@@ -227,11 +236,24 @@ public final class VisitingValidatorSpec {
                         case "validation":
                             setValidationInfos((Group) l, vd);
                             break;
+                        case "default":
+                            setArrayOfDefault((Group)l,vd);
+                            break;
                     }
                 }
             }
         }
 
+    }
+
+    private static void setArrayOfDefault(Group values, ValueData actItem){
+        List<String> temp = new ArrayList<>();
+        if(values.getEntries().size() > 0){
+            for(Entry e : values.getEntries()){
+                temp.add(((Value)e).getValueAsString());
+            }
+        }
+        actItem.setDefaultVals(temp);
     }
 
     private static double[] getRange(Group range) {

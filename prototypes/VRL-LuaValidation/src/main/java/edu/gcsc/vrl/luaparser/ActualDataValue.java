@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.apache.commons.lang.math.NumberUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ActualDataValue {
@@ -79,7 +81,16 @@ public class ActualDataValue {
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Double>) value;
+                    String[] valsStr = value.toString().split(",");
+                    List<String> valsDouble = new ArrayList<>();
+                    for(String str : valsStr){
+                        try {
+                            //valsDouble.add(Double.parseDouble(str));
+                            valsDouble.add(str);
+                        } catch (Exception ex){}
+                    }
+
+                    this.value = valsDouble;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){
@@ -151,7 +162,16 @@ public class ActualDataValue {
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Double>) value;
+                    String[] valsStr = value.toString().split(",");
+                    List<String> valsDouble = new ArrayList<>();
+                    for(String str : valsStr){
+                        try {
+                            //valsDouble.add(Double.parseDouble(str));
+                            valsDouble.add(str);
+                        } catch (Exception ex){}
+                    }
+
+                    this.value = valsDouble;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){

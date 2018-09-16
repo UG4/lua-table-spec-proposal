@@ -34,6 +34,7 @@ public class ValueData {
     private StringProperty valName;
     private StringProperty type;
     private String defaultVal;
+    private List<String> defaultVals;
     private String style = "";
     private String tooltip = "";
     private double range_min;
@@ -75,6 +76,8 @@ public class ValueData {
     public StringProperty getType() { return this.type; }
 
     public String getDefaultVal() { return this.defaultVal; }
+
+    public List<String> getDefaultVals() { return defaultVals; }
 
     public String getStyle() { return this.style; }
 
@@ -124,6 +127,8 @@ public class ValueData {
     public void setType(String type) { this.type = new SimpleStringProperty(type); }
 
     public void setDefaultVal(String defaultVal) { this.defaultVal = defaultVal; }
+
+    public void setDefaultVals(List<String> defaultVals) { this.defaultVals = defaultVals; }
 
     public void setStyle(String style) { this.style = style; }
 

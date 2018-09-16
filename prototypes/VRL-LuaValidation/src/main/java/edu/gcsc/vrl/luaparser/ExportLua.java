@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class ExportLua {
@@ -211,11 +212,29 @@ public final class ExportLua {
     }
 
     // Diese Funktion setzt Anführungszeichen beim Export von String-Werten
+    // und setzt Klammern, falls es ein Array ist.
+    // MUSS NOCH HINZUGEFÜGT WERDEN!
     private static void doStr(ValueData vd, StringBuilder sb){
         if(vd.getActData().getType().equals("String")){
             String temp = GenUtil.doQuoteMark(vd.getActData().getValue().toString());
             sb.append(temp);
             sb.append("#");
+        } else if(vd.getActData().getType().equals("Double[]")){
+            String temp = vd.getActData().getValue().toString();
+
+            if(temp != null){
+                // Wieso werden '[' und ']' nicht erkannt, wenn man sie als Character checkt(equal())?!
+                // Hat wahrscheinlich etwas mit dem Casting vom getValue zu der List<String> zu tun....
+                sb.append("{");
+                StringBuilder sh = new StringBuilder();
+
+                char[] tempChars = temp.toCharArray();
+                for(char c : tempChars){
+                    sh.append(c);
+                }
+                sb.append(sh.toString().substring(2,sh.length()-2));
+                sb.append("}");
+            }
         } else {
             sb.append(vd.getActData().getValue()+"#");
         }
@@ -234,7 +253,6 @@ public final class ExportLua {
                     sbNew.append(sb.charAt(i));
                 }
             }
-
             if (Character.toString(sb.charAt(i)).equals("{")) {
                 sbNew.append("\n");
             } else if (Character.toString(sb.charAt(i)).equals("}")) {
