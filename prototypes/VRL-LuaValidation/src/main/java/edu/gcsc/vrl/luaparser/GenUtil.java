@@ -24,8 +24,12 @@ public final class GenUtil {
                             disableWithAllChildNodes(ve);
                         }
                     }
-                } else if(vd.isAValue()){
+                } else if (vd.isAValue() || vd.isNotOptGroup()) {
+                    System.out.println(vd.getValName().get() + " disabled");
                     vd.setDisabled(true);
+                    if (vd.getOptions() != null) {
+                        disableWithAllChildNodes(vd);
+                    }
                 }
             }
         }
@@ -45,8 +49,11 @@ public final class GenUtil {
                             enableWithAllChildNodes(ve);
                         }
                     }
-                } else if(vd.isAValue()) {
+                } else if (vd.isAValue() || vd.isNotOptGroup()) {
                     vd.setDisabled(false);
+                    if (vd.getOptions() != null) {
+                        enableWithAllChildNodes(vd);
+                    }
                 }
             }
         }
@@ -54,7 +61,7 @@ public final class GenUtil {
 
     public static void selectAllParentNodes(ValueData v) {
         if (v.getParentNode() != null) {
-            //if (v.getParentNode() != v.getRootNode()) {
+            if (v.getParentNode() != v.getRootNode()) {
                 if (v.getParentNode().isOption()) {
                     v.getParentNode().setSelectedNew(true);
                     //v.getParentNode().setSelection(true);
@@ -64,7 +71,7 @@ public final class GenUtil {
                 } else {
                     selectAllParentNodes(v.getParentNode());
                 }
-           // }
+            }
         }
     }
 
@@ -116,7 +123,7 @@ public final class GenUtil {
                 }
             }
             // Hier wird der Parameter validiert
-            if(valid) {
+            if (valid) {
 
                 List<ValueData> vals = new ArrayList<>();
 
@@ -482,17 +489,48 @@ public final class GenUtil {
     }*/
 
     // Fügt Anführungszeichen am Anfang und am Ende eines Strings ein
-    public static String doQuoteMark(String input){
+    public static String doQuoteMark(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
 
         sb.append("\"");
-        for(char a : temp){
-            if(!String.valueOf(a).equals("\"")){
+        for (char a : temp) {
+            if (!String.valueOf(a).equals("\"")) {
                 sb.append(a);
             }
         }
         sb.append("\"");
         return sb.toString();
+    }
+
+    public static List<Double> fromStringToDoubleList(String s){
+        //String s = "1.5,2,4.54534245,4.00";
+        char[] cS = s.toCharArray();
+        List<Double> doubles = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < cS.length;i++){
+            if(Character.toString(cS[i]).equals(",")){
+                try{
+                    double x = Double.parseDouble(sb.toString());
+                    doubles.add(x);
+                    sb = new StringBuilder();
+                } catch(Exception e){}
+            } else if(i == cS.length-1){
+                try{
+                    sb.append(cS[i]);
+                    double x = Double.parseDouble(sb.toString());
+                    doubles.add(x);
+                    sb = new StringBuilder();
+                } catch(Exception e){}
+            } else {
+                sb.append(cS[i]);
+            }
+        }
+
+        for(double a : doubles){
+            System.out.println("TEST: "+a);
+        }
+        return doubles;
     }
 }

@@ -81,16 +81,8 @@ public class ActualDataValue {
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    String[] valsStr = value.toString().split(",");
-                    List<String> valsDouble = new ArrayList<>();
-                    for(String str : valsStr){
-                        try {
-                            //valsDouble.add(Double.parseDouble(str));
-                            valsDouble.add(str);
-                        } catch (Exception ex){}
-                    }
-
-                    this.value = valsDouble;
+                    List<Double> temp = GenUtil.fromStringToDoubleList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){
@@ -162,16 +154,8 @@ public class ActualDataValue {
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    String[] valsStr = value.toString().split(",");
-                    List<String> valsDouble = new ArrayList<>();
-                    for(String str : valsStr){
-                        try {
-                            //valsDouble.add(Double.parseDouble(str));
-                            valsDouble.add(str);
-                        } catch (Exception ex){}
-                    }
-
-                    this.value = valsDouble;
+                    List<Double> temp = GenUtil.fromStringToDoubleList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){

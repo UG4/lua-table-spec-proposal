@@ -6,6 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class UIUtil {
     // Erstellt ein Textfield für einen String
     public static TextField tfString(String text, ValueData v) {
@@ -13,7 +16,32 @@ public class UIUtil {
         stringField.setText(text);
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
-                        v.getActData().setValue(newValue,stringField);
+                        v.getActData().setValue(newValue, stringField);
+                    } else {
+                        ActualDataValue adv = new ActualDataValue();
+                        adv.setType(v.getType().get());
+                        adv.setValue(newValue, stringField);
+                        v.setActData(adv);
+                    }
+                }
+        );
+        return stringField;
+    }
+
+    public static TextField tfString(Object o, ValueData v) {
+        StringBuilder sb = new StringBuilder();
+        List<Double> temp = (List<Double>) o;
+        for(double d : temp){
+            sb.append(d).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        TextField stringField = new TextField();
+
+        stringField.setText(sb.toString());
+        stringField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (v.getActData() != null) {
+                        v.getActData().setValue(newValue, stringField);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
                         adv.setType(v.getType().get());
@@ -33,7 +61,7 @@ public class UIUtil {
         }
         ComboBox doubleBox = new ComboBox(vals);
 
-        if(v.getDefaultVal() != null) {
+        if (v.getDefaultVal() != null) {
             doubleBox.getSelectionModel().select(v.getDefaultVal());
         }
 
@@ -55,17 +83,17 @@ public class UIUtil {
         return doubleBox;
     }
 
-    public static void doTooltip(ValueData item, TextField t){
+    public static void doTooltip(ValueData item, TextField t) {
         Tooltip tip = new Tooltip();
-        if(!item.getTooltip().isEmpty()) {
-            if(item.getActData() != null && item.getActData().getType() != null) {
-                tip.setText("Type: "+ item.getActData().getType()+ "\n" +item.getTooltip());
+        if (!item.getTooltip().isEmpty()) {
+            if (item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: " + item.getActData().getType() + "\n" + item.getTooltip());
             } else {
                 tip.setText(item.getTooltip());
             }
         } else {
-            if(item.getActData() != null && item.getActData().getType() != null) {
-                tip.setText("Type: "+ item.getActData().getType());
+            if (item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: " + item.getActData().getType());
             } else {
                 tip.setText("");
             }
@@ -73,17 +101,17 @@ public class UIUtil {
         t.setTooltip(tip);
     }
 
-    public static void doTooltip(ValueData item, ComboBox t){
+    public static void doTooltip(ValueData item, ComboBox t) {
         Tooltip tip = new Tooltip();
-        if(!item.getTooltip().isEmpty()) {
-            if(item.getActData() != null && item.getActData().getType() != null) {
-                tip.setText("Type: "+ item.getActData().getType()+ "\n" +item.getTooltip());
+        if (!item.getTooltip().isEmpty()) {
+            if (item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: " + item.getActData().getType() + "\n" + item.getTooltip());
             } else {
                 tip.setText(item.getTooltip());
             }
         } else {
-            if(item.getActData() != null && item.getActData().getType() != null) {
-                tip.setText("Type: "+ item.getActData().getType());
+            if (item.getActData() != null && item.getActData().getType() != null) {
+                tip.setText("Type: " + item.getActData().getType());
             } else {
                 tip.setText("");
             }
@@ -91,7 +119,7 @@ public class UIUtil {
         t.setTooltip(tip);
     }
 
-    public static void logging(String msg, TextArea ta){
-        ta.appendText(msg+"\n");
+    public static void logging(String msg, TextArea ta) {
+        ta.appendText(msg + "\n");
     }
 }

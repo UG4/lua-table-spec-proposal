@@ -28,8 +28,6 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
-                } else if(xd.getDefaultVals() != null){
-                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 dataList.add(xd);
@@ -66,8 +64,6 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
-                } else if(xd.getDefaultVals() != null){
-                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 dataList.add(xd);
@@ -106,8 +102,6 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
-                } else if(xd.getDefaultVals() != null){
-                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 xd.setParentNode(v);
@@ -147,8 +141,6 @@ public final class VisitingValidatorSpec {
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
-                } else if(xd.getDefaultVals() != null){
-                    adv.setValue(xd.getDefaultVals());
                 }
                 xd.setActData(adv);
                 xd.setParentNode(v);
@@ -247,13 +239,12 @@ public final class VisitingValidatorSpec {
     }
 
     private static void setArrayOfDefault(Group values, ValueData actItem){
-        List<String> temp = new ArrayList<>();
-        if(values.getEntries().size() > 0){
-            for(Entry e : values.getEntries()){
-                temp.add(((Value)e).getValueAsString());
-            }
+        StringBuilder sb = new StringBuilder();
+        for(Entry e : values.getEntries()){
+            sb.append(((Value)e).getValueAsString()).append(",");
         }
-        actItem.setDefaultVals(temp);
+        sb.setLength(sb.length()-1);
+        actItem.setDefaultVal(sb.toString());
     }
 
     private static double[] getRange(Group range) {
