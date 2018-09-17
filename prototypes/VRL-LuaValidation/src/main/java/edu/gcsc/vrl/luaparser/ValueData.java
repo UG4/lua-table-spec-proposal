@@ -1,9 +1,8 @@
 package edu.gcsc.vrl.luaparser;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import org.apache.commons.lang.math.NumberUtils;
 
 import java.util.ArrayList;
@@ -56,8 +55,10 @@ public class ValueData {
     private Value valid_eval;
 
     // Only for GUI
-    private boolean selected = false;
-    private boolean disabled = false;
+    private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
+    //private boolean selected = false;
+    //private boolean disabled = false;
+    private SimpleBooleanProperty disabled = new SimpleBooleanProperty(false);
     private ValueData parentNode;
 
 
@@ -90,9 +91,9 @@ public class ValueData {
 
     public ActualDataValue getActData() { return this.actData; }
 
-    public boolean isSelected() { return this.selected; }
+    public boolean isSelected() { return this.selected.get(); }
 
-    public boolean isDisabled() { return this.disabled; }
+    public boolean isDisabled() { return this.disabled.get(); }
 
     public ValueData getParentNode() { return this.parentNode; }
 
@@ -118,6 +119,10 @@ public class ValueData {
 
     public boolean dependsOnVisible() { return this.dependsOnVisible; }
 
+    public SimpleBooleanProperty getSelectedProp(){ return this.selected; }
+
+    public SimpleBooleanProperty disabledProperty() { return this.disabled; }
+
     // SETTER - Methoden
     public void setSubParams(List<ValueData> subParams) { this.subParams = subParams; }
 
@@ -139,9 +144,9 @@ public class ValueData {
 
     public void setActData(ActualDataValue dat) { this.actData = dat; }
 
-    public void setDisabled(boolean disabled) { this.disabled = disabled; }
+    public void setDisabled(boolean disabled) { this.disabled.set(disabled); }
 
-    public void setSelection(boolean selected) { this.selected = selected; }
+    public void setSelection(boolean selected) { this.selected.set(selected); }
 
     public void setParentNode(ValueData parentNode) { this.parentNode = parentNode; }
 

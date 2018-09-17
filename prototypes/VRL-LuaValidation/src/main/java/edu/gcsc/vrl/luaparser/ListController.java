@@ -8,6 +8,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -93,6 +94,12 @@ public class ListController {
         outputTable.setShowRoot(false);
 
         for (int i = 0; i < inputData.size(); i++) {
+            inputData.get(i).getSelectedProp().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    outputTable.refresh();
+                }
+            });
             System.out.println("NAME: " + inputData.get(i).getValName().get());
             TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
             root.getChildren().add(actV);
@@ -101,6 +108,13 @@ public class ListController {
                 for (int j = 0; j < inputData.get(i).getOptions().size(); j++) {
                     System.out.println("OPTIONS: " + inputData.get(i).getValName().get());
                     setOptionsTreeElements(actV, inputData.get(i).getOptions().get(j));
+
+                    inputData.get(i).getOptions().get(j).getSelectedProp().addListener(new ChangeListener<Boolean>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                            outputTable.refresh();
+                        }
+                    });
                 }
             }
         }
