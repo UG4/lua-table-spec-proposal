@@ -75,20 +75,22 @@ public class ActualDataValue {
         } else if(getType().equals("Integer[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Integer>) value;
+                    List<Integer> temp = ConversionUtil.fromStringToIntegerList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Integer!");}
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    List<Double> temp = GenUtil.fromStringToDoubleList(String.valueOf(value));
+                    List<Double> temp = ConversionUtil.fromStringToDoubleList(String.valueOf(value));
                     this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Boolean>) value;
+                    List<Boolean> temp = ConversionUtil.fromStringToBooleanList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
         }
@@ -148,20 +150,22 @@ public class ActualDataValue {
         } else if(getType().equals("Integer[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Integer>) value;
+                    List<Integer> temp = ConversionUtil.fromStringToIntegerList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Integer!");}
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    List<Double> temp = GenUtil.fromStringToDoubleList(String.valueOf(value));
+                    List<Double> temp = ConversionUtil.fromStringToDoubleList(String.valueOf(value));
                     this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
         } else if(getType().equals("Boolean[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<Boolean>) value;
+                    List<Boolean> temp = ConversionUtil.fromStringToBooleanList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
         }

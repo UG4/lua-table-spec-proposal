@@ -502,35 +502,4 @@ public final class GenUtil {
         sb.append("\"");
         return sb.toString();
     }
-
-    public static List<Double> fromStringToDoubleList(String s){
-        //String s = "1.5,2,4.54534245,4.00";
-        char[] cS = s.toCharArray();
-        List<Double> doubles = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-
-        for(int i = 0; i < cS.length;i++){
-            if(Character.toString(cS[i]).equals(",")){
-                try{
-                    double x = Double.parseDouble(sb.toString());
-                    doubles.add(x);
-                    sb = new StringBuilder();
-                } catch(Exception e){}
-            } else if(i == cS.length-1){
-                try{
-                    sb.append(cS[i]);
-                    double x = Double.parseDouble(sb.toString());
-                    doubles.add(x);
-                    sb = new StringBuilder();
-                } catch(Exception e){}
-            } else {
-                sb.append(cS[i]);
-            }
-        }
-
-        for(double a : doubles){
-            System.out.println("TEST: "+a);
-        }
-        return doubles;
-    }
 }
