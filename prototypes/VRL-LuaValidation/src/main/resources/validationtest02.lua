@@ -18,7 +18,8 @@ problem = {
     -- specification for problem.myGroup.myVal
     myVal = {
         type = "String",
-        default = "zz"
+        default = "zz",
+        style = "default"
     },
 
     mySubGroup1 = {
@@ -28,7 +29,8 @@ problem = {
             default = 10,
 
             validation = {
-                dependsOn = {"./mySubGroup1/mySubVal2/"}
+                dependsOn = {"./mySubGroup1/mySubVal2/"},
+                eval = function(mySubVal2) return 20 > mySubVal2 end
             }
         },
         
@@ -38,7 +40,8 @@ problem = {
             default = 10,
 
             validation = {
-                dependsOn = {"./mySubGroup1/mySubVal1/"}
+                dependsOn = {"./mySubGroup2/mySubVal11/"},
+                eval      = function(mySubVal11) return 8 < mySubVal11 end
             }
         }
     },
@@ -47,7 +50,10 @@ problem = {
             -- specification for problem.myGroup.mySubGroup.mySubVal1
             mySubVal11 = {
                 type = "Integer",
-                default = 10
+                default = 10,
+                validation = {
+                    dependsOn = {}
+                }
             },
 
             -- specification for problem.myGroup.mySubGroup.mySubVal2
