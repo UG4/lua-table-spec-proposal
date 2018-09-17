@@ -18,7 +18,7 @@ public final class ExportLua {
 
             if (data.get(i).isAValue() && data.get(i).isSelected()) {
                 if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
-                    doStr(data.get(i),sb);
+                    doStr(data.get(i), sb);
                 }
             } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (GenUtil.haveOptValSelected(data.get(i))) {
@@ -100,13 +100,13 @@ public final class ExportLua {
     private static void doVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
             sb.append(vData.getValName().get() + "=");
-            doStr(vData,sb);
+            doStr(vData, sb);
         }
     }
 
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            doStr(vData,sb);
+            doStr(vData, sb);
         }
     }
 
@@ -214,29 +214,45 @@ public final class ExportLua {
     // Diese Funktion setzt Anführungszeichen beim Export von String-Werten
     // und setzt Klammern, falls es ein Array ist.
     // MUSS NOCH HINZUGEFÜGT WERDEN!
-    private static void doStr(ValueData vd, StringBuilder sb){
-        if(vd.getActData().getType().equals("String")){
+    private static void doStr(ValueData vd, StringBuilder sb) {
+        if (vd.getActData().getType().equals("String")) {
             String temp = GenUtil.doQuoteMark(vd.getActData().getValue().toString());
             sb.append(temp);
             sb.append("#");
-        } else if(vd.getActData().getType().equals("Double[]")){
-            String temp = vd.getActData().getValue().toString();
-
-            if(temp != null){
-                // Wieso werden '[' und ']' nicht erkannt, wenn man sie als Character checkt(equal())?!
-                // Hat wahrscheinlich etwas mit dem Casting vom getValue zu der List<String> zu tun....
+        } else if (vd.getActData().getType().equals("Double[]")) {
+            List<Double> temp = (List<Double>) vd.getActData().getValue();
+            if (temp != null) {
                 sb.append("{");
-                StringBuilder sh = new StringBuilder();
-
-                char[] tempChars = temp.toCharArray();
-                for(char c : tempChars){
-                    sh.append(c);
-                }
-                sb.append(sh.toString().substring(2,sh.length()-2));
+                String s = ConversionUtil.fromDoubleListToString(temp);
+                sb.append(s);
+                sb.append("}");
+            }
+        } else if (vd.getActData().getType().equals("Integer[]")) {
+            List<Integer> temp = (List<Integer>) vd.getActData().getValue();
+            if (temp != null) {
+                sb.append("{");
+                String s = ConversionUtil.fromIntegerListToString(temp);
+                sb.append(s);
+                sb.append("}");
+            }
+        } else if (vd.getActData().getType().equals("Boolean[]")) {
+            List<Boolean> temp = (List<Boolean>) vd.getActData().getValue();
+            if (temp != null) {
+                sb.append("{");
+                String s = ConversionUtil.fromBooleanListToString(temp);
+                sb.append(s);
+                sb.append("}");
+            }
+        } else if (vd.getActData().getType().equals("String[]")) {
+            List<String> temp = (List<String>) vd.getActData().getValue();
+            if (temp != null) {
+                sb.append("{");
+                String s = ConversionUtil.fromStringListToStringQuoteMarks(temp);
+                sb.append(s);
                 sb.append("}");
             }
         } else {
-            sb.append(vd.getActData().getValue()+"#");
+            sb.append(vd.getActData().getValue() + "#");
         }
     }
 

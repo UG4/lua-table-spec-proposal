@@ -6,6 +6,8 @@ import java.util.List;
 public final class ConversionUtil {
     public ConversionUtil(){ throw new AssertionError(); }
 
+    // In dieser Klasse werden Strings zu Listen von verschiedenen Datentypen umgewandelt und umgekehrt.
+    // Wird vorallem für die richtige Kommunikation zwischen GUI und Datenmodell benötigt.
     public static List<Double> fromStringToDoubleList(String s) {
         char[] cS = s.toCharArray();
         List<Double> doubles = new ArrayList<>();
@@ -175,6 +177,16 @@ public final class ConversionUtil {
         StringBuilder sb = new StringBuilder();
         for(String s : sl){
             sb.append(s).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        return sb.toString();
+    }
+
+    public static String fromStringListToStringQuoteMarks(List<String> sl){
+        StringBuilder sb = new StringBuilder();
+        for(String s : sl){
+            sb.append("\""+s+"\"").append(",");
         }
         sb.setLength(sb.length()-1);
 
