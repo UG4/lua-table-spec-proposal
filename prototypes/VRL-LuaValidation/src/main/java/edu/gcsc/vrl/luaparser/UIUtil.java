@@ -29,16 +29,28 @@ public class UIUtil {
     }
 
     public static TextField tfString(Object o, ValueData v) {
-        StringBuilder sb = new StringBuilder();
-        List<Double> temp = (List<Double>) o;
-        for(double d : temp){
-            sb.append(d).append(",");
-        }
-        sb.setLength(sb.length()-1);
-
         TextField stringField = new TextField();
+        if(v.getActData().getType().equals("Double[]")){
+            List<Double> temp = (List<Double>) o;
+            String s = ConversionUtil.fromDoubleListToString(temp);
+            stringField.setText(s);
+        } else if(v.getActData().getType().equals("Integer[]")){
+            List<Integer> temp = (List<Integer>) o;
+            String s = ConversionUtil.fromIntegerListToString(temp);
+            stringField.setText(s);
+        } else if(v.getActData().getType().equals("Boolean[]")){
+            List<Boolean> temp = (List<Boolean>) o;
+            String s = ConversionUtil.fromBooleanListToString(temp);
+            stringField.setText(s);
+        } else if(v.getActData().getType().equals("String[]")){
+            List<String> temp = (List<String>) o;
+            String s = ConversionUtil.fromStringListToString(temp);
+            stringField.setText(s);
+        }
 
-        stringField.setText(sb.toString());
+
+
+
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
                         v.getActData().setValue(newValue, stringField);

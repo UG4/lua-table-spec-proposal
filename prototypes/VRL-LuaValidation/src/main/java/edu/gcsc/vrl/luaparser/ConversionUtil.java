@@ -100,7 +100,7 @@ public final class ConversionUtil {
         return bools;
     }
 
-    public static List<String> fromStringStringList(String s){
+    public static List<String> fromStringtoStringList(String s){
         char[] cs = s.toCharArray();
         StringBuilder sb = new StringBuilder();
         List<String> strings = new ArrayList<>();
@@ -123,6 +123,51 @@ public final class ConversionUtil {
                 sb.append(cs[i]);
             }
         }
+        System.out.println("___");
+        for(String s1 : strings){
+            System.out.println("TEST: " +s1);
+        }
+        System.out.println("___");
         return strings;
+    }
+
+    public static String fromDoubleListToString(List<Double> dl){
+        StringBuilder sb = new StringBuilder();
+        for(double d : dl){
+            sb.append(d).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        return sb.toString();
+    }
+
+    public static String fromIntegerListToString(List<Integer> il){
+        StringBuilder sb = new StringBuilder();
+        for(int d : il){
+            sb.append(d).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        return sb.toString();
+    }
+
+    public static String fromBooleanListToString(List<Boolean> bl){
+        StringBuilder sb = new StringBuilder();
+        for(boolean b : bl){
+            sb.append(b).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        return sb.toString();
+    }
+
+    public static String fromStringListToString(List<String> sl){
+        StringBuilder sb = new StringBuilder();
+        for(String s : sl){
+            sb.append(s).append(",");
+        }
+        sb.setLength(sb.length()-1);
+
+        return sb.toString();
     }
 }

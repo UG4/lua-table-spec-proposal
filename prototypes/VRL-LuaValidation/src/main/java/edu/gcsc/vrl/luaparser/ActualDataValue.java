@@ -69,7 +69,8 @@ public class ActualDataValue {
         } else if(getType().equals("String[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<String>) value;
+                    List<String> temp = ConversionUtil.fromStringtoStringList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Strings!");}
         } else if(getType().equals("Integer[]")){
@@ -144,7 +145,8 @@ public class ActualDataValue {
         } else if(getType().equals("String[]")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = (List<String>) value;
+                    List<String> temp = ConversionUtil.fromStringtoStringList(String.valueOf(value));
+                    this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Strings!");}
         } else if(getType().equals("Integer[]")){
