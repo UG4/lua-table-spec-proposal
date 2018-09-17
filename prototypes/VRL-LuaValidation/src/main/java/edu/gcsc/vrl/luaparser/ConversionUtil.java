@@ -97,6 +97,12 @@ public final class ConversionUtil {
                 sb.append(cs[i]);
             }
         }
+
+        System.out.println("___");
+        for(boolean test : bools){
+            System.out.println("TEST: "+test);
+        }
+        System.out.println("___");
         return bools;
     }
 
@@ -109,14 +115,18 @@ public final class ConversionUtil {
             if(Character.toString(cs[i]).equals(",")){
                 try{
                     String x = sb.toString();
-                    strings.add(x);
+                    if(!x.isEmpty()) {
+                        strings.add(x);
+                    }
                     sb = new StringBuilder();
                 } catch(Exception e){}
             } else if(i == cs.length-1){
                 try{
                     sb.append(cs[i]);
                     String x = sb.toString();
-                    strings.add(x);
+                    if(!x.isEmpty()) {
+                        strings.add(x);
+                    }
                     sb = new StringBuilder();
                 } catch(Exception e){}
             } else {
