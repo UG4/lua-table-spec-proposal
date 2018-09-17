@@ -211,9 +211,7 @@ public final class ExportLua {
         return result;
     }
 
-    // Diese Funktion setzt Anführungszeichen beim Export von String-Werten
-    // und setzt Klammern, falls es ein Array ist.
-    // MUSS NOCH HINZUGEFÜGT WERDEN!
+    // Diese Funktion erstellt die Ausgabestrings der Werte für den Export in eine Lua-Datei
     private static void doStr(ValueData vd, StringBuilder sb) {
         if (vd.getActData().getType().equals("String")) {
             String temp = GenUtil.doQuoteMark(vd.getActData().getValue().toString());

@@ -4,8 +4,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,10 +53,6 @@ public class UIUtil {
             String s = ConversionUtil.fromStringListToString(temp);
             stringField.setText(s);
         }
-
-
-
-
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
                         v.getActData().setValue(newValue, stringField);
@@ -129,6 +131,64 @@ public class UIUtil {
             }
         }
         t.setTooltip(tip);
+    }
+    public static HBox doLoadFile(Window actWindow){
+        HBox master = new HBox();
+        master.setSpacing(2);
+        HBox content = new HBox();
+
+        TextField tf = new TextField();
+        Button bt = new Button();
+        content.getChildren().add(tf);
+        content.getChildren().add(bt);
+        master.getChildren().add(content);
+
+        bt.setText("...");
+        bt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String path = "";
+                final FileChooser fc = new FileChooser();
+                fc.setTitle("Select a .lua-File to open");
+                FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
+                fc.getExtensionFilters().add(extLua);
+                final File selecDir = fc.showOpenDialog(actWindow);
+                if (selecDir != null) {
+                    path = selecDir.getAbsolutePath();
+                }
+                tf.setText(path);
+            }
+        });
+        return master;
+    }
+    public static HBox doSaveFile(Window actWindow){
+        HBox master = new HBox();
+        master.setSpacing(2);
+        HBox content = new HBox();
+
+        TextField tf = new TextField();
+        Button bt = new Button();
+        content.getChildren().add(tf);
+        content.getChildren().add(bt);
+        master.getChildren().add(content);
+
+        bt.setText("...");
+        bt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String path = "";
+                final FileChooser fc = new FileChooser();
+                fc.setTitle("Select a .lua-File to save");
+                FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
+                fc.getExtensionFilters().add(extLua);
+                final File selecDir = fc.showSaveDialog(actWindow);
+                if (selecDir != null) {
+                    path = selecDir.getAbsolutePath();
+                }
+                tf.setText(path);
+            }
+        });
+        return master;
     }
 
     public static void logging(String msg, TextArea ta) {

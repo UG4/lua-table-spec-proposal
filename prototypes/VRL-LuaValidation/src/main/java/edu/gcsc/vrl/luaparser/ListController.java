@@ -136,8 +136,6 @@ public class ListController {
                     fc.setTitle("Select a Validator-File(*.lua)");
                     if(!PreferencesUtil.getInitValidationImportPath().isEmpty()) {
                         fc.setInitialDirectory(new File(PreferencesUtil.getInitValidationImportPath()));
-                    } else {
-                        fc.setInitialDirectory(new File("C:/Users/"));
                     }
                     // Funktioniert vllt nicht für jedes OS
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
@@ -215,22 +213,22 @@ public class ListController {
                 String path = "";
                 try {
                     // Choose Path
-                    final DirectoryChooser dc = new DirectoryChooser();
-                    dc.setTitle("Select a .lua-File");
+                    final FileChooser fc = new FileChooser();
+                    fc.setTitle("Select a .lua-File");
+                    FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
+                    fc.getExtensionFilters().add(extLua);
 
                     if(!PreferencesUtil.getInitValidationImportPath().isEmpty()) {
-                        dc.setInitialDirectory(new File(PreferencesUtil.getInitialLuaExportPath()));
-                    } else {
-                        dc.setInitialDirectory(new File("C:/Users/"));
+                        fc.setInitialDirectory(new File(PreferencesUtil.getInitialLuaExportPath()));
                     }
 
-                    final File selecDir = dc.showDialog(bp.getScene().getWindow());
+                    final File selecDir = fc.showSaveDialog(bp.getScene().getWindow());
                     if (selecDir != null) {
                         path = selecDir.getAbsolutePath();
                     }
 
                     // Writing Lua-File
-                    Writer filewriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path+"/luaexpo.lua"), "utf-8"));
+                    Writer filewriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "utf-8"));
                     filewriter.write(luaCode);
                     filewriter.close();
 

@@ -1,6 +1,14 @@
 package edu.gcsc.vrl.luaparser;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+
+import java.io.File;
 
 public class MyValCell extends TreeTableCell<ValueData, ValueData> {
     /*
@@ -29,7 +37,6 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 }
                                 UIUtil.doTooltip(item,stringField);
                                 setGraphic(stringField);
-                                //setStyle("");
                                 break;
                             case "Double":
                                 TextField doubleField;
@@ -40,7 +47,6 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 }
                                 UIUtil.doTooltip(item,doubleField);
                                 setGraphic(doubleField);
-                                //setStyle("");
                                 break;
                             case "Integer":
                                 TextField integerField;
@@ -51,7 +57,6 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 }
                                 UIUtil.doTooltip(item,integerField);
                                 setGraphic(integerField);
-                                //setStyle("");
                                 break;
                         }
                     } else if (item.getStyle().equals("selection")) {
@@ -61,6 +66,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 UIUtil.doTooltip(item,doubleBox1);
                                 setGraphic(doubleBox1);
                                 setStyle("");
+                                break;
 
                             case "Integer":
                                 /*
@@ -70,10 +76,27 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 UIUtil.doTooltip(item, doubleBox2);
                                 setGraphic(doubleBox2);
                                 setStyle("");
+                                break;
+                        }
+                    } else if(item.getStyle().equals("load-file-dialog")){
+                        switch(item.getType().get()){
+                            case "String":
+                                Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
+                                HBox master = UIUtil.doLoadFile(act);
+                                setGraphic(master);
+                                break;
+
                         }
 
-
-                    } else {
+                    } else if(item.getStyle().equals("save-file-dialog")){
+                        switch(item.getType().get()){
+                            case "String":
+                                Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
+                                HBox master = UIUtil.doSaveFile(act);
+                                setGraphic(master);
+                                break;
+                        }
+                    }else {
                         TextField stringField;
                         if(item.getActData() != null) {
                             if(item.getActData().getValue() != null) {
@@ -101,7 +124,6 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         }
                         UIUtil.doTooltip(item, stringField);
                         setGraphic(stringField);
-                        //setStyle("");
                     }
 
                 } else {

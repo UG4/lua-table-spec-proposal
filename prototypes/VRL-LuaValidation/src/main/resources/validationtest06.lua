@@ -20,6 +20,14 @@ problem = {
 				subParam4 = {
 				    type = "Boolean[]",
 				    default = {"true","false","true"}
+				},
+				subParam5 = {
+				    type = "String",
+				    style = "load-file-dialog"
+				},
+				subParam6 = {
+				    type = "String",
+				    style = "save-file-dialog"
 				}
 			}
         }
