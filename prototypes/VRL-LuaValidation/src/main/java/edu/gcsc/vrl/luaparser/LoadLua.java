@@ -201,12 +201,23 @@ public final class LoadLua {
             ValueData iLua = loadedLuaFileVals.get(i);
             for (int j = 0; j < runtimeSpec.size(); j++) {
                 ValueData jrt = runtimeSpec.get(j);
-                if (loadedLuaFileVals.get(i).isAValue()) {
-                    if (jrt.getValName().get().equals(iLua.getValName().get())) {
+                if (loadedLuaFileVals.get(i).isAValue() || loadedLuaFileVals.get(i).isOptValue()) {
+                    if (jrt.getValName().get().equals(iLua.getValName().get()) && (jrt.isAValue() || jrt.isOptValue())) {
                         // Wenn der Value-Name direkt matched
-                        jrt.getActData().setValue(iLua.getActData().getValue());
-                        if(jrt.getParentNode() != null && (jrt.getParentNode().isOption()||jrt.getParentNode().isOptValue())){
+                        System.out.println("RT: "+jrt.getValName().get() + " Lua: "+ iLua.getValName().get());
+                        if(jrt.getActData() != null && jrt.getActData().getValue() != null) {
+                            jrt.getActData().setValue(iLua.getActData().getValue());
+                        } else {
+                            System.out.println("TEST : " + jrt.getValName().get());
+                            ActualDataValue adv = new ActualDataValue();
+                            adv.setType(jrt.getType().get());
+                            adv.setValue(iLua.getActData().getValue());
+                            jrt.setActData(adv);
+                        }
+                        if(jrt.getParentNode() != null && jrt.getParentNode().isOption()){
                             jrt.getParentNode().setSelectedNew(true);
+                        } else if(jrt.isOptValue()){
+                            jrt.setSelectedNew(true);
                         }
                     } else if(jrt.hasOptValue()){
                         // Falls beim Runtime-Objekt ein optionaler-Value vorhanden ist
@@ -230,8 +241,10 @@ public final class LoadLua {
         for(ValueData v : rt.getOptions()){
             if(v.isOptValue()){
                 v.getActData().setValue(vLua.getActData().getValue());
-                if(v.getParentNode() != null && (v.getParentNode().isOption()||v.getParentNode().isOptValue())){
+                if(v.getParentNode() != null && v.getParentNode().isOption()){
                     v.getParentNode().setSelectedNew(true);
+                } else if(v.isOptValue()){
+                    v.setSelectedNew(true);
                 }
             }
         }
