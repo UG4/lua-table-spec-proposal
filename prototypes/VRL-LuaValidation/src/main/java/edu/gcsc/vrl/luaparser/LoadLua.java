@@ -3,6 +3,7 @@ package edu.gcsc.vrl.luaparser;
 import com.google.common.io.ByteStreams;
 import org.apache.commons.lang.math.NumberUtils;
 
+import javax.print.DocFlavor;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,24 +123,30 @@ public final class LoadLua {
                                 visitGroup((Group) ed, vd);
                             }
                         } else if (onlyValues((Group) ede)) {
-                            if(isArrayOfValues((Group)ede)){
+                            if (isArrayOfValues((Group) ede)) {
                                 StringBuilder sb = new StringBuilder();
                                 String actType = "";
-                                for(Entry ed : ((Group) ede).getEntries()){
+                                int counter = 0;
+                                for (Entry ed : ((Group) ede).getEntries()) {
+                                    if (counter == 0) {
+                                        actType = settingType((Value) ed);
+                                        counter++;
+                                    }
                                     sb.append(((Value)ed).getValueAsString()).append(",");
-                                    actType = settingType((Value)ed);
                                 }
-                                sb.setLength(sb.length()-1);
-                                System.out.println("sb: "+sb.toString());
-                                if(vd.getActData() != null && vd.getActData().getValue() != null){
+                                if(sb.length() > 0) {
+                                    sb.setLength(sb.length() - 1);
+                                }
+                                if (vd.getActData() != null && vd.getActData().getValue() != null) {
                                     vd.getActData().setValue(sb.toString());
                                     vd.isValue(true);
                                 } else {
                                     ActualDataValue actData = new ActualDataValue();
-                                    // Muss noch eingefügt werden
-                                    actData.setType(actType);
-                                    actData.setValue(sb.toString());
-                                    vd.setActData(actData);
+                                    if (!actType.isEmpty()) {
+                                        actData.setType(actType);
+                                        actData.setValue(sb.toString());
+                                        vd.setActData(actData);
+                                    }
                                     vd.isValue(true);
                                 }
                             } else {
@@ -215,10 +222,10 @@ public final class LoadLua {
         return true;
     }
 
-    private static boolean isArrayOfValues(Group g){
-        System.out.println("check Group: "+g.getName());
-        for(Entry e: g.getEntries()){
-            if(e instanceof Value && NumberUtils.isNumber(e.getName())){
+    private static boolean isArrayOfValues(Group g) {
+        System.out.println("check Group: " + g.getName());
+        for (Entry e : g.getEntries()) {
+            if (e instanceof Value && NumberUtils.isNumber(e.getName())) {
                 return true;
             }
         }
@@ -240,15 +247,21 @@ public final class LoadLua {
     }
 
     private static String settingType(Value v) {
-        if (v.isString()) {
-            return "String[]";
-        } else if (v.isDouble()) {
+
+        if (v.isDouble()) {
+            System.out.println(v.getName() + " dou");
             return "Double[]";
         } else if (v.isInteger()) {
+            System.out.println(v.getName() + " int");
             return "Integer[]";
         } else if (v.isBoolean()) {
+            System.out.println(v.getName() + " bool");
             return "Boolean[]";
+        } else if (v.isString()) {
+            System.out.println(v.getName() + " str");
+            return "String[]";
         } else if (v.isFunction()) {
+            System.out.println(v.getName() + " func");
             return "Function[]";
         } else {
             return "";
@@ -263,12 +276,12 @@ public final class LoadLua {
                         for (ValueData p : s.getOptions()) {
                             if (p.isOptValue()) {
                                 if (p.getActData() != null && p.getActData().getValue() != null) {
-                                    p.getActData().setValue(v.getActData().getValue());
+                                    p.getActData().setValueLoad(v.getActData().getValue());
                                     p.setSelectedNew(true);
                                 } else {
                                     ActualDataValue adv = new ActualDataValue();
                                     adv.setType(v.getActData().getType());
-                                    adv.setValue(v.getActData().getValue());
+                                    adv.setValueLoad(v.getActData().getValue());
                                     p.setActData(adv);
                                     p.setSelectedNew(true);
                                 }
@@ -276,14 +289,14 @@ public final class LoadLua {
                         }
                     } else if (s.isAValue() && s.getValName().get().equals(v.getValName().get())) {
                         if (s.getActData() != null && s.getActData().getValue() != null) {
-                            s.getActData().setValue(v.getActData().getValue());
+                            s.getActData().setValueLoad(v.getActData().getValue());
                             if (s.getParentNode() != null && s.getParentNode().isOption()) {
                                 s.getParentNode().setSelectedNew(true);
                             }
                         } else {
                             ActualDataValue adv = new ActualDataValue();
                             adv.setType(v.getActData().getType());
-                            adv.setValue(v.getActData().getValue());
+                            adv.setValueLoad(v.getActData().getValue());
                             s.setActData(adv);
                             if (s.getParentNode() != null && s.getParentNode().isOption()) {
                                 s.getParentNode().setSelectedNew(true);
@@ -299,7 +312,6 @@ public final class LoadLua {
                         }
                     }
                 } else if (v.getOptions() != null) {
-                    System.out.println("NAME GROUP v : " + v.getValName().get());
                     if (s.getOptions() != null && s.isOption()) {
                         System.out.println("1.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
                         for (ValueData opt : s.getOptions()) {
@@ -309,12 +321,6 @@ public final class LoadLua {
                         }
                     } else if (s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())) {
                         System.out.println("2.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
-                        for (ValueData tets : s.getOptions()) {
-                            System.out.println("s : " + tets.getValName().get());
-                        }
-                        for (ValueData tets2 : v.getOptions()) {
-                            System.out.println("v : " + tets2.getValName().get());
-                        }
                         match(s.getOptions(), v.getOptions());
                     }
                 }

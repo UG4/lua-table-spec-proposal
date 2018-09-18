@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ public final class ConversionUtil {
     // In dieser Klasse werden Strings zu Listen von verschiedenen Datentypen umgewandelt und umgekehrt.
     // Wird vorallem für die richtige Kommunikation zwischen GUI und Datenmodell benötigt.
     public static List<Double> fromStringToDoubleList(String s) {
+        System.out.println("DOUBLE STR2: "+s);
         char[] cS = s.toCharArray();
         List<Double> doubles = new ArrayList<>();
         StringBuilder sb = new StringBuilder();

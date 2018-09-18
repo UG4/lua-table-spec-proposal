@@ -28,6 +28,10 @@ problem = {
 				subParam6 = {
 				    type = "String",
 				    style = "save-file-dialog"
+				},
+				subParam7 = {
+				    type = "String",
+				    default = "Test1"
 				}
 			}
         }
