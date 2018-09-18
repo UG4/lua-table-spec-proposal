@@ -59,6 +59,21 @@ public final class GenUtil {
         }
     }
 
+    public static void selectParents(ValueData v){
+        if(v.getParentNode() != null){
+            if(!v.getParentNode().isAValue() && !v.getParentNode().isNotOptGroup()){
+                v.getParentNode().setSelectedNew(true);
+                if(v.getParentNode().getParentNode() != null){
+                    selectParents(v.getParentNode());
+                }
+            } else {
+                if(v.getParentNode() != null){
+                    selectParents(v.getParentNode());
+                }
+            }
+        }
+    }
+
     public static void selectAllParentNodes(ValueData v) {
         if (v.getParentNode() != null) {
             if (v.getParentNode() != v.getRootNode()) {

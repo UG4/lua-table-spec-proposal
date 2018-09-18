@@ -88,6 +88,10 @@ public final class LoadLua {
 
     private static void visitGroup(Entry e, ValueData v) {
         if (e instanceof Group) {
+            ValueData x = new ValueData(e.getName());
+            x.setParentNode(v);
+            v.addSubParam(x);
+
             for (Entry ede : ((Group) e).getEntries()) {
                 if (ede instanceof Value) {
                     ValueData vd = new ValueData(ede.getName());
@@ -98,14 +102,15 @@ public final class LoadLua {
                     vd.setActData(adv);
                     System.out.println("wert: " + vd.getActData().getValue());
                     vd.isValue(true);
-                    v.addSubParam(vd);
-                    vd.setParentNode(v);
+                    x.addSubParam(vd);
+                    vd.setParentNode(x);
+                    System.out.println("VAL: " + vd.getValName().get());
                 } else if (ede instanceof Group) {
                     if (!ede.getName().equals("problem") && !ede.getName().equals("root")) {
                         ValueData vd = new ValueData(ede.getName());
                         System.out.println("GROUP3: " + vd.getValName().get());
-                        v.addSubParam(vd);
-                        vd.setParentNode(v);
+                        x.addSubParam(vd);
+                        vd.setParentNode(x);
 
                         if (onlyGroups((Group) ede)) {
                             for (Entry ed : ((Group) ede).getEntries()) {
@@ -195,13 +200,69 @@ public final class LoadLua {
             adv.setType("Function");
         }
     }
+    public static void match(List<ValueData> spec, List<ValueData> lua){
+        for(ValueData v : lua){
+            for(ValueData s : spec){
+                if(v.isAValue()){
+                    if(s.hasOptValue() && s.getValName().get().equals(v.getValName().get())){
+                        for(ValueData p : s.getOptions()){
+                            if(p.isOptValue()){
+                                if(p.getActData() != null && p.getActData().getValue() != null){
+                                    p.getActData().setValue(v.getActData().getValue());
+                                } else {
+                                    ActualDataValue adv = new ActualDataValue();
+                                    adv.setType(v.getActData().getType());
+                                    adv.setValue(v.getActData().getValue());
+                                    p.setActData(adv);
+                                }
+                            }
+                        }
+                    } else if(s.isAValue() && s.getValName().get().equals(v.getValName().get())){
+                        if(s.getActData() != null && s.getActData().getValue() != null){
+                            s.getActData().setValue(v.getActData().getValue());
+                        } else {
+                            ActualDataValue adv = new ActualDataValue();
+                            adv.setType(v.getActData().getType());
+                            adv.setValue(v.getActData().getValue());
+                            s.setActData(adv);
+                        }
+                    } else if(s.isOption()){
+                        if(v.getParentNode().getOptions() != null) {
+                            match(s.getOptions(), v.getParentNode().getOptions());
+                        }
+                    }
+                } else if(v.getOptions() != null){
+                    System.out.println("NAME GROUP v : "+ v.getValName().get());
+                    if(s.getOptions() != null && s.isOption()){
+                        System.out.println("1.RT: "+s.getValName().get()+ " LUA: " + v.getValName().get());
+                        for(ValueData opt : s.getOptions()){
+                            if(opt.getOptions() != null){
+                                match(opt.getOptions(),v.getOptions());
+                            }
+                        }
+                    } else if(s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())){
+                        System.out.println("2.RT: "+s.getValName().get()+ " LUA: " + v.getValName().get());
+                        for(ValueData tets : s.getOptions()){
+                            System.out.println("s : "+tets.getValName().get());
+                        }
+                        for(ValueData tets2 : v.getOptions()){
+                            System.out.println("v : "+tets2.getValName().get());
+                        }
+                        match(s.getOptions(),v.getOptions());
+
+                    }
+                }
+            }
+        }
+    }
 
     public static void matchingValues(List<ValueData> runtimeSpec, List<ValueData> loadedLuaFileVals) {
         for (int i = 0; i < loadedLuaFileVals.size(); i++) {
             ValueData iLua = loadedLuaFileVals.get(i);
             for (int j = 0; j < runtimeSpec.size(); j++) {
                 ValueData jrt = runtimeSpec.get(j);
-                if (loadedLuaFileVals.get(i).isAValue() || loadedLuaFileVals.get(i).isOptValue()) {
+                if (iLua.isAValue() || iLua.isOptValue()) {
+                    System.out.println("RT: "+jrt.getValName().get()+ " LUA: "+iLua.getValName().get());
                     if (jrt.getValName().get().equals(iLua.getValName().get()) && (jrt.isAValue() || jrt.isOptValue())) {
                         // Wenn der Value-Name direkt matched
                         System.out.println("RT: "+jrt.getValName().get() + " Lua: "+ iLua.getValName().get());

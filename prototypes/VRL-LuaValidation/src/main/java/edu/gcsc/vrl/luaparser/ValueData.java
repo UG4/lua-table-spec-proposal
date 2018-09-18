@@ -264,7 +264,7 @@ public class ValueData {
                 if (isOption() || isOptValue()) {
                     setSelection(true);
                     if (getParentNode() != null && getParentNode().getOptions() != null) {
-                        GenUtil.selectAllParentNodes(this);
+                        GenUtil.selectParents(this);
                         for (ValueData v : getParentNode().getOptions()) {
                             if ((v.isOption()||v.isOptValue()) && !v.equals(act)) {
                                 GenUtil.disableWithAllChildNodes(v);

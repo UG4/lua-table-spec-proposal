@@ -212,7 +212,7 @@ public class ListController {
                         List<ValueData> data = new ArrayList<>();
                         Group loadedLua = LoadLua.parseLuaFile(path);
                         LoadLua.visitingLuaCode(loadedLua, data);
-                        LoadLua.matchingValues(runtimeObject.getData(),data);
+                        LoadLua.match(runtimeObject.getData(),data);
                     }
                 } catch (IOException io) {
                     UIUtil.logging("Cant find the file!", loggingField);
