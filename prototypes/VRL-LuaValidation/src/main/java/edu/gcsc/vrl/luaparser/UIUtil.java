@@ -142,6 +142,20 @@ public class UIUtil {
         content.getChildren().add(tf);
         content.getChildren().add(bt);
         master.getChildren().add(content);
+        if(v.getActData() != null && v.getActData().getValue() != null){
+            tf.setText(String.valueOf(v.getActData().getValue()));
+        }
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (v.getActData() != null) {
+                        v.getActData().setValue(newValue, tf);
+                    } else {
+                        ActualDataValue adv = new ActualDataValue();
+                        adv.setType(v.getType().get());
+                        adv.setValue(newValue, tf);
+                        v.setActData(adv);
+                    }
+                }
+        );
 
         bt.setText("...");
         bt.setOnAction(new EventHandler<ActionEvent>() {
@@ -179,6 +193,20 @@ public class UIUtil {
         content.getChildren().add(tf);
         content.getChildren().add(bt);
         master.getChildren().add(content);
+        if(v.getActData() != null && v.getActData().getValue() != null){
+            tf.setText(String.valueOf(v.getActData().getValue()));
+        }
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (v.getActData() != null) {
+                        v.getActData().setValue(newValue, tf);
+                    } else {
+                        ActualDataValue adv = new ActualDataValue();
+                        adv.setType(v.getType().get());
+                        adv.setValue(newValue, tf);
+                        v.setActData(adv);
+                    }
+                }
+        );
 
         bt.setText("...");
         bt.setOnAction(new EventHandler<ActionEvent>() {
