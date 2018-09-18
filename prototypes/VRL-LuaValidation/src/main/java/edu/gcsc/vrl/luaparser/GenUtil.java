@@ -1,6 +1,5 @@
 package edu.gcsc.vrl.luaparser;
 
-import org.luaj.vm2.Lua;
 import org.luaj.vm2.LuaValue;
 
 import java.util.ArrayList;

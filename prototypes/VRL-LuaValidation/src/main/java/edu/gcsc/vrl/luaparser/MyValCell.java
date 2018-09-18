@@ -1,14 +1,8 @@
 package edu.gcsc.vrl.luaparser;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Window;
-
-import java.io.File;
 
 public class MyValCell extends TreeTableCell<ValueData, ValueData> {
     /*

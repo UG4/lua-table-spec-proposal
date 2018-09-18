@@ -1,8 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
 import org.apache.commons.lang.math.NumberUtils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public final class VisitingValidatorSpec {

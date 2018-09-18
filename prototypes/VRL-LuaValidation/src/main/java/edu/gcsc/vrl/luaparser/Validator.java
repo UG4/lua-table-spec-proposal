@@ -5,14 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.ByteStreams;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class Validator {

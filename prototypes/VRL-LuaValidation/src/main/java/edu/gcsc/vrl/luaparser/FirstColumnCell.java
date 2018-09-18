@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeTableCell;
-import org.apache.commons.lang.math.NumberUtils;
 
 public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
 

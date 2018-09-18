@@ -1,12 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.control.TextField;
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-import org.apache.commons.lang.math.NumberUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ActualDataValue {

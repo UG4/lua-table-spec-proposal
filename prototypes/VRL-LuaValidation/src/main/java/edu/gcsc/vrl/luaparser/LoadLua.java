@@ -2,11 +2,8 @@ package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
 import org.apache.commons.lang.math.NumberUtils;
-
-import javax.print.DocFlavor;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class LoadLua {

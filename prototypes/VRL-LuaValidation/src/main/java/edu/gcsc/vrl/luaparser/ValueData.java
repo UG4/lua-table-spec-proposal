@@ -1,10 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import org.apache.commons.lang.math.NumberUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 

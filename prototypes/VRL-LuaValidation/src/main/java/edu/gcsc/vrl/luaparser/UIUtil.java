@@ -12,7 +12,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 public class UIUtil {

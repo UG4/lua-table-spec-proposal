@@ -1,7 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
-//import jdk.internal.util.xml.impl.Input;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +12,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.net.URL;
 
 public final class PreferencesUtil {
     public PreferencesUtil(){
