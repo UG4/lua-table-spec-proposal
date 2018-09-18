@@ -74,7 +74,7 @@ public final class LoadLua {
                             System.out.println("GROUP2: " + vf.getValName().get());
                             v.addSubParam(vf);
                             vf.setParentNode(v);
-                            visitGroup(ed, vf);
+                            visitGroup(ed, v);
                         }
                     }
                 }
@@ -230,6 +230,10 @@ public final class LoadLua {
                         if(v.getParentNode().getOptions() != null) {
                             match(s.getOptions(), v.getParentNode().getOptions());
                         }
+                    } else if(s.isNotOptGroup()){
+                        if(v.getParentNode().getOptions() != null) {
+                            match(s.getOptions(), v.getParentNode().getOptions());
+                        }
                     }
                 } else if(v.getOptions() != null){
                     System.out.println("NAME GROUP v : "+ v.getValName().get());
@@ -249,7 +253,6 @@ public final class LoadLua {
                             System.out.println("v : "+tets2.getValName().get());
                         }
                         match(s.getOptions(),v.getOptions());
-
                     }
                 }
             }
