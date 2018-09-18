@@ -132,7 +132,7 @@ public class UIUtil {
         }
         t.setTooltip(tip);
     }
-    public static HBox doLoadFile(Window actWindow){
+    public static HBox doLoadFile(Window actWindow, ValueData v){
         HBox master = new HBox();
         master.setSpacing(2);
         HBox content = new HBox();
@@ -157,11 +157,19 @@ public class UIUtil {
                     path = selecDir.getAbsolutePath();
                 }
                 tf.setText(path);
+                if (v.getActData() != null) {
+                    v.getActData().setValue(path);
+                } else {
+                    ActualDataValue adv = new ActualDataValue();
+                    adv.setType(v.getType().get());
+                    adv.setValue(path);
+                    v.setActData(adv);
+                }
             }
         });
         return master;
     }
-    public static HBox doSaveFile(Window actWindow){
+    public static HBox doSaveFile(Window actWindow, ValueData v){
         HBox master = new HBox();
         master.setSpacing(2);
         HBox content = new HBox();
@@ -186,6 +194,15 @@ public class UIUtil {
                     path = selecDir.getAbsolutePath();
                 }
                 tf.setText(path);
+                if (v.getActData() != null) {
+                    v.getActData().setValue(path);
+                } else {
+                    ActualDataValue adv = new ActualDataValue();
+                    adv.setType(v.getType().get());
+                    System.out.println(v.getType().get());
+                    adv.setValue(path);
+                    v.setActData(adv);
+                }
             }
         });
         return master;

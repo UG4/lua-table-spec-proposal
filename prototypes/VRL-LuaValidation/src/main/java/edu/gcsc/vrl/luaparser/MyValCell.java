@@ -82,7 +82,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         switch(item.getType().get()){
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
-                                HBox master = UIUtil.doLoadFile(act);
+                                HBox master = UIUtil.doLoadFile(act, item);
                                 setGraphic(master);
                                 break;
 
@@ -92,7 +92,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         switch(item.getType().get()){
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
-                                HBox master = UIUtil.doSaveFile(act);
+                                HBox master = UIUtil.doSaveFile(act,item);
                                 setGraphic(master);
                                 break;
                         }
