@@ -1,6 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
+import org.apache.commons.lang.math.NumberUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -111,22 +112,49 @@ public final class LoadLua {
                         System.out.println("GROUP3: " + vd.getValName().get());
                         x.addSubParam(vd);
                         vd.setParentNode(x);
+                        // In die folgenden if-Abfragen einen Check einbauen, der prüft , ob alle Entries
+                        // KEINE GROUP und KEINE VALUES sind.
+                        // -> dann weiß man, dass die Group auch ein Parameter mit mehreren Eingabewerten(im Array) ist
+                        // Wie unterscheidet man List<String> von einer List<Function>? Beides sind ja erstmal List<String>
 
                         if (onlyGroups((Group) ede)) {
                             for (Entry ed : ((Group) ede).getEntries()) {
                                 visitGroup((Group) ed, vd);
                             }
                         } else if (onlyValues((Group) ede)) {
-                            for (Entry ed : ((Group) ede).getEntries()) {
-                                ValueData d = new ValueData(ed.getName());
-                                System.out.println("GROUP: " + d.getValName().get());
-                                ActualDataValue adv = new ActualDataValue();
-                                settingType((Value) ed, adv);
-                                adv.setValue(((Value) ed).getValueAsString());
-                                d.setActData(adv);
-                                d.isValue(true);
-                                vd.addSubParam(d);
-                                d.setParentNode(vd);
+                            if(isArrayOfValues((Group)ede)){
+                                StringBuilder sb = new StringBuilder();
+                                String actType = "";
+                                for(Entry ed : ((Group) ede).getEntries()){
+                                    sb.append(((Value)ed).getValueAsString()).append(",");
+                                    actType = settingType((Value)ed);
+                                }
+                                sb.setLength(sb.length()-1);
+                                System.out.println("sb: "+sb.toString());
+                                if(vd.getActData() != null && vd.getActData().getValue() != null){
+                                    vd.getActData().setValue(sb.toString());
+                                    vd.isValue(true);
+                                } else {
+                                    ActualDataValue actData = new ActualDataValue();
+                                    // Muss noch eingefügt werden
+                                    actData.setType(actType);
+                                    actData.setValue(sb.toString());
+                                    vd.setActData(actData);
+                                    vd.isValue(true);
+                                }
+                            } else {
+                                for (Entry ed : ((Group) ede).getEntries()) {
+                                    ValueData d = new ValueData(ed.getName());
+                                    System.out.println("GROUP: " + d.getValName().get());
+                                    System.out.println("Value: " + ((Value) ed).getValueAsString());
+                                    ActualDataValue adv = new ActualDataValue();
+                                    settingType((Value) ed, adv);
+                                    adv.setValue(((Value) ed).getValueAsString());
+                                    d.setActData(adv);
+                                    d.isValue(true);
+                                    vd.addSubParam(d);
+                                    d.setParentNode(vd);
+                                }
                             }
                         } else {
                             for (Entry ed : ((Group) ede).getEntries()) {
@@ -187,6 +215,16 @@ public final class LoadLua {
         return true;
     }
 
+    private static boolean isArrayOfValues(Group g){
+        System.out.println("check Group: "+g.getName());
+        for(Entry e: g.getEntries()){
+            if(e instanceof Value && NumberUtils.isNumber(e.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void settingType(Value v, ActualDataValue adv) {
         if (v.isString()) {
             adv.setType("String");
@@ -200,14 +238,31 @@ public final class LoadLua {
             adv.setType("Function");
         }
     }
-    public static void match(List<ValueData> spec, List<ValueData> lua){
-        for(ValueData v : lua){
-            for(ValueData s : spec){
-                if(v.isAValue()){
-                    if(s.hasOptValue() && s.getValName().get().equals(v.getValName().get())){
-                        for(ValueData p : s.getOptions()){
-                            if(p.isOptValue()){
-                                if(p.getActData() != null && p.getActData().getValue() != null){
+
+    private static String settingType(Value v) {
+        if (v.isString()) {
+            return "String[]";
+        } else if (v.isDouble()) {
+            return "Double[]";
+        } else if (v.isInteger()) {
+            return "Integer[]";
+        } else if (v.isBoolean()) {
+            return "Boolean[]";
+        } else if (v.isFunction()) {
+            return "Function[]";
+        } else {
+            return "";
+        }
+    }
+
+    public static void match(List<ValueData> spec, List<ValueData> lua) {
+        for (ValueData v : lua) {
+            for (ValueData s : spec) {
+                if (v.isAValue()) {
+                    if (s.hasOptValue() && s.getValName().get().equals(v.getValName().get())) {
+                        for (ValueData p : s.getOptions()) {
+                            if (p.isOptValue()) {
+                                if (p.getActData() != null && p.getActData().getValue() != null) {
                                     p.getActData().setValue(v.getActData().getValue());
                                     p.setSelectedNew(true);
                                 } else {
@@ -219,10 +274,10 @@ public final class LoadLua {
                                 }
                             }
                         }
-                    } else if(s.isAValue() && s.getValName().get().equals(v.getValName().get())){
-                        if(s.getActData() != null && s.getActData().getValue() != null){
+                    } else if (s.isAValue() && s.getValName().get().equals(v.getValName().get())) {
+                        if (s.getActData() != null && s.getActData().getValue() != null) {
                             s.getActData().setValue(v.getActData().getValue());
-                            if(s.getParentNode() != null && s.getParentNode().isOption()){
+                            if (s.getParentNode() != null && s.getParentNode().isOption()) {
                                 s.getParentNode().setSelectedNew(true);
                             }
                         } else {
@@ -230,129 +285,40 @@ public final class LoadLua {
                             adv.setType(v.getActData().getType());
                             adv.setValue(v.getActData().getValue());
                             s.setActData(adv);
-                            if(s.getParentNode() != null && s.getParentNode().isOption()){
+                            if (s.getParentNode() != null && s.getParentNode().isOption()) {
                                 s.getParentNode().setSelectedNew(true);
                             }
                         }
-                    } else if(s.isOption()){
-                        if(v.getParentNode().getOptions() != null) {
+                    } else if (s.isOption()) {
+                        if (v.getParentNode().getOptions() != null) {
                             match(s.getOptions(), v.getParentNode().getOptions());
                         }
-                    } else if(s.isNotOptGroup()){
-                        if(v.getParentNode().getOptions() != null) {
+                    } else if (s.isNotOptGroup()) {
+                        if (v.getParentNode().getOptions() != null) {
                             match(s.getOptions(), v.getParentNode().getOptions());
-                        }
-                    }
-                } else if(v.getOptions() != null){
-                    System.out.println("NAME GROUP v : "+ v.getValName().get());
-                    if(s.getOptions() != null && s.isOption()){
-                        System.out.println("1.RT: "+s.getValName().get()+ " LUA: " + v.getValName().get());
-                        for(ValueData opt : s.getOptions()){
-                            if(opt.getOptions() != null){
-                                match(opt.getOptions(),v.getOptions());
-                            }
-                        }
-                    } else if(s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())){
-                        System.out.println("2.RT: "+s.getValName().get()+ " LUA: " + v.getValName().get());
-                        for(ValueData tets : s.getOptions()){
-                            System.out.println("s : "+tets.getValName().get());
-                        }
-                        for(ValueData tets2 : v.getOptions()){
-                            System.out.println("v : "+tets2.getValName().get());
-                        }
-                        match(s.getOptions(),v.getOptions());
-                    }
-                }
-            }
-        }
-    }
-
-    public static void matchingValues(List<ValueData> runtimeSpec, List<ValueData> loadedLuaFileVals) {
-        for (int i = 0; i < loadedLuaFileVals.size(); i++) {
-            ValueData iLua = loadedLuaFileVals.get(i);
-            for (int j = 0; j < runtimeSpec.size(); j++) {
-                ValueData jrt = runtimeSpec.get(j);
-                if (iLua.isAValue() || iLua.isOptValue()) {
-                    System.out.println("RT: "+jrt.getValName().get()+ " LUA: "+iLua.getValName().get());
-                    if (jrt.getValName().get().equals(iLua.getValName().get()) && (jrt.isAValue() || jrt.isOptValue())) {
-                        // Wenn der Value-Name direkt matched
-                        System.out.println("RT: "+jrt.getValName().get() + " Lua: "+ iLua.getValName().get());
-                        if(jrt.getActData() != null && jrt.getActData().getValue() != null) {
-                            jrt.getActData().setValue(iLua.getActData().getValue());
-                        } else {
-                            System.out.println("TEST : " + jrt.getValName().get());
-                            ActualDataValue adv = new ActualDataValue();
-                            adv.setType(jrt.getType().get());
-                            adv.setValue(iLua.getActData().getValue());
-                            jrt.setActData(adv);
-                        }
-                        if(jrt.getParentNode() != null && jrt.getParentNode().isOption()){
-                            jrt.getParentNode().setSelectedNew(true);
-                        } else if(jrt.isOptValue()){
-                            jrt.setSelectedNew(true);
-                        }
-                    } else if(jrt.hasOptValue()){
-                        // Falls beim Runtime-Objekt ein optionaler-Value vorhanden ist
-                        searchOptions(jrt,iLua);
-                    }
-                } else if (iLua.getOptions() != null) {
-                    if (jrt.getValName().get().equals(iLua.getValName().get())) {
-                        // Falls das Objekt aus dem Lua-File eine Gruppe ist, die Optionen besitzt
-                        // Eventuell muss man noch den Fall hinzufügen, dass diese Optionen im Runtime-Objekt
-                        // in einer optionalen Gruppe geschachtelt sind ?!?!
-                        searchSubparams(jrt,iLua);
-                    }
-                }
-            }
-        }
-    }
-
-    private static void searchOptions(ValueData rt, ValueData vLua) {
-        // Hier wird nach optionalen Werten in Tiefe 1 gesucht, da
-        // alle tieferen optionalen Werte nicht mehr zugeordnet werden können
-        for(ValueData v : rt.getOptions()){
-            if(v.isOptValue()){
-                v.getActData().setValue(vLua.getActData().getValue());
-                if(v.getParentNode() != null && v.getParentNode().isOption()){
-                    v.getParentNode().setSelectedNew(true);
-                } else if(v.isOptValue()){
-                    v.setSelectedNew(true);
-                }
-            }
-        }
-    }
-
-    private static void searchSubparams(ValueData rt, ValueData vLua) {
-        // Hier werden alle Subparameter durchsucht
-        for (ValueData v : vLua.getOptions()) {
-            for (ValueData rtV : rt.getOptions()) {
-                if (v.isAValue()) {
-                    if(rtV.isOption()) {
-                        // Hier wird der Fall überprüft, ob die Subparameter im Runtime-Objekt in einer
-                        // optionalen Gruppe geschachtelt sind
-                        for(ValueData vd : rtV.getOptions()){
-                            searchSubparams(rtV,vLua);
-                        }
-                    } else {
-                        if (v.getValName().get().equals(rtV.getValName().get())) {
-                            // Hier wird geprüft, ob der Name direkt matched
-                            rtV.getActData().setValue(v.getActData().getValue());
-                            if(rtV.getParentNode() != null && (rtV.getParentNode().isOption()||rtV.getParentNode().isOptValue())){
-                                rtV.getParentNode().setSelectedNew(true);
-                            }
-                        } else {
-                            // Hier wird überprüft, ob ein optionaler Value in Tiefe 1 vorhanden ist.
-                            searchOptions(rtV, v);
                         }
                     }
                 } else if (v.getOptions() != null) {
-                    // Subparameter werden gecheckt
-                    if(v.getValName().get().equals(rtV.getValName().get())){
-                        searchSubparams(rtV, v);
+                    System.out.println("NAME GROUP v : " + v.getValName().get());
+                    if (s.getOptions() != null && s.isOption()) {
+                        System.out.println("1.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
+                        for (ValueData opt : s.getOptions()) {
+                            if (opt.getOptions() != null) {
+                                match(opt.getOptions(), v.getOptions());
+                            }
+                        }
+                    } else if (s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())) {
+                        System.out.println("2.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
+                        for (ValueData tets : s.getOptions()) {
+                            System.out.println("s : " + tets.getValName().get());
+                        }
+                        for (ValueData tets2 : v.getOptions()) {
+                            System.out.println("v : " + tets2.getValName().get());
+                        }
+                        match(s.getOptions(), v.getOptions());
                     }
                 }
             }
         }
-
     }
 }

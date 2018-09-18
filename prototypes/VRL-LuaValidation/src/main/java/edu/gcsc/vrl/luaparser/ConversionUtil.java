@@ -148,7 +148,9 @@ public final class ConversionUtil {
         for(double d : dl){
             sb.append(d).append(",");
         }
-        sb.setLength(sb.length()-1);
+        if(sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
 
         return sb.toString();
     }
@@ -158,7 +160,9 @@ public final class ConversionUtil {
         for(int d : il){
             sb.append(d).append(",");
         }
-        sb.setLength(sb.length()-1);
+        if(sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
 
         return sb.toString();
     }
@@ -168,7 +172,9 @@ public final class ConversionUtil {
         for(boolean b : bl){
             sb.append(b).append(",");
         }
-        sb.setLength(sb.length()-1);
+        if(sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
 
         return sb.toString();
     }
@@ -178,7 +184,9 @@ public final class ConversionUtil {
         for(String s : sl){
             sb.append(s).append(",");
         }
-        sb.setLength(sb.length()-1);
+        if(sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
 
         return sb.toString();
     }
@@ -188,7 +196,9 @@ public final class ConversionUtil {
         for(String s : sl){
             sb.append("\""+s+"\"").append(",");
         }
-        sb.setLength(sb.length()-1);
+        if(sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
 
         return sb.toString();
     }
