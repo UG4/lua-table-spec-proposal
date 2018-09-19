@@ -116,19 +116,24 @@ public final class ConversionUtil {
 
         for(int i = 0; i < cs.length;i++){
             if(Character.toString(cs[i]).equals(",")){
-                try{
-                    String x = sb.toString();
-                    if(!x.isEmpty()) {
-                        strings.add(x);
+                if(i > 0 && !Character.toString(cs[i-1]).equals("\\")) {
+                    try {
+                        String x = sb.toString();
+                        if (!x.isEmpty()) {
+                            strings.add(GenUtil.doString(x));
+                        }
+                        sb = new StringBuilder();
+                    } catch (Exception e) {
                     }
-                    sb = new StringBuilder();
-                } catch(Exception e){}
+                } else if(i > 0 && Character.toString(cs[i-1]).equals("\\")){
+                    sb.append(",");
+                }
             } else if(i == cs.length-1){
                 try{
                     sb.append(cs[i]);
                     String x = sb.toString();
                     if(!x.isEmpty()) {
-                        strings.add(x);
+                        strings.add(GenUtil.doString(x));
                     }
                     sb = new StringBuilder();
                 } catch(Exception e){}

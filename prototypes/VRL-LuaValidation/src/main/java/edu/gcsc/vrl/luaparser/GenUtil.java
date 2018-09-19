@@ -509,4 +509,21 @@ public final class GenUtil {
         sb.append("\"");
         return sb.toString();
     }
+
+    public static String doString(String input){
+        char[] temp = input.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char a : temp) {
+            if (String.valueOf(a).equals("\"")) {
+                sb.append("\"");
+            } else if(String.valueOf(a).equals("\'")){
+                sb.append("\'");
+            } else if(String.valueOf(a).equals("\\")){
+                sb.append("\\");
+            } else {
+                sb.append(a);
+            }
+        }
+        return sb.toString();
+    }
 }
