@@ -276,7 +276,7 @@ public final class GenUtil {
         List<ValueData> vals = new ArrayList<>();
 
         for (ValueData v : data) {
-            if (v.isAValue()) {
+            if (v.isAValue() || v.isOptValue()) {
                 vals.add(v);
             }
             if (v.getOptions() != null) {
@@ -291,7 +291,7 @@ public final class GenUtil {
 
     // Alle Values (nicht die optionalen!) herausfinden TEIL2
     private static void getVal(List<ValueData> vals, ValueData act) {
-        if (act.isAValue()) {
+        if (act.isAValue() || act.isOptValue()) {
             vals.add(act);
         }
         if (act.getOptions() != null) {
