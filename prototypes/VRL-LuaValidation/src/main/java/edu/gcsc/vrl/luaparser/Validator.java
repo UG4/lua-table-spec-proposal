@@ -64,31 +64,73 @@ public class Validator {
         }
     }
 
-    public void validate() {
+    public List<ErrorMessage> validate() {
+        List<ErrorMessage> allErrMsg = new ArrayList<>();
+        List<ErrorMessage> validateErr = validateValidation();
+        //List<ErrorMessage> visibleErr = visibleValidation();
+        allErrMsg.addAll(validateErr);
+        //allErrMsg.addAll(visibleErr);
+
+        return allErrMsg;
+    }
+    private List<ErrorMessage> validateValidation(){
+        List<ErrorMessage> errList = new ArrayList<>();
         // Alle Parameter herausfinden
         List<ValueData> allValues = GenUtil.getAllValues(getData());
 
+        /*
+         * Hier wird der dependsOn()-Parameter für 'validation' gecheckt
+         * */
+
         // Diese Parameter auf Zyklen checken und an Zyklen beteiligte Nodes in einer Liste speichern
-        List<ValueData> cycleNodes = GraphUtil.checkForCycles(getData(), allValues);
-        for(ValueData v : cycleNodes){
+        List<ValueData> cycleNodesValid = GraphUtil.checkForCycles(getData(), allValues, true);
+        for(ValueData v : cycleNodesValid){
             System.out.println("Cycle: "+ v.getValName().get());
+            ErrorMessage e = new ErrorMessage("Validation-Knoten befindet sich in einem Zyklus",0,v.getValName().get());
+            errList.add(e);
         }
 
         // Alle Parameter herausfinden, die von anderen Parametern abhängig sind
-        List<ValueData> allDependingValues = GenUtil.getAllDependingValidateValues(getData());
-        for (ValueData v : allDependingValues){
+        List<ValueData> allDependingValuesValid = GenUtil.getAllDependingValidateValues(getData());
+        for (ValueData v : allDependingValuesValid){
             System.out.println("Depending: "+ v.getValName().get());
         }
 
-        for(ValueData v : allDependingValues){
-            if(!cycleNodes.contains(v)){
+        for(ValueData v : allDependingValuesValid){
+            if(!cycleNodesValid.contains(v)){
                 boolean valid = GenUtil.validate(v,getData());
                 System.out.println(v.getValName().get() + " validation: " + valid);
             }
         }
+        return errList;
+    }
 
+    private List<ErrorMessage> visibleValidation(){
+        List<ErrorMessage> errList = new ArrayList<>();
+        // Alle Parameter herausfinden
+        List<ValueData> allValues = GenUtil.getAllValues(getData());
+        /*
+         * Hier wird der dependsOn()-Parameter für 'visible' gecheckt
+         * */
+        List<ValueData> cycleNodesVisib = GraphUtil.checkForCycles(getData(), allValues, false);
+        for(ValueData v : cycleNodesVisib){
+            System.out.println("Cycle: "+ v.getValName().get());
+            ErrorMessage e = new ErrorMessage("Visibility-Knoten befindet sich in einem Zyklus",0,v.getValName().get());
+            errList.add(e);
+        }
 
+        List<ValueData> allDependingValuesVisib = DependingUtil.getAllDependingVisibleValues(getData());
+        for (ValueData v : allDependingValuesVisib){
+            System.out.println("Depending: "+ v.getValName().get());
+        }
 
+        for(ValueData v : allDependingValuesVisib){
+            if(!cycleNodesVisib.contains(v)){
+                boolean valid = DependingUtil.validateVisible(v,getData());
+                System.out.println(v.getValName().get() + " validation: " + valid);
+            }
+        }
+        return errList;
     }
 }
 

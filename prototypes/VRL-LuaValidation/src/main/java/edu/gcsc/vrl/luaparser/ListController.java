@@ -73,6 +73,7 @@ public class ListController {
 
     /*
      * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
+     * Ausserdem werden die Listener gesetzt, die die GUI automatisch aktualisieren
      * */
     public void initData(List<ValueData> dataset) {
 
@@ -158,7 +159,6 @@ public class ListController {
                     if(!PreferencesUtil.getInitValidationImportPath().isEmpty()) {
                         fc.setInitialDirectory(new File(PreferencesUtil.getInitValidationImportPath()));
                     }
-                    // Funktioniert vllt nicht für jedes OS
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
                     fc.getExtensionFilters().add(extLua);
 
@@ -191,10 +191,7 @@ public class ListController {
                     fc.setTitle("Select a Lua-File(*.lua)");
                     if(!PreferencesUtil.getInitialLuaLoadPath().isEmpty()) {
                         fc.setInitialDirectory(new File(PreferencesUtil.getInitialLuaLoadPath()));
-                    } else {
-                        fc.setInitialDirectory(new File("C:/Users/"));
                     }
-                    // Funktioniert vllt nicht für jedes OS
                     FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
                     fc.getExtensionFilters().add(extLua);
 
@@ -220,7 +217,7 @@ public class ListController {
         validateLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                runtimeObject.validate();
+                List<ErrorMessage> err = runtimeObject.validate();
             }
         });
     }
