@@ -16,7 +16,7 @@ public final class GraphUtil {
         for (int i = 0; i < allValues.size(); i++) {
             List<ValueData> vals;
             if(valivisi){
-                 vals = GenUtil.validateAValue(allValues.get(i), runtimeData);
+                vals = GenUtil.validateAValue(allValues.get(i), runtimeData);
                 for (int j = 0; j < vals.size(); j++) {
                     dependings[i][j] = vals.get(j);
                 }

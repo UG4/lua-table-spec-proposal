@@ -32,7 +32,7 @@ public final class DependingUtil {
         List<ValueData> dependingValues = new ArrayList<>();
 
         for (ValueData v : dataToSearch) {
-            if (v.dependsOnValidate() && !dependingValues.contains(v)) {
+            if (v.dependsOnVisible() && !dependingValues.contains(v)) {
                 dependingValues.add(v);
             }
             if (v.getOptions() != null) {

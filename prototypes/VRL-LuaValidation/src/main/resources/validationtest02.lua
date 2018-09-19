@@ -17,9 +17,15 @@ problem = {
         
     -- specification for problem.myGroup.myVal
     myVal = {
-        type = "String",
-        default = "zz",
-        style = "default"
+        type = "Integer",
+        default = "10",
+        style = "default",
+
+        visibility = {
+            dependsOn = {"./myVal2/"},
+
+            eval = function(myVal2) return 20 < myVal2 end
+        }
     },
 
     mySubGroup1 = {
@@ -40,7 +46,7 @@ problem = {
             default = 10,
 
             validation = {
-                dependsOn = {"./mySubGroup2/mySubVal11/"},
+                dependsOn = {"./mySubGroup1/mySubVal1/"},
                 eval      = function(mySubVal11) return 8 < mySubVal11 end
             }
         }
@@ -52,7 +58,7 @@ problem = {
                 type = "Integer",
                 default = 10,
                 validation = {
-                    dependsOn = {}
+                    dependsOn = {"./mySubGroup1/mySubVal2/"}
                 }
             },
 
@@ -64,8 +70,13 @@ problem = {
         },
 
     myVal2 = {
-        type = "String",
-        default = "xx"
+        type = "Integer",
+        default = "10",
+
+        visibility = {
+            dependsOn = {"./myVal/"},
+            eval = function(myVal) return 8 < myVal end
+        }
     }
   }
 }

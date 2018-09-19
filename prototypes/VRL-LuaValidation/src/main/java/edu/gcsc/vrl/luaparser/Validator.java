@@ -67,9 +67,9 @@ public class Validator {
     public List<ErrorMessage> validate() {
         List<ErrorMessage> allErrMsg = new ArrayList<>();
         List<ErrorMessage> validateErr = validateValidation();
-        //List<ErrorMessage> visibleErr = visibleValidation();
+        List<ErrorMessage> visibleErr = visibleValidation();
         allErrMsg.addAll(validateErr);
-        //allErrMsg.addAll(visibleErr);
+        allErrMsg.addAll(visibleErr);
 
         return allErrMsg;
     }

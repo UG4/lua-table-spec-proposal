@@ -218,6 +218,9 @@ public class ListController {
             @Override
             public void handle(ActionEvent event) {
                 List<ErrorMessage> err = runtimeObject.validate();
+                for(ErrorMessage e : err){
+                    System.out.println(e.getParamName() + " : "+ e.getMsg());
+                }
             }
         });
     }
@@ -226,7 +229,6 @@ public class ListController {
         exportLua.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //String luaCode = ExportLua.doExport(runtimeObject.getData());
                 String luaCode = ExportLua.doExport(runtimeObject.getData(), runtimeObject.getValidationFileName());
                 String path = "";
                 try {
