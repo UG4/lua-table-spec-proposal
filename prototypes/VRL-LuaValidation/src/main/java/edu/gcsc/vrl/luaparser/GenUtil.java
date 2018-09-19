@@ -489,19 +489,6 @@ public final class GenUtil {
         return current;
     }
 
-    // Sonstige Hilfsfunktionen
-    /*public static String deleteQuoteMark(String input){
-        char[] temp = input.toCharArray();
-        StringBuilder sb = new StringBuilder();
-
-        for(char a : temp){
-            if(!String.valueOf(a).equals("\"")){
-                sb.append(a);
-            }
-        }
-        return sb.toString();
-    }*/
-
     // Fügt Anführungszeichen am Anfang und am Ende eines Strings ein
     public static String doQuoteMark(String input) {
         char[] temp = input.toCharArray();
@@ -509,7 +496,13 @@ public final class GenUtil {
 
         sb.append("\"");
         for (char a : temp) {
-            if (!String.valueOf(a).equals("\"")) {
+            if (String.valueOf(a).equals("\"")) {
+                sb.append("\\\"");
+            } else if(String.valueOf(a).equals("\'")){
+                sb.append("\\\'");
+            } else if(String.valueOf(a).equals("\\")){
+                sb.append("\\");
+            } else {
                 sb.append(a);
             }
         }
