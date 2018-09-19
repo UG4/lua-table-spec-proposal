@@ -1,12 +1,20 @@
 problem = {
     valueOne = {
         {
-            type = "Integer"
+            type = "Integer",
+
+            validation = {
+                dependsOn = {"./subParam1/"}
+            }
         },
         {
             subParam1 = {
                 type = "Double",
-                default = 1.5
+                default = 1.5,
+
+                validation = {
+                    dependsOn = {"./valueOne/1/"}
+                }
             },
             subParam2 = {
                 type = "String",
