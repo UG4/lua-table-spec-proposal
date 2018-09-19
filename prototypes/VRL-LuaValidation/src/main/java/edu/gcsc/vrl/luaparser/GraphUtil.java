@@ -11,14 +11,15 @@ public final class GraphUtil {
     public static List<ValueData> checkForCycles(List<ValueData> runtimeData,List<ValueData> allValues){
         ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
 
+
         // Matrix mit den Abhängigkeiten für jeden Parameter erstellen
         for (int i = 0; i < allValues.size(); i++) {
+
             List<ValueData> vals = GenUtil.validateAValue(allValues.get(i), runtimeData);
             for (int j = 0; j < vals.size(); j++) {
                 dependings[i][j] = vals.get(j);
             }
         }
-
         int[][] dep = new int[allValues.size()][allValues.size()];
 
 
@@ -64,6 +65,7 @@ public final class GraphUtil {
     // Erweiterte Tiefensuche mit Zyklenerkennung
     // 0 = noch nicht bearbeitet; 1 = in Bearbeitung; 2 = bereits bearbeitet
     private static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
+        System.out.println("node: "+node);
         int[] initCoord = getCoor(node,len);
         int x = initCoord[0];
         int y = initCoord[1];
@@ -74,7 +76,7 @@ public final class GraphUtil {
         } else if(markierung[node] == 0){
             markierung[node] = 1;
             for(int i = 0; i < len; i++){
-                if(adjazenz[i][node] == 1) {
+                if(adjazenz[node][i] == 1) {
                     cyc = cycle(i,markierung,adjazenz,len);
                     markierung[node] = 2;
                 }
