@@ -18,7 +18,7 @@ public class Main extends Application{
         BorderPane page = (BorderPane) loader.load();
         Scene scene = new Scene(page);
         stage.setScene(scene);
-        ListController lCon = loader.<ListController>getController();
+        TreeViewController lCon = loader.<TreeViewController>getController();
         lCon.setLoadValidation();
         lCon.setExportLua();
         lCon.setPrefs();

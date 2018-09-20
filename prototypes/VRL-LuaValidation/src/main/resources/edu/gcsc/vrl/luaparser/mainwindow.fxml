@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.gcsc.vrl.luaparser.ListController" fx:id="bp">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.gcsc.vrl.luaparser.TreeViewController" fx:id="bp">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>

@@ -16,11 +16,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 /*
- * Der ListController interagiert zwischen Daten und Anzeige.
+ * Der TreeViewController interagiert zwischen Daten und Anzeige.
  * Er wird mit den Daten aus ExtractionHelper initialisiert.
  * */
 
-public class ListController {
+public class TreeViewController {
     private Validator runtimeObject;
 
     @FXML
