@@ -29,7 +29,7 @@ public class ValueData {
 
     private StringProperty valName;
     private StringProperty type;
-    private String defaultVal;
+    private Object defaultVal;
     private String style = "";
     private String tooltip = "";
     private double range_min;
@@ -80,7 +80,7 @@ public class ValueData {
         return this.type;
     }
 
-    public String getDefaultVal() {
+    public Object getDefaultVal() {
         return this.defaultVal;
     }
 
@@ -185,7 +185,7 @@ public class ValueData {
         this.type = new SimpleStringProperty(type);
     }
 
-    public void setDefaultVal(String defaultVal) {
+    public void setDefaultVal(Object defaultVal) {
         this.defaultVal = defaultVal;
     }
 

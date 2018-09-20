@@ -101,6 +101,8 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                         stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
                                     } else if(item.getActData().getType().equals("String")){
                                         stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                    } else if(item.getActData().getType().equals("Function")){
+                                        stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                                     } else if(item.getActData().getType().equals("Double[]") ||item.getActData().getType().equals("Integer[]")||
                                             item.getActData().getType().equals("String[]")||item.getActData().getType().equals("Boolean[]")){
                                         stringField = UIUtil.tfString(item.getActData().getValue(),item);

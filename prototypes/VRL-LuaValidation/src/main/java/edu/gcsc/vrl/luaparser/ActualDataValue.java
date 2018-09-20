@@ -1,6 +1,10 @@
 package edu.gcsc.vrl.luaparser;
 
 import javafx.scene.control.TextField;
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
+
 import java.util.List;
 
 public class ActualDataValue {
@@ -34,31 +38,33 @@ public class ActualDataValue {
         if (getType().equals("String")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = value.toString();
+                    this.value = String.valueOf(value);
                 }
             } catch(ClassCastException c){ System.out.println("Not a String!");}
         } else if(getType().equals("Integer")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Integer.parseInt(value.toString());
+                    this.value = Integer.parseInt(String.valueOf(value));
                 }
             } catch(ClassCastException | NumberFormatException n){ System.out.println("Not a Integer!" + " " + value + " " + getType());}
         } else if(getType().equals("Double")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Double.parseDouble(value.toString());
+                    this.value = Double.parseDouble(String.valueOf(value));
                 }
             } catch(ClassCastException | NumberFormatException c){ System.out.println("Not a Double!");}
         } else if(getType().equals("Boolean")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = Boolean.valueOf(value.toString());
+                    this.value = Boolean.valueOf(String.valueOf(value));
                 }
             } catch(ClassCastException c){ System.out.println("Not a Boolean!");}
         } else if(getType().equals("Function")){
             try {
-                // Muss noch hinzugefügt werden!
-            } catch (ClassCastException c){System.out.println("Not a Function!");}
+                if(!value.toString().isEmpty()){
+                    this.value = (Value)value;
+                }
+            } catch (Exception e){System.out.println("Not a Function!");}
 
         } else if(getType().equals("String[]")){
             try{
@@ -88,6 +94,12 @@ public class ActualDataValue {
                     this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
+        } else if(getType().equals("Function[]")){
+            try{
+              if(!value.toString().isEmpty()){
+                  this.value = (List<Value>)value;
+              }
+            } catch(Exception e){}
         }
     }
     // Eingeführt, damit die Stringformatierung beim Laden von LUA-Files passt
@@ -95,7 +107,7 @@ public class ActualDataValue {
         if (getType().equals("String")){
             try{
                 if(!value.toString().isEmpty()) {
-                    this.value = value.toString();
+                    this.value = String.valueOf(value);
                 }
             } catch(ClassCastException c){ System.out.println("Not a String!");}
         } else if(getType().equals("Integer")){
@@ -118,8 +130,10 @@ public class ActualDataValue {
             } catch(ClassCastException c){ System.out.println("Not a Boolean!");}
         } else if(getType().equals("Function")){
             try {
-                // Muss noch hinzugefügt werden!
-            } catch (ClassCastException c){System.out.println("Not a Function!");}
+                if(!value.toString().isEmpty()){
+                    this.value = (Value)value;
+                }
+            } catch (Exception e){System.out.println("Not a Function!");}
 
         } else if(getType().equals("String[]")){
             try{
@@ -152,6 +166,7 @@ public class ActualDataValue {
         }
     }
 
+    // Falls der Wert über die GUI gesetzt wird. Färbt dann je nach Richtigkeit der Eingabe das Textfeld entsprechend
     public void setValue(Object value, TextField tf) {
         if (getType().equals("String")){
             try{
@@ -191,8 +206,10 @@ public class ActualDataValue {
             }
         } else if(getType().equals("Function")){
             try {
-                // Muss noch hinzugefügt werden!
-            } catch (ClassCastException c){System.out.println("Not a Function!");}
+                if(!value.toString().isEmpty()){
+                    this.value = (Value)value;
+                }
+            } catch (Exception e){System.out.println("Not a Function!");}
 
         } else if(getType().equals("String[]")){
             try{
@@ -222,6 +239,11 @@ public class ActualDataValue {
                     this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
+        } else if(getType().equals("Function[]")){
+            if(!value.toString().isEmpty()){
+                // Hier kann man je nach Bedarf die Liste der Function in einen String umwandeln
+                this.value = (List<Value>)value;
+            }
         }
     }
 }
