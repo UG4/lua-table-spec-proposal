@@ -32,6 +32,10 @@ problem = {
 				subParam7 = {
 				    type = "String",
 				    default = "Test1"
+				},
+				subParam8 = {
+				    type = "Function[]",
+				    default = {"function() return true end","function() return false end"}
 				}
 			}
         }

@@ -32,22 +32,22 @@ problem = {
         -- specification for problem.myGroup.mySubGroup.mySubVal1
         mySubVal1 = {
             type = "Integer",
-            default = 10,
+            default = 8,
 
             validation = {
                 dependsOn = {"./mySubGroup1/mySubVal2/"},
-                eval = function(mySubVal2) return 20 > mySubVal2 end
+                eval = function(mySubVal1,mySubVal2) return mySubVal1 > mySubVal2 end
             }
         },
         
         -- specification for problem.myGroup.mySubGroup.mySubVal2
         mySubVal2 = {
             type = "Integer",
-            default = 10,
+            default = 12,
 
             validation = {
-                dependsOn = {"./mySubGroup1/mySubVal1/"},
-                eval      = function(mySubVal11) return 8 < mySubVal11 end
+                dependsOn = {"./mySubGroup2/mySubVal11/"},
+                eval      = function(mySubVal2,mySubVal11) return mySubVal2 > mySubVal11 end
             }
         }
     },
@@ -56,10 +56,7 @@ problem = {
             -- specification for problem.myGroup.mySubGroup.mySubVal1
             mySubVal11 = {
                 type = "Integer",
-                default = 10,
-                validation = {
-                    dependsOn = {"./mySubGroup1/mySubVal2/"}
-                }
+                default = 10
             },
 
             -- specification for problem.myGroup.mySubGroup.mySubVal2
@@ -73,10 +70,10 @@ problem = {
         type = "Integer",
         default = "10",
 
-        visibility = {
-            dependsOn = {"./myVal/"},
-            eval = function(myVal) return 8 < myVal end
-        }
+        --visibility = {
+        --    dependsOn = {"./myVal/"},
+        --    eval = function(myVal) return 8 < myVal end
+       -- }
     }
   }
 }
