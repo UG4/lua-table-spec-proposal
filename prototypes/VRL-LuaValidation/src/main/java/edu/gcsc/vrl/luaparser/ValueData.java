@@ -43,11 +43,11 @@ public class ValueData {
     private boolean dependsOnValidate;
     private boolean dependsOnVisible;
     /* Alle Parameter, die zu visibility gehören*/
-    private boolean visibility;
+    private boolean visibility = true;
     private String[] vis_dependsOn;
     private Value vis_eval;
     /* Alle Parameter, die zu validation gehören*/
-    private boolean validationIsValid;
+    private boolean validationIsValid = true;
     private String[] valid_dependsOn;
     private Value valid_eval;
 

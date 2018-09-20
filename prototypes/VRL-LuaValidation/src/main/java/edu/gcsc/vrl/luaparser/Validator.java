@@ -100,6 +100,7 @@ public class Validator {
             if(!cycleNodesValid.contains(v)){
                 boolean valid = GenUtil.validate(v,getData());
                 System.out.println(v.getValName().get() + " validation: " + valid);
+                v.setValidationIsValid(valid);
             }
         }
         return errList;
@@ -127,7 +128,8 @@ public class Validator {
         for(ValueData v : allDependingValuesVisib){
             if(!cycleNodesVisib.contains(v)){
                 boolean valid = DependingUtil.validateVisible(v,getData());
-                System.out.println(v.getValName().get() + " validation: " + valid);
+                System.out.println(v.getValName().get() + " visibility: " + valid);
+                v.setVisibility(valid);
             }
         }
         return errList;

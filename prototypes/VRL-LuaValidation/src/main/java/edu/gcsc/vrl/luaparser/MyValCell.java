@@ -18,7 +18,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
             setStyle(null);
             setGraphic(null);
         } else {
-            if (!item.isDisabled()) {
+            if (!item.isDisabled() && item.isVisible() && item.isValidationValid()) {
                 if (item.getOptions().size() < 1) {
                     if (item.getStyle().equals("default")) {
                         TextField stringField;
@@ -128,13 +128,21 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     setStyle(null);
                     setGraphic(null);
                 }
-            } else if (item.isDisabled()) {
+            } else if (item.isDisabled() || !item.isVisible()) {
                 if (item.getActData() != null && item.getActData().getValue() != null) {
                     TextField tf = UIUtil.tfString(item.getActData().getValue().toString(), item);
                     UIUtil.doTooltip(item, tf);
                     tf.setEditable(false);
                     setGraphic(tf);
                     setStyle("-fx-control-inner-background: orange;-fx-opacity: 0.5");
+                }
+            } else if(!item.isValidationValid()){
+                if (item.getActData() != null && item.getActData().getValue() != null) {
+                    TextField tf = UIUtil.tfString(item.getActData().getValue().toString(), item);
+                    UIUtil.doTooltip(item, tf);
+                    tf.setEditable(false);
+                    setGraphic(tf);
+                    setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
                 }
             }
         }

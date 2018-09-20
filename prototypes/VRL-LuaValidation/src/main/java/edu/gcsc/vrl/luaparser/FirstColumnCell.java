@@ -16,7 +16,6 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
             setText(null);
             setStyle(null);
         } else {
-            //TEST
             if(!item.isDisabled()) {
                 if (item.isOption() || item.isOptValue()) {
                     CheckBox cb = new CheckBox();
@@ -34,19 +33,25 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                 } else {
                     setText(item.getValName().get());
                 }
-            } else {
+            } else if(item.isDisabled()|| !item.isVisible()) {
                 if(item.isOption() || item.isOptValue()) {
-                    //setDisable(true);
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);
                     setText(item.getValName().get());
                     setGraphic(cb);
                 } else {
-                    //setDisable(true);
+                    setText(item.getValName().get());
+                }
+            } else if(!item.isValidationValid()){
+                if(item.isOption() || item.isOptValue()) {
+                    CheckBox cb = new CheckBox();
+                    cb.setDisable(true);
+                    setText(item.getValName().get());
+                    setGraphic(cb);
+                } else {
                     setText(item.getValName().get());
                 }
             }
-            ///TEST
         }
     }
 }
