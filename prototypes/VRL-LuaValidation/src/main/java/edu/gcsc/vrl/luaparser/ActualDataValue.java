@@ -62,7 +62,7 @@ public class ActualDataValue {
         } else if(getType().equals("Function")){
             try {
                 if(!value.toString().isEmpty()){
-                    this.value = (Value)value;
+                    this.value = String.valueOf(value);
                 }
             } catch (Exception e){System.out.println("Not a Function!");}
 
@@ -97,7 +97,7 @@ public class ActualDataValue {
         } else if(getType().equals("Function[]")){
             try{
               if(!value.toString().isEmpty()){
-                  this.value = (List<Value>)value;
+                  this.value = ConversionUtil.fromStringtoStringList(String.valueOf(value));
               }
             } catch(Exception e){}
         }
@@ -131,7 +131,7 @@ public class ActualDataValue {
         } else if(getType().equals("Function")){
             try {
                 if(!value.toString().isEmpty()){
-                    this.value = (Value)value;
+                    this.value = String.valueOf(value);
                 }
             } catch (Exception e){System.out.println("Not a Function!");}
 
@@ -163,6 +163,10 @@ public class ActualDataValue {
                     this.value = temp;
                 }
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
+        } else if(getType().equals("Function[]")){
+            try{
+                this.value = (List<String>) value;
+            } catch(Exception e){System.out.println("Not a List of Functions!");}
         }
     }
 
@@ -207,43 +211,51 @@ public class ActualDataValue {
         } else if(getType().equals("Function")){
             try {
                 if(!value.toString().isEmpty()){
-                    this.value = (Value)value;
+                    this.value = String.valueOf(value);
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
                 }
-            } catch (Exception e){System.out.println("Not a Function!");}
+            } catch (Exception e){tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
 
         } else if(getType().equals("String[]")){
             try{
                 if(!value.toString().isEmpty()) {
                     List<String> temp = ConversionUtil.fromStringtoStringList(String.valueOf(value));
                     this.value = temp;
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
                 }
-            } catch(ClassCastException c){ System.out.println("Not a List of Strings!");}
+            } catch(ClassCastException c){ tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
         } else if(getType().equals("Integer[]")){
             try{
                 if(!value.toString().isEmpty()) {
                     List<Integer> temp = ConversionUtil.fromStringToIntegerList(String.valueOf(value));
                     this.value = temp;
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
                 }
-            } catch(ClassCastException c){ System.out.println("Not a List of Integer!");}
+            } catch(ClassCastException c){ tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
         } else if(getType().equals("Double[]")){
             try{
                 if(!value.toString().isEmpty()) {
                     List<Double> temp = ConversionUtil.fromStringToDoubleList(String.valueOf(value));
                     this.value = temp;
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
                 }
-            } catch(ClassCastException c){ System.out.println("Not a List of Doubles!");}
+            } catch(ClassCastException c){ tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
         } else if(getType().equals("Boolean[]")){
             try{
                 if(!value.toString().isEmpty()) {
                     List<Boolean> temp = ConversionUtil.fromStringToBooleanList(String.valueOf(value));
                     this.value = temp;
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
                 }
-            } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
+            } catch(ClassCastException c){ tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
         } else if(getType().equals("Function[]")){
-            if(!value.toString().isEmpty()){
-                // Hier kann man je nach Bedarf die Liste der Function in einen String umwandeln
-                this.value = (List<Value>)value;
-            }
+            try {
+                if (!value.toString().isEmpty()) {
+                    // Hier kann man je nach Bedarf die Liste der Function in einen String umwandeln
+                    this.value = ConversionUtil.fromStringtoStringList(String.valueOf(value));
+                    tf.setStyle("-fx-control-inner-background: green; -fx-opacity: 0.5");
+                }
+            } catch (Exception e){ tf.setStyle("-fx-control-inner-background: red; -fx-opacity: 0.5");}
         }
     }
 }

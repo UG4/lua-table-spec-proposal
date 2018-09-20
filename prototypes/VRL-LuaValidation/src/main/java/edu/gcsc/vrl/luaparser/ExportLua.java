@@ -240,7 +240,7 @@ public final class ExportLua {
                 sb.append(s);
                 sb.append("}");
             }
-        } else if (vd.getActData().getType().equals("String[]")) {
+        } else if (vd.getActData().getType().equals("String[]")||vd.getActData().getType().equals("Function[]")) {
             List<String> temp = (List<String>) vd.getActData().getValue();
             if (temp != null) {
                 sb.append("{");

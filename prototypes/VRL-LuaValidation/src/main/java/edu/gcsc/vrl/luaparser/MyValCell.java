@@ -24,12 +24,12 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         switch (item.getType().get()) {
                             case "String":
                                 TextField stringField;
-                                if(item.getActData() != null) {
+                                if (item.getActData() != null) {
                                     stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                                 } else {
                                     stringField = UIUtil.tfString("", item);
                                 }
-                                UIUtil.doTooltip(item,stringField);
+                                UIUtil.doTooltip(item, stringField);
                                 setGraphic(stringField);
                                 break;
                             case "Double":
@@ -39,7 +39,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     doubleField = UIUtil.tfString("", item);
                                 }
-                                UIUtil.doTooltip(item,doubleField);
+                                UIUtil.doTooltip(item, doubleField);
                                 setGraphic(doubleField);
                                 break;
                             case "Integer":
@@ -49,7 +49,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 } else {
                                     integerField = UIUtil.tfString(" ", item);
                                 }
-                                UIUtil.doTooltip(item,integerField);
+                                UIUtil.doTooltip(item, integerField);
                                 setGraphic(integerField);
                                 break;
                         }
@@ -57,23 +57,23 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         switch (item.getType().get()) {
                             case "Double":
                                 ComboBox doubleBox1 = UIUtil.cbNumber(item);
-                                UIUtil.doTooltip(item,doubleBox1);
+                                UIUtil.doTooltip(item, doubleBox1);
                                 setGraphic(doubleBox1);
                                 setStyle("");
                                 break;
 
                             case "Integer":
                                 /*
-                                * Hier muss noch eine ComboBox für Integer eingebaut werden!
-                                * */
+                                 * Hier muss noch eine ComboBox für Integer eingebaut werden!
+                                 * */
                                 ComboBox doubleBox2 = UIUtil.cbNumber(item);
                                 UIUtil.doTooltip(item, doubleBox2);
                                 setGraphic(doubleBox2);
                                 setStyle("");
                                 break;
                         }
-                    } else if(item.getStyle().equals("load-file-dialog")){
-                        switch(item.getType().get()){
+                    } else if (item.getStyle().equals("load-file-dialog")) {
+                        switch (item.getType().get()) {
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
                                 HBox master = UIUtil.doLoadFile(act, item);
@@ -82,30 +82,31 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
 
                         }
 
-                    } else if(item.getStyle().equals("save-file-dialog")){
-                        switch(item.getType().get()){
+                    } else if (item.getStyle().equals("save-file-dialog")) {
+                        switch (item.getType().get()) {
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
-                                HBox master = UIUtil.doSaveFile(act,item);
+                                HBox master = UIUtil.doSaveFile(act, item);
                                 setGraphic(master);
                                 break;
                         }
-                    }else {
+                    } else {
                         TextField stringField;
-                        if(item.getActData() != null) {
-                            if(item.getActData().getValue() != null) {
+                        if (item.getActData() != null) {
+                            if (item.getActData().getValue() != null) {
                                 try {
-                                    if(item.getActData().getType().equals("Integer")) {
+                                    if (item.getActData().getType().equals("Integer")) {
                                         stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
-                                    } else if(item.getActData().getType().equals("Double")) {
+                                    } else if (item.getActData().getType().equals("Double")) {
                                         stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
-                                    } else if(item.getActData().getType().equals("String")){
+                                    } else if (item.getActData().getType().equals("String")) {
                                         stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
-                                    } else if(item.getActData().getType().equals("Function")){
+                                    } else if (item.getActData().getType().equals("Function")) {
                                         stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
-                                    } else if(item.getActData().getType().equals("Double[]") ||item.getActData().getType().equals("Integer[]")||
-                                            item.getActData().getType().equals("String[]")||item.getActData().getType().equals("Boolean[]")){
-                                        stringField = UIUtil.tfString(item.getActData().getValue(),item);
+                                    } else if (item.getActData().getType().equals("Double[]") || item.getActData().getType().equals("Integer[]") ||
+                                            item.getActData().getType().equals("String[]") || item.getActData().getType().equals("Boolean[]") ||
+                                            item.getActData().getType().equals("Function[]")) {
+                                        stringField = UIUtil.tfString(item.getActData().getValue(), item);
                                     } else {
                                         stringField = UIUtil.tfString("", item);
                                     }
@@ -114,7 +115,9 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                     stringField = UIUtil.tfString("", item);
                                     System.out.println(item.getActData().getValue().toString());
                                 }
-                            } else {stringField = UIUtil.tfString("", item);}
+                            } else {
+                                stringField = UIUtil.tfString("", item);
+                            }
                         } else {
                             stringField = UIUtil.tfString("", item);
                         }
@@ -127,10 +130,10 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     setStyle(null);
                     setGraphic(null);
                 }
-            } else if(item.isDisabled()){
-                if(item.getActData() != null && item.getActData().getValue() != null) {
-                    TextField tf = UIUtil.tfString(item.getActData().getValue().toString(),item);
-                    UIUtil.doTooltip(item,tf);
+            } else if (item.isDisabled()) {
+                if (item.getActData() != null && item.getActData().getValue() != null) {
+                    TextField tf = UIUtil.tfString(item.getActData().getValue().toString(), item);
+                    UIUtil.doTooltip(item, tf);
                     tf.setEditable(false);
                     //tf.setDisable(true);
                     setGraphic(tf);

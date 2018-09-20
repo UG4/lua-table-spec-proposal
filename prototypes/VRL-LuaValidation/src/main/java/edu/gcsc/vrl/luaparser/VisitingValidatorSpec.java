@@ -23,10 +23,7 @@ public final class VisitingValidatorSpec {
                 ValueData xd = new ValueData(e.getName());
                 xd.setSelection(true);
                 xd.isValue(true);
-                setInfos(xd, (Group) e,true);
-                if(xd.getType().get().equals("Function")||xd.getType().get().equals("Function[]")){
-                    setInfos(xd,(Group)e, false);
-                }
+                setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
@@ -62,10 +59,7 @@ public final class VisitingValidatorSpec {
 
                 ValueData xd = new ValueData(e.getName().toString());
                 xd.setOptVal(true);
-                setInfos(xd, (Group) e,true);
-                if(xd.getType().get().equals("Function")||xd.getType().get().equals("Function[]")){
-                    setInfos(xd,(Group)e, false);
-                }
+                setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
@@ -103,10 +97,7 @@ public final class VisitingValidatorSpec {
                 ValueData xd = new ValueData(e.getName().toString());
                 xd.isValue(true);
                 xd.setSelection(true);
-                setInfos(xd, (Group) e,true);
-                if(xd.getType().get().equals("Function")||xd.getType().get().equals("Function[]")){
-                    setInfos(xd,(Group)e, false);
-                }
+                setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
@@ -145,10 +136,7 @@ public final class VisitingValidatorSpec {
 
                 ValueData xd = new ValueData(e.getName().toString());
                 xd.setOptVal(true);
-                setInfos(xd, (Group) e,true);
-                if(xd.getType().get().equals("Function")||xd.getType().get().equals("Function[]")){
-                    setInfos(xd,(Group)e, false);
-                }
+                setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType().get());
                 if (xd.getDefaultVal() != null) {
@@ -205,7 +193,7 @@ public final class VisitingValidatorSpec {
     }
 
     // Parameter-Informationen herausfinden für alle Datentypen. Bei 'Function' wird jedoch nochmal extra der Default-Wert gesetzt
-    private static void setInfos(ValueData vd, Group e,boolean noFunc) {
+    private static void setInfos(ValueData vd, Group e) {
         for (Entry l : ((Group) e).getEntries()) {
             if (l instanceof Value) {
                 switch (l.getName().toString()) {
@@ -213,11 +201,7 @@ public final class VisitingValidatorSpec {
                         vd.setType(((Value) l).getValueAsString());
                         break;
                     case "default":
-                        if(noFunc) {
-                            vd.setDefaultVal(((Value) l).getValueAsString());
-                        } else {
-                            vd.setDefaultVal(((Value)l));
-                        }
+                        vd.setDefaultVal(((Value) l).getValueAsString());
                         break;
                     case "style":
                         vd.setStyle(((Value) l).getValueAsString());
@@ -246,11 +230,7 @@ public final class VisitingValidatorSpec {
                             setValidationInfos((Group) l, vd);
                             break;
                         case "default":
-                            if(noFunc) {
-                                setArrayOfDefault((Group) l, vd);
-                            } else {
-                                setArrayOfDefaultFunction((Group)l,vd);
-                            }
+                            setArrayOfDefault((Group) l, vd);
                             break;
                     }
                 }
@@ -266,18 +246,6 @@ public final class VisitingValidatorSpec {
             }
             sb.setLength(sb.length() - 1);
             actItem.setDefaultVal(sb.toString());
-    }
-
-    private static void setArrayOfDefaultFunction(Group values, ValueData actItem){
-        List<Value> funcs = new ArrayList<>();
-        for(Entry p : values.getEntries()){
-            if(((Value)p).isFunction()){
-                funcs.add((Value)p);
-            }
-        }
-        if(!funcs.isEmpty()){
-            actItem.setDefaultVal(funcs);
-        }
     }
 
     private static double[] getRange(Group range) {

@@ -51,6 +51,10 @@ public class UIUtil {
             List<String> temp = (List<String>) o;
             String s = ConversionUtil.fromStringListToString(temp);
             stringField.setText(s);
+        } else if(v.getActData().getType().equals(("Function[]"))){
+            List<String> temp = (List<String>) o;
+            String s = ConversionUtil.fromStringListToString(temp);
+            stringField.setText(s);
         }
         stringField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if (v.getActData() != null) {
