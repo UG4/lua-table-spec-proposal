@@ -392,6 +392,10 @@ public class ValueData {
                 }
 
             }
+        } else if(!this.isDisabled() && (this.isNotOptGroup() || this.isAValue())){
+            if(this.getParentNode() != null){
+                selectParentNodes(this);
+            }
         }
     }
 
@@ -445,11 +449,12 @@ public class ValueData {
         if (v.getParentNode() != null) {
             if (v.getParentNode().isOption() || v.getParentNode().isOptValue()) {
                 v.getParentNode().setSelectedNew(true);
+                selectParentNodes(v.getParentNode());
+            } else {
+                selectParentNodes(v.getParentNode());
             }
-            selectParentNodes(v.getParentNode());
         }
     }
-    ///TEST
 
     public boolean hasOptValue() {
         if (getOptions() != null) {

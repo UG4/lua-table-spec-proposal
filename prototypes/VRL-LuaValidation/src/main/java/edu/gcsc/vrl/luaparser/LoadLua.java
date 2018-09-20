@@ -287,7 +287,7 @@ public final class LoadLua {
                     } else if (s.isAValue() && s.getValName().get().equals(v.getValName().get())) {
                         if (s.getActData() != null && s.getActData().getValue() != null) {
                             s.getActData().setValueLoad(v.getActData().getValue());
-                            if (s.getParentNode() != null && s.getParentNode().isOption()) {
+                            if (s.getParentNode() != null) {
                                 s.getParentNode().setSelectedNew(true);
                             }
                         } else {
@@ -295,7 +295,7 @@ public final class LoadLua {
                             adv.setType(v.getActData().getType());
                             adv.setValueLoad(v.getActData().getValue());
                             s.setActData(adv);
-                            if (s.getParentNode() != null && s.getParentNode().isOption()) {
+                            if (s.getParentNode() != null) {
                                 s.getParentNode().setSelectedNew(true);
                             }
                         }
