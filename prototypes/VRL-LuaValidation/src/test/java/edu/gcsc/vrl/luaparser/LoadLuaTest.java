@@ -102,19 +102,16 @@ class LoadLuaTest {
         adv2.setType("String");
         adv2.setValue("d");
         subParam1.setActData(adv2);
-        //subParam1.setDefaultVal("lala");
 
         ActualDataValue adv3 = new ActualDataValue();
         adv3.setType("String");
         adv3.setValue("a");
         subParam2.setActData(adv3);
-        //subParam2.setDefaultVal("hshs");
 
         ActualDataValue adv4 = new ActualDataValue();
         adv4.setType("String");
         adv4.setValue("b");
         valueTwo.setActData(adv4);
-        //valueTwo.setDefaultVal("lala");
 
         valueOne.addSubParam(opt1);
         opt1.setParentNode(valueOne);

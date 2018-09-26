@@ -42,7 +42,7 @@ class VisitingValidatorSpecTest {
         ActualDataValue adv4 = new ActualDataValue();
         adv4.setType("String");
         adv4.setValue("lala");
-        valueTwo.setActData(adv2);
+        valueTwo.setActData(adv4);
         valueTwo.setDefaultVal("lala");
 
         valueOne.addSubParam(opt1);
