@@ -2,13 +2,8 @@ package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
 import org.junit.jupiter.api.Test;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.runner.Result;
-
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class VisitingValidatorSpecTest {
@@ -68,8 +63,8 @@ class VisitingValidatorSpecTest {
         * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/validationtest04.lua"));
         String code = new String(code2Data, "UTF-8");
-
         Group importedCode = Group.toGroup(code);
+
         List<ValueData> programList = new ArrayList<>();
         VisitingValidatorSpec.visitOne(importedCode,programList);
 
