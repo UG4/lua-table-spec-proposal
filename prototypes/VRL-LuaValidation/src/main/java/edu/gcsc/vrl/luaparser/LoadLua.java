@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public final class LoadLua {
-    public LoadLua() {
-        throw new AssertionError();
-    }
+    public LoadLua() { throw new AssertionError(); }
 
     public static Group parseLuaFile(String filepath) throws IOException {
         // load lua code from resources
@@ -300,11 +298,11 @@ public final class LoadLua {
                             }
                         }
                     } else if (s.isOption()) {
-                        if (v.getParentNode().getOptions() != null) {
+                        if (v.getParentNode() != null && v.getParentNode().getOptions() != null) {
                             match(s.getOptions(), v.getParentNode().getOptions());
                         }
                     } else if (s.isNotOptGroup()) {
-                        if (v.getParentNode().getOptions() != null) {
+                        if (v.getParentNode() != null && v.getParentNode().getOptions() != null) {
                             match(s.getOptions(), v.getParentNode().getOptions());
                         }
                     }
