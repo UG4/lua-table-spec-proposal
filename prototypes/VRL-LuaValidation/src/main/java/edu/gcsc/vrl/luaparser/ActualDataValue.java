@@ -18,7 +18,7 @@ public class ActualDataValue {
     public ActualDataValue() {
     }
 
-    /*
+    /**
     * Returns the data type of the <code>ActualDataValue</code>
     *
     * @return type data type
@@ -28,7 +28,7 @@ public class ActualDataValue {
     }
 
 
-    /*
+    /**
     * Returns the value of the <code>ActualDataValue</code>
     *
     * @return Object value
@@ -38,7 +38,7 @@ public class ActualDataValue {
     }
 
 
-    /*
+    /**
     * Sets the data type of the <code>ActualDataValue</code>
     *
     * @param type data type
@@ -48,7 +48,7 @@ public class ActualDataValue {
     }
 
 
-    /*
+    /**
     * Sets the value of the <code>ActualDataValue</code>.
     * Casting <code>Object</code> to the specific data type
     * and formatting it, if necessary.
@@ -124,7 +124,7 @@ public class ActualDataValue {
         }
     }
 
-    /*
+    /**
      * Sets the value of the <code>ActualDataValue</code>.
      * Casting <code>Object</code> to the specific data type
      * and formatting it.
@@ -199,7 +199,7 @@ public class ActualDataValue {
         }
     }
 
-    /*
+    /**
      * Sets the value of the <code>ActualDataValue</code>.
      * Casting <code>Object</code> to the specific data type
      * and formatting it, if necessary.

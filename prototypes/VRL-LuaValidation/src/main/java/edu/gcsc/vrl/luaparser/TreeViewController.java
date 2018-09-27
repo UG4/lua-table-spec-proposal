@@ -15,11 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
-/*
- * Der TreeViewController interagiert zwischen Daten und Anzeige.
- * Er wird mit den Daten aus ExtractionHelper initialisiert.
- * */
-/*
+/**
 * <code>TreeViewController</code> is the controller-class based on the MVC-concept.
 * It handles user interaction and data manipulation. Furthermore it set ups the data,
 * that is visualized in the UI.
@@ -53,7 +49,7 @@ public class TreeViewController {
     public List<ValueData> getActData() {
         return inputData;
     }
-    /*
+    /**
     * Setting the runtime-object <code>Validator</code>
     * @param v Validator object
     * */
@@ -61,7 +57,7 @@ public class TreeViewController {
         this.runtimeObject = v;
     }
 
-    /*
+    /**
     * initializing method, that sets up the CellFactory and CellValueFactory
     * */
     public void initialize() throws InterruptedException {
@@ -77,11 +73,7 @@ public class TreeViewController {
         });
     }
 
-    /*
-     * Hier werden die Daten für die TreeTableView initialisiert und die entsprechenden Knoten angelegt.
-     * Ausserdem werden die Listener gesetzt, die die GUI automatisch aktualisieren
-     * */
-    /*
+    /**
     * initializes data for TreeTableView und creates <code>TreeItems</code>.
     * Sets the ChangeListeners for UI.
     *
@@ -140,7 +132,7 @@ public class TreeViewController {
         }
     }
 
-    /*
+    /**
     * Helping method
     * */
     private void setOptionsTreeElements(TreeItem<ValueData> ti, ValueData vd) {
@@ -160,7 +152,7 @@ public class TreeViewController {
         }
     }
 
-    /*
+    /**
     * Creates action for EventHandler
     * */
     public void setLoadValidation() {
@@ -196,7 +188,7 @@ public class TreeViewController {
         });
     }
 
-    /*
+    /**
      * Creates action for EventHandler
      * */
     public void setLoadLua() {
@@ -231,7 +223,7 @@ public class TreeViewController {
         });
     }
 
-    /*
+    /**
      * Creates action for EventHandler
      * */
     public void setValidateLua() {
@@ -246,7 +238,7 @@ public class TreeViewController {
         });
     }
 
-    /*
+    /**
      * Creates action for EventHandler
      * */
     public void setExportLua() {

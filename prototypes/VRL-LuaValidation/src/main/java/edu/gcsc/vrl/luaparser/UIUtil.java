@@ -13,12 +13,12 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.util.List;
-/*
+/**
 * This class provides methods, to create specific UI-elements, which are related to the
 * style-property in the validation-spec
 * */
 public class UIUtil {
-    /*
+    /**
     * Creates a JavaFX TextField for a value.
     *
     * @param text text to show
@@ -42,7 +42,7 @@ public class UIUtil {
         return stringField;
     }
 
-    /*
+    /**
      * Creates a JavaFX TextField for a array of values.
      *
      * @param o value object
@@ -86,7 +86,7 @@ public class UIUtil {
         return stringField;
     }
 
-    /*
+    /**
      * Creates a JavaFX ComboBox for numbers.
      *
      * @param v <code>ValueData</code>-object
@@ -122,7 +122,7 @@ public class UIUtil {
         return doubleBox;
     }
 
-    /*
+    /**
     * Creates a tooltip with the data type for a textfield.
     * Additionally, if specified: a tooltip-message
     *
@@ -147,7 +147,7 @@ public class UIUtil {
         t.setTooltip(tip);
     }
 
-    /*
+    /**
      * Creates a tooltip with the data type for a combobox.
      * Additionally, if specified: a tooltip-message
      *
@@ -172,7 +172,7 @@ public class UIUtil {
         t.setTooltip(tip);
     }
 
-    /*
+    /**
     * Creates a HBox with a TextField and a Button in it.
     * Additionally creates a dialog to load a lua-file
     *
@@ -232,7 +232,7 @@ public class UIUtil {
         return master;
     }
 
-    /*
+    /**
      * Creates a HBox with a TextField and a Button in it.
      * Additionally creates a dialog to save a lua-file
      *

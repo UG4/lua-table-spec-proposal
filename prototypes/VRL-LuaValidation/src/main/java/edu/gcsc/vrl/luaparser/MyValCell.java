@@ -3,7 +3,7 @@ package edu.gcsc.vrl.luaparser;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Window;
-/*
+/**
  * This class renders the second row of the TreeTableView.
  * */
 public class MyValCell extends TreeTableCell<ValueData, ValueData> {

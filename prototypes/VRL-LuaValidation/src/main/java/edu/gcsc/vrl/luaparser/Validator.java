@@ -7,13 +7,13 @@ import java.util.List;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
 
-/*
+/**
 * This class represents the run-time model of the application. It contains the dataset with
 * <code>ValueData</code>-objects, which were imported from the validation-spec.
 * This dataset will be visualized in the UI and manipulated by the user.
 * */
 public class Validator {
-    /*
+    /**
      * Class variables
      * */
     private List<ValueData> myData;
@@ -24,7 +24,7 @@ public class Validator {
     /*
      * GETTER/SETTER methods
      * */
-    /*
+    /**
     * returns the actual dataset
     *
     * @return List<ValueData>
@@ -33,7 +33,7 @@ public class Validator {
         return this.myData;
     }
 
-    /*
+    /**
     * returns the file-name of the validation-file
     *
     * @return String file name
@@ -42,7 +42,7 @@ public class Validator {
         return validationFileName;
     }
 
-    /*
+    /**
     * returs the path of the validation-file
     *
     * @return String path
@@ -52,7 +52,7 @@ public class Validator {
     }
 
 
-    /*
+    /**
     * Sets the validation-filename
     *
     * @param fileName file name
@@ -61,7 +61,7 @@ public class Validator {
         this.validationFileName = fileName;
     }
 
-    /*
+    /**
      * Constructor method
      *
      * @param filepath file path
@@ -77,7 +77,7 @@ public class Validator {
         this.importedCode = Group.toGroup(code);
 
     }
-    /*
+    /**
     * For testing purposes only
     * */
     public Validator(String filepath, boolean test) throws IOException {
@@ -90,7 +90,7 @@ public class Validator {
     }
 
 
-    /*
+    /**
     * Coordinates the creation of the data model objects.
     * */
     public void visiting() {
@@ -101,7 +101,7 @@ public class Validator {
         }
     }
 
-    /*
+    /**
     * This method checks, whether all parameters are valid.
     * It validates the <code>validate</code>-property and the
     * <code>visibility</code>-property. If a error occur, it
@@ -119,7 +119,7 @@ public class Validator {
         return allErrMsg;
     }
 
-    /*
+    /**
     * Helping method for <code>validate()</code>.
     * It validates the <code>validate</code>-property of all parameters
     *
@@ -154,7 +154,7 @@ public class Validator {
         return errList;
     }
 
-    /*
+    /**
      * Helping method for <code>validate</code>.
      * It validates the <code>visibility</code>-property of all parameters
      *

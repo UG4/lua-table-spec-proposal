@@ -12,7 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-/*
+/**
 * This class loads user settings from a .xml-File.
 * */
 public final class PreferencesUtil {
@@ -28,7 +28,7 @@ public final class PreferencesUtil {
     private static void setInitialLuaExportPath(String path){ initialLuaExportPath = path; }
     private static void setInitialLuaLoadPath(String path){ initialLuaLoadPath = path; }
 
-    /*
+    /**
     * This method loads user settings from a .xml-file and sets the initial paths in the class variables
     * */
     public static void loadPreferences() throws IOException {
@@ -66,7 +66,7 @@ public final class PreferencesUtil {
 
     }
 
-    /*
+    /**
     * test method
     * */
     public static void printPref(){
@@ -74,7 +74,7 @@ public final class PreferencesUtil {
         System.out.println("initialValidationImportPath: " + initialValidationImportPath);
     }
 
-    /*
+    /**
     * Returns the initial path for the validation import
     * @return String path
     * */
@@ -82,7 +82,7 @@ public final class PreferencesUtil {
         return initialValidationImportPath;
     }
 
-    /*
+    /**
      * Returns the initial path for the lua export
      * @return String path
      * */
@@ -90,7 +90,7 @@ public final class PreferencesUtil {
         return initialLuaExportPath;
     }
 
-    /*
+    /**
      * Returns the initial path for loading the lua-file
      * @return String path
      * */

@@ -10,7 +10,7 @@ import java.util.List;
 public final class ConversionUtil {
     public ConversionUtil(){ throw new AssertionError(); }
 
-    /*
+    /**
     * Transforms a string to list of doubles.
     * Uses comma as seperation character.
     * @param s String to transform
@@ -51,7 +51,7 @@ public final class ConversionUtil {
         return doubles;
     }
 
-    /*
+    /**
      * Transforms a string to list of integer.
      * Uses comma as seperation character.
      * @param s String to transform
@@ -91,7 +91,7 @@ public final class ConversionUtil {
         return integers;
     }
 
-    /*
+    /**
      * Transforms a string to list of booleans.
      * Uses comma as seperation character.
      * @param s String to transform
@@ -129,7 +129,7 @@ public final class ConversionUtil {
         return bools;
     }
 
-    /*
+    /**
      * Transforms a string to list of strings.
      * Uses comma as seperation character.
      * To escape comma, use \,
@@ -176,7 +176,7 @@ public final class ConversionUtil {
         return strings;
     }
 
-    /*
+    /**
     * Creates a string from a list of doubles.
     *
     * @param dl List of Doubles
@@ -195,10 +195,10 @@ public final class ConversionUtil {
     }
 
 
-    /*
+    /**
      * Creates a string from a list of integers.
      *
-     * @param dl List of Integers
+     * @param il List of Integers
      * @return String created string
      * */
     public static String fromIntegerListToString(List<Integer> il){
@@ -213,10 +213,10 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
-    /*
+    /**
      * Creates a string from a list of booleans.
      *
-     * @param dl List of Booleans
+     * @param bl List of Booleans
      * @return String created string
      * */
     public static String fromBooleanListToString(List<Boolean> bl){
@@ -231,10 +231,10 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
-    /*
+    /**
      * Creates a string from a list of Strings.
      *
-     * @param dl List of Strings
+     * @param sl List of Strings
      * @return String created string
      * */
     public static String fromStringListToString(List<String> sl){
@@ -249,12 +249,12 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
-    /*
+    /**
      * Creates a string from a list of strings.
      * Adds quote marks at the beginning and at
      * the end.
      *
-     * @param dl List of trings
+     * @param sl List of trings
      * @return String created string
      * */
     public static String fromStringListToStringQuoteMarks(List<String> sl){

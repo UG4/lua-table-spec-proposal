@@ -5,16 +5,21 @@ import org.apache.commons.lang.math.NumberUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class generates the basic data set with <code>ValueData</code>-objects
+ * from the validation-spec. It sets the information and all relation
+ * */
 public final class VisitingValidatorSpec {
 
-    /*
-     * Hier wird sicher gestellt, dass die Utility-Klasse nicht
-     * instanziiert werden kann.
-     * */
-    public VisitingValidatorSpec() {
-        throw new AssertionError();
-    }
+    public VisitingValidatorSpec() { throw new AssertionError(); }
 
+    /**
+     * Searchs for specific elements like parameters, options, not-optional groups in a
+     * data structure of <code>Groups</code>  and <code>Values</code>.
+     *
+     * @param dataList list to save the data
+     * @param e data structure of <code>Groups</code> and <code>Values</code>
+     * */
     public static void visitOne(Entry e, List<ValueData> dataList) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName()) && isVal(e) && !"root".equals(e.getName())) {
@@ -33,7 +38,7 @@ public final class VisitingValidatorSpec {
                 dataList.add(xd);
 
             } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isOptVal(e) && !isVal(e) && !"root".equals(e.getName())) {
-                // NICHT-OPTIONALE GRUPPE
+                // not-optional group
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
                 xd.setNotOptGroup(true);
@@ -44,7 +49,7 @@ public final class VisitingValidatorSpec {
                 }
 
             } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !"root".equals(e.getName()) && !isOptVal(e)) {
-                //OPTIONALE GRUPPE
+                //OPTIONAL Group
                 System.out.println(e.getName() + " is OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
                 xd.setOptional(true);
@@ -54,7 +59,7 @@ public final class VisitingValidatorSpec {
                 }
 
             } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
-                //OPTIONALER VALUE
+                //OPTIONAL VALUE
                 System.out.println(e.getName() + " is a optional Value!");
 
                 ValueData xd = new ValueData(e.getName().toString());
@@ -107,7 +112,7 @@ public final class VisitingValidatorSpec {
                 xd.setParentNode(v);
                 v.addSubParam(xd);
             } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isVal(e) && !isOptVal(e)) {
-                //NICHT-OPTIONALE GRUPPE
+                //not-optional  group
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
                 xd.setSelection(true);
@@ -119,7 +124,7 @@ public final class VisitingValidatorSpec {
                     visitTwo(p, dataList, xd);
                 }
             } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !isOptVal(e)) {
-                //OPTIONALE GRUPPE
+                //optional
                 System.out.println(e.getName() + " is OPTIONAL!");
                 ValueData xd = new ValueData(e.getName());
                 xd.setOptional(true);
@@ -131,7 +136,7 @@ public final class VisitingValidatorSpec {
                 }
 
             } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
-                //OPTIONALER VALUE
+                //OPTIONAL value
                 System.out.println(e.getName() + " is a optional Value!");
 
                 ValueData xd = new ValueData(e.getName().toString());
@@ -162,6 +167,12 @@ public final class VisitingValidatorSpec {
         }
     }
 
+    /**
+     * Checks whether a Entry is a parameter
+     *
+     * @param e Entry
+     * @return boolean is param
+     * */
     private static boolean isVal(Entry e) {
         if (e instanceof Group) {
             if (!NumberUtils.isNumber(e.getName())) {
@@ -177,6 +188,12 @@ public final class VisitingValidatorSpec {
         return false;
     }
 
+    /**
+     * Checks whether a Entry is a option
+     *
+     * @param e Entry
+     * @return boolean is option
+     * */
     private static boolean isOptVal(Entry e) {
         if (e instanceof Group) {
             if (NumberUtils.isNumber(e.getName())) {
@@ -192,7 +209,12 @@ public final class VisitingValidatorSpec {
         return false;
     }
 
-    // Parameter-Informationen herausfinden für alle Datentypen. Bei 'Function' wird jedoch nochmal extra der Default-Wert gesetzt
+    /**
+     * Creates all information from a entry, that is a param
+     *
+     * @param e data to extract
+     * @param vd object to set data
+     * */
     private static void setInfos(ValueData vd, Group e) {
         for (Entry l : ((Group) e).getEntries()) {
             if (l instanceof Value) {

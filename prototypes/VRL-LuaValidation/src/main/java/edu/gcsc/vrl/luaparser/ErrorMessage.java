@@ -1,6 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
-/*
+/**
 * This class should be used as an structure to provide error messages.
 * */
 public class ErrorMessage {
@@ -8,8 +8,8 @@ public class ErrorMessage {
     private int errorLevel;
     private String paramName;
 
-    /*
-    * Constructormethode. Creates a new ErrorMessage-object
+    /**
+    * Constructor. Creates a new ErrorMessage-object
     *
     * @param msg error message
     * @param errorLevel level of error
@@ -23,7 +23,7 @@ public class ErrorMessage {
     }
 
 
-    /*
+    /**
     * Getting the error level
     *
     * @return errorLevel int
@@ -32,7 +32,7 @@ public class ErrorMessage {
         return errorLevel;
     }
 
-    /*
+    /**
     * Getting the error message
     *
     * @return msg String
@@ -41,7 +41,7 @@ public class ErrorMessage {
         return msg;
     }
 
-    /*
+    /**
     * Getting the name of the parameter,
     * which is involved.
     *

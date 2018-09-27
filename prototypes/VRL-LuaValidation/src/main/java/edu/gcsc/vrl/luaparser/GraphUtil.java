@@ -3,12 +3,12 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 * This class provides methods, which can operate on graph-like data structures
 * */
 public final class GraphUtil {
     public GraphUtil(){ throw new AssertionError(); }
-    /*
+    /**
     * Detects a cycle in the dependencies of all parameters
     *
     * @param runtimeData List of <code>ValueData</code>-objects from validationspec
@@ -77,7 +77,7 @@ public final class GraphUtil {
         return cycleNodes;
     }
 
-    /*
+    /**
     * Modified Depth-first search to detect cycles in graphs
     * 0 = not processed; 1 = currently processing; 2 = already done
     *
@@ -108,7 +108,7 @@ public final class GraphUtil {
         return cyc;
     }
 
-    /*
+    /**
     * Helping method to get coordinates in a matrix
     *
     * @param nodeNum number of node

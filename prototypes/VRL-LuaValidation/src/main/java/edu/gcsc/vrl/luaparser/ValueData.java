@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 * This class represents the data model based on the MVC-concept.
 * It saves all kind of information about a specific element from a
 * validation-spec or a lua-file with explicit parameters.

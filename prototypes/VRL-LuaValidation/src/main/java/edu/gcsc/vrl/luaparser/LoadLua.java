@@ -6,14 +6,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-/*
+/**
 * This class loads a lua file and matches it parameters on the actual data set.
 * */
 public final class LoadLua {
     public LoadLua() { throw new AssertionError(); }
 
 
-    /*
+    /**
     * Parses a lua-file
     *
     * @param filepath file path
@@ -30,7 +30,7 @@ public final class LoadLua {
         return importedCode;
     }
 
-    /*
+    /**
     * Iterates through the imported lua-group and creates <code>ValueData</code>-objects for
     * each element. Furthermore it sets the values, if a element is a parameter.
     *
@@ -214,7 +214,7 @@ public final class LoadLua {
         }
     }
 
-    /*
+    /**
     * Checks if a Group contains Groups only
     *
     * @param group Lua-Group
@@ -229,7 +229,7 @@ public final class LoadLua {
         return true;
     }
 
-    /*
+    /**
      * Checks if a Group contains Values only
      *
      * @param group Lua-Group
@@ -244,10 +244,10 @@ public final class LoadLua {
         return true;
     }
 
-    /*
+    /**
      * Checks if a Group is a array of values
      *
-     * @param group Lua-Group
+     * @param g Lua-Group
      * @return boolean
      * */
     private static boolean isArrayOfValues(Group g) {
@@ -260,7 +260,7 @@ public final class LoadLua {
         return false;
     }
 
-    /*
+    /**
     * Sets the data type for a <code>Value</code>
     * Only for a single value.
     *
@@ -281,7 +281,7 @@ public final class LoadLua {
         }
     }
 
-    /*
+    /**
      * Sets the data type for a <code>Value</code>
      * Only for arrays of values.
      *
@@ -311,7 +311,7 @@ public final class LoadLua {
     }
 
 
-    /*
+    /**
     * This method matches the parameters from the imported lua-file on the existing data set from the validationspec.
     * If a parameter matches, the actual values gets overwrited.
     *
