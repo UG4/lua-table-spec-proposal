@@ -6,23 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Die ValueData Klasse ist dazu da, die einzelnen Daten für die GUI-Generierung
- * zu speichern. Hiermit wird dann die ObservableList
- * befüllt und die cellFactory kann entsprechende Zellen rendern.
- */
+* This class represents the data model based on the MVC-concept.
+* It saves all kind of information about a specific element from a
+* validation-spec or a lua-file with explicit parameters.
+* It provides various methods to access and manipulate the data
+* of the object.
+* */
 public class ValueData {
     /*
-     * Konstruktor
-     * */
+    * Constructor
+    *
+    * @param name name of object
+    * @return <code>ValueData</code>
+    * */
 
     public ValueData(String name) {
         this.valName = new SimpleStringProperty(name);
         this.valProp = new SimpleObjectProperty<ValueData>(this);
     }
-
-    /*
-     * Klassenvariablen
-     * */
 
     private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
@@ -42,136 +43,290 @@ public class ValueData {
     private boolean isAValue = false;
     private boolean dependsOnValidate;
     private boolean dependsOnVisible;
-    /* Alle Parameter, die zu visibility gehören*/
+    // All parameters, which depend on the visibility-property
     private boolean visibility = true;
     private String[] vis_dependsOn;
     private Value vis_eval;
-    /* Alle Parameter, die zu validation gehören*/
+    // All parameters, which depend on the validation-property
     private boolean validationIsValid = true;
     private String[] valid_dependsOn;
     private Value valid_eval;
 
     // Only for GUI
     private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
-    //private boolean selected = false;
-    //private boolean disabled = false;
     private SimpleBooleanProperty disabled = new SimpleBooleanProperty(false);
+
     private ValueData parentNode;
 
 
-    // GETTER - Methoden
+    // GETTER - methods
+
+    /*
+    * Returns the wrapped <code>ObjectProperty</code> of the object
+    *
+    * @return valProp wrapped object
+    * */
     public ObjectProperty<ValueData> getValProp() {
         return this.valProp;
     }
 
+    /*
+    * Returns all sub-parameters
+    *
+    * @return subParams subparams
+    * */
     public List<ValueData> getOptions() {
         return this.subParams;
     }
 
+    /*
+    * Adds a sub-param to the object list of sub-params
+    *
+    * @param a object to add
+    * */
     public void addSubParam(ValueData a) {
         this.subParams.add(a);
     }
 
+    /*
+    * Returns the wrapped name of the object
+    *
+    * @return valName name
+    * */
     public StringProperty getValName() {
         return this.valName;
     }
 
+    /*
+    * Returns the wrapped type of the object
+    *
+    * return type datatype
+    * */
     public StringProperty getType() {
         return this.type;
     }
 
+    /*
+    * Returns the default-value of the object
+    *
+    * @return defaultVal default value
+    * */
     public Object getDefaultVal() {
         return this.defaultVal;
     }
 
+    /*
+    * Returns the style-property
+    *
+    * @return style style-property
+    * */
     public String getStyle() {
         return this.style;
     }
 
+    /*
+    * Returns the tooltip-message
+    *
+    * @return tooltip messsage
+    * */
     public String getTooltip() {
         return this.tooltip;
     }
 
+    /*
+    * Returns the minimum value of the range
+    *
+    * @return range_min minimum value
+    * */
     public double getRange_min() {
         return this.range_min;
     }
 
+    /*
+    * Returns the maximum value of the range
+    *
+    * @return range_max maximum value
+    * */
     public double getRange_max() {
         return this.range_max;
     }
 
+    /*
+    * Returns all values from the value range
+    *
+    * @return values array with values
+    * */
     public double[] getValues() {
         return this.values;
     }
 
+    /*
+    * If the visibility-property validated succesfully,
+    * it returns <code>true</code>, otherwise <code>false</code>
+    *
+    * @return visibility visibility-property
+    * */
     public boolean isVisible() {
         return this.visibility;
     }
 
+    /*
+    * Returns the ActualDataValue-oject, that depends on the
+    * current object.
+    *
+    * @return actData object with type and value
+    * */
     public ActualDataValue getActData() {
         return this.actData;
     }
 
+    /**
+    * Returns whether the object is selected
+    * from the user or not.
+    *
+    * @return selected.get() unwrapped selected-property
+    * */
     public boolean isSelected() {
         return this.selected.get();
     }
 
+    /**
+    * Returns whether the object is disabled or not.
+     *
+     * @return disabled.get() unwrapped disabled-property
+    * */
     public boolean isDisabled() {
         return this.disabled.get();
     }
 
+    /**
+     * Returns the parent node of the object
+     *
+     * @return parentNode parent node
+     */
     public ValueData getParentNode() {
         return this.parentNode;
     }
 
+    /**
+     * Returns whether the object is a parameter or not
+     *
+     * @return isAValue is param or not
+     * */
     public boolean isAValue() {
         return this.isAValue;
     }
 
+    /**
+     * Returns the params the object depends on
+     * regarding its validation-property
+     *
+     * @return valid_dependsOn array with depending params
+     * */
     public String[] getValid_dependsOn() {
         return this.valid_dependsOn;
     }
 
+    /**
+     * Returns the params the object depends on
+     * regarding its visibility-property
+     *
+     * @return vis_dependsOn array with depending params
+     * */
     public String[] getVis_dependsOn() {
         return this.vis_dependsOn;
     }
 
+    /**
+     * Returns whether the validation-property is valid.
+     *
+     * @return validationValid boolean
+     * */
     public boolean isValidationValid() {
         return this.validationIsValid;
     }
 
+    /**
+     * Returns the validation evaluation function
+     * as an <code>Value</code>-object
+     *
+     * @return valid_eval <code>Value</code>-object
+     * */
     public Value getValid_eval() {
         return this.valid_eval;
     }
 
+    /**
+     * Returns the visibility evaluation function
+     * as an <code>Value</code>-object
+     *
+     * @return vis_eval <code>Value</code>-object
+     * */
     public Value getVis_eval() {
         return this.vis_eval;
     }
 
+    /**
+    * Returns whether the object is a option or not
+    *
+    * @return optGroup is option
+    * */
     public boolean isOption() {
         return this.optGroup;
     }
 
+    /**
+     * Returns whether the object is a optional parameter or not
+     *
+     * @return isOptVal is optional param
+     * */
     public boolean isOptValue() {
         return this.isOptVal;
     }
 
+    /**
+     * Returns whether the object is a not-optional group or not
+     *
+     * @return notOptGroup is not-opt
+     * */
     public boolean isNotOptGroup() {
         return this.notOptGroup;
     }
 
+    /**
+    * Returns whether the object depending on other params
+     * regarding its validate-property
+     *
+     * @return dependsOnValidate boolean is depending
+    * */
     public boolean dependsOnValidate() {
         return this.dependsOnValidate;
     }
 
+    /**
+     * Returns whether the object depending on other params
+     * regarding its visibility-property
+     *
+     * @return dependsOnVisibile boolean is depending
+     * */
     public boolean dependsOnVisible() {
         return this.dependsOnVisible;
     }
 
+    /**
+     * Returns the wrapped selected-property
+     *
+     * @return selected selected SimpleBooleanProperty
+     * */
     public SimpleBooleanProperty getSelectedProp() {
         return this.selected;
     }
 
+    /**
+     * Returns the wrapped disabled-property
+     *
+     * @return disabled disabled SimpleBooleanProperty
+     * */
     public SimpleBooleanProperty disabledProperty() {
         return this.disabled;
     }
