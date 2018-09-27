@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeTableCell;
 
 /*
-* This class renders the first cell of the TreeTableView.
+* This class renders the first row of the TreeTableView.
 * */
 public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
 

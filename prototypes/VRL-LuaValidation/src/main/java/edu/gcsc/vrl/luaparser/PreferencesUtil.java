@@ -12,7 +12,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-
+/*
+* This class loads user settings from a .xml-File.
+* */
 public final class PreferencesUtil {
     public PreferencesUtil(){
         throw new AssertionError();
@@ -26,6 +28,9 @@ public final class PreferencesUtil {
     private static void setInitialLuaExportPath(String path){ initialLuaExportPath = path; }
     private static void setInitialLuaLoadPath(String path){ initialLuaLoadPath = path; }
 
+    /*
+    * This method loads user settings from a .xml-file and sets the initial paths in the class variables
+    * */
     public static void loadPreferences() throws IOException {
         byte[] xml2data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/Preferences.xml"));
         String code = new String(xml2data, "UTF-8");
@@ -61,18 +66,33 @@ public final class PreferencesUtil {
 
     }
 
+    /*
+    * test method
+    * */
     public static void printPref(){
         System.out.println("initialLuaExportPath: " + initialLuaExportPath);
         System.out.println("initialValidationImportPath: " + initialValidationImportPath);
     }
 
+    /*
+    * Returns the initial path for the validation import
+    * @return String path
+    * */
     public static String getInitValidationImportPath(){
         return initialValidationImportPath;
     }
 
+    /*
+     * Returns the initial path for the lua export
+     * @return String path
+     * */
     public static String getInitialLuaExportPath(){
         return initialLuaExportPath;
     }
 
+    /*
+     * Returns the initial path for loading the lua-file
+     * @return String path
+     * */
     public static String getInitialLuaLoadPath() { return initialLuaLoadPath; }
 }

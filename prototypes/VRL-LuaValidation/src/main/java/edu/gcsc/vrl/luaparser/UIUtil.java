@@ -13,9 +13,18 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.util.List;
-
+/*
+* This class provides methods, to create specific UI-elements, which are related to the
+* style-property in the validation-spec
+* */
 public class UIUtil {
-    // Erstellt ein Textfield für einen String
+    /*
+    * Creates a JavaFX TextField for a value.
+    *
+    * @param text text to show
+    * @param v <code>ValueData</code>-object
+    * @return TextField ui-element to render
+    * */
     public static TextField tfString(String text, ValueData v) {
         TextField stringField = new TextField();
         stringField.setText(text);
@@ -33,6 +42,13 @@ public class UIUtil {
         return stringField;
     }
 
+    /*
+     * Creates a JavaFX TextField for a array of values.
+     *
+     * @param o value object
+     * @param v <code>ValueData</code>-object
+     * @return TextField ui-element to render
+     * */
     public static TextField tfString(Object o, ValueData v) {
         TextField stringField = new TextField();
         if(v.getActData().getType().equals("Double[]")){
@@ -70,6 +86,12 @@ public class UIUtil {
         return stringField;
     }
 
+    /*
+     * Creates a JavaFX ComboBox for numbers.
+     *
+     * @param v <code>ValueData</code>-object
+     * @return ComboBox ui-element to render
+     * */
     public static ComboBox cbNumber(ValueData v) {
 
         ObservableList<Double> vals = FXCollections.observableArrayList();
@@ -100,6 +122,13 @@ public class UIUtil {
         return doubleBox;
     }
 
+    /*
+    * Creates a tooltip with the data type for a textfield.
+    * Additionally, if specified: a tooltip-message
+    *
+    * @param item <code>ValueData</code>-object
+    * @param t JavaFX TextField
+    * */
     public static void doTooltip(ValueData item, TextField t) {
         Tooltip tip = new Tooltip();
         if (!item.getTooltip().isEmpty()) {
@@ -118,6 +147,13 @@ public class UIUtil {
         t.setTooltip(tip);
     }
 
+    /*
+     * Creates a tooltip with the data type for a combobox.
+     * Additionally, if specified: a tooltip-message
+     *
+     * @param item <code>ValueData</code>-object
+     * @param t JavaFX ComboBox
+     * */
     public static void doTooltip(ValueData item, ComboBox t) {
         Tooltip tip = new Tooltip();
         if (!item.getTooltip().isEmpty()) {
@@ -135,6 +171,15 @@ public class UIUtil {
         }
         t.setTooltip(tip);
     }
+
+    /*
+    * Creates a HBox with a TextField and a Button in it.
+    * Additionally creates a dialog to load a lua-file
+    *
+    * @param actWindow actual used window of GUI
+    * @param v <code>ValueData</code>-object
+    * @return HBox UI-Element to render
+    * */
     public static HBox doLoadFile(Window actWindow, ValueData v){
         HBox master = new HBox();
         master.setSpacing(2);
@@ -187,6 +232,14 @@ public class UIUtil {
         return master;
     }
 
+    /*
+     * Creates a HBox with a TextField and a Button in it.
+     * Additionally creates a dialog to save a lua-file
+     *
+     * @param actWindow actual used window of GUI
+     * @param v <code>ValueData</code>-object
+     * @return HBox UI-Element to render
+     * */
     public static HBox doSaveFile(Window actWindow, ValueData v){
         HBox master = new HBox();
         master.setSpacing(2);

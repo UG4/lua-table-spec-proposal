@@ -3,12 +3,10 @@ package edu.gcsc.vrl.luaparser;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Window;
-
+/*
+ * This class renders the second row of the TreeTableView.
+ * */
 public class MyValCell extends TreeTableCell<ValueData, ValueData> {
-    /*
-     * Hier werden spezifische Zellen gerendert - je nach type des Wertes,
-     * der dargestellt werden soll.
-     * */
     @Override
     protected void updateItem(ValueData item, boolean empty) {
         super.updateItem(item, empty);

@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
+/*
+* Main class, that starts the JavaFX-Application und loads user settings
+* */
 public class Main extends Application{
 
     @Override
