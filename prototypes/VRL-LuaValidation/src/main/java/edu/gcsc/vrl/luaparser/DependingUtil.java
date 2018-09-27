@@ -16,6 +16,7 @@ public final class DependingUtil {
 
     /**
      * Returns all the parameters a parameter depends on
+     * regarding its visibility-property
      *
      * @param objectToValidate object to check
      * @param runtimeData the actual data set
@@ -39,6 +40,7 @@ public final class DependingUtil {
 
     /**
      * Returns all parameters, which depend on other parameter
+     * regarding the visibility-property
      *
      * @param dataToSearch data to search
      * @return List<ValueData> depending parameters
@@ -74,6 +76,13 @@ public final class DependingUtil {
         }
     }
 
+    /**
+     * validates the given object regarding its visibility-property
+     *
+     * @param runtimeData actual data set
+     * @param vd object to validate
+     * @return boolean is valid
+     * */
     public static boolean validateVisible(ValueData vd, List<ValueData> runtimeData) {
         /**
          * First: checks, whether the object has a evaluation-function

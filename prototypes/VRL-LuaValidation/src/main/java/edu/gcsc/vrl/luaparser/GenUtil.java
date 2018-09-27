@@ -5,11 +5,20 @@ import org.luaj.vm2.LuaValue;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides general purpose methods for all kind of use
+ * */
 public final class GenUtil {
     public GenUtil() {
         throw new AssertionError();
     }
 
+    /**
+     * Checks whether the param has a optional parameter
+     *
+     * @param v object to check
+     * @retun boolean has or has not
+     * */
     public static boolean haveOptValue(ValueData v) {
         if (!v.isOption()) {
             if (v.getOptions() != null) {
@@ -23,6 +32,12 @@ public final class GenUtil {
         return false;
     }
 
+    /**
+     * Checks, whether the object has a selected optional parameter
+     *
+     * @param v object to check
+     * @return boolean has or has not
+     * */
     public static boolean haveOptValSelected(ValueData v) {
         if (!v.isOption()) {
             if (v.getOptions() != null) {
@@ -36,41 +51,38 @@ public final class GenUtil {
         return false;
     }
 
-    // Hilfsfunktionen dependsOn()
+    /**
+     * validates the given object regarding its validation-property
+     *
+     * @param runtimeData actual data set
+     * @param vd object to validate
+     * @return boolean is valid
+     * */
     public static boolean validate(ValueData vd, List<ValueData> runtimeData) {
-        // Als erstes wird überprüft, ob der Parameter eine eval-Funktion hat.
-        // Wenn nicht, dann ist die Validation immer true, da ja kein 'falscher'
-        // Fall eintreten kann.
         if (vd.getValid_eval() != null) {
-            // Hier werden alle Parameter herausgesucht, von denen er abhängig ist
             List<ValueData> dependsOn = new ArrayList<>();
             if (vd.dependsOnValidate()) {
                 dependsOn = validateAValue(vd, runtimeData);
             }
             boolean valid = true;
-            // Die Parameter von denen er abhängig ist, werden validiert.
-            // Erst wenn alle diese Parameter valide sind, kann der eigentliche
-            // Parameter validiert werden.
+
             for (int i = 0; i < dependsOn.size(); i++) {
                 boolean temp = validate(dependsOn.get(i), runtimeData);
                 if (temp == false) {
                     valid = false;
                 }
             }
-            // Hier wird der Parameter validiert
+
             if (valid) {
 
                 List<ValueData> vals = new ArrayList<>();
 
-                // Alle Werte von denen der Parameter abhängig ist, werden herausgesucht
                 for (ValueData v : dependsOn) {
                     vals.add(getActualData(v, runtimeData));
                 }
 
                 List<Value> valsForEval = new ArrayList<>();
 
-                // Hier werden die Werte, die als Argument für die eval-Funktion dienen
-                // in einer Liste gespeichert.
                 if (vd.getActData() != null && vd.getActData().getValue() != null) {
                     System.out.println("Test " + vd.getValName().get());
                     doArgList(vd, valsForEval);
@@ -81,7 +93,7 @@ public final class GenUtil {
                 }
 
                 String resultOfEval = "";
-                // Jetzt wird versucht die eval-Funktion mit den Argumenten aufzurufen
+
                 try {
                     resultOfEval = vd.getValid_eval().asFunction().eval(valsForEval).getValueAsString();
                 } catch (Exception ex) {
@@ -95,8 +107,6 @@ public final class GenUtil {
 
                 return result;
             } else {
-                // Falls einer der Parameter, von denen der eigentliche Parameter abhängig ist, nicht valide ist,
-                // kann der zu überprüfende Parameter auch nicht valide sein -> return false
                 return false;
             }
 
@@ -106,9 +116,13 @@ public final class GenUtil {
 
     }
 
+    /**
+     * Creates the arguments as <code>Value</code>-objects
+     *
+     * @param vals <code>Value</code>-list
+     * @param vData data to add
+     * */
     private static void doArgList(List<ValueData> vData, List<Value> vals) {
-        // Hier wird die List von Values erstellt, die die Argumente für die eval-Funktion enthalten.
-        // WEITERE DATENTYPEN HINZUFÜGEN: ARRAYS UND FUNCTION
         for (ValueData v : vData) {
             if (v.getActData() != null && v.getActData().getValue() != null) {
                 Object temp = v.getActData().getValue();
@@ -136,7 +150,6 @@ public final class GenUtil {
     }
 
     private static void doArgList(ValueData v, List<Value> vals) {
-        // Hier kann ein einzelnes Argument der Argumentenliste hinzugefügt werden
         Object temp = v.getActData().getValue();
         String name = v.getValName().get();
 
@@ -161,11 +174,7 @@ public final class GenUtil {
     }
 
     private static ValueData getActualData(ValueData vd, List<ValueData> runtimeData) {
-        // Hier werden die Werte der Parameter herausgesucht, die übergeben werden sollen
         if (!vd.dependsOnValidate()) {
-            // Wenn der Parameter von keinem Anderen abhängig ist, kann direkt das ValueData-Objekt
-            // mit dem Value zurückgegeben werden.(dafür muss dieses ValueData-Objekt natürlich auch einen
-            // Value besitzen)
             if (vd.getActData() != null && vd.getActData().getValue() != null) {
                 return vd;
             } else {
@@ -173,14 +182,8 @@ public final class GenUtil {
                 return null;
             }
         } else {
-            // Falls der Parameter abbhängig ist, müssen die Parameter von denen der zu überprüfende
-            // Parameter abhängig ist, natürlich auch erst überprüft werden.
             List<ValueData> dependsOn = validateAValue(vd, runtimeData);
             boolean valid = true;
-
-            //Falls einer der Parameter nicht valide ist, wird null zurückgegeben.
-            // EVENTUELL ÄNDERN
-            // Wenn alle Parameter valide sind, wird der zu überprüfende Parameter zurückgegeben.
 
             for (int i = 0; i < dependsOn.size(); i++) {
                 boolean temp = validate(dependsOn.get(i), runtimeData);
@@ -193,12 +196,17 @@ public final class GenUtil {
             }
 
         }
-        // Temporär
         return null;
     }
 
 
-    // Alle Parameter mit einer dependsOn-Abhängigkeit herausfinden( bzgl. validate)
+    /**
+     * Returns all parameters, which depend on other parameter
+     * regarding the validation-property
+     *
+     * @param dataToSearch data to search
+     * @return List<ValueData> depending parameters
+     * */
     public static List<ValueData> getAllDependingValidateValues(List<ValueData> dataToSearch) {
         List<ValueData> dependingValues = new ArrayList<>();
 
@@ -216,7 +224,6 @@ public final class GenUtil {
         return dependingValues;
     }
 
-    // Hilfsfunktion für dependsOn-Funktion
     private static void searchDependingValidateValues(List<ValueData> dependingValues, ValueData actObj) {
         if (actObj.dependsOnValidate() && !dependingValues.contains(actObj)) {
             dependingValues.add(actObj);
@@ -228,7 +235,15 @@ public final class GenUtil {
         }
     }
 
-    // Alle dependsOn-Werte für einen Parameter herausfinden und in einer Liste speichern
+    /**
+     * Returns all the parameters a parameter depends on regarding
+     * validation-property
+     *
+     * @param objectToValidate object to check
+     * @param runtimeData the actual data set
+     * @return List<ValueData> list of params
+     *
+     * */
     public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData) {
         List<ValueData> validObjDependsOn = new ArrayList<>();
 
@@ -244,7 +259,14 @@ public final class GenUtil {
         return validObjDependsOn;
     }
 
-    // Hilfsfunktion, die checkt, ob ein Array ein bestimmtes ValueData-Objekt enthält
+    /**
+     * Helping method that check whether a array contains a specific
+     * <code>ValueData</code>-object.
+     *
+     * @param v object to check
+     * @param vData array to check
+     * @return boolean contains
+     * */
     public static boolean containsVD(ValueData[] vData, ValueData v) {
         //System.out.println(vData[0] + " Val: " + v.getValName().get());
         for (int i = 0; i < vData.length; i++) {
@@ -257,7 +279,12 @@ public final class GenUtil {
         return false;
     }
 
-    // Alle Values herausfinden TEIL1
+    /**
+     * Returns all parameters from a list of <code>ValueData</code>-objects
+     *
+     * @param data data to check
+     * @return List<ValueData> all parameters
+     * */
     public static List<ValueData> getAllValues(List<ValueData> data) {
         List<ValueData> vals = new ArrayList<>();
 
@@ -275,7 +302,6 @@ public final class GenUtil {
         return vals;
     }
 
-    // Alle Values herausfinden TEIL2
     private static void getVal(List<ValueData> vals, ValueData act) {
         if (act.isAValue() || act.isOptValue()) {
             vals.add(act);
@@ -287,11 +313,17 @@ public final class GenUtil {
         }
     }
 
-    // Helping-Functions: XPath Implementation
+    /**
+     * Execute a simple variant of a xpath command.
+     * / - starts a absolute search
+     * ./ - starts a relative search
+     *
+     * @param treeToSearch data to search
+     * @param xpath_expression xpath command
+     * @return <ocde>ValueData</ocde> if found
+     * */
 
     public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
-        // Hier muss noch eine Lösung gefunden werden, um nicht immer 'problem' behelfsmässig als
-        // root-Node hinzu zu fügen
         ValueData rootNode = new ValueData("problem");
         for (ValueData x : treeToSearch) {
             rootNode.addSubParam(x);
@@ -390,7 +422,12 @@ public final class GenUtil {
         return current;
     }
 
-    // Fügt Anführungszeichen am Anfang und am Ende eines Strings ein
+    /**
+     * Adds quote marks und does string escaping
+     *
+     * @param input input string
+     * @return String modified String
+     * */
     public static String doQuoteMark(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -411,6 +448,12 @@ public final class GenUtil {
         return sb.toString();
     }
 
+    /**
+     * Does string escaping
+     *
+     * @param input input string
+     * @return modified string
+     * */
     public static String doString(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -428,6 +471,12 @@ public final class GenUtil {
         return sb.toString();
     }
 
+    /**
+     * Returns names of all <code>ValueData</code>-objects
+     *
+     * @param data data to search
+     * @return List of strings
+     * */
     public static List<String> getAllVDNames(List<ValueData> data){
         List<String> names = new ArrayList<>();
         for(ValueData v : data){
@@ -449,6 +498,12 @@ public final class GenUtil {
         }
     }
 
+    /**
+     * Returns all <code>ValueData</code>-objects
+     *
+     * @param data data to search
+     * @return list with all <code>ValueData</code>-objects
+     * */
     public static List<ValueData> getAllVD(List<ValueData> data){
         List<ValueData> vd = new ArrayList<>();
         for(ValueData v : data){
