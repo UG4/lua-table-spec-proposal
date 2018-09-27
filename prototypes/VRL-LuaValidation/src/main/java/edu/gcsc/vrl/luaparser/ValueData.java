@@ -13,7 +13,7 @@ import java.util.List;
 * of the object.
 * */
 public class ValueData {
-    /*
+    /**
     * Constructor
     *
     * @param name name of object
@@ -61,7 +61,7 @@ public class ValueData {
 
     // GETTER - methods
 
-    /*
+    /**
     * Returns the wrapped <code>ObjectProperty</code> of the object
     *
     * @return valProp wrapped object
@@ -70,7 +70,7 @@ public class ValueData {
         return this.valProp;
     }
 
-    /*
+    /**
     * Returns all sub-parameters
     *
     * @return subParams subparams
@@ -79,7 +79,7 @@ public class ValueData {
         return this.subParams;
     }
 
-    /*
+    /**
     * Adds a sub-param to the object list of sub-params
     *
     * @param a object to add
@@ -88,7 +88,7 @@ public class ValueData {
         this.subParams.add(a);
     }
 
-    /*
+    /**
     * Returns the wrapped name of the object
     *
     * @return valName name
@@ -97,7 +97,7 @@ public class ValueData {
         return this.valName;
     }
 
-    /*
+    /**
     * Returns the wrapped type of the object
     *
     * return type datatype
@@ -106,7 +106,7 @@ public class ValueData {
         return this.type;
     }
 
-    /*
+    /**
     * Returns the default-value of the object
     *
     * @return defaultVal default value
@@ -115,7 +115,7 @@ public class ValueData {
         return this.defaultVal;
     }
 
-    /*
+    /**
     * Returns the style-property
     *
     * @return style style-property
@@ -124,7 +124,7 @@ public class ValueData {
         return this.style;
     }
 
-    /*
+    /**
     * Returns the tooltip-message
     *
     * @return tooltip messsage
@@ -133,7 +133,7 @@ public class ValueData {
         return this.tooltip;
     }
 
-    /*
+    /**
     * Returns the minimum value of the range
     *
     * @return range_min minimum value
@@ -142,7 +142,7 @@ public class ValueData {
         return this.range_min;
     }
 
-    /*
+    /**
     * Returns the maximum value of the range
     *
     * @return range_max maximum value
@@ -151,7 +151,7 @@ public class ValueData {
         return this.range_max;
     }
 
-    /*
+    /**
     * Returns all values from the value range
     *
     * @return values array with values
@@ -160,8 +160,8 @@ public class ValueData {
         return this.values;
     }
 
-    /*
-    * If the visibility-property validated succesfully,
+    /**
+    * If the visibility-property validated successfully,
     * it returns <code>true</code>, otherwise <code>false</code>
     *
     * @return visibility visibility-property
@@ -170,7 +170,7 @@ public class ValueData {
         return this.visibility;
     }
 
-    /*
+    /**
     * Returns the ActualDataValue-oject, that depends on the
     * current object.
     *
@@ -331,104 +331,234 @@ public class ValueData {
         return this.disabled;
     }
 
-    // SETTER - Methoden
+    // SETTER - methods
+
+    /**
+    * Sets the list of sub-params
+    *
+    * @param subParams sub params
+    * */
     public void setSubParams(List<ValueData> subParams) {
         this.subParams = subParams;
     }
 
+    /**
+     * Sets the data type
+     *
+     * @param type data type
+     * */
     public void setType(String type) {
         this.type = new SimpleStringProperty(type);
     }
 
+    /**
+     * Sets the default value
+     *
+     * @param defaultVal defautl value
+     * */
     public void setDefaultVal(Object defaultVal) {
         this.defaultVal = defaultVal;
     }
 
+    /**
+     * Sets the style property
+     *
+     * @param style style property
+     * */
     public void setStyle(String style) {
         this.style = style;
     }
 
+    /**
+     * Sets the tooltip message
+     *
+     * @param tooltip message
+     * */
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
     }
 
+    /**
+     * Sets the minimum value
+     *
+     * @param range_min minimum value
+     * */
     public void setRange_min(double range_min) {
         this.range_min = range_min;
     }
 
+
+    /**
+    * Sets the maximum value
+    *
+    * @param range_max maximum value
+    * */
     public void setRange_max(double range_max) {
         this.range_max = range_max;
     }
 
+    /**
+     * Sets the values of the value range
+     *
+     * @param values array of values
+     * */
     public void setValues(double[] values) {
         this.values = values;
     }
 
+
+    /**
+     * Sets the visibility-property
+     *
+     * @param visibility is visible
+     * */
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
 
+    /**
+     * Sets the ActualDataValue object
+     *
+     * @param dat data object
+     * */
     public void setActData(ActualDataValue dat) {
         this.actData = dat;
     }
 
+    /**
+     * Sets the disabled-property
+     *
+     * @param disabled is disabled
+     * */
     public void setDisabled(boolean disabled) {
         this.disabled.set(disabled);
     }
 
+    /**
+     * Sets the selected-property
+     *
+     * @param selected is selected
+     * */
     public void setSelection(boolean selected) {
         this.selected.set(selected);
     }
 
+    /**
+    * Sets the parent node
+    *
+    * @param parentNode parent node
+    * */
     public void setParentNode(ValueData parentNode) {
         this.parentNode = parentNode;
     }
 
+    /**
+     * Sets the optional group property
+     *
+     * @param isOpt is optional group
+     * */
     public void setOptional(boolean isOpt) {
         this.optGroup = isOpt;
     }
 
+    /**
+     * Sets the is-a-param property
+     *
+     * @param AValue is a param
+     * */
     public void isValue(boolean AValue) {
         this.isAValue = AValue;
     }
 
+    /**
+     * Sets the optional param property
+     *
+     * @param opt is optional param
+     * */
     public void setOptVal(boolean opt) {
         this.isOptVal = opt;
     }
 
+    /**
+     * Sets the not-optional-group property
+     *
+     * @param notOpt is not-optional group
+     * */
     public void setNotOptGroup(boolean notOpt) {
         this.notOptGroup = notOpt;
     }
 
+    /**
+     * Sets the array of depending param-names regarding the validation-property
+     *
+     * @param valid_dependsOn array of param names
+     * */
     public void setValid_dependsOn(String[] valid_dependsOn) {
         this.valid_dependsOn = valid_dependsOn;
     }
 
+    /**
+     * Sets the evaluation-function of the validation-property
+     *
+     * @param valid_eval evaluation function
+     * */
     public void setValid_eval(Value valid_eval) {
         this.valid_eval = valid_eval;
     }
 
+    /**
+     * Sets the array of depending param-names regarding the visibility-property
+     *
+     * @param vis_dependsOn array of param names
+     * */
     public void setVis_dependsOn(String[] vis_dependsOn) {
         this.vis_dependsOn = vis_dependsOn;
     }
 
+    /**
+     * Sets the evaluation-function of the visibility-property
+     *
+     * @param vis_eval evaluation function
+     * */
     public void setVis_eval(Value vis_eval) {
         this.vis_eval = vis_eval;
     }
 
+    /**
+     * Sets whether the validation-property is valid or not
+     *
+     * @param validationIsValid is valid
+     * */
     public void setValidationIsValid(boolean validationIsValid) {
         this.validationIsValid = validationIsValid;
     }
 
+    /**
+     * Sets whether the object depends on other parameters or not
+     * regarding its validation-property
+     *
+     * @param dependsOn is depending
+     * */
     public void setDependsOnValidate(boolean dependsOn) {
         this.dependsOnValidate = dependsOn;
     }
 
+    /**
+     * Sets whether the object depends on other parameters or not
+     * regarding its visibility-property
+     *
+     * @param dependsOn is depending
+     * */
     public void setDependsOnVisible(boolean dependsOn) {
         this.dependsOnVisible = dependsOn;
     }
 
-    // Objektmethoden
+    /**
+     * Checks whether the object has a subparam with a specific name
+     *
+     * @param subParamName name to check
+     * @return ValueData object
+     * */
 
     public ValueData getParam(String subParamName) {
         if (getOptions() != null) {
@@ -438,10 +568,16 @@ public class ValueData {
                 }
             }
         }
-        //System.out.println("Sub-Param doesn't exist!");
         return null;
     }
 
+    /**
+     * Checks whether a specific subparam exists and sets
+     * the value of it
+     *
+     * @param subParamName name to check
+     * @param val value to set
+     * */
     public void setParam(String subParamName, Object val) {
         ValueData v = getParam(subParamName);
         if (v != null) {
@@ -452,6 +588,12 @@ public class ValueData {
 
     }
 
+    /**
+     * Indicates whether the object has a specific subparam
+     *
+     * @param subParamName name to check
+     * @return boolean has param or not
+     * */
     public boolean hasParam(String subParamName) {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
@@ -460,10 +602,16 @@ public class ValueData {
                 }
             }
         }
-        //System.out.println("Sub-Param doesn't exist!");
         return false;
     }
 
+    /**
+     * Proceed a simple variant of a xpath command.
+     * Starting point in the hierarchy is the current object
+     *
+     * @param path xpath
+     * @return ValueData object if matched
+     * */
     public ValueData xpath(String path) {
         char[] charsOfPath = path.toCharArray();
         ValueData currentNode = this;
@@ -494,6 +642,11 @@ public class ValueData {
         return currentNode;
     }
 
+    /**
+     * Returns the root node
+     *
+     * @return ValueData root node
+     * */
     public ValueData getRootNode() {
         if (this.getParentNode() != null) {
             return loopRootNode(this);
@@ -513,6 +666,12 @@ public class ValueData {
         }
     }
 
+    /**
+     * Selection-model for user selections in the user interface.
+     * Activates/deactivates the right option
+     *
+     * @param sel boolean selected or not
+     * */
     public void setSelectedNew(boolean sel) {
         if (!this.isDisabled() && (this.isOption() || this.isOptValue())) {
             if (sel) {
@@ -522,7 +681,7 @@ public class ValueData {
                     if (this.getParentNode() != null) {
                         // ParentNodes selecten
                         selectParentNodes(this);
-                        // Alle Siblings disablen, die auch optional sind
+                        // disable all siblings, which are optional
                         for (ValueData sib : this.getParentNode().getOptions()) {
                             if (!sib.equals(this)) {
                                 disableWithChild(sib);
@@ -610,6 +769,11 @@ public class ValueData {
         }
     }
 
+    /**
+     * Indicates whether the object has a optional parameter
+     *
+     * @return boolean has or has not
+     * */
     public boolean hasOptValue() {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
