@@ -3,16 +3,24 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* This class provides methods, which can operate on graph-like data structures
+* */
 public final class GraphUtil {
     public GraphUtil(){ throw new AssertionError(); }
     /*
-    * Die folgenden Funktionen sind dazu da, Zyklen in den Parametern zu erkennen.
+    * Detects a cycle in the dependencies of all parameters
+    *
+    * @param runtimeData List of <code>ValueData</code>-objects from validationspec
+    * @param allValues List of <code>ValueData</code>-object, which are parameters
+    * @param valivisi decides which property will be checked
+    * @return List<ValueData> contains all parameters with a cycle
     * */
     public static List<ValueData> checkForCycles(List<ValueData> runtimeData,List<ValueData> allValues, boolean valivisi){
         ValueData[][] dependings = new ValueData[allValues.size()][allValues.size()];
 
 
-        // Matrix mit den Abhängigkeiten für jeden Parameter erstellen
+        // Creates matrix with dependencies for each parameter
         for (int i = 0; i < allValues.size(); i++) {
             List<ValueData> vals;
             if(valivisi){
@@ -30,7 +38,7 @@ public final class GraphUtil {
         int[][] dep = new int[allValues.size()][allValues.size()];
 
 
-        // Erstellen der Adjazenzmatrix
+        // Creates adjacency matrix
         StringBuilder sh = new StringBuilder();
         for (int i = 0; i < allValues.size(); i++) {
             for (int j = 0; j < allValues.size(); j++) {
@@ -46,12 +54,12 @@ public final class GraphUtil {
             sh.append("\n");
         }
 
-        // Testzwecke
+        // for testing purposes only
         //System.out.println(sh.toString());
 
 
 
-        // Zyklen werden herausgefunden und in Liste abgespeichert
+        // Detects and saves cycles
         List<ValueData> cycleNodes = new ArrayList<>();
 
         for (int x = 0; x < allValues.size(); x++) {
@@ -69,8 +77,17 @@ public final class GraphUtil {
         return cycleNodes;
     }
 
-    // Erweiterte Tiefensuche mit Zyklenerkennung
-    // 0 = noch nicht bearbeitet; 1 = in Bearbeitung; 2 = bereits bearbeitet
+    /*
+    * Modified Depth-first search to detect cycles in graphs
+    * 0 = not processed; 1 = currently processing; 2 = already done
+    *
+    * @param node number of node
+    * @param markierung list with markings
+    * @param adjazenz adjacency matrix
+    * @param len length of column/row
+    * @return <code>true</code> or <code>false</code>, depends on cycle in graph
+    *
+    * */
     private static boolean cycle(int node, int[] markierung,int[][] adjazenz, int len){
         int[] initCoord = getCoor(node,len);
         int x = initCoord[0];
@@ -91,7 +108,13 @@ public final class GraphUtil {
         return cyc;
     }
 
-    // Hilfsfunktion, um für einen bestimmten Knoten die Koordinaten in der Adjazenzmatrix heraus zu finden
+    /*
+    * Helping method to get coordinates in a matrix
+    *
+    * @param nodeNum number of node
+    * @param len length of column/row
+    * @return int[] first entry is x, second is y
+    * */
     private static int[] getCoor(int nodeNum, int len){
         int x = nodeNum%len;
         int y = nodeNum/len;

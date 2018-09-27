@@ -6,7 +6,11 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.util.List;
-
+/*
+* This class represents the value of a parameter. Each object of <code>ValueData</code>, which
+* is a parameter, has a <code>ActualDataValue</code>-object
+*
+* */
 public class ActualDataValue {
     private String type;
     private Object value = null;
