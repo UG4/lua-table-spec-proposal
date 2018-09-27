@@ -6,9 +6,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
+/*
+* This class loads a lua file and matches it parameters on the actual data set.
+* */
 public final class LoadLua {
     public LoadLua() { throw new AssertionError(); }
 
+
+    /*
+    * Parses a lua-file
+    *
+    * @param filepath file path
+    * @return importedCode lua-group
+    * */
     public static Group parseLuaFile(String filepath) throws IOException {
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
@@ -20,6 +30,13 @@ public final class LoadLua {
         return importedCode;
     }
 
+    /*
+    * Iterates through the imported lua-group and creates <code>ValueData</code>-objects for
+    * each element. Furthermore it sets the values, if a element is a parameter.
+    *
+    * @param e lua-entry
+    * @param lv data list
+    * */
     public static void visitingLuaCode(Entry e, List<ValueData> lv) {
         if (e instanceof Value) {
             ValueData v = new ValueData(e.getName());
@@ -83,6 +100,9 @@ public final class LoadLua {
         }
     }
 
+    /*
+    * Helping method
+    * */
     private static void visitGroup(Entry e, ValueData v) {
         if (e instanceof Group) {
             ValueData x = new ValueData(e.getName());
@@ -108,10 +128,6 @@ public final class LoadLua {
                         System.out.println("GROUP3: " + vd.getValName().get());
                         x.addSubParam(vd);
                         vd.setParentNode(x);
-                        // In die folgenden if-Abfragen einen Check einbauen, der prüft , ob alle Entries
-                        // KEINE GROUP und KEINE VALUES sind.
-                        // -> dann weiß man, dass die Group auch ein Parameter mit mehreren Eingabewerten(im Array) ist
-                        // Wie unterscheidet man List<String> von einer List<Function>? Beides sind ja erstmal List<String>
 
                         if (onlyGroups((Group) ede)) {
                             for (Entry ed : ((Group) ede).getEntries()) {
@@ -181,7 +197,6 @@ public final class LoadLua {
                             }
                         }
                     } else {
-                        // TEST
                     }
                 }
             }
@@ -199,6 +214,12 @@ public final class LoadLua {
         }
     }
 
+    /*
+    * Checks if a Group contains Groups only
+    *
+    * @param group Lua-Group
+    * @return boolean
+    * */
     private static boolean onlyGroups(Group group) {
         for (Entry e : group.getEntries()) {
             if (e instanceof Value) {
@@ -208,6 +229,12 @@ public final class LoadLua {
         return true;
     }
 
+    /*
+     * Checks if a Group contains Values only
+     *
+     * @param group Lua-Group
+     * @return boolean
+     * */
     private static boolean onlyValues(Group group) {
         for (Entry e : group.getEntries()) {
             if (e instanceof Group) {
@@ -217,6 +244,12 @@ public final class LoadLua {
         return true;
     }
 
+    /*
+     * Checks if a Group is a array of values
+     *
+     * @param group Lua-Group
+     * @return boolean
+     * */
     private static boolean isArrayOfValues(Group g) {
         System.out.println("check Group: " + g.getName());
         for (Entry e : g.getEntries()) {
@@ -227,6 +260,13 @@ public final class LoadLua {
         return false;
     }
 
+    /*
+    * Sets the data type for a <code>Value</code>
+    * Only for a single value.
+    *
+    * @param v Value
+    * @param adv ActualDataValue-object
+    * */
     private static void settingType(Value v, ActualDataValue adv) {
         if (v.isString()) {
             adv.setType("String");
@@ -241,6 +281,13 @@ public final class LoadLua {
         }
     }
 
+    /*
+     * Sets the data type for a <code>Value</code>
+     * Only for arrays of values.
+     *
+     * @param v Value
+     * @param adv ActualDataValue-object
+     * */
     private static String settingType(Value v) {
 
         if (v.isDouble()) {
@@ -263,6 +310,14 @@ public final class LoadLua {
         }
     }
 
+
+    /*
+    * This method matches the parameters from the imported lua-file on the existing data set from the validationspec.
+    * If a parameter matches, the actual values gets overwrited.
+    *
+    * @param spec actual data set
+    * @param lua imported lua parameters
+    * */
     public static void match(List<ValueData> spec, List<ValueData> lua) {
         for (ValueData v : lua) {
             for (ValueData s : spec) {
