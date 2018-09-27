@@ -309,7 +309,10 @@ public final class ExportLua {
     }
 
     /**
-     * This method formats the export-string. It adds comma
+     * This method formats the export-string. It adds comma.
+     * Seperation character for parameters is '#'. If you want
+     * to write a '#' in your TextField, write '\#' to escape
+     * the seperation character
      * */
     private static String doFormatting(StringBuilder sb, String filename) {
         StringBuilder sbNew = new StringBuilder();
@@ -335,12 +338,17 @@ public final class ExportLua {
                     sbNew.append(",\n");
                 }
             } else if (Character.toString(sb.charAt(i)).equals("#")) {
-                if (Character.toString(sb.charAt(i + 1)).equals("{")) {
-                    sbNew.append(",\n");
-                } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
+                if(i > 0 && !Character.toString(sb.charAt(i-1)).equals("\\")) {
+                    if (Character.toString(sb.charAt(i + 1)).equals("{")) {
+                        sbNew.append(",\n");
+                    } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
 
+                    } else {
+                        sbNew.append(",\n");
+                    }
                 } else {
-                    sbNew.append(",\n");
+                    sbNew.setLength(sbNew.length()-1);
+                    sbNew.append("#");
                 }
 
             } else if (Character.toString(sb.charAt(i)).equals("=")) {
