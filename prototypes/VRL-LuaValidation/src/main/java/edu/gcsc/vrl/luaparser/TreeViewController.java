@@ -34,8 +34,6 @@ public class TreeViewController {
     @FXML
     private MenuItem exportLua;
     @FXML
-    private MenuItem setPrefs;
-    @FXML
     private TextArea loggingField;
     @FXML
     private TreeTableView<ValueData> outputTable;
@@ -269,18 +267,6 @@ public class TreeViewController {
                     filewriter.close();
 
                 } catch(IOException fnf){}
-            }
-        });
-    }
-
-    /*
-     * Creates action for EventHandler
-     * */
-    public void setPrefs() {
-        setPrefs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
             }
         });
     }
