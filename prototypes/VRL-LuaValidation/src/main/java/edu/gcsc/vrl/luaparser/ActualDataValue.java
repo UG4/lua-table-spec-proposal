@@ -14,25 +14,42 @@ public class ActualDataValue {
     public ActualDataValue() {
     }
 
-    // GETTER
+    /*
+    * Returns the data type of the <code>ActualDataValue</code>
+    *
+    * @return type data type
+    * */
     public String getType() {
         return type;
     }
 
+
+    /*
+    * Returns the value of the <code>ActualDataValue</code>
+    *
+    * @return Object value
+    * */
     public Object getValue() {
         return value;
     }
 
-    // SETTER
 
+    /*
+    * Sets the data type of the <code>ActualDataValue</code>
+    *
+    * @param type data type
+    * */
     public void setType(String type) {
         this.type = type;
     }
 
 
     /*
-    * Hier müssen noch ein paar Funktionen überarbeitet/hinzugefügt werden. Siehe 'Functions', 'Functions[]'
+    * Sets the value of the <code>ActualDataValue</code>.
+    * Casting <code>Object</code> to the specific data type
+    * and formatting it, if necessary.
     *
+    * @param value data value
     * */
     public void setValue(Object value) {
         if (getType().equals("String")){
@@ -102,7 +119,15 @@ public class ActualDataValue {
             } catch(Exception e){}
         }
     }
-    // Eingeführt, damit die Stringformatierung beim Laden von LUA-Files passt
+
+    /*
+     * Sets the value of the <code>ActualDataValue</code>.
+     * Casting <code>Object</code> to the specific data type
+     * and formatting it.
+     * Extra formatting necessary for loading Lua-Files
+     *
+     * @param value data value
+     * */
     public void setValueLoad(Object value) {
         if (getType().equals("String")){
             try{
@@ -170,7 +195,16 @@ public class ActualDataValue {
         }
     }
 
-    // Falls der Wert über die GUI gesetzt wird. Färbt dann je nach Richtigkeit der Eingabe das Textfeld entsprechend
+    /*
+     * Sets the value of the <code>ActualDataValue</code>.
+     * Casting <code>Object</code> to the specific data type
+     * and formatting it, if necessary.
+     * Paints the given textfield red or green - if data type
+     * of value is correct.
+     *
+     * @param value data value
+     * @param tf JavaFX TextField
+     * */
     public void setValue(Object value, TextField tf) {
         if (getType().equals("String")){
             try{

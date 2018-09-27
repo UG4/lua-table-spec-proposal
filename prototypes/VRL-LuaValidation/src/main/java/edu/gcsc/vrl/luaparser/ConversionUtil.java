@@ -6,8 +6,12 @@ import java.util.List;
 public final class ConversionUtil {
     public ConversionUtil(){ throw new AssertionError(); }
 
-    // In dieser Klasse werden Strings zu Listen von verschiedenen Datentypen umgewandelt und umgekehrt.
-    // Wird vorallem für die richtige Kommunikation zwischen GUI und Datenmodell benötigt.
+    /*
+    * Transforms a string to list of doubles.
+    * Uses comma as seperation character.
+    * @param s String to transform
+    * @return <code>List<Double></code>
+    * */
     public static List<Double> fromStringToDoubleList(String s) {
         System.out.println("DOUBLE STR2: "+s);
         char[] cS = s.toCharArray();
@@ -43,6 +47,12 @@ public final class ConversionUtil {
         return doubles;
     }
 
+    /*
+     * Transforms a string to list of integer.
+     * Uses comma as seperation character.
+     * @param s String to transform
+     * @return <code>List<integer></code>
+     * */
     public static List<Integer> fromStringToIntegerList(String s) {
         char[] cS = s.toCharArray();
         List<Integer> integers = new ArrayList<>();
@@ -77,6 +87,12 @@ public final class ConversionUtil {
         return integers;
     }
 
+    /*
+     * Transforms a string to list of booleans.
+     * Uses comma as seperation character.
+     * @param s String to transform
+     * @return <code>List<Boolean></code>
+     * */
     public static List<Boolean> fromStringToBooleanList(String s){
         char[] cs = s.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -109,6 +125,13 @@ public final class ConversionUtil {
         return bools;
     }
 
+    /*
+     * Transforms a string to list of strings.
+     * Uses comma as seperation character.
+     * To escape comma, use \,
+     * @param s String to transform
+     * @return <code>List<String></code>
+     * */
     public static List<String> fromStringtoStringList(String s){
         char[] cs = s.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -149,6 +172,12 @@ public final class ConversionUtil {
         return strings;
     }
 
+    /*
+    * Creates a string from a list of doubles.
+    *
+    * @param dl List of Doubles
+    * @return String created string
+    * */
     public static String fromDoubleListToString(List<Double> dl){
         StringBuilder sb = new StringBuilder();
         for(double d : dl){
@@ -161,6 +190,13 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
+
+    /*
+     * Creates a string from a list of integers.
+     *
+     * @param dl List of Integers
+     * @return String created string
+     * */
     public static String fromIntegerListToString(List<Integer> il){
         StringBuilder sb = new StringBuilder();
         for(int d : il){
@@ -173,6 +209,12 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
+    /*
+     * Creates a string from a list of booleans.
+     *
+     * @param dl List of Booleans
+     * @return String created string
+     * */
     public static String fromBooleanListToString(List<Boolean> bl){
         StringBuilder sb = new StringBuilder();
         for(boolean b : bl){
@@ -185,6 +227,12 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
+    /*
+     * Creates a string from a list of Strings.
+     *
+     * @param dl List of Strings
+     * @return String created string
+     * */
     public static String fromStringListToString(List<String> sl){
         StringBuilder sb = new StringBuilder();
         for(String s : sl){
@@ -197,6 +245,14 @@ public final class ConversionUtil {
         return sb.toString();
     }
 
+    /*
+     * Creates a string from a list of strings.
+     * Adds quote marks at the beginning and at
+     * the end.
+     *
+     * @param dl List of trings
+     * @return String created string
+     * */
     public static String fromStringListToStringQuoteMarks(List<String> sl){
         StringBuilder sb = new StringBuilder();
         for(String s : sl){
