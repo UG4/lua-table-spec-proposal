@@ -49,6 +49,21 @@ public class Validator {
         this.importedCode = Group.toGroup(code);
 
     }
+    /*
+    * For testing purposes only
+    * */
+    public Validator(String filepath, boolean test) throws IOException {
+        // Set the filepath
+        //this.validationFilePath = filepath;
+        // load lua code
+        byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
+        String code = new String(code2Data, "UTF-8");
+
+        // convert code to group
+        this.importedCode = Group.toGroup(code);
+
+    }
+
 
     /*
      * Objekt - Methoden
@@ -73,7 +88,7 @@ public class Validator {
 
         return allErrMsg;
     }
-    private List<ErrorMessage> validateValidation(){
+    public List<ErrorMessage> validateValidation(){
         List<ErrorMessage> errList = new ArrayList<>();
         // Alle Parameter herausfinden
         List<ValueData> allValues = GenUtil.getAllValues(getData());
@@ -106,7 +121,7 @@ public class Validator {
         return errList;
     }
 
-    private List<ErrorMessage> visibleValidation(){
+    public List<ErrorMessage> visibleValidation(){
         List<ErrorMessage> errList = new ArrayList<>();
         // Alle Parameter herausfinden
         List<ValueData> allValues = GenUtil.getAllValues(getData());

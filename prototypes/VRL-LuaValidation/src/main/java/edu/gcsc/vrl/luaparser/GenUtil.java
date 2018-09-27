@@ -62,7 +62,7 @@ public final class GenUtil {
 
                 List<ValueData> vals = new ArrayList<>();
 
-                // Alle Werte der von denen der Parameter abhängig ist, werden herausgesucht
+                // Alle Werte von denen der Parameter abhängig ist, werden herausgesucht
                 for (ValueData v : dependsOn) {
                     vals.add(getActualData(v, runtimeData));
                 }
@@ -240,22 +240,8 @@ public final class GenUtil {
                     validObjDependsOn.add(act);
                 }
             }
-            // Was wird mit den Werten gemacht
         }
-
-
         return validObjDependsOn;
-
-        /*if(objectToValidate.getVis_dependsOn() != null){
-            for(String dependsOnVal : objectToValidate.getVis_dependsOn()){
-                ValueData act = doXPath(runtimeData, dependsOnVal);
-                if(act != null){
-                    visibObjDependsOn.add(act);
-                }
-            }
-            // Was wird mit den Werten gemacht
-        }*/
-
     }
 
     // Hilfsfunktion, die checkt, ob ein Array ein bestimmtes ValueData-Objekt enthält
@@ -271,7 +257,7 @@ public final class GenUtil {
         return false;
     }
 
-    // Alle Values (nicht die optionalen!) herausfinden TEIL1
+    // Alle Values herausfinden TEIL1
     public static List<ValueData> getAllValues(List<ValueData> data) {
         List<ValueData> vals = new ArrayList<>();
 
@@ -289,7 +275,7 @@ public final class GenUtil {
         return vals;
     }
 
-    // Alle Values (nicht die optionalen!) herausfinden TEIL2
+    // Alle Values herausfinden TEIL2
     private static void getVal(List<ValueData> vals, ValueData act) {
         if (act.isAValue() || act.isOptValue()) {
             vals.add(act);
@@ -299,12 +285,6 @@ public final class GenUtil {
                 getVal(vals, v);
             }
         }
-    }
-
-    private static void visibilityValidation() {
-    }
-
-    private static void validationValidate() {
     }
 
     // Helping-Functions: XPath Implementation
@@ -419,9 +399,9 @@ public final class GenUtil {
         for (char a : temp) {
             if (String.valueOf(a).equals("\"")) {
                 sb.append("\\\"");
-            } else if(String.valueOf(a).equals("\'")){
+            } else if (String.valueOf(a).equals("\'")) {
                 sb.append("\\\'");
-            } else if(String.valueOf(a).equals("\\")){
+            } else if (String.valueOf(a).equals("\\")) {
                 sb.append("\\");
             } else {
                 sb.append(a);
@@ -431,20 +411,62 @@ public final class GenUtil {
         return sb.toString();
     }
 
-    public static String doString(String input){
+    public static String doString(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
         for (char a : temp) {
             if (String.valueOf(a).equals("\"")) {
                 sb.append("\"");
-            } else if(String.valueOf(a).equals("\'")){
+            } else if (String.valueOf(a).equals("\'")) {
                 sb.append("\'");
-            } else if(String.valueOf(a).equals("\\")){
+            } else if (String.valueOf(a).equals("\\")) {
                 sb.append("\\");
             } else {
                 sb.append(a);
             }
         }
         return sb.toString();
+    }
+
+    public static List<String> getAllVDNames(List<ValueData> data){
+        List<String> names = new ArrayList<>();
+        for(ValueData v : data){
+            names.add(v.getValName().get());
+            if(v.getOptions() != null){
+                loopAllVDNames(names ,v.getOptions());
+            }
+        }
+
+        return names;
+    }
+
+    private static void loopAllVDNames(List<String> names, List<ValueData> options){
+        for(ValueData v : options){
+            names.add(v.getValName().get());
+            if(v.getOptions() != null){
+                loopAllVDNames(names,v.getOptions());
+            }
+        }
+    }
+
+    public static List<ValueData> getAllVD(List<ValueData> data){
+        List<ValueData> vd = new ArrayList<>();
+        for(ValueData v : data){
+            vd.add(v);
+            if(v.getOptions() != null){
+                loopAllVD(vd ,v.getOptions());
+            }
+        }
+
+        return vd;
+    }
+
+    private static void loopAllVD(List<ValueData> values, List<ValueData> options){
+        for(ValueData v : options){
+            values.add(v);
+            if(v.getOptions() != null){
+                loopAllVD(values,v.getOptions());
+            }
+        }
     }
 }

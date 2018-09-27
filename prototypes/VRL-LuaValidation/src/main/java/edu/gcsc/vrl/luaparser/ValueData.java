@@ -399,7 +399,6 @@ public class ValueData {
         }
     }
 
-    //TEST
     private void enableWithChild(ValueData v) {
         if (v.isOption() || v.isOptValue()) {
             v.setSelection(false);
