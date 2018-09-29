@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class provides general purpose methods for all kind of use
- * */
+ */
 public final class GenUtil {
     public GenUtil() {
         throw new AssertionError();
@@ -17,8 +17,8 @@ public final class GenUtil {
      * Checks whether the param has a optional parameter
      *
      * @param v object to check
-     * @retun boolean has or has not
-     * */
+     * @return boolean has or has not
+     */
     public static boolean haveOptValue(ValueData v) {
         if (!v.isOption()) {
             if (v.getOptions() != null) {
@@ -37,7 +37,7 @@ public final class GenUtil {
      *
      * @param v object to check
      * @return boolean has or has not
-     * */
+     */
     public static boolean haveOptValSelected(ValueData v) {
         if (!v.isOption()) {
             if (v.getOptions() != null) {
@@ -55,9 +55,9 @@ public final class GenUtil {
      * validates the given object regarding its validation-property
      *
      * @param runtimeData actual data set
-     * @param vd object to validate
+     * @param vd          object to validate
      * @return boolean is valid
-     * */
+     */
     public static boolean validate(ValueData vd, List<ValueData> runtimeData) {
         if (vd.getValid_eval() != null) {
             List<ValueData> dependsOn = new ArrayList<>();
@@ -119,9 +119,9 @@ public final class GenUtil {
     /**
      * Creates the arguments as <code>Value</code>-objects
      *
-     * @param vals <code>Value</code>-list
+     * @param vals  <code>Value</code>-list
      * @param vData data to add
-     * */
+     */
     private static void doArgList(List<ValueData> vData, List<Value> vals) {
         for (ValueData v : vData) {
             if (v.getActData() != null && v.getActData().getValue() != null) {
@@ -206,7 +206,7 @@ public final class GenUtil {
      *
      * @param dataToSearch data to search
      * @return List<ValueData> depending parameters
-     * */
+     */
     public static List<ValueData> getAllDependingValidateValues(List<ValueData> dataToSearch) {
         List<ValueData> dependingValues = new ArrayList<>();
 
@@ -240,10 +240,9 @@ public final class GenUtil {
      * validation-property
      *
      * @param objectToValidate object to check
-     * @param runtimeData the actual data set
+     * @param runtimeData      the actual data set
      * @return List<ValueData> list of params
-     *
-     * */
+     */
     public static List<ValueData> validateAValue(ValueData objectToValidate, List<ValueData> runtimeData) {
         List<ValueData> validObjDependsOn = new ArrayList<>();
 
@@ -263,10 +262,10 @@ public final class GenUtil {
      * Helping method that check whether a array contains a specific
      * <code>ValueData</code>-object.
      *
-     * @param v object to check
+     * @param v     object to check
      * @param vData array to check
      * @return boolean contains
-     * */
+     */
     public static boolean containsVD(ValueData[] vData, ValueData v) {
         //System.out.println(vData[0] + " Val: " + v.getValName().get());
         for (int i = 0; i < vData.length; i++) {
@@ -284,7 +283,7 @@ public final class GenUtil {
      *
      * @param data data to check
      * @return List<ValueData> all parameters
-     * */
+     */
     public static List<ValueData> getAllValues(List<ValueData> data) {
         List<ValueData> vals = new ArrayList<>();
 
@@ -318,10 +317,10 @@ public final class GenUtil {
      * / - starts a absolute search
      * ./ - starts a relative search
      *
-     * @param treeToSearch data to search
+     * @param treeToSearch     data to search
      * @param xpath_expression xpath command
      * @return <ocde>ValueData</ocde> if found
-     * */
+     */
 
     public static ValueData doXPath(List<ValueData> treeToSearch, String xpath_expression) {
         ValueData rootNode = new ValueData("problem");
@@ -335,9 +334,8 @@ public final class GenUtil {
         if (xpath_expression.startsWith("/")) {
             resultNode = doAbsoluteSearch(rootNode, xpath_expression.substring(1));
         } else if (xpath_expression.startsWith("./")) {
-            resultNode = doRelativeSearch(rootNode, xpath_expression.substring(2));
+            resultNode = doRelativeSearch(treeToSearch, xpath_expression.substring(2), rootNode);
         }
-
         treeToSearch.remove(0);
 
         return resultNode;
@@ -365,61 +363,71 @@ public final class GenUtil {
         return currentNode;
     }
 
-    private static ValueData doRelativeSearch(ValueData rootNode, String xpath) {
-        boolean firstNode = true;
+    public static ValueData doRelativeSearch(List<ValueData> data, String xpath, ValueData rootNode) {
+        List<String> path_names = new ArrayList<>();
         char[] charsOfPath = xpath.toCharArray();
-        ValueData currentNode = rootNode;
-        StringBuilder currentNameSb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        if (rootNode != null) {
-            for (char character : charsOfPath) {
-                if (!"/".equals(String.valueOf(character))) {
-                    currentNameSb.append(character);
-                } else if ("/".equals(String.valueOf(character))) {
-                    String currentName = currentNameSb.toString();
-                    if (firstNode) {
-                        firstNode = false;
-                        ValueData actual = searchCompleteDoc(rootNode, currentName);
-                        if (actual != null) {
-                            currentNode = actual;
-                        }
-                        currentNameSb = new StringBuilder();
-                    } else if (!firstNode) {
-                        if (currentNode.getOptions() != null) {
-                            if (currentNode.getOptions().size() > 0) {
-                                if (currentNode.hasParam(currentName)) {
-                                    currentNode = currentNode.getParam(currentName);
-                                } else {
-
-                                }
-                                currentNameSb = new StringBuilder();
-                            }
-                        }
-                    }
-                }
+        for (char c : charsOfPath) {
+            if (!"/".equals(String.valueOf(c))) {
+                sb.append(c);
+            } else if ("/".equals(String.valueOf(c))) {
+                String temp = sb.toString();
+                path_names.add(temp);
+                sb = new StringBuilder();
             }
-        } else {
-
         }
-        return currentNode;
+
+        List<List<ValueData>> allOccs = new ArrayList<>();
+        for (String s : path_names) {
+            List<ValueData> currentOccs = new ArrayList<>();
+            searchAllOccurencies(data, currentOccs, s, rootNode);
+            if (!currentOccs.isEmpty()) {
+                allOccs.add(currentOccs);
+            }
+        }
+        if (allOccs.size() == path_names.size()) {
+            return getResultNode(allOccs, path_names);
+        } else {
+            return null;
+        }
     }
 
-    private static ValueData searchCompleteDoc(ValueData rootNode, String name) {
-        ValueData current = null;
-        if (rootNode.hasParam(name)) {
-            ValueData returnV = rootNode.getParam(name);
-            current = returnV;
-        } else {
-            if (rootNode.getOptions() != null) {
-                for (ValueData v : rootNode.getOptions()) {
-                    ValueData temp = searchCompleteDoc(v, name);
-                    if (temp != null) {
-                        current = temp;
+    private static ValueData getResultNode(List<List<ValueData>> allOccs, List<String> path_names) {
+        for (int i = 0; i < allOccs.size(); i++) {
+            for (int j = 0; j < allOccs.get(i).size(); j++) {
+                ValueData currentNode = allOccs.get(i).get(j);
+                for (int h = 0; h < path_names.size(); h++) {
+                    if (h == path_names.size() - 1) {
+                        if (currentNode.hasParam(path_names.get(h))) {
+                            return currentNode.getParam(path_names.get(h));
+                        } else if (currentNode.getValName().get().equals(path_names.get(h))) {
+                            return currentNode;
+                        }
+                    } else {
+                        if (currentNode.hasParam(path_names.get(h))) {
+                            currentNode = currentNode.getParam(path_names.get(h));
+                        }
                     }
                 }
             }
         }
-        return current;
+        return null;
+    }
+
+    public static void searchAllOccurencies(List<ValueData> data, List<ValueData> foundOcc, String name, ValueData rootNode) {
+        if (rootNode.hasParam(name)) {
+            foundOcc.add(rootNode.getParam(name));
+            for (ValueData xd : rootNode.getOptions()) {
+                searchAllOccurencies(data, foundOcc, name, xd);
+            }
+        } else {
+            if (rootNode.getOptions() != null) {
+                for (ValueData vd : rootNode.getOptions()) {
+                    searchAllOccurencies(data, foundOcc, name, vd);
+                }
+            }
+        }
     }
 
     /**
@@ -427,7 +435,7 @@ public final class GenUtil {
      *
      * @param input input string
      * @return String modified String
-     * */
+     */
     public static String doQuoteMark(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -453,7 +461,7 @@ public final class GenUtil {
      *
      * @param input input string
      * @return modified string
-     * */
+     */
     public static String doString(String input) {
         char[] temp = input.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -476,24 +484,24 @@ public final class GenUtil {
      *
      * @param data data to search
      * @return List of strings
-     * */
-    public static List<String> getAllVDNames(List<ValueData> data){
+     */
+    public static List<String> getAllVDNames(List<ValueData> data) {
         List<String> names = new ArrayList<>();
-        for(ValueData v : data){
+        for (ValueData v : data) {
             names.add(v.getValName().get());
-            if(v.getOptions() != null){
-                loopAllVDNames(names ,v.getOptions());
+            if (v.getOptions() != null) {
+                loopAllVDNames(names, v.getOptions());
             }
         }
 
         return names;
     }
 
-    private static void loopAllVDNames(List<String> names, List<ValueData> options){
-        for(ValueData v : options){
+    private static void loopAllVDNames(List<String> names, List<ValueData> options) {
+        for (ValueData v : options) {
             names.add(v.getValName().get());
-            if(v.getOptions() != null){
-                loopAllVDNames(names,v.getOptions());
+            if (v.getOptions() != null) {
+                loopAllVDNames(names, v.getOptions());
             }
         }
     }
@@ -503,24 +511,24 @@ public final class GenUtil {
      *
      * @param data data to search
      * @return list with all <code>ValueData</code>-objects
-     * */
-    public static List<ValueData> getAllVD(List<ValueData> data){
+     */
+    public static List<ValueData> getAllVD(List<ValueData> data) {
         List<ValueData> vd = new ArrayList<>();
-        for(ValueData v : data){
+        for (ValueData v : data) {
             vd.add(v);
-            if(v.getOptions() != null){
-                loopAllVD(vd ,v.getOptions());
+            if (v.getOptions() != null) {
+                loopAllVD(vd, v.getOptions());
             }
         }
 
         return vd;
     }
 
-    private static void loopAllVD(List<ValueData> values, List<ValueData> options){
-        for(ValueData v : options){
+    private static void loopAllVD(List<ValueData> values, List<ValueData> options) {
+        for (ValueData v : options) {
             values.add(v);
-            if(v.getOptions() != null){
-                loopAllVD(values,v.getOptions());
+            if (v.getOptions() != null) {
+                loopAllVD(values, v.getOptions());
             }
         }
     }

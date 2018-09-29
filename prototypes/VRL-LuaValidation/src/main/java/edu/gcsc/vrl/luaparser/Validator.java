@@ -104,7 +104,7 @@ public class Validator {
     /**
     * This method checks, whether all parameters are valid.
     * It validates the <code>validate</code>-property and the
-    * <code>visibility</code>-property. If a error occur, it
+    * <code>visibility</code>-property. If an error occurs, it
     * will be saved in a message.
     *
     * @return allErrMsg a List of error messages
