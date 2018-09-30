@@ -334,7 +334,7 @@ public final class GenUtil {
         if (xpath_expression.startsWith("/")) {
             resultNode = doAbsoluteSearch(rootNode, xpath_expression.substring(1));
         } else if (xpath_expression.startsWith("./")) {
-            resultNode = doRelativeSearch(treeToSearch, xpath_expression.substring(2), rootNode);
+            resultNode = doRelativeSearch(xpath_expression.substring(2), rootNode);
         }
         treeToSearch.remove(0);
 
@@ -363,11 +363,22 @@ public final class GenUtil {
         return currentNode;
     }
 
-    public static ValueData doRelativeSearch(List<ValueData> data, String xpath, ValueData rootNode) {
+    /**
+     * Does the relative xpath search.
+     *
+     * @param rootNode the root node of the tree
+     * @param xpath the xpath-command
+     * @return <code>ValueData</code> result node
+     * */
+    private static ValueData doRelativeSearch(String xpath, ValueData rootNode) {
         List<String> path_names = new ArrayList<>();
         char[] charsOfPath = xpath.toCharArray();
         StringBuilder sb = new StringBuilder();
 
+        /**
+         * Getting the name of nodes along the path.
+         * Seperation character is '/'
+         * */
         for (char c : charsOfPath) {
             if (!"/".equals(String.valueOf(c))) {
                 sb.append(c);
@@ -378,14 +389,23 @@ public final class GenUtil {
             }
         }
 
+        /**
+         * Creating a <code>List</code> with <code>Lists</code> for each node along the path.
+         * The node-specific <code>Lists</code> contain each occurrence of the node in the tree.
+         * */
         List<List<ValueData>> allOccs = new ArrayList<>();
         for (String s : path_names) {
             List<ValueData> currentOccs = new ArrayList<>();
-            searchAllOccurencies(data, currentOccs, s, rootNode);
+            searchAllOccurrences(currentOccs, s, rootNode);
             if (!currentOccs.isEmpty()) {
                 allOccs.add(currentOccs);
             }
         }
+
+        /**
+         * At least you must have one occurrence of each node along the path.
+         * If not then the path is not valid.
+         * */
         if (allOccs.size() == path_names.size()) {
             return getResultNode(allOccs, path_names);
         } else {
@@ -393,6 +413,15 @@ public final class GenUtil {
         }
     }
 
+
+    /**
+     * Iterates through all nodes and their occurrences and tries to find a valid
+     * path with a result node that matches.
+     *
+     * @param allOccs <code>List</code> with all occurrences
+     * @param path_names <code>List</code> with all names of the nodes
+     * @return <code>ValueData</code>-Object result node
+     * */
     private static ValueData getResultNode(List<List<ValueData>> allOccs, List<String> path_names) {
         for (int i = 0; i < allOccs.size(); i++) {
             for (int j = 0; j < allOccs.get(i).size(); j++) {
@@ -415,16 +444,24 @@ public final class GenUtil {
         return null;
     }
 
-    public static void searchAllOccurencies(List<ValueData> data, List<ValueData> foundOcc, String name, ValueData rootNode) {
+    /**
+     * Finds all occurrences of a node in a tree of <code>ValueData</code>-objects.
+     * Modifies a given <code>List</code>.
+     *
+     * @param rootNode root node of the tree
+     * @param foundOcc occurrences already found
+     * @param name name of the node to find
+     * */
+    private static void searchAllOccurrences(List<ValueData> foundOcc, String name, ValueData rootNode) {
         if (rootNode.hasParam(name)) {
             foundOcc.add(rootNode.getParam(name));
             for (ValueData xd : rootNode.getOptions()) {
-                searchAllOccurencies(data, foundOcc, name, xd);
+                searchAllOccurrences(foundOcc, name, xd);
             }
         } else {
             if (rootNode.getOptions() != null) {
                 for (ValueData vd : rootNode.getOptions()) {
-                    searchAllOccurencies(data, foundOcc, name, vd);
+                    searchAllOccurrences(foundOcc, name, vd);
                 }
             }
         }
