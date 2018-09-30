@@ -43,6 +43,7 @@ public class ValueData {
     private boolean isAValue = false;
     private boolean dependsOnValidate;
     private boolean dependsOnVisible;
+    private boolean valInRange = true;
     // All parameters, which depend on the visibility-property
     private boolean visibility = true;
     private String[] vis_dependsOn;
@@ -198,6 +199,13 @@ public class ValueData {
     public boolean isDisabled() {
         return this.disabled.get();
     }
+
+    /**
+     * Returns whether the value is in the value range
+     *
+     * @return valInRange
+     * */
+    public boolean isValInRange() { return this.valInRange; }
 
     /**
      * Returns the parent node of the object
@@ -487,6 +495,14 @@ public class ValueData {
     public void setNotOptGroup(boolean notOpt) {
         this.notOptGroup = notOpt;
     }
+
+
+    /**
+     * Sets the value-in-range-property
+     *
+     * @param inRange value in range or not
+     * */
+    public void setValInRange(boolean inRange) { this.valInRange = inRange; }
 
     /**
      * Sets the array of depending param-names regarding the validation-property

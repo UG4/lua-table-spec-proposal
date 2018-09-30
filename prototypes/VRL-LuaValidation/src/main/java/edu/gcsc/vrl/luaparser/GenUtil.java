@@ -14,6 +14,119 @@ public final class GenUtil {
     }
 
     /**
+     * Method, that checks, if the value of a specific <code>ValueData</code>-object is in the given
+     * value range.
+     * Only 'Integer' and 'Double' supported as datatype.
+     * Because of not initializing the <code>range_min</code> and <code>range_max</code> properties
+     * of a <code>ValueData</code>-object, the methods first checks whether both a not zero.
+     *
+     * @param v <code>ValueData</code>-object to check
+     * @return boolean is in range
+     * */
+    public static boolean valueIsInRange(ValueData v) {
+        if(!(v.getRange_min() == 0 && v.getRange_max() == 0)) {
+            if (v.getType().get().equals("Integer") || v.getType().get().equals("Double")) {
+                if (v.getActData() != null && v.getActData().getValue() != null) {
+                    if (v.getValues() != null) {
+                        double[] temp = v.getValues();
+                        if (v.getType().get().equals("Integer")) {
+                            for (double a : temp) {
+                                if (a == (Integer) v.getActData().getValue()) {
+                                    return true;
+                                }
+                            }
+                        } else if (v.getType().get().equals("Double")) {
+                            for (double a : temp) {
+                                if (a == (Double) v.getActData().getValue()) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    } else {
+                        if (v.getType().get().equals("Double")) {
+                            double temp = (Double) v.getActData().getValue();
+                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else if (v.getType().get().equals("Integer")) {
+                            int temp = (Integer) v.getActData().getValue();
+                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                } else {
+                    return true;
+                }
+            } else if(v.getType().get().equals("Integer[]")||v.getType().get().equals("Double[]")){
+                if (v.getActData() != null && v.getActData().getValue() != null) {
+                    if (v.getValues() != null) {
+                        double[] temp = v.getValues();
+                        if (v.getType().get().equals("Integer[]")) {
+                            List<Integer> vals = (List<Integer>) v.getActData().getValue();
+                            boolean isValid = false;
+                            for(int i : vals) {
+                                for (double a : temp) {
+                                    if (a == i) {
+                                        isValid =  true;
+                                    }
+                                }
+                            }
+                            return isValid;
+                        } else if (v.getType().get().equals("Double[]")) {
+                            List<Double> vals = (List<Double>) v.getActData().getValue();
+                            boolean isValid = false;
+                            for(double i : vals) {
+                                for (double a : temp) {
+                                    if (a == i) {
+                                        isValid =  true;
+                                    }
+                                }
+                            }
+                            return isValid;
+                        }
+                        return false;
+                    } else {
+                        if (v.getType().get().equals("Double[]")) {
+                            List<Double> vals = (List<Double>) v.getActData().getValue();
+                            boolean isInRange = false;
+                            for(double d : vals){
+
+                            }
+
+                            ///
+                            double temp = (Double) v.getActData().getValue();
+                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else if (v.getType().get().equals("Integer[]")) {
+                            int temp = (Integer) v.getActData().getValue();
+                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                } else {
+                    return true;
+                }
+
+            } else {
+                return true;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks whether the param has a optional parameter
      *
      * @param v object to check
@@ -367,9 +480,9 @@ public final class GenUtil {
      * Does the relative xpath search.
      *
      * @param rootNode the root node of the tree
-     * @param xpath the xpath-command
+     * @param xpath    the xpath-command
      * @return <code>ValueData</code> result node
-     * */
+     */
     private static ValueData doRelativeSearch(String xpath, ValueData rootNode) {
         List<String> path_names = new ArrayList<>();
         char[] charsOfPath = xpath.toCharArray();
@@ -418,10 +531,10 @@ public final class GenUtil {
      * Iterates through all nodes and their occurrences and tries to find a valid
      * path with a result node that matches.
      *
-     * @param allOccs <code>List</code> with all occurrences
+     * @param allOccs    <code>List</code> with all occurrences
      * @param path_names <code>List</code> with all names of the nodes
      * @return <code>ValueData</code>-Object result node
-     * */
+     */
     private static ValueData getResultNode(List<List<ValueData>> allOccs, List<String> path_names) {
         for (int i = 0; i < allOccs.size(); i++) {
             for (int j = 0; j < allOccs.get(i).size(); j++) {
@@ -450,8 +563,8 @@ public final class GenUtil {
      *
      * @param rootNode root node of the tree
      * @param foundOcc occurrences already found
-     * @param name name of the node to find
-     * */
+     * @param name     name of the node to find
+     */
     private static void searchAllOccurrences(List<ValueData> foundOcc, String name, ValueData rootNode) {
         if (rootNode.hasParam(name)) {
             foundOcc.add(rootNode.getParam(name));

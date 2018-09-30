@@ -103,7 +103,8 @@ public class Validator {
 
     /**
     * This method checks, whether all parameters are valid.
-    * It validates the <code>validate</code>-property and the
+     * First it checks, whether the value is in the value range.
+    * Then it validates the <code>validate</code>-property and the
     * <code>visibility</code>-property. If an error occurs, it
     * will be saved in a message.
     *
@@ -111,12 +112,23 @@ public class Validator {
     * */
     public List<ErrorMessage> validate() {
         List<ErrorMessage> allErrMsg = new ArrayList<>();
+        validateRange();
         List<ErrorMessage> validateErr = validateValidation();
         List<ErrorMessage> visibleErr = visibleValidation();
         allErrMsg.addAll(validateErr);
         allErrMsg.addAll(visibleErr);
 
         return allErrMsg;
+    }
+
+    public void validateRange(){
+        List<ValueData> allValues = GenUtil.getAllValues(getData());
+
+        for(ValueData v : allValues){
+            boolean isInRange = GenUtil.valueIsInRange(v);
+            System.out.println(v.getValName().get() + " range: " + isInRange);
+            v.setValInRange(isInRange);
+        }
     }
 
     /**
