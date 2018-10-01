@@ -7,7 +7,12 @@ problem = {
 			mySubGroup1 = {
 				subParam1 = {
 					type = "Double[]",
-					default = {1.5,2.0}
+					default = {1.5,2.0},
+
+					range = {
+					    min = 0,
+					    max = 1
+					}
 				},
 				subParam2 = {
 					type = "String",

@@ -18,8 +18,13 @@ problem = {
     -- specification for problem.myGroup.myVal
     myVal = {
         type = "Integer",
-        default = "10",
+        default = 10,
         style = "default",
+
+        range = {
+            min = 1,
+            max = 6
+        },
 
         visibility = {
             dependsOn = {"./myVal2/"},

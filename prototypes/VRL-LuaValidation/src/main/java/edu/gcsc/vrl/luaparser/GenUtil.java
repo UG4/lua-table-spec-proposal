@@ -16,7 +16,7 @@ public final class GenUtil {
     /**
      * Method, that checks, if the value of a specific <code>ValueData</code>-object is in the given
      * value range.
-     * Only 'Integer' and 'Double' supported as datatype.
+     * Supported data types: 'Integer', 'Integer[]', 'Double', 'Double[]'.
      * Because of not initializing the <code>range_min</code> and <code>range_max</code> properties
      * of a <code>ValueData</code>-object, the methods first checks whether both a not zero.
      *
@@ -69,50 +69,41 @@ public final class GenUtil {
                         double[] temp = v.getValues();
                         if (v.getType().get().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
-                            boolean isValid = false;
                             for(int i : vals) {
-                                for (double a : temp) {
-                                    if (a == i) {
-                                        isValid =  true;
-                                    }
+                                boolean isIn = intInArray(temp,i);
+                                if(isIn == false){
+                                    return false;
                                 }
                             }
-                            return isValid;
+                            return true;
                         } else if (v.getType().get().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
-                            boolean isValid = false;
                             for(double i : vals) {
-                                for (double a : temp) {
-                                    if (a == i) {
-                                        isValid =  true;
-                                    }
+                                boolean isIn = doubleInArray(temp,i);
+                                if(isIn == false){
+                                    return false;
                                 }
                             }
-                            return isValid;
+                            return true;
                         }
                         return false;
                     } else {
                         if (v.getType().get().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
-                            boolean isInRange = false;
                             for(double d : vals){
-
+                                if (!(d > v.getRange_min() && d < v.getRange_max())) {
+                                    return false;
+                                }
                             }
-
-                            ///
-                            double temp = (Double) v.getActData().getValue();
-                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return true;
                         } else if (v.getType().get().equals("Integer[]")) {
-                            int temp = (Integer) v.getActData().getValue();
-                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
-                                return true;
-                            } else {
-                                return false;
+                            List<Integer> vals = (List<Integer>) v.getActData().getValue();
+                            for(int i : vals){
+                                if (!(i > v.getRange_min() && i < v.getRange_max())) {
+                                    return false;
+                                }
                             }
+                            return true;
                         }
                     }
                 } else {
@@ -124,6 +115,38 @@ public final class GenUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks whether a Array of doubles contains a specific Integer
+     *
+     * @param arr array
+     * @param i specific Integer
+     * @return boolean
+     * */
+    private static boolean intInArray(double[] arr, int i){
+        for(double d : arr){
+            if(i == d){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether a Array of doubles contains a specific Double
+     *
+     * @param arr array
+     * @param d specific Double
+     * @return boolean
+     * */
+    private static boolean doubleInArray(double[] arr, double d){
+        for(double db : arr){
+            if(db == d){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

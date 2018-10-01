@@ -135,12 +135,45 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                     setStyle("-fx-control-inner-background: orange;-fx-opacity: 0.5");
                 }
             } else if(!item.isValidationValid() || !item.isValInRange()){
-                if (item.getActData() != null && item.getActData().getValue() != null) {
-                    TextField tf = UIUtil.tfString(item.getActData().getValue().toString(), item);
-                    UIUtil.doTooltip(item, tf);
-                    tf.setEditable(true);
-                    setGraphic(tf);
-                    setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+                /**
+                 * If param is not valid or its value is not in the given value range,
+                 * the cell renders default style with the value(s)
+                 * */
+                TextField stringField;
+                if (item.getActData() != null) {
+                    if (item.getActData().getValue() != null) {
+                        try {
+                            if (item.getActData().getType().equals("Integer")) {
+                                stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
+                            } else if (item.getActData().getType().equals("Double")) {
+                                stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
+                            } else if (item.getActData().getType().equals("String")) {
+                                stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                            } else if (item.getActData().getType().equals("Function")) {
+                                stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                            } else if (item.getActData().getType().equals("Boolean")) {
+                                stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                            } else if (item.getActData().getType().equals("Double[]") || item.getActData().getType().equals("Integer[]") ||
+                                    item.getActData().getType().equals("String[]") || item.getActData().getType().equals("Boolean[]") ||
+                                    item.getActData().getType().equals("Function[]")) {
+                                stringField = UIUtil.tfString(item.getActData().getValue(), item);
+                            } else {
+                                stringField = UIUtil.tfString("", item);
+                            }
+
+                        } catch (ClassCastException c) {
+                            stringField = UIUtil.tfString("", item);
+                            System.out.println(item.getActData().getValue().toString());
+                        }
+                        UIUtil.doTooltip(item, stringField);
+                        stringField.setEditable(true);
+                        setGraphic(stringField);
+                        setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+                    } else {
+                        stringField = UIUtil.tfString("", item);
+                    }
+                } else {
+                    stringField = UIUtil.tfString("", item);
                 }
             }
         }
