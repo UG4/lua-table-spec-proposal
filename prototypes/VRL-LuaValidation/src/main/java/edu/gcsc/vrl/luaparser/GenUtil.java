@@ -46,14 +46,14 @@ public final class GenUtil {
                     } else {
                         if (v.getType().get().equals("Double")) {
                             double temp = (Double) v.getActData().getValue();
-                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                            if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
                             } else {
                                 return false;
                             }
                         } else if (v.getType().get().equals("Integer")) {
                             int temp = (Integer) v.getActData().getValue();
-                            if (temp > v.getRange_min() && temp < v.getRange_max()) {
+                            if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
                             } else {
                                 return false;
@@ -91,7 +91,7 @@ public final class GenUtil {
                         if (v.getType().get().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
                             for(double d : vals){
-                                if (!(d > v.getRange_min() && d < v.getRange_max())) {
+                                if (!(d >= v.getRange_min() && d <= v.getRange_max())) {
                                     return false;
                                 }
                             }
@@ -99,7 +99,7 @@ public final class GenUtil {
                         } else if (v.getType().get().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
                             for(int i : vals){
-                                if (!(i > v.getRange_min() && i < v.getRange_max())) {
+                                if (!(i >= v.getRange_min() && i <= v.getRange_max())) {
                                     return false;
                                 }
                             }

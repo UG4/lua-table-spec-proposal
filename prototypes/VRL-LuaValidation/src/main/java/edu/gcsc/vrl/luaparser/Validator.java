@@ -112,23 +112,36 @@ public class Validator {
     * */
     public List<ErrorMessage> validate() {
         List<ErrorMessage> allErrMsg = new ArrayList<>();
-        validateRange();
+        List<ErrorMessage> rangeErr = validateRange();
         List<ErrorMessage> validateErr = validateValidation();
         List<ErrorMessage> visibleErr = visibleValidation();
+        allErrMsg.addAll(rangeErr);
         allErrMsg.addAll(validateErr);
         allErrMsg.addAll(visibleErr);
 
         return allErrMsg;
     }
 
-    public void validateRange(){
+    /**
+     * Validate whether the values of all parameters are in their given value range.
+     * If a value is not in its range, a <code>ErrorMessage</code> will be created.
+     *
+     * @return ErrorMessages
+     * */
+    public List<ErrorMessage> validateRange(){
+        List<ErrorMessage> err = new ArrayList<>();
         List<ValueData> allValues = GenUtil.getAllValues(getData());
 
         for(ValueData v : allValues){
             boolean isInRange = GenUtil.valueIsInRange(v);
-            System.out.println(v.getValName().get() + " range: " + isInRange);
+            //System.out.println(v.getValName().get() + " range: " + isInRange);
             v.setValInRange(isInRange);
+            if(isInRange == false){
+                ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!",0,v.getValName().get());
+                err.add(notInRange);
+            }
         }
+        return err;
     }
 
     /**
