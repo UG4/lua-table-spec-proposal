@@ -13,7 +13,7 @@ class ExportLuaTest {
     @Test
     void doExport() throws Exception{
         /*
-         * Aufruf
+         * Parse file and create tree data
          * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/validationtest04.lua"));
         String code = new String(code2Data, "UTF-8");

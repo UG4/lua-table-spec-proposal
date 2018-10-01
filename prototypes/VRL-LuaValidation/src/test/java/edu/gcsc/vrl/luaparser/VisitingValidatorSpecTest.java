@@ -11,7 +11,7 @@ class VisitingValidatorSpecTest {
     @Test
     void visitOne() throws Exception {
         /*
-        * Setup, dass die korrekte Ausgabe von validationtest04.lua nachbilden soll
+        * Setting up expected data
         * */
         List<ValueData> testList = new ArrayList<>();
         ValueData valueOne = new ValueData("valueOne");
@@ -59,7 +59,7 @@ class VisitingValidatorSpecTest {
         testList.add(valueTwo);
 
         /*
-        * Aufruf
+        * Run method to test
         * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/validationtest04.lua"));
         String code = new String(code2Data, "UTF-8");
@@ -69,7 +69,7 @@ class VisitingValidatorSpecTest {
         VisitingValidatorSpec.visitOne(importedCode,programList);
 
         /*
-        * Test, ob alle Parameter gefunden wurden bzw. die Namen existieren
+        * Check if all expected names are in the list
         * */
         List<String> allNamesExpected =  GenUtil.getAllVDNames(testList);
         List<String> allNamesActual = GenUtil.getAllVDNames(programList);
@@ -81,7 +81,7 @@ class VisitingValidatorSpecTest {
         }
 
         /*
-        * Nun werden alle Werte der ValueData-Objekte verglichen
+        * Compare all expected values with the values from the test run
         * */
         List<ValueData> vdExpected = GenUtil.getAllVD(testList);
         List<ValueData> vdActual = GenUtil.getAllVD(programList);

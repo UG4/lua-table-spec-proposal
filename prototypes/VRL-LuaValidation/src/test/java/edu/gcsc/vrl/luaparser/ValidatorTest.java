@@ -14,7 +14,7 @@ class ValidatorTest {
     @Test
     void validate() throws Exception{
         /*
-        * Test data
+        * expected data
         * */
         List<String> namesOfCycleParams = new ArrayList<>();
         namesOfCycleParams.add("1");
@@ -39,7 +39,7 @@ class ValidatorTest {
     @Test
     void validateValidation() throws Exception{
         /*
-         * Creating test-data.
+         * Creating expected data.
          * HashMap represents name of parameter and his isValidationValid()-property
          * -> validation causing changed property
          * */
@@ -70,7 +70,7 @@ class ValidatorTest {
     @Test
     void validateVisibility() throws Exception{
         /*
-         * Create test-data.
+         * Create expected data.
          * HashMap represents name of parameter and his isVisible()-property
          * -> validation causing changed property
          * */

@@ -13,7 +13,7 @@ class GenUtilTest {
     @Test
     void doXPathOne() throws Exception{
         /*
-         * Erstellen des zu testenden ValueData-Baums
+         * Creating the expected ValueData-tree
          * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/validationtest04.lua"));
         String code = new String(code2Data, "UTF-8");
@@ -23,7 +23,7 @@ class GenUtilTest {
         VisitingValidatorSpec.visitOne(importedCode,programList);
 
         /*
-        * Ausführen von XPath-Befehlen und überprüfen der Ergebnisse
+        * Run the xpath-commands and compare the results with the expected results
         * */
         ValueData test1 = GenUtil.doXPath(programList,"/problem/valueOne/");
         assertEquals("valueOne",test1.getValName().get());
@@ -46,7 +46,7 @@ class GenUtilTest {
     @Test
     void doXPathTwo() throws Exception{
         /*
-         * Erstellen des zu testenden ValueData-Baums
+         * Creating the expected ValueData-tree
          * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/validationtest05.lua"));
         String code = new String(code2Data, "UTF-8");
@@ -56,7 +56,7 @@ class GenUtilTest {
         VisitingValidatorSpec.visitOne(importedCode,programList);
 
         /*
-         * Ausführen von XPath-Befehlen und überprüfen der Ergebnisse
+         * Run the xpath-commands and compare the results with the expected results
          * */
         ValueData test1 = GenUtil.doXPath(programList,"/problem/valueOne/2/1/1/subParam3/");
         assertEquals("subParam3",test1.getValName().get());

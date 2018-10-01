@@ -11,6 +11,9 @@ class LoadLuaTest {
 
     @Test
     void visitingLuaCode() throws Exception {
+        /**
+         * Setting up the expected data
+         * */
         List<ValueData> vdExpected = new ArrayList<>();
 
         ValueData valueOne = new ValueData("valueOne");
@@ -42,7 +45,7 @@ class LoadLuaTest {
         vdExpected.add(valueTwo);
 
         /*
-         * Aufruf
+         * Run the method to test
          * */
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream("/test.lua"));
         String code = new String(code2Data, "UTF-8");
@@ -52,7 +55,7 @@ class LoadLuaTest {
         LoadLua.visitingLuaCode(importedCode,vdActual);
 
         /*
-        * Vergleich der Namen
+        * Comparing expected names with names from test run
         * */
         List<String> allNamesExpected =  GenUtil.getAllVDNames(vdExpected);
         List<String> allNamesActual = GenUtil.getAllVDNames(vdActual);
@@ -64,7 +67,7 @@ class LoadLuaTest {
         }
 
         /*
-        * Vergleich der Werte
+        * Compare expected values with values from test run
         * */
         List<ValueData> expect = GenUtil.getAllVD(vdExpected);
         List<ValueData> act = GenUtil.getAllVD(vdActual);
@@ -82,7 +85,7 @@ class LoadLuaTest {
     @Test
     void match() throws Exception {
         /*
-         * Setup, dass die korrekte Ausgabe von validationtest04.lua nachbilden soll
+         * Setting up the expected data
          * */
         List<ValueData> testList = new ArrayList<>();
         ValueData valueOne = new ValueData("valueOne");
