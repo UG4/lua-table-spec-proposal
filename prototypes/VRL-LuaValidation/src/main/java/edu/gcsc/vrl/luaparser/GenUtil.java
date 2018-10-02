@@ -620,7 +620,7 @@ public final class GenUtil {
             } else if (String.valueOf(a).equals("\'")) {
                 sb.append("\\\'");
             } else if (String.valueOf(a).equals("\\")) {
-                sb.append("\\");
+                sb.append("\\\\");
             } else {
                 sb.append(a);
             }
@@ -640,11 +640,11 @@ public final class GenUtil {
         StringBuilder sb = new StringBuilder();
         for (char a : temp) {
             if (String.valueOf(a).equals("\"")) {
-                sb.append("\"");
+                sb.append("\\\"");
             } else if (String.valueOf(a).equals("\'")) {
-                sb.append("\'");
+                sb.append("\\\'");
             } else if (String.valueOf(a).equals("\\")) {
-                sb.append("\\");
+                sb.append("\\\\");
             } else {
                 sb.append(a);
             }
