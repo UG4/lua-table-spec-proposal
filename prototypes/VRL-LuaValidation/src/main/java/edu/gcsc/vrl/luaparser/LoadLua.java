@@ -2,23 +2,26 @@ package edu.gcsc.vrl.luaparser;
 
 import com.google.common.io.ByteStreams;
 import org.apache.commons.lang.math.NumberUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 /**
-* This class loads a lua file and matches it parameters on the actual data set.
-* */
+ * This class loads a lua file and matches it parameters on the actual data set.
+ */
 public final class LoadLua {
-    public LoadLua() { throw new AssertionError(); }
+    public LoadLua() {
+        throw new AssertionError();
+    }
 
 
     /**
-    * Parses a lua-file
-    *
-    * @param filepath file path
-    * @return importedCode lua-group
-    * */
+     * Parses a lua-file
+     *
+     * @param filepath file path
+     * @return importedCode lua-group
+     */
     public static Group parseLuaFile(String filepath) throws IOException {
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
@@ -31,12 +34,12 @@ public final class LoadLua {
     }
 
     /**
-    * Iterates through the imported lua-group and creates <code>ValueData</code>-objects for
-    * each element. Furthermore it sets the values, if a element is a parameter.
-    *
-    * @param e lua-entry
-    * @param lv data list
-    * */
+     * Iterates through the imported lua-group and creates <code>ValueData</code>-objects for
+     * each element. Furthermore it sets the values, if a element is a parameter.
+     *
+     * @param e  lua-entry
+     * @param lv data list
+     */
     public static void visitingLuaCode(Entry e, List<ValueData> lv) {
         if (e instanceof Value) {
             ValueData v = new ValueData(e.getName());
@@ -50,27 +53,66 @@ public final class LoadLua {
             lv.add(v);
         } else if (e instanceof Group) {
             if (!e.getName().equals("problem") && !e.getName().equals("root")) {
-                ValueData v = new ValueData(e.getName());
-                System.out.println("GROUP1: " + v.getValName().get());
-                lv.add(v);
                 if (onlyGroups((Group) e)) {
+                    ValueData v = new ValueData(e.getName());
+                    System.out.println("GROUP1: " + v.getValName().get());
+                    lv.add(v);
                     for (Entry ed : ((Group) e).getEntries()) {
                         visitGroup((Group) ed, v);
                     }
                 } else if (onlyValues((Group) e)) {
-                    for (Entry ed : ((Group) e).getEntries()) {
-                        ValueData d = new ValueData(ed.getName());
-                        System.out.println("VAL: " + d.getValName().get());
-                        ActualDataValue adv = new ActualDataValue();
-                        settingType((Value) ed, adv);
-                        adv.setValue(((Value) ed).getValueAsString());
-                        d.setActData(adv);
-                        System.out.println("wert: " + d.getActData().getValue());
-                        d.isValue(true);
-                        v.addSubParam(d);
-                        d.setParentNode(v);
+                    if (isArrayOfValues((Group) e)) {
+                        ValueData v = new ValueData(e.getName());
+                        System.out.println("Arrs: " + v.getValName().get());
+                        lv.add(v);
+
+                        StringBuilder sb = new StringBuilder();
+                        String actType = "";
+                        int counter = 0;
+                        for (Entry ed : ((Group) e).getEntries()) {
+                            if (counter == 0) {
+                                actType = settingType((Value) ed);
+                                counter++;
+                            }
+                            sb.append(((Value) ed).getValueAsString()).append(",");
+                        }
+                        if (sb.length() > 0) {
+                            sb.setLength(sb.length() - 1);
+                        }
+                        if (v.getActData() != null && v.getActData().getValue() != null) {
+                            v.getActData().setValue(sb.toString());
+                            v.isValue(true);
+                        } else {
+                            ActualDataValue actData = new ActualDataValue();
+                            if (!actType.isEmpty()) {
+                                actData.setType(actType);
+                                actData.setValue(sb.toString());
+                                v.setActData(actData);
+                            }
+                            v.isValue(true);
+                        }
+                    } else {
+                        ValueData v = new ValueData(e.getName());
+                        System.out.println("GROUP1: " + v.getValName().get());
+                        lv.add(v);
+
+                        for (Entry ed : ((Group) e).getEntries()) {
+                            ValueData d = new ValueData(ed.getName());
+                            System.out.println("VAL: " + d.getValName().get());
+                            ActualDataValue adv = new ActualDataValue();
+                            settingType((Value) ed, adv);
+                            adv.setValue(((Value) ed).getValueAsString());
+                            d.setActData(adv);
+                            System.out.println("wert: " + d.getActData().getValue());
+                            d.isValue(true);
+                            v.addSubParam(d);
+                            d.setParentNode(v);
+                        }
                     }
                 } else {
+                    ValueData v = new ValueData(e.getName());
+                    System.out.println("GROUP1: " + v.getValName().get());
+                    lv.add(v);
                     for (Entry ed : ((Group) e).getEntries()) {
                         if (ed instanceof Value) {
                             ValueData vf = new ValueData(ed.getName());
@@ -101,8 +143,8 @@ public final class LoadLua {
     }
 
     /*
-    * Helping method
-    * */
+     * Helping method
+     * */
     private static void visitGroup(Entry e, ValueData v) {
         if (e instanceof Group) {
             ValueData x = new ValueData(e.getName());
@@ -135,6 +177,7 @@ public final class LoadLua {
                             }
                         } else if (onlyValues((Group) ede)) {
                             if (isArrayOfValues((Group) ede)) {
+                                System.out.println("Array of vals: " +ede.getName());
                                 StringBuilder sb = new StringBuilder();
                                 String actType = "";
                                 int counter = 0;
@@ -143,9 +186,9 @@ public final class LoadLua {
                                         actType = settingType((Value) ed);
                                         counter++;
                                     }
-                                    sb.append(((Value)ed).getValueAsString()).append(",");
+                                    sb.append(((Value) ed).getValueAsString()).append(",");
                                 }
-                                if(sb.length() > 0) {
+                                if (sb.length() > 0) {
                                     sb.setLength(sb.length() - 1);
                                 }
                                 if (vd.getActData() != null && vd.getActData().getValue() != null) {
@@ -215,11 +258,11 @@ public final class LoadLua {
     }
 
     /**
-    * Checks if a Group contains Groups only
-    *
-    * @param group Lua-Group
-    * @return boolean
-    * */
+     * Checks if a Group contains Groups only
+     *
+     * @param group Lua-Group
+     * @return boolean
+     */
     private static boolean onlyGroups(Group group) {
         for (Entry e : group.getEntries()) {
             if (e instanceof Value) {
@@ -234,7 +277,7 @@ public final class LoadLua {
      *
      * @param group Lua-Group
      * @return boolean
-     * */
+     */
     private static boolean onlyValues(Group group) {
         for (Entry e : group.getEntries()) {
             if (e instanceof Group) {
@@ -249,7 +292,7 @@ public final class LoadLua {
      *
      * @param g Lua-Group
      * @return boolean
-     * */
+     */
     private static boolean isArrayOfValues(Group g) {
         System.out.println("check Group: " + g.getName());
         for (Entry e : g.getEntries()) {
@@ -261,19 +304,19 @@ public final class LoadLua {
     }
 
     /**
-    * Sets the data type for a <code>Value</code>
-    * Only for a single value.
-    *
-    * @param v Value
-    * @param adv ActualDataValue-object
-    * */
+     * Sets the data type for a <code>Value</code>
+     * Only for a single value.
+     *
+     * @param v   Value
+     * @param adv ActualDataValue-object
+     */
     private static void settingType(Value v, ActualDataValue adv) {
         if (v.isString()) {
             adv.setType("String");
-        } else if (v.isDouble()) {
-            adv.setType("Double");
         } else if (v.isInteger()) {
             adv.setType("Integer");
+        } else if (v.isDouble()) {
+            adv.setType("Double");
         } else if (v.isBoolean()) {
             adv.setType("Boolean");
         } else if (v.isFunction()) {
@@ -286,16 +329,15 @@ public final class LoadLua {
      * Only for arrays of values.
      *
      * @param v Value
-     * @param adv ActualDataValue-object
-     * */
+     */
     private static String settingType(Value v) {
 
-        if (v.isDouble()) {
-            System.out.println(v.getName() + " dou");
-            return "Double[]";
-        } else if (v.isInteger()) {
+        if (v.isInteger()) {
             System.out.println(v.getName() + " int");
             return "Integer[]";
+        } else if (v.isDouble()) {
+            System.out.println(v.getName() + " dou");
+            return "Double[]";
         } else if (v.isBoolean()) {
             System.out.println(v.getName() + " bool");
             return "Boolean[]";
@@ -312,13 +354,20 @@ public final class LoadLua {
 
 
     /**
-    * This method matches the parameters from the imported lua-file on the existing data set from the validationspec.
-    * If a parameter matches, the actual values gets overwrited.
-    *
-    * @param spec actual data set
-    * @param lua imported lua parameters
-    * */
+     * This method matches the parameters from the imported lua-file on the existing data set from the validationspec.
+     * If a parameter matches, the actual values gets overwrited.
+     *
+     * @param spec actual data set
+     * @param lua  imported lua parameters
+     */
     public static void match(List<ValueData> spec, List<ValueData> lua) {
+        ValueData rootNode = new ValueData("problem");
+        for (ValueData x : lua) {
+            rootNode.addSubParam(x);
+            x.setParentNode(rootNode);
+        }
+        lua.add(0, rootNode);
+
         for (ValueData v : lua) {
             for (ValueData s : spec) {
                 if (v.isAValue()) {
@@ -363,18 +412,19 @@ public final class LoadLua {
                     }
                 } else if (v.getOptions() != null) {
                     if (s.getOptions() != null && s.isOption()) {
-                        System.out.println("1.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
+                        //System.out.println("1.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
                         for (ValueData opt : s.getOptions()) {
                             if (opt.getOptions() != null) {
                                 match(opt.getOptions(), v.getOptions());
                             }
                         }
                     } else if (s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())) {
-                        System.out.println("2.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
+                        //System.out.println("2.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
                         match(s.getOptions(), v.getOptions());
                     }
                 }
             }
         }
+        lua.remove(0);
     }
 }
