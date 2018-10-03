@@ -214,6 +214,7 @@ public class TreeViewController {
                         LoadLua.visitingLuaCode(loadedLua, data);
                         LoadLua.match(runtimeObject.getData(),data);
                     }
+                    outputTable.refresh();
                 } catch (IOException io) {
                     UIUtil.logging("Cant find the file!", loggingField);
                 }
@@ -232,6 +233,7 @@ public class TreeViewController {
                 for(ErrorMessage e : err){
                     System.out.println(e.getParamName() + " : "+ e.getMsg());
                 }
+                outputTable.refresh();
             }
         });
     }

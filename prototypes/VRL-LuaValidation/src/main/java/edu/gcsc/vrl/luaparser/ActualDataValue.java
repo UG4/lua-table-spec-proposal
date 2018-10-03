@@ -7,10 +7,10 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.util.List;
 /*
-* This class represents the value of a parameter. Each object of <code>ValueData</code>, which
-* is a parameter, has a <code>ActualDataValue</code>-object
-*
-* */
+ * This class represents the value of a parameter. Each object of <code>ValueData</code>, which
+ * is a parameter, has a <code>ActualDataValue</code>-object
+ *
+ * */
 public class ActualDataValue {
     private String type;
     private Object value = null;
@@ -19,42 +19,42 @@ public class ActualDataValue {
     }
 
     /**
-    * Returns the data type of the <code>ActualDataValue</code>
-    *
-    * @return type data type
-    * */
+     * Returns the data type of the <code>ActualDataValue</code>
+     *
+     * @return type data type
+     * */
     public String getType() {
         return type;
     }
 
 
     /**
-    * Returns the value of the <code>ActualDataValue</code>
-    *
-    * @return Object value
-    * */
+     * Returns the value of the <code>ActualDataValue</code>
+     *
+     * @return Object value
+     * */
     public Object getValue() {
         return value;
     }
 
 
     /**
-    * Sets the data type of the <code>ActualDataValue</code>
-    *
-    * @param type data type
-    * */
+     * Sets the data type of the <code>ActualDataValue</code>
+     *
+     * @param type data type
+     * */
     public void setType(String type) {
         this.type = type;
     }
 
 
     /**
-    * Sets the value of the <code>ActualDataValue</code>.
-    * Casting <code>Object</code> to the specific data type
-    * and formatting it, if necessary.
-    *
-    * @param value data value
-    * */
+     * Sets the value of the <code>ActualDataValue</code>.
+     * Casting <code>Object</code> to the specific data type
+     * and formatting it, if necessary.
+     *
+     * @param value data value
+     * */
     public void setValue(Object value) {
         if (getType().equals("String")){
             try{
@@ -117,9 +117,9 @@ public class ActualDataValue {
             } catch(ClassCastException c){ System.out.println("Not a List of Booleans!");}
         } else if(getType().equals("Function[]")){
             try{
-              if(!value.toString().isEmpty()){
-                  this.value = ConversionUtil.fromStringtoStringList(String.valueOf(value));
-              }
+                if(!value.toString().isEmpty()){
+                    this.value = ConversionUtil.fromStringtoStringList(String.valueOf(value));
+                }
             } catch(Exception e){}
         }
     }
