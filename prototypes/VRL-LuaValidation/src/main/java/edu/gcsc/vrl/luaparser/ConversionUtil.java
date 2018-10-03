@@ -2,7 +2,7 @@ package edu.gcsc.vrl.luaparser;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
+/**
 * This class provides methods for formatting values and strings.
 * Often needed in communication between UI and data model.
 *
