@@ -16,8 +16,8 @@ jobs:
   steps:
     - task: Gradle@2
       inputs:
-        gradleWrapperFile: 'gradlew'
-        workingDirectory: ''
+        gradleWrapperFile: '/prototypes/VRL-LuaValidation/gradlew'
+        workingDirectory: '/prototypes/VRL-LuaValidation'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: ${{ parameters.jdkVersion }}
         jdkArchitectureOption: 'x64'
