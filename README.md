@@ -1,6 +1,6 @@
 # Spezifikationssprache für Lua-Tables
 
-[![Build Status](https://mihosoft.visualstudio.com/UG4/_apis/build/status/UG4-CI?branchName=master)](https://mihosoft.visualstudio.com/UG4/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://mihosoft.visualstudio.com/UG4/_apis/build/status/lua-table-spec-proposal?branchName=master)](https://mihosoft.visualstudio.com/UG4/_build/latest?definitionId=5&branchName=master)
 
 ## Stand der Dinge
 
