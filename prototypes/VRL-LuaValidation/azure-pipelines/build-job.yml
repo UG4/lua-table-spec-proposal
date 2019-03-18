@@ -16,8 +16,8 @@ jobs:
   steps:
     - task: Gradle@2
       inputs:
-        gradleWrapperFile: './gradlew'
-        workingDirectory: './'
+        gradleWrapperFile: 'gradlew'
+        workingDirectory: ''
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: ${{ parameters.jdkVersion }}
         jdkArchitectureOption: 'x64'
