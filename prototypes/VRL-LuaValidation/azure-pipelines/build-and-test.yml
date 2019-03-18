@@ -1,5 +1,6 @@
 # Get Azure Pipelines free plan
 # Visit https://azure.microsoft.com/en-us/services/devops/pipelines/
+# https://mihosoft.visualstudio.com/UG4/
 
 trigger:
   - master
