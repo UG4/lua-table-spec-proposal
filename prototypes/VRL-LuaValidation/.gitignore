@@ -8,4 +8,5 @@ VRL-LuaValidation.iml
 out
 .settings
 build
+.vscode/
 
