@@ -44,3 +44,11 @@ jar {
         attributes('Automatic-Module-Name': 'edu.gcsc.vrl.luaparser')
     }
 }
+
+test {
+    useJUnitPlatform()
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}
