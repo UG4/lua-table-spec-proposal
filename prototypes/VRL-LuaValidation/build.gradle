@@ -1,23 +1,23 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
 apply plugin: 'java'
+apply plugin: 'application'
 
 wrapper {
-    gradleVersion = '5.2'
+    gradleVersion = '5.3'
 }
 
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'edu.gcsc.vrl.luaparser.Main'
-}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.10'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
     
     compile (group: 'org.luaj', name: 'luaj-jse', version: '3.+')
     compile (group: 'org.luaj', name: 'luaj-jse', version: '3.+', classifier: 'sources')
@@ -31,7 +31,14 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '19+', classifier: 'sources'
 }
 
-task run(type: JavaExec) {
-  classpath = sourceSets.main.runtimeClasspath
-  main = mainClass
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'edu.gcsc.vrl.luaparser.Main'
+
+jar {
+    manifest {
+        attributes('Automatic-Module-Name': 'edu.gcsc.vrl.luaparser')
+    }
 }

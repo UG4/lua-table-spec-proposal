@@ -5,7 +5,7 @@ parameters:
   name: ''
   pool: ''
   platform: ''
-  jdkVersion: '1.8'
+  jdkVersion: '1.11'
   gradleWrapperFile: 'gradlew.bat'
   workingDirectory: ''
   tasks: 'clean build'
