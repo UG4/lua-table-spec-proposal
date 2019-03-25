@@ -1,5 +1,7 @@
 # Spezifikationssprache für Lua-Tables
 
+[![Build Status](https://mihosoft.visualstudio.com/UG4/_apis/build/status/lua-table-spec-proposal?branchName=master)](https://mihosoft.visualstudio.com/UG4/_build/latest?definitionId=5&branchName=master)
+
 ## Stand der Dinge
 
 Die Lua-Tables sehen prima aus und ermöglichen es, unter Ausnutzung der Lua-Syntax, auf einfache Weise größere Mengen an strukturierten Daten als Argumente an Methoden zu übergeben, ohne auf externe Dateiformate oder *flache* Argumentlisten zurückgreifen zu müssen.
