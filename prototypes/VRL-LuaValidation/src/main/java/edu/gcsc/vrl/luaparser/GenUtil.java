@@ -118,6 +118,25 @@ public final class GenUtil {
     }
 
     /**
+     * Checks whether the actual string value is a valid one
+     *
+     * @param v the <code>ValueData</code>-Object to check
+     * @return boolean valid or not
+     * **/
+    public static boolean stringValIsInRange(ValueData v) {
+        String[] validStrings = v.getRangeOfStrings();
+        String val = (String) v.getActData().getValue();
+        //String[] test = new String[0];
+        System.out.println("TYPE OF OBJ: " + v.getType().toString());
+        for(String s : validStrings){
+            if(s.equals(val)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks whether a Array of doubles contains a specific Integer
      *
      * @param arr array

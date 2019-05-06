@@ -35,6 +35,7 @@ public class ValueData {
     private String tooltip = "";
     private double range_min;
     private double range_max;
+    private String[] rangeOfStrings = null;
     private double[] values;
     private ActualDataValue actData = null;
     private boolean optGroup;
@@ -151,6 +152,13 @@ public class ValueData {
     public double getRange_max() {
         return this.range_max;
     }
+
+    /**
+     * Returns the strings, which are in the range of valid values
+     *
+     * @return getRangeOfStrings array with string
+     * **/
+    public String[] getRangeOfStrings() { return this.rangeOfStrings;}
 
     /**
     * Returns all values from the value range
@@ -404,6 +412,14 @@ public class ValueData {
     public void setRange_max(double range_max) {
         this.range_max = range_max;
     }
+
+    /**
+     *  Sets the value range of valid strings
+     *
+     * @param range_Strings array with valid string
+     * **/
+
+    public void setStringRange(String[] range_Strings) { this.rangeOfStrings = range_Strings; }
 
     /**
      * Sets the values of the value range

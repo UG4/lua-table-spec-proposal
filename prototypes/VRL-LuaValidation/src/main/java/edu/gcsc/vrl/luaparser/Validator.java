@@ -132,13 +132,24 @@ public class Validator {
         List<ErrorMessage> err = new ArrayList<>();
         List<ValueData> allValues = GenUtil.getAllValues(getData());
 
-        for(ValueData v : allValues){
-            boolean isInRange = GenUtil.valueIsInRange(v);
-            //System.out.println(v.getValName().get() + " range: " + isInRange);
-            v.setValInRange(isInRange);
-            if(isInRange == false){
-                ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!",0,v.getValName().get());
-                err.add(notInRange);
+        for(ValueData v : allValues) {
+            if (v.getRangeOfStrings() == null) {
+                boolean isInRange = GenUtil.valueIsInRange(v);
+                //System.out.println(v.getValName().get() + " range: " + isInRange);
+                v.setValInRange(isInRange);
+                if (isInRange == false) {
+                    ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!", 0, v.getValName().get());
+                    err.add(notInRange);
+                }
+            } else {
+                boolean isInRange = GenUtil.stringValIsInRange(v);
+
+                v.setValInRange(isInRange);
+
+                if (isInRange == false) {
+                    ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!", 0, v.getValName().get());
+                    err.add(notInRange);
+                }
             }
         }
         return err;

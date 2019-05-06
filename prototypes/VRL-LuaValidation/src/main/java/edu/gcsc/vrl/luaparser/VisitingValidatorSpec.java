@@ -237,14 +237,22 @@ public final class VisitingValidatorSpec {
                 if (!isVal(l)) {
                     switch (l.getName().toString()) {
                         case "range":
-                            double[] myValues = getRange((Group) l);
-                            if (myValues.length == 2) {
-                                vd.setRange_min(myValues[0]);
-                                vd.setRange_max(myValues[1]);
-                            } else if (myValues.length > 2) {
-                                vd.setValues(myValues);
+                            if(!checkRangeIfString((Group)l)) {
+                                double[] myValues = getRange((Group) l);
+                                if (myValues.length == 2) {
+                                    vd.setRange_min(myValues[0]);
+                                    vd.setRange_max(myValues[1]);
+                                } else if (myValues.length > 2) {
+                                    vd.setValues(myValues);
+                                }
+                                break;
+                            } else {
+                                String[] myValues = getStringRange((Group) l);
+                                vd.setStringRange(myValues);
+                                for (String s : myValues){
+                                    System.out.println(s);
+                                }
                             }
-                            break;
                         case "visibility":
                             setVisibilityInfos((Group) l, vd);
                             break;
@@ -268,6 +276,40 @@ public final class VisitingValidatorSpec {
             }
             sb.setLength(sb.length() - 1);
             actItem.setDefaultVal(sb.toString());
+    }
+
+    private static boolean checkRangeIfString(Group g){
+        boolean isString = true;
+
+        for (Entry e : g.getEntries()){
+            if(e.getName().equals("values")) {
+                for(Entry ee : ((Group)e).getEntries()) {
+                    if (!((Value) ee).getValue().isstring()) {
+                        isString = false;
+                    }
+                }
+            } else {
+                isString = false;
+            }
+        }
+        return isString;
+    }
+
+    private static String[] getStringRange(Group g){
+        for(Entry e : g.getEntries()){
+            if(e.getName().equals("values")) {
+                String[] stringsInRange = new String[((Group)e).getEntries().size()];
+                int counter = 0;
+                for(Entry ee: ((Group)e).getEntries()) {
+                    String tempStr = ((Value) ee).getValueAsString();
+                    System.out.println(tempStr);
+                    stringsInRange[counter] = tempStr;
+                    counter++;
+                }
+                return stringsInRange;
+            }
+        }
+        return null;
     }
 
     private static double[] getRange(Group range) {
