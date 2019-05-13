@@ -28,6 +28,7 @@ public class ValueData {
     private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
 
+    private String name;
     private StringProperty valName;
     private StringProperty type;
     private Object defaultVal;
@@ -98,6 +99,13 @@ public class ValueData {
     public StringProperty getValName() {
         return this.valName;
     }
+
+    /**
+     * Returns the (display-)name of the object
+     *
+     * @return name name
+     * */
+    public String getName() { return this.name; }
 
     /**
     * Returns the wrapped type of the object
@@ -370,7 +378,7 @@ public class ValueData {
     /**
      * Sets the default value
      *
-     * @param defaultVal defautl value
+     * @param defaultVal default value
      * */
     public void setDefaultVal(Object defaultVal) {
         this.defaultVal = defaultVal;
@@ -384,6 +392,13 @@ public class ValueData {
     public void setStyle(String style) {
         this.style = style;
     }
+
+    /**
+     * Sets the (display-) name of the object
+     *
+     * @param name name
+     * */
+    public void setName(String name) { this.name = name; }
 
     /**
      * Sets the tooltip message

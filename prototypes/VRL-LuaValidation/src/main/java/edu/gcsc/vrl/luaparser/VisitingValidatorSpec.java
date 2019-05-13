@@ -231,6 +231,8 @@ public final class VisitingValidatorSpec {
                     case "tooltip":
                         vd.setTooltip(((Value) l).getValueAsString());
                         break;
+                    case "name":
+                        vd.setName(((Value) l).getValueAsString());
                 }
             } else if (l instanceof Group) {
                 System.out.println(l.getName().toString() + "    NAME");
