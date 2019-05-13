@@ -2,7 +2,22 @@ problem = {
     geometry = {
         gridname = {
             type = "String",
-            default = "Mandy.ugx"
+            style = "load-file-dialog",
+
+--            styleOptions = {
+--                endings = ".ugx"
+--                desc    = "UGX-Files (*.ugx)"
+--            }
+
+            default = "Mandy.ugx",
+
+            -- validation
+            validation = {
+                -- validation can depend on other values
+                dependsOn = {},
+                -- validation function
+                eval      = function(str) return str:sub(-#".ugx") == ".ugx" end
+            },
         }
     },
 
