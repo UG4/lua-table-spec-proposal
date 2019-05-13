@@ -233,6 +233,7 @@ public final class VisitingValidatorSpec {
                         break;
                     case "name":
                         vd.setName(((Value) l).getValueAsString());
+                        break;
                 }
             } else if (l instanceof Group) {
                 System.out.println(l.getName().toString() + "    NAME");
@@ -264,11 +265,33 @@ public final class VisitingValidatorSpec {
                         case "default":
                             setArrayOfDefault((Group) l, vd);
                             break;
+                        case "styleOptions":
+                            setStyleOptions((Group) l, vd);
+                            break;
                     }
                 }
             }
         }
 
+    }
+
+    private static void setStyleOptions(Group values, ValueData actItem){
+        for(Entry e : values.getEntries()){
+            if(e instanceof Value){
+                if(e.getName().equals("desc")){
+                    actItem.setStyle_option_desc(((Value) e).getValueAsString());
+                }
+            } else if (e instanceof Group){
+                if(e.getName().equals("endings")){
+                    List<String> ends = new ArrayList<>();
+                    for(Entry ee : ((Group) e).getEntries()){
+                        if(ee instanceof Value){
+                            ends.add(((Value)ee).getValueAsString());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static void setArrayOfDefault(Group values, ValueData actItem){

@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
 * This class represents the data model based on the MVC-concept.
@@ -33,6 +34,8 @@ public class ValueData {
     private StringProperty type;
     private Object defaultVal;
     private String style = "";
+    private List<String> style_option_endings = new ArrayList<>();
+    private String style_option_desc = "";
     private String tooltip = "";
     private double range_min;
     private double range_max;
@@ -133,6 +136,20 @@ public class ValueData {
     public String getStyle() {
         return this.style;
     }
+
+    /**
+     * Returns the style-options
+     *
+     * @return style_option_endings style-options
+     * */
+    public List<String> getStyle_option_endings() { return this.style_option_endings; }
+
+    /**
+     * Returns the style-options
+     *
+     * @return style_option_desc style-options
+     * */
+    public String getStyle_option_desc() { return this.style_option_desc; }
 
     /**
     * Returns the tooltip-message
@@ -392,6 +409,20 @@ public class ValueData {
     public void setStyle(String style) {
         this.style = style;
     }
+
+    /**
+     * Sets the style option
+     *
+     * @param style_option_endings style options
+     * */
+    public void setStyle_option_endings(List<String> style_option_endings) { this.style_option_endings = style_option_endings; }
+
+    /**
+     * Sets the style option
+     *
+     * @param style_option_desc style options
+     * */
+    public void setStyle_option_desc(String style_option_desc) { this.style_option_desc = style_option_desc; }
 
     /**
      * Sets the (display-) name of the object

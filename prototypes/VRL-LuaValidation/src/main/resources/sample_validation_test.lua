@@ -4,10 +4,10 @@ problem = {
             type = "String",
             style = "load-file-dialog",
 
---            styleOptions = {
---                endings = ".ugx"
---                desc    = "UGX-Files (*.ugx)"
---            }
+            styleOptions = {
+                endings = {".ugx",".java"},
+                desc    = "UGX-Files (*.ugx)"
+            },
 
             default = "Mandy.ugx",
 
