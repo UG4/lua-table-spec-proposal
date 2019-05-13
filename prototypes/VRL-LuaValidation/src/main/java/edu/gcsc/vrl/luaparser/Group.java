@@ -8,6 +8,8 @@ package edu.gcsc.vrl.luaparser;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
+
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 
@@ -99,31 +101,44 @@ class LuaValueToGroup {
     }
 
     Group parse(String code) {
+
+        List<String> stdLibKeys = new ArrayList<>();
+
+        // these strings belong to a library and should not be visualized
+        for (LuaValue key : interpreter.getGlobals().checktable().keys()) {
+            stdLibKeys.add(key.checkjstring());
+        }
+
         interpreter.load(code);
         interpreter.run();
 
         LuaTable t = interpreter.getGlobals().checktable();
 
-        return visitGroup(t, "root");
+        return visitGroup(t, "root", (key) -> !stdLibKeys.contains(key));
     }
 
     Value visitValue(LuaValue v, String name) {
         return new Value(v, name);
     }
 
-    Group visitGroup(LuaTable table, String name) {
+    Group visitGroup(LuaTable table, String name, Predicate<String> exclude) {
         Group g = new Group(name);
+
         for (LuaValue key : table.keys()) {
-            LuaValue tEntry = table.get(key);
-            if (tEntry.istable()) {
-                LuaTable t = tEntry.checktable();
-                g.add(visitGroup(t, key.tojstring()));
-            } else {
-                g.add(visitValue(tEntry, key.tojstring()));
+            if(exclude==null || (exclude!=null && exclude.test(key.tojstring()))) {
+                LuaValue tEntry = table.get(key);
+                if (tEntry.istable()) {
+                    LuaTable t = tEntry.checktable();
+                    g.add(visitGroup(t, key.tojstring(), null));
+                } else {
+                    g.add(visitValue(tEntry, key.tojstring()));
+                }
             }
         }
 
         return g;
     }
+
+
 
 }

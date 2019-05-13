@@ -253,6 +253,7 @@ public final class GenUtil {
                     resultOfEval = vd.getValid_eval().asFunction().eval(valsForEval).getValueAsString();
                 } catch (Exception ex) {
                     System.out.println("Cannot call f !");
+                    ex.printStackTrace(System.err);
                 }
 
                 boolean result = false;
