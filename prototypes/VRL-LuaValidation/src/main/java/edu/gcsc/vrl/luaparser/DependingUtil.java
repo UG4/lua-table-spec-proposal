@@ -10,7 +10,7 @@ import java.util.List;
  * */
 public final class DependingUtil {
 
-    public DependingUtil() {
+    private DependingUtil() {
         throw new AssertionError();
     }
 
@@ -128,6 +128,7 @@ public final class DependingUtil {
                     resultOfEval = vd.getVis_eval().asFunction().eval(valsForEval).getValueAsString();
                 } catch (Exception ex) {
                     System.out.println("Cannot call f !");
+                    ex.printStackTrace(System.err);
                 }
 
                 boolean result = false;
