@@ -138,7 +138,7 @@ public class Validator {
                 //System.out.println(v.getValName().get() + " range: " + isInRange);
                 v.setValInRange(isInRange);
                 if (isInRange == false) {
-                    ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!", 0, v.getValName().get());
+                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName().get() + " not in range!", 0, v.getValName().get());
                     err.add(notInRange);
                 }
             } else {
@@ -147,7 +147,7 @@ public class Validator {
                 v.setValInRange(isInRange);
 
                 if (isInRange == false) {
-                    ErrorMessage notInRange = new ErrorMessage("Value(s) not in range!", 0, v.getValName().get());
+                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName().get() + " not in range!", 0, v.getValName().get());
                     err.add(notInRange);
                 }
             }
