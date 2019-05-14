@@ -211,9 +211,13 @@ public class UIUtil {
             public void handle(ActionEvent event) {
                 String path = "";
                 final FileChooser fc = new FileChooser();
-                fc.setTitle("Select a .lua-File to open");
-                FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
-                fc.getExtensionFilters().add(extLua);
+                //fc.setTitle("Select a .lua-File to open");
+                //FileChooser.ExtensionFilter extLua = new FileChooser.ExtensionFilter("Lua Files (*.lua)", "*.lua");
+                //fc.getExtensionFilters().add(extLua);
+                if(!v.getStyle_option_endings().isEmpty()){
+                    FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter(v.getStyle_option_desc(),v.getStyle_option_endings());
+                    fc.getExtensionFilters().add(ext);
+                }
                 final File selecDir = fc.showOpenDialog(actWindow);
                 if (selecDir != null) {
                     path = selecDir.getAbsolutePath();

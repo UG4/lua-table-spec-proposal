@@ -5,8 +5,8 @@ problem = {
             style = "load-file-dialog",
 
             styleOptions = {
-                endings = {".ugx",".java"},
-                desc    = "UGX-Files (*.ugx)"
+                endings = {"*.ugx"},
+                desc    = "(*.ugx)"
             },
 
             default = "Mandy.ugx",

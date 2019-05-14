@@ -289,7 +289,9 @@ public final class VisitingValidatorSpec {
                             ends.add(((Value)ee).getValueAsString());
                         }
                     }
+                    actItem.setStyle_option_endings(ends);
                 }
+
             }
         }
     }
