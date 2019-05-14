@@ -33,6 +33,17 @@ public final class LoadLua {
         return importedCode;
     }
 
+    public static Group parseLuaFile(String filepath, boolean test) throws IOException {
+        // load lua code
+        byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
+        String code = new String(code2Data, "UTF-8");
+
+        // convert code to group
+        Group importedCode = Group.toGroup(code);
+
+        return importedCode;
+    }
+
     /**
      * Iterates through the imported lua-group and creates <code>ValueData</code>-objects for
      * each element. Furthermore it sets the values, if a element is a parameter.
