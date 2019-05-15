@@ -219,8 +219,9 @@ public class UIUtil {
                 final File selecDir = fc.showOpenDialog(actWindow);
                 if (selecDir != null) {
                     path = selecDir.getAbsolutePath();
+                    tf.setText(path);
                 }
-                tf.setText(path);
+                //tf.setText(path);
                 if (v.getActData() != null) {
                     v.getActData().setValue(path);
                 } else {
@@ -280,8 +281,8 @@ public class UIUtil {
                 final File selecDir = fc.showSaveDialog(actWindow);
                 if (selecDir != null) {
                     path = selecDir.getAbsolutePath();
+                    tf.setText(path);
                 }
-                tf.setText(path);
                 if (v.getActData() != null) {
                     v.getActData().setValue(path);
                 } else {
