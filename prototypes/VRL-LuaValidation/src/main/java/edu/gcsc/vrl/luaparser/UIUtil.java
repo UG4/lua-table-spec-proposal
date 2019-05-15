@@ -249,6 +249,7 @@ public class UIUtil {
         HBox content = new HBox();
 
         TextField tf = new TextField();
+
         Button bt = new Button();
         content.getChildren().add(tf);
         content.getChildren().add(bt);

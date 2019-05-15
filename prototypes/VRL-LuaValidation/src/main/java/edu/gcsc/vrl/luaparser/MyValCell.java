@@ -139,40 +139,83 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                  * If param is not valid or its value is not in the given value range,
                  * the cell renders default style with the value(s)
                  * */
-                TextField stringField;
+                //TextField stringField;
                 if (item.getActData() != null) {
                     if (item.getActData().getValue() != null) {
                         try {
                             if (item.getActData().getType().equals("Integer")) {
+                                TextField stringField;
                                 stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
+                                UIUtil.doTooltip(item, stringField);
+                                stringField.setEditable(true);
+                                setGraphic(stringField);
+                                setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
                             } else if (item.getActData().getType().equals("Double")) {
+                                TextField stringField;
                                 stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
+                                UIUtil.doTooltip(item, stringField);
+                                stringField.setEditable(true);
+                                setGraphic(stringField);
+                                setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
                             } else if (item.getActData().getType().equals("String")) {
-                                stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                if(item.getStyle().equals("load-file-dialog")){
+                                    Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
+                                    HBox master = UIUtil.doLoadFile(act, item);
+                                    setGraphic(master);
+                                    setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+
+                                } else if(item.getStyle().equals("save-file-dialog")){
+                                    Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
+                                    HBox master = UIUtil.doSaveFile(act, item);
+                                    setGraphic(master);
+                                    setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+                                } else {
+                                    TextField stringField;
+                                    stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                    UIUtil.doTooltip(item, stringField);
+                                    stringField.setEditable(true);
+                                    setGraphic(stringField);
+                                    setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+                                }
                             } else if (item.getActData().getType().equals("Function")) {
+                                TextField stringField;
                                 stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                UIUtil.doTooltip(item, stringField);
+                                stringField.setEditable(true);
+                                setGraphic(stringField);
+                                setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
                             } else if (item.getActData().getType().equals("Boolean")) {
+                                TextField stringField;
                                 stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
                             } else if (item.getActData().getType().equals("Double[]") || item.getActData().getType().equals("Integer[]") ||
                                     item.getActData().getType().equals("String[]") || item.getActData().getType().equals("Boolean[]") ||
                                     item.getActData().getType().equals("Function[]")) {
+                                TextField stringField;
                                 stringField = UIUtil.tfString(item.getActData().getValue(), item);
+                                UIUtil.doTooltip(item, stringField);
+                                stringField.setEditable(true);
+                                setGraphic(stringField);
+                                setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
                             } else {
+                                TextField stringField;
                                 stringField = UIUtil.tfString("", item);
                             }
 
                         } catch (ClassCastException c) {
+                            TextField stringField;
                             stringField = UIUtil.tfString("", item);
-                            System.out.println(item.getActData().getValue().toString());
                         }
-                        UIUtil.doTooltip(item, stringField);
+                        //TextField stringField;
+                        /*UIUtil.doTooltip(item, stringField);
                         stringField.setEditable(true);
                         setGraphic(stringField);
-                        setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");
+                        setStyle("-fx-control-inner-background: red;-fx-opacity: 0.75");*/
                     } else {
+                        TextField stringField;
                         stringField = UIUtil.tfString("", item);
                     }
                 } else {
+                    TextField stringField;
                     stringField = UIUtil.tfString("", item);
                 }
             }

@@ -126,8 +126,7 @@ public final class GenUtil {
     public static boolean stringValIsInRange(ValueData v) {
         String[] validStrings = v.getRangeOfStrings();
         String val = (String) v.getActData().getValue();
-        //String[] test = new String[0];
-        System.out.println("TYPE OF OBJ: " + v.getType().toString());
+
         for(String s : validStrings){
             if(s.equals(val)){
                 return true;
