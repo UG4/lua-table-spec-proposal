@@ -318,46 +318,47 @@ public final class ExportLua {
         StringBuilder sbNew = new StringBuilder();
         sbNew.append("--validation file: " + filename + "\n");
         System.out.println(sb.toString());
+        int c = 0;
 
         for (int i = 0; i < sb.length() - 1; i++) {
-            if (!Character.toString(sb.charAt(i)).equals("#")) {
-                if (Character.toString(sb.charAt(i)).equals("}")) {
-                    sbNew.append("\n}");
-                } else {
-                    sbNew.append(sb.charAt(i));
-                }
-            }
             if (Character.toString(sb.charAt(i)).equals("{")) {
-                sbNew.append("\n");
+                c++;
+                sbNew.append("{\n" + indent(c));
             } else if (Character.toString(sb.charAt(i)).equals("}")) {
                 if (Character.toString(sb.charAt(i + 1)).equals("{")) {
-                    sbNew.append(",");
+                    sbNew.append("\n" + indent(c) + "},");
+                    c--;
                 } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
-
+                    sbNew.append("\n" + indent(c - 1) + "}");
+                    c--;
                 } else {
-                    sbNew.append(",\n");
+                    c--;
+                    sbNew.append("\n" + indent(c) + "}," + "\n" + indent(c));
                 }
             } else if (Character.toString(sb.charAt(i)).equals("#")) {
-                if(i > 0 && !Character.toString(sb.charAt(i-1)).equals("\\")) {
+                if (i > 0 && !Character.toString(sb.charAt(i - 1)).equals("\\")) {
                     if (Character.toString(sb.charAt(i + 1)).equals("{")) {
-                        sbNew.append(",\n");
+                        sbNew.append(",\n" + indent(c)); // ?
+                        //c++; // ?
                     } else if (Character.toString(sb.charAt(i + 1)).equals("}")) {
-
+                        //sbNew.append("}");
+                        //c--;
                     } else {
-                        sbNew.append(",\n");
+                        sbNew.append(",\n" + indent(c));
                     }
                 } else {
-                    sbNew.setLength(sbNew.length()-1);
+                    sbNew.setLength(sbNew.length() - 1);
                     sbNew.append("#");
                 }
 
             } else if (Character.toString(sb.charAt(i)).equals("=")) {
-
+                sbNew.append(" = ");
             } else {
                 if (Character.toString(sb.charAt(i + 1)).equals("{")) {
-                    sbNew.append(",\n");
+                    //c++; //?????
+                    sbNew.append(",\n" + indent(c));
                 } else {
-
+                    sbNew.append(sb.charAt(i));
                 }
             }
         }
@@ -367,5 +368,4 @@ public final class ExportLua {
         System.out.println(str);
         return str;
     }
-
 }
