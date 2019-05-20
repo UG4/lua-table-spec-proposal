@@ -322,7 +322,7 @@ Wichtig hierbei ist, dass am Ende, also nach der Auswertung der Spezifikation in
 
 ### Beispielprojekt ###
 
-Im Ordner `VRL-LuaValidation` befindet sich ein Java-Projekt, mit dessen Hilfe der Spezifikationsentwurf entwickelt wurde. Die vorgeschlagene Spezifikationssprache lässt sich damit einlesen und steht als rudimentäre Datenstruktur zur Weiterverarbeitung bereit. Die Code-Generierung selbst ist nicht implementiert.
+Im Ordner `VRL-LuaValidation` befindet sich ein Java-Projekt, mit dessen Hilfe der Spezifikationsentwurf entwickelt wurde. Die vorgeschlagene Spezifikationssprache lässt sich damit einlesen und steht als rudimentäre Datenstruktur zur Weiterverarbeitung bereit. Die Code-Generierung selbst ist nicht implementiert. Es steht aber eine Runtime-Validierung bereit, die aktiv entwickelt wird. Diese beinhaltet eine Bibliothek zur Validierung und einen grafischen Editor, der eine Validierung durchführen und visualisieren kann.
 
 #### Voraussetzungen: ####
 
