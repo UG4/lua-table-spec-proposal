@@ -36,7 +36,7 @@ class ExportLuaTest {
         /*
         * Do expected string
         * */
-        String expectedString = "--validation file: validationtest04.lua\nproblem={\nvalueOne={\nsubParam1=\"lala\",\nsubParam2=\"hshs\"\n},\nvalueTwo=\"lala\"\n}";
+        String expectedString = "--validation file: validationtest04.lua\nproblem = {\n  valueOne = {\n    subParam1 = \"lala\",\n    subParam2 = \"hshs\"\n  },\n  valueTwo = \"lala\"\n}";
 
         /*
         * Compare both strings
