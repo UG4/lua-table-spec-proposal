@@ -25,17 +25,17 @@ public final class GenUtil {
      * */
     public static boolean valueIsInRange(ValueData v) {
         if(!(v.getRange_min() == 0 && v.getRange_max() == 0)) {
-            if (v.getType().get().equals("Integer") || v.getType().get().equals("Double")) {
+            if (v.getType().equals("Integer") || v.getType().equals("Double")) {
                 if (v.getActData() != null && v.getActData().getValue() != null) {
                     if (v.getValues() != null) {
                         double[] temp = v.getValues();
-                        if (v.getType().get().equals("Integer")) {
+                        if (v.getType().equals("Integer")) {
                             for (double a : temp) {
                                 if (a == (Integer) v.getActData().getValue()) {
                                     return true;
                                 }
                             }
-                        } else if (v.getType().get().equals("Double")) {
+                        } else if (v.getType().equals("Double")) {
                             for (double a : temp) {
                                 if (a == (Double) v.getActData().getValue()) {
                                     return true;
@@ -44,14 +44,14 @@ public final class GenUtil {
                         }
                         return false;
                     } else {
-                        if (v.getType().get().equals("Double")) {
+                        if (v.getType().equals("Double")) {
                             double temp = (Double) v.getActData().getValue();
                             if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
                             } else {
                                 return false;
                             }
-                        } else if (v.getType().get().equals("Integer")) {
+                        } else if (v.getType().equals("Integer")) {
                             int temp = (Integer) v.getActData().getValue();
                             if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
@@ -63,11 +63,11 @@ public final class GenUtil {
                 } else {
                     return true;
                 }
-            } else if(v.getType().get().equals("Integer[]")||v.getType().get().equals("Double[]")){
+            } else if(v.getType().equals("Integer[]")||v.getType().equals("Double[]")){
                 if (v.getActData() != null && v.getActData().getValue() != null) {
                     if (v.getValues() != null) {
                         double[] temp = v.getValues();
-                        if (v.getType().get().equals("Integer[]")) {
+                        if (v.getType().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
                             for(int i : vals) {
                                 boolean isIn = intInArray(temp,i);
@@ -76,7 +76,7 @@ public final class GenUtil {
                                 }
                             }
                             return true;
-                        } else if (v.getType().get().equals("Double[]")) {
+                        } else if (v.getType().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
                             for(double i : vals) {
                                 boolean isIn = doubleInArray(temp,i);
@@ -88,7 +88,7 @@ public final class GenUtil {
                         }
                         return false;
                     } else {
-                        if (v.getType().get().equals("Double[]")) {
+                        if (v.getType().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
                             for(double d : vals){
                                 if (!(d >= v.getRange_min() && d <= v.getRange_max())) {
@@ -96,7 +96,7 @@ public final class GenUtil {
                                 }
                             }
                             return true;
-                        } else if (v.getType().get().equals("Integer[]")) {
+                        } else if (v.getType().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
                             for(int i : vals){
                                 if (!(i >= v.getRange_min() && i <= v.getRange_max())) {

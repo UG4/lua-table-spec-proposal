@@ -26,11 +26,11 @@ public final class VisitingValidatorSpec {
                 //VALUE
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = factory.newInstance(e.getName());
-                xd.setSelection(true);
+                xd.setSelected(true);
                 xd.isValue(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
-                adv.setType(xd.getType().get());
+                adv.setType(xd.getType());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
                 }
@@ -42,7 +42,7 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = factory.newInstance(e.getName());
                 xd.setNotOptGroup(true);
-                xd.setSelection(true);
+                xd.setSelected(true);
                 dataList.add(xd);
                 for (Entry p : ((Group) e).getEntries()) {
                     visitTwo(p, dataList, xd, factory);
@@ -66,7 +66,7 @@ public final class VisitingValidatorSpec {
                 xd.setOptVal(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
-                adv.setType(xd.getType().get());
+                adv.setType(xd.getType());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
                 }
@@ -101,10 +101,10 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is a Val!");
                 ValueData xd = factory.newInstance(e.getName());
                 xd.isValue(true);
-                xd.setSelection(true);
+                xd.setSelected(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
-                adv.setType(xd.getType().get());
+                adv.setType(xd.getType());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
                 }
@@ -115,7 +115,7 @@ public final class VisitingValidatorSpec {
                 //not-optional  group
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = factory.newInstance(e.getName());
-                xd.setSelection(true);
+                xd.setSelected(true);
                 xd.setNotOptGroup(true);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
@@ -143,7 +143,7 @@ public final class VisitingValidatorSpec {
                 xd.setOptVal(true);
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
-                adv.setType(xd.getType().get());
+                adv.setType(xd.getType());
                 if (xd.getDefaultVal() != null) {
                     adv.setValue(xd.getDefaultVal());
                 }

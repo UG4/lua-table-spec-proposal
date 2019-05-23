@@ -54,7 +54,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         setGraphic(stringField);
 
                     } else if (item.getStyle().equals("selection")) {
-                        switch (item.getType().get()) {
+                        switch (item.getType()) {
                             case "Double":
                                 ComboBox doubleBox1 = UIUtil.cbNumber(item);
                                 UIUtil.doTooltip(item, doubleBox1);
@@ -68,7 +68,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                 break;
                         }
                     } else if (item.getStyle().equals("load-file-dialog")) {
-                        switch (item.getType().get()) {
+                        switch (item.getType()) {
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
                                 HBox master = UIUtil.doLoadFile(act, item);
@@ -78,7 +78,7 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                         }
 
                     } else if (item.getStyle().equals("save-file-dialog")) {
-                        switch (item.getType().get()) {
+                        switch (item.getType()) {
                             case "String":
                                 Window act = MyValCell.super.getTreeTableView().getScene().getWindow();
                                 HBox master = UIUtil.doSaveFile(act, item);

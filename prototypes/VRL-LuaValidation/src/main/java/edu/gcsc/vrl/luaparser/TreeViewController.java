@@ -61,8 +61,8 @@ public class TreeViewController {
     public void initialize() throws InterruptedException {
         optionColumn.setCellValueFactory(cellData ->
                 {
-                    if(cellData.getValue().getValue() instanceof ValueData.ValueDataFX) {
-                        return ((ValueData.ValueDataFX)cellData.getValue().getValue()).valProperty();
+                    if(cellData.getValue().getValue() instanceof ValueDataFX) {
+                        return ((ValueDataFX)cellData.getValue().getValue()).valProperty();
                     } else {
                         throw new RuntimeException("Unsupported ValueData class '"+cellData.getValue().getValue().getClass().getName()+"'");
                     }
@@ -70,8 +70,8 @@ public class TreeViewController {
 
 
         valueColumn.setCellValueFactory(cellData -> {
-            if(cellData.getValue().getValue() instanceof ValueData.ValueDataFX) {
-                return ((ValueData.ValueDataFX)cellData.getValue().getValue()).valProperty();
+            if(cellData.getValue().getValue() instanceof ValueDataFX) {
+                return ((ValueDataFX)cellData.getValue().getValue()).valProperty();
             } else {
                 throw new RuntimeException("Unsupported ValueData class '"+cellData.getValue().getValue().getClass().getName()+"'");
             }
@@ -98,6 +98,11 @@ public class TreeViewController {
         inputData.clear();
 
         for (ValueData v : dataset) {
+
+            if(!(v instanceof ValueDataFX)) {
+                throw new RuntimeException("Unsupported ValueData class '"+v.getClass().getName()+"'");
+            }
+
             inputData.add(v);
         }
 
@@ -107,13 +112,13 @@ public class TreeViewController {
         outputTable.setShowRoot(false);
 
         for (int i = 0; i < inputData.size(); i++) {
-            inputData.get(i).getSelectedProp().addListener(new ChangeListener<Boolean>() {
+            ((ValueDataFX)inputData.get(i)).selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     outputTable.refresh();
                 }
             });
-            inputData.get(i).disabledProperty().addListener(new ChangeListener<Boolean>() {
+            ((ValueDataFX)inputData.get(i)).disabledProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     outputTable.refresh();
@@ -128,13 +133,13 @@ public class TreeViewController {
                     System.out.println("OPTIONS: " + inputData.get(i).getValName());
                     setOptionsTreeElements(actV, inputData.get(i).getOptions().get(j));
 
-                    inputData.get(i).getOptions().get(j).getSelectedProp().addListener(new ChangeListener<Boolean>() {
+                    ((ValueDataFX)inputData.get(i).getOptions().get(j)).selectedProperty().addListener(new ChangeListener<Boolean>() {
                         @Override
                         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                             outputTable.refresh();
                         }
                     });
-                    inputData.get(i).getOptions().get(j).disabledProperty().addListener(new ChangeListener<Boolean>() {
+                    ((ValueDataFX)inputData.get(i).getOptions().get(j)).disabledProperty().addListener(new ChangeListener<Boolean>() {
                         @Override
                         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                             outputTable.refresh();
@@ -191,7 +196,7 @@ public class TreeViewController {
                         Validator v = new Validator(path);
                         setValidator(v);
                         v.setValidationFileName(selecDir.getName());
-                        v.visiting(ValueData.ValueDataFX::new);
+                        v.visiting(ValueDataFX::new);
                         initData(runtimeObject.getData());
                     }
                 } catch (IOException io) {

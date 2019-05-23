@@ -33,7 +33,7 @@ public class UIUtil {
                         v.getActData().setValue(newValue, stringField);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
-                        adv.setType(v.getType().get());
+                        adv.setType(v.getType());
                         adv.setValue(newValue, stringField);
                         v.setActData(adv);
                     }
@@ -77,7 +77,7 @@ public class UIUtil {
                         v.getActData().setValue(newValue, stringField);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
-                        adv.setType(v.getType().get());
+                        adv.setType(v.getType());
                         adv.setValue(newValue, stringField);
                         v.setActData(adv);
                     }
@@ -112,8 +112,8 @@ public class UIUtil {
                     v.getActData().setValue(newValue);
                 } else {
                     ActualDataValue adv = new ActualDataValue();
-                    adv.setType(v.getType().get());
-                    System.out.println(v.getType().get());
+                    adv.setType(v.getType());
+                    System.out.println(v.getType());
                     adv.setValue(newValue);
                     v.setActData(adv);
                 }
@@ -198,7 +198,7 @@ public class UIUtil {
                         v.getActData().setValue(newValue, tf);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
-                        adv.setType(v.getType().get());
+                        adv.setType(v.getType());
                         adv.setValue(newValue, tf);
                         v.setActData(adv);
                     }
@@ -226,7 +226,7 @@ public class UIUtil {
                     v.getActData().setValue(path);
                 } else {
                     ActualDataValue adv = new ActualDataValue();
-                    adv.setType(v.getType().get());
+                    adv.setType(v.getType());
                     adv.setValue(path);
                     v.setActData(adv);
                 }
@@ -262,7 +262,7 @@ public class UIUtil {
                         v.getActData().setValue(newValue, tf);
                     } else {
                         ActualDataValue adv = new ActualDataValue();
-                        adv.setType(v.getType().get());
+                        adv.setType(v.getType());
                         adv.setValue(newValue, tf);
                         v.setActData(adv);
                     }
@@ -288,8 +288,8 @@ public class UIUtil {
                     v.getActData().setValue(path);
                 } else {
                     ActualDataValue adv = new ActualDataValue();
-                    adv.setType(v.getType().get());
-                    System.out.println(v.getType().get());
+                    adv.setType(v.getType());
+                    System.out.println(v.getType());
                     adv.setValue(path);
                     v.setActData(adv);
                 }

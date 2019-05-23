@@ -128,7 +128,7 @@ public final class ValidationGenerator {
 
         var all = new ArrayList<ValueData>();
 
-        VisitingValidatorSpec.visitOne(root, all, ValueData::new);
+        //VisitingValidatorSpec.visitOne(root, all, ValueData::new);
 
         StringWriter writer = new StringWriter();
 
