@@ -114,7 +114,7 @@ public final class DependingUtil {
 
                 // Saves all values as an Value-object
                 if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                    System.out.println("Test " + vd.getValName().get());
+                    System.out.println("Test " + vd.getValName());
                     doArgList(vd, valsForEval);
                 }
 
@@ -157,7 +157,7 @@ public final class DependingUtil {
         for (ValueData v : vData) {
             if (v.getActData() != null && v.getActData().getValue() != null) {
                 Object temp = v.getActData().getValue();
-                String name = v.getValName().get();
+                String name = v.getValName();
 
                 if (v.getActData().getType().equals("String")) {
                     LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
@@ -182,7 +182,7 @@ public final class DependingUtil {
 
     private static void doArgList(ValueData v, List<Value> vals) {
         Object temp = v.getActData().getValue();
-        String name = v.getValName().get();
+        String name = v.getValName();
 
         if (v.getActData().getType().equals("String")) {
             LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
@@ -212,7 +212,7 @@ public final class DependingUtil {
             if (vd.getActData() != null && vd.getActData().getValue() != null) {
                 return vd;
             } else {
-                System.out.println(vd.getValName().get() + " has no Value!");
+                System.out.println(vd.getValName() + " has no Value!");
                 return null;
             }
         } else {

@@ -59,8 +59,23 @@ public class TreeViewController {
     * initializing method, that sets up the CellFactory and CellValueFactory
     * */
     public void initialize() throws InterruptedException {
-        optionColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValProp());
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue().getValProp());
+        optionColumn.setCellValueFactory(cellData ->
+                {
+                    if(cellData.getValue().getValue() instanceof ValueData.ValueDataFX) {
+                        return ((ValueData.ValueDataFX)cellData.getValue().getValue()).valProperty();
+                    } else {
+                        throw new RuntimeException("Unsupported ValueData class '"+cellData.getValue().getValue().getClass().getName()+"'");
+                    }
+                });
+
+
+        valueColumn.setCellValueFactory(cellData -> {
+            if(cellData.getValue().getValue() instanceof ValueData.ValueDataFX) {
+                return ((ValueData.ValueDataFX)cellData.getValue().getValue()).valProperty();
+            } else {
+                throw new RuntimeException("Unsupported ValueData class '"+cellData.getValue().getValue().getClass().getName()+"'");
+            }
+        });
 
         valueColumn.setCellFactory(column -> {
             return new MyValCell();
@@ -104,13 +119,13 @@ public class TreeViewController {
                     outputTable.refresh();
                 }
             });
-            System.out.println("NAME: " + inputData.get(i).getValName().get());
+            System.out.println("NAME: " + inputData.get(i).getValName());
             TreeItem<ValueData> actV = new TreeItem<ValueData>(inputData.get(i));
             root.getChildren().add(actV);
 
             if (inputData.get(i).getOptions() != null) {
                 for (int j = 0; j < inputData.get(i).getOptions().size(); j++) {
-                    System.out.println("OPTIONS: " + inputData.get(i).getValName().get());
+                    System.out.println("OPTIONS: " + inputData.get(i).getValName());
                     setOptionsTreeElements(actV, inputData.get(i).getOptions().get(j));
 
                     inputData.get(i).getOptions().get(j).getSelectedProp().addListener(new ChangeListener<Boolean>() {
@@ -176,7 +191,7 @@ public class TreeViewController {
                         Validator v = new Validator(path);
                         setValidator(v);
                         v.setValidationFileName(selecDir.getName());
-                        v.visiting();
+                        v.visiting(ValueData.ValueDataFX::new);
                         initData(runtimeObject.getData());
                     }
                 } catch (IOException io) {

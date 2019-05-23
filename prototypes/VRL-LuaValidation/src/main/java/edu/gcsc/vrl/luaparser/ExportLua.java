@@ -23,7 +23,7 @@ public final class ExportLua {
         sb.append("problem={");
 
         for (int i = 0; i < data.size(); i++) {
-            sb.append(data.get(i).getValName().get() + "=");
+            sb.append(data.get(i).getValName() + "=");
 
             if (data.get(i).isAValue() && data.get(i).isSelected()) {
                 if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
@@ -104,10 +104,10 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                 }
             }
@@ -124,7 +124,7 @@ public final class ExportLua {
      * */
     private static void doVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
-            sb.append(vData.getValName().get() + "=");
+            sb.append(vData.getValName() + "=");
             doStr(vData, sb);
         }
     }
@@ -191,10 +191,10 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                 }
             }
@@ -232,10 +232,10 @@ public final class ExportLua {
                 }
             } else if (vList.get(i).isNotOptGroup() && !GenUtil.haveOptValue(vList.get(i)) && vList.get(i).isSelected()) {
                 if (i < vList.size() - 1) {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, false);
                 } else {
-                    sb.append(vList.get(i).getValName().get() + "=");
+                    sb.append(vList.get(i).getValName() + "=");
                     doNotOpt(vList.get(i).getOptions(), sb, dis + 1, true);
                 }
             } else if (vList.get(i).isOptValue() && vList.get(i).isSelected()) { // Optionaler Value

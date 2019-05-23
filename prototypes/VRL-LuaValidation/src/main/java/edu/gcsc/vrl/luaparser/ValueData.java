@@ -23,10 +23,13 @@ public class ValueData {
 
     public ValueData(String name) {
         this.valName = new SimpleStringProperty(name);
-        this.valProp = new SimpleObjectProperty<ValueData>(this);
+//        this.valProp = new SimpleObjectProperty<ValueData>(this);
+        val = this;
     }
 
-    private ObjectProperty<ValueData> valProp;
+    private ValueData val;
+
+//    private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
 
     private String name;
@@ -67,14 +70,45 @@ public class ValueData {
 
     // GETTER - methods
 
-    /**
-    * Returns the wrapped <code>ObjectProperty</code> of the object
-    *
-    * @return valProp wrapped object
-    * */
-    public ObjectProperty<ValueData> getValProp() {
-        return this.valProp;
+    public void setVal(ValueData vd) {
+        this.val = vd;
     }
+
+    public ValueData getVal() {
+        return val;
+    }
+
+
+    static class ValueDataFX extends ValueData {
+
+        public ValueDataFX(String name) {
+            super(name);
+        }
+
+        private ObjectProperty<ValueData> valProperty;
+
+        public ObjectProperty<ValueData> valProperty() {
+
+            if(valProperty==null) {
+                valProperty = new SimpleObjectProperty<>(super.getVal());
+            }
+
+            return this.valProperty;
+        }
+
+        @Override
+        public void setVal(ValueData vd) {
+            valProperty().set(vd);
+        }
+
+        @Override
+        public ValueData getVal() {
+            return valProperty().get();
+        }
+    }
+
+
+
 
     /**
     * Returns all sub-parameters
@@ -99,8 +133,21 @@ public class ValueData {
     *
     * @return valName name
     * */
-    public StringProperty getValName() {
+    public String getValName() {
+        return valNameProperty().get();
+    }
+
+    /**
+     * Returns the wrapped name of the object
+     *
+     * @return valName name
+     * */
+    public StringProperty valNameProperty() {
         return this.valName;
+    }
+
+    public void setValName(String valName) {
+        valNameProperty().set(valName);
     }
 
     /**
@@ -368,7 +415,7 @@ public class ValueData {
      *
      * @return disabled disabled SimpleBooleanProperty
      * */
-    public SimpleBooleanProperty disabledProperty() {
+    public BooleanProperty disabledProperty() {
         return this.disabled;
     }
 
@@ -641,7 +688,7 @@ public class ValueData {
     public ValueData getParam(String subParamName) {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
-                if (subParamName.equals(v.getValName().get())) {
+                if (subParamName.equals(v.getValName())) {
                     return v;
                 }
             }
@@ -675,7 +722,7 @@ public class ValueData {
     public boolean hasParam(String subParamName) {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
-                if (subParamName.equals(v.getValName().get())) {
+                if (subParamName.equals(v.getValName())) {
                     return true;
                 }
             }
@@ -707,7 +754,7 @@ public class ValueData {
                     if (this.getParentNode() != null) {
                         currentNode = currentNode.getParentNode();
                     } else {
-                        System.out.println(currentNode.getValName().get() + " hasn't a Parent-Node!");
+                        System.out.println(currentNode.getValName() + " hasn't a Parent-Node!");
                     }
                 } else {
                     if (currentNode.hasParam(currentName)) {

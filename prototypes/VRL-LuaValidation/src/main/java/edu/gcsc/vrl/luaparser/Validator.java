@@ -93,10 +93,10 @@ public class Validator {
     /**
     * Coordinates the creation of the data model objects.
     * */
-    public void visiting() {
+    public void visiting(ValueDataFactory vdFactory) {
         List<ValueData> dataList = new ArrayList<>();
         if (importedCode != null) {
-            VisitingValidatorSpec.visitOne(importedCode, dataList);
+            VisitingValidatorSpec.visitOne(importedCode, dataList, vdFactory);
             this.myData = dataList;
         }
     }
@@ -135,10 +135,10 @@ public class Validator {
         for(ValueData v : allValues) {
             if (v.getRangeOfStrings() == null) {
                 boolean isInRange = GenUtil.valueIsInRange(v);
-                //System.out.println(v.getValName().get() + " range: " + isInRange);
+                //System.out.println(v.getValName() + " range: " + isInRange);
                 v.setValInRange(isInRange);
                 if (isInRange == false) {
-                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName().get() + " not in range!", 0, v.getValName().get());
+                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName() + " not in range!", 0, v.getValName());
                     err.add(notInRange);
                 }
             } else {
@@ -147,7 +147,7 @@ public class Validator {
                 v.setValInRange(isInRange);
 
                 if (isInRange == false) {
-                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName().get() + " not in range!", 0, v.getValName().get());
+                    ErrorMessage notInRange = new ErrorMessage("Value: " + v.getValName() + " not in range!", 0, v.getValName());
                     err.add(notInRange);
                 }
             }
@@ -169,21 +169,21 @@ public class Validator {
         // Check if parameters includes cycles
         List<ValueData> cycleNodesValid = GraphUtil.checkForCycles(getData(), allValues, true);
         for(ValueData v : cycleNodesValid){
-            System.out.println("Cycle: "+ v.getValName().get());
-            ErrorMessage e = new ErrorMessage("Validation-Knoten befindet sich in einem Zyklus",0,v.getValName().get());
+            System.out.println("Cycle: "+ v.getValName());
+            ErrorMessage e = new ErrorMessage("Validation-Knoten befindet sich in einem Zyklus",0,v.getValName());
             errList.add(e);
         }
 
         // get all dependent parameters
         List<ValueData> allDependingValuesValid = GenUtil.getAllDependingValidateValues(getData());
         for (ValueData v : allDependingValuesValid){
-            System.out.println("Depending: "+ v.getValName().get());
+            System.out.println("Depending: "+ v.getValName());
         }
 
         for(ValueData v : allDependingValuesValid){
             if(!cycleNodesValid.contains(v)){
                 boolean valid = GenUtil.validate(v,getData());
-                System.out.println(v.getValName().get() + " validation: " + valid);
+                System.out.println(v.getValName() + " validation: " + valid);
                 v.setValidationIsValid(valid);
             }
         }
@@ -203,20 +203,20 @@ public class Validator {
 
         List<ValueData> cycleNodesVisib = GraphUtil.checkForCycles(getData(), allValues, false);
         for(ValueData v : cycleNodesVisib){
-            System.out.println("Cycle: "+ v.getValName().get());
-            ErrorMessage e = new ErrorMessage("Visibility-Knoten befindet sich in einem Zyklus",0,v.getValName().get());
+            System.out.println("Cycle: "+ v.getValName());
+            ErrorMessage e = new ErrorMessage("Visibility-Knoten befindet sich in einem Zyklus",0,v.getValName());
             errList.add(e);
         }
 
         List<ValueData> allDependingValuesVisib = DependingUtil.getAllDependingVisibleValues(getData());
         for (ValueData v : allDependingValuesVisib){
-            System.out.println("Depending: "+ v.getValName().get());
+            System.out.println("Depending: "+ v.getValName());
         }
 
         for(ValueData v : allDependingValuesVisib){
             if(!cycleNodesVisib.contains(v)){
                 boolean valid = DependingUtil.validateVisible(v,getData());
-                System.out.println(v.getValName().get() + " visibility: " + valid);
+                System.out.println(v.getValName() + " visibility: " + valid);
                 v.setVisibility(valid);
             }
         }
