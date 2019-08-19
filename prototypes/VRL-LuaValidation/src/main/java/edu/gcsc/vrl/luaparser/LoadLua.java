@@ -421,7 +421,7 @@ public final class LoadLua {
                                 match(opt.getOptions(), v.getOptions());
                             }
                         }
-                    } else if (s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())) {
+                    } else if (s.isNotOptGroup() && s.getValName().equals(v.getValName())) {
                         match(s.getOptions(), v.getOptions());
                     }
                 }
