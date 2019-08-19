@@ -25,17 +25,17 @@ public final class GenUtil {
      * */
     public static boolean valueIsInRange(ValueData v) {
         if(!(v.getRange_min() == 0 && v.getRange_max() == 0)) {
-            if (v.getType().get().equals("Integer") || v.getType().get().equals("Double")) {
+            if (v.getType().equals("Integer") || v.getType().equals("Double")) {
                 if (v.getActData() != null && v.getActData().getValue() != null) {
                     if (v.getValues() != null) {
                         double[] temp = v.getValues();
-                        if (v.getType().get().equals("Integer")) {
+                        if (v.getType().equals("Integer")) {
                             for (double a : temp) {
                                 if (a == (Integer) v.getActData().getValue()) {
                                     return true;
                                 }
                             }
-                        } else if (v.getType().get().equals("Double")) {
+                        } else if (v.getType().equals("Double")) {
                             for (double a : temp) {
                                 if (a == (Double) v.getActData().getValue()) {
                                     return true;
@@ -44,14 +44,14 @@ public final class GenUtil {
                         }
                         return false;
                     } else {
-                        if (v.getType().get().equals("Double")) {
+                        if (v.getType().equals("Double")) {
                             double temp = (Double) v.getActData().getValue();
                             if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
                             } else {
                                 return false;
                             }
-                        } else if (v.getType().get().equals("Integer")) {
+                        } else if (v.getType().equals("Integer")) {
                             int temp = (Integer) v.getActData().getValue();
                             if (temp >= v.getRange_min() && temp <= v.getRange_max()) {
                                 return true;
@@ -63,11 +63,11 @@ public final class GenUtil {
                 } else {
                     return true;
                 }
-            } else if(v.getType().get().equals("Integer[]")||v.getType().get().equals("Double[]")){
+            } else if(v.getType().equals("Integer[]")||v.getType().equals("Double[]")){
                 if (v.getActData() != null && v.getActData().getValue() != null) {
                     if (v.getValues() != null) {
                         double[] temp = v.getValues();
-                        if (v.getType().get().equals("Integer[]")) {
+                        if (v.getType().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
                             for(int i : vals) {
                                 boolean isIn = intInArray(temp,i);
@@ -76,7 +76,7 @@ public final class GenUtil {
                                 }
                             }
                             return true;
-                        } else if (v.getType().get().equals("Double[]")) {
+                        } else if (v.getType().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
                             for(double i : vals) {
                                 boolean isIn = doubleInArray(temp,i);
@@ -88,7 +88,7 @@ public final class GenUtil {
                         }
                         return false;
                     } else {
-                        if (v.getType().get().equals("Double[]")) {
+                        if (v.getType().equals("Double[]")) {
                             List<Double> vals = (List<Double>) v.getActData().getValue();
                             for(double d : vals){
                                 if (!(d >= v.getRange_min() && d <= v.getRange_max())) {
@@ -96,7 +96,7 @@ public final class GenUtil {
                                 }
                             }
                             return true;
-                        } else if (v.getType().get().equals("Integer[]")) {
+                        } else if (v.getType().equals("Integer[]")) {
                             List<Integer> vals = (List<Integer>) v.getActData().getValue();
                             for(int i : vals){
                                 if (!(i >= v.getRange_min() && i <= v.getRange_max())) {
@@ -238,7 +238,7 @@ public final class GenUtil {
                 List<Value> valsForEval = new ArrayList<>();
 
                 if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                    System.out.println("Test " + vd.getValName().get());
+                    System.out.println("Test " + vd.getValName());
                     doArgList(vd, valsForEval);
                 }
 
@@ -281,7 +281,7 @@ public final class GenUtil {
         for (ValueData v : vData) {
             if (v.getActData() != null && v.getActData().getValue() != null) {
                 Object temp = v.getActData().getValue();
-                String name = v.getValName().get();
+                String name = v.getValName();
 
                 if (v.getActData().getType().equals("String")) {
                     LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
@@ -306,7 +306,7 @@ public final class GenUtil {
 
     private static void doArgList(ValueData v, List<Value> vals) {
         Object temp = v.getActData().getValue();
-        String name = v.getValName().get();
+        String name = v.getValName();
 
         if (v.getActData().getType().equals("String")) {
             LuaValue lua = LuaValue.valueOf(String.valueOf(temp));
@@ -333,7 +333,7 @@ public final class GenUtil {
             if (vd.getActData() != null && vd.getActData().getValue() != null) {
                 return vd;
             } else {
-                System.out.println(vd.getValName().get() + " has no Value!");
+                System.out.println(vd.getValName() + " has no Value!");
                 return null;
             }
         } else {
@@ -422,7 +422,7 @@ public final class GenUtil {
      * @return boolean contains
      */
     public static boolean containsVD(ValueData[] vData, ValueData v) {
-        //System.out.println(vData[0] + " Val: " + v.getValName().get());
+        //System.out.println(vData[0] + " Val: " + v.getValName());
         for (int i = 0; i < vData.length; i++) {
             if (vData[i] != null) {
                 if (vData[i].equals(v)) {
@@ -585,7 +585,7 @@ public final class GenUtil {
                     if (h == path_names.size() - 1) {
                         if (currentNode.hasParam(path_names.get(h))) {
                             return currentNode.getParam(path_names.get(h));
-                        } else if (currentNode.getValName().get().equals(path_names.get(h))) {
+                        } else if (currentNode.getValName().equals(path_names.get(h))) {
                             return currentNode;
                         }
                     } else {
@@ -680,7 +680,7 @@ public final class GenUtil {
     public static List<String> getAllVDNames(List<ValueData> data) {
         List<String> names = new ArrayList<>();
         for (ValueData v : data) {
-            names.add(v.getValName().get());
+            names.add(v.getValName());
             if (v.getOptions() != null) {
                 loopAllVDNames(names, v.getOptions());
             }
@@ -691,7 +691,7 @@ public final class GenUtil {
 
     private static void loopAllVDNames(List<String> names, List<ValueData> options) {
         for (ValueData v : options) {
-            names.add(v.getValName().get());
+            names.add(v.getValName());
             if (v.getOptions() != null) {
                 loopAllVDNames(names, v.getOptions());
             }

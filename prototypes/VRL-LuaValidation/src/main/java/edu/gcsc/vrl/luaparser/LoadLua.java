@@ -23,6 +23,7 @@ public final class LoadLua {
      * @return importedCode lua-group
      */
     public static Group parseLuaFile(String filepath) throws IOException {
+
         // load lua code from resources
         byte[] code2Data = ByteStreams.toByteArray(new FileInputStream(filepath));
         String code = new String(code2Data, "UTF-8");
@@ -34,6 +35,8 @@ public final class LoadLua {
     }
 
     public static Group parseLuaFile(String filepath, boolean test) throws IOException {
+
+
         // load lua code
         byte[] code2Data = ByteStreams.toByteArray(Main.class.getResourceAsStream(filepath));
         String code = new String(code2Data, "UTF-8");
@@ -52,6 +55,7 @@ public final class LoadLua {
      * @param lv data list
      */
     public static void visitingLuaCode(Entry e, List<ValueData> lv) {
+
         if (e instanceof Value) {
             ValueData v = new ValueData(e.getName());
             ActualDataValue adv = new ActualDataValue();
@@ -64,7 +68,7 @@ public final class LoadLua {
             if (!e.getName().equals("problem") && !e.getName().equals("root")) {
                 if (onlyGroups((Group) e)) {
                     ValueData v = new ValueData(e.getName());
-                    System.out.println("GROUP1: " + v.getValName().get());
+                    System.out.println("GROUP1: " + v.getValName());
                     lv.add(v);
                     for (Entry ed : ((Group) e).getEntries()) {
                         visitGroup((Group) ed, v);
@@ -72,7 +76,7 @@ public final class LoadLua {
                 } else if (onlyValues((Group) e)) {
                     if (isArrayOfValues((Group) e)) {
                         ValueData v = new ValueData(e.getName());
-                        System.out.println("Arrs: " + v.getValName().get());
+                        System.out.println("Arrs: " + v.getValName());
                         lv.add(v);
 
                         StringBuilder sb = new StringBuilder();
@@ -102,7 +106,7 @@ public final class LoadLua {
                         }
                     } else {
                         ValueData v = new ValueData(e.getName());
-                        System.out.println("GROUP1: " + v.getValName().get());
+                        System.out.println("GROUP1: " + v.getValName());
                         lv.add(v);
 
                         for (Entry ed : ((Group) e).getEntries()) {
@@ -118,7 +122,7 @@ public final class LoadLua {
                     }
                 } else {
                     ValueData v = new ValueData(e.getName());
-                    System.out.println("GROUP1: " + v.getValName().get());
+                    System.out.println("GROUP1: " + v.getValName());
                     lv.add(v);
                     for (Entry ed : ((Group) e).getEntries()) {
                         if (ed instanceof Value) {
@@ -132,7 +136,7 @@ public final class LoadLua {
                             vf.setParentNode(v);
                         } else if (ed instanceof Group) {
                             ValueData vf = new ValueData(ed.getName());
-                            System.out.println("GROUP2: " + vf.getValName().get());
+                            System.out.println("GROUP2: " + vf.getValName());
                             v.addSubParam(vf);
                             vf.setParentNode(v);
                             visitGroup(ed, v);
@@ -169,7 +173,7 @@ public final class LoadLua {
                 } else if (ede instanceof Group) {
                     if (!ede.getName().equals("problem") && !ede.getName().equals("root")) {
                         ValueData vd = new ValueData(ede.getName());
-                        System.out.println("GROUP3: " + vd.getValName().get());
+                        System.out.println("GROUP3: " + vd.getValName());
                         x.addSubParam(vd);
                         vd.setParentNode(x);
 
@@ -208,7 +212,7 @@ public final class LoadLua {
                             } else {
                                 for (Entry ed : ((Group) ede).getEntries()) {
                                     ValueData d = new ValueData(ed.getName());
-                                    System.out.println("GROUP: " + d.getValName().get());
+                                    System.out.println("GROUP: " + d.getValName());
                                     System.out.println("Value: " + ((Value) ed).getValueAsString());
                                     ActualDataValue adv = new ActualDataValue();
                                     settingType((Value) ed, adv);
@@ -232,7 +236,7 @@ public final class LoadLua {
                                     vf.setParentNode(vd);
                                 } else if (ed instanceof Group) {
                                     ValueData vf = new ValueData(ed.getName());
-                                    System.out.println("GROUP4: " + vf.getValName().get());
+                                    System.out.println("GROUP4: " + vf.getValName());
                                     vd.addSubParam(vf);
                                     vf.setParentNode(vd);
                                     visitGroup(ed, vf);
@@ -369,7 +373,7 @@ public final class LoadLua {
         for (ValueData v : lua) {
             for (ValueData s : spec) {
                 if (v.isAValue()) {
-                    if (s.hasOptValue() && s.getValName().get().equals(v.getValName().get())) {
+                    if (s.hasOptValue() && s.getValName().equals(v.getValName())) {
                         for (ValueData p : s.getOptions()) {
                             if (p.isOptValue()) {
                                 if (p.getActData() != null && p.getActData().getValue() != null) {
@@ -386,7 +390,7 @@ public final class LoadLua {
                                 }
                             }
                         }
-                    } else if (s.isAValue() && s.getValName().get().equals(v.getValName().get())) {
+                    } else if (s.isAValue() && s.getValName().equals(v.getValName())) {
                         if (s.getActData() != null && s.getActData().getValue() != null) {
                             s.getActData().setValueLoad(v.getActData().getValue());
                             if (s.getParentNode() != null) {

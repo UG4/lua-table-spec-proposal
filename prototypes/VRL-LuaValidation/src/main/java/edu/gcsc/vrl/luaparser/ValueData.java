@@ -22,16 +22,19 @@ public class ValueData {
     * */
 
     public ValueData(String name) {
-        this.valName = new SimpleStringProperty(name);
-        this.valProp = new SimpleObjectProperty<ValueData>(this);
+        this.valName = name;
+//        this.valProp = new SimpleObjectProperty<ValueData>(this);
+        val = this;
     }
 
-    private ObjectProperty<ValueData> valProp;
+    private ValueData val;
+
+//    private ObjectProperty<ValueData> valProp;
     private List<ValueData> subParams = new ArrayList<>();
 
     private String name;
-    private StringProperty valName;
-    private StringProperty type;
+    private String valName;
+    private String type;
     private Object defaultVal;
     private String style = "";
     private List<String> style_option_endings = new ArrayList<>();
@@ -58,23 +61,22 @@ public class ValueData {
     private String[] valid_dependsOn;
     private Value valid_eval;
 
-    // Only for GUI
-    private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty disabled = new SimpleBooleanProperty(false);
+    private boolean selected;
+    private boolean disabled;
 
     private ValueData parentNode;
 
 
     // GETTER - methods
 
-    /**
-    * Returns the wrapped <code>ObjectProperty</code> of the object
-    *
-    * @return valProp wrapped object
-    * */
-    public ObjectProperty<ValueData> getValProp() {
-        return this.valProp;
+    public void setVal(ValueData vd) {
+        this.val = vd;
     }
+
+    public ValueData getVal() {
+        return val;
+    }
+
 
     /**
     * Returns all sub-parameters
@@ -99,8 +101,13 @@ public class ValueData {
     *
     * @return valName name
     * */
-    public StringProperty getValName() {
-        return this.valName;
+    public String getValName() {
+        return valName;
+    }
+
+
+    public void setValName(String valName) {
+        this.valName = valName;
     }
 
     /**
@@ -115,7 +122,7 @@ public class ValueData {
     *
     * return type datatype
     * */
-    public StringProperty getType() {
+    public String getType() {
         return this.type;
     }
 
@@ -221,7 +228,7 @@ public class ValueData {
     * @return selected.get() unwrapped selected-property
     * */
     public boolean isSelected() {
-        return this.selected.get();
+        return this.selected;
     }
 
     /**
@@ -230,7 +237,7 @@ public class ValueData {
      * @return disabled.get() unwrapped disabled-property
     * */
     public boolean isDisabled() {
-        return this.disabled.get();
+        return this.disabled;
     }
 
     /**
@@ -354,23 +361,9 @@ public class ValueData {
         return this.dependsOnVisible;
     }
 
-    /**
-     * Returns the wrapped selected-property
-     *
-     * @return selected selected SimpleBooleanProperty
-     * */
-    public SimpleBooleanProperty getSelectedProp() {
-        return this.selected;
-    }
 
-    /**
-     * Returns the wrapped disabled-property
-     *
-     * @return disabled disabled SimpleBooleanProperty
-     * */
-    public SimpleBooleanProperty disabledProperty() {
-        return this.disabled;
-    }
+
+
 
     // SETTER - methods
 
@@ -389,7 +382,7 @@ public class ValueData {
      * @param type data type
      * */
     public void setType(String type) {
-        this.type = new SimpleStringProperty(type);
+        this.type = type;
     }
 
     /**
@@ -501,7 +494,7 @@ public class ValueData {
      * @param disabled is disabled
      * */
     public void setDisabled(boolean disabled) {
-        this.disabled.set(disabled);
+        this.disabled = disabled;
     }
 
     /**
@@ -509,9 +502,10 @@ public class ValueData {
      *
      * @param selected is selected
      * */
-    public void setSelection(boolean selected) {
-        this.selected.set(selected);
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
+
 
     /**
     * Sets the parent node
@@ -641,7 +635,7 @@ public class ValueData {
     public ValueData getParam(String subParamName) {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
-                if (subParamName.equals(v.getValName().get())) {
+                if (subParamName.equals(v.getValName())) {
                     return v;
                 }
             }
@@ -675,7 +669,7 @@ public class ValueData {
     public boolean hasParam(String subParamName) {
         if (getOptions() != null) {
             for (ValueData v : getOptions()) {
-                if (subParamName.equals(v.getValName().get())) {
+                if (subParamName.equals(v.getValName())) {
                     return true;
                 }
             }
@@ -707,7 +701,7 @@ public class ValueData {
                     if (this.getParentNode() != null) {
                         currentNode = currentNode.getParentNode();
                     } else {
-                        System.out.println(currentNode.getValName().get() + " hasn't a Parent-Node!");
+                        System.out.println(currentNode.getValName() + " hasn't a Parent-Node!");
                     }
                 } else {
                     if (currentNode.hasParam(currentName)) {
@@ -753,7 +747,7 @@ public class ValueData {
     public void setSelectedNew(boolean sel) {
         if (!this.isDisabled() && (this.isOption() || this.isOptValue())) {
             if (sel) {
-                this.setSelection(true);
+                this.setSelected(true);
                 if (this.isOption() || this.isOptValue()) {
 
                     if (this.getParentNode() != null) {
@@ -770,7 +764,7 @@ public class ValueData {
                     }
                 }
             } else if (!sel) {
-                this.setSelection(false);
+                this.setSelected(false);
                 if (this.isOption() || this.isOptValue()) {
                     if (this.getParentNode() != null) {
                         if (this.getParentNode().getOptions() != null) {
@@ -793,7 +787,7 @@ public class ValueData {
 
     private void enableWithChild(ValueData v) {
         if (v.isOption() || v.isOptValue()) {
-            v.setSelection(false);
+            v.setSelected(false);
             v.setDisabled(false);
 
             if (v.getOptions() != null) {
@@ -814,7 +808,7 @@ public class ValueData {
     private void disableWithChild(ValueData v) {
         if (v.isOption() || v.isOptValue()) {
             v.setDisabled(true);
-            v.setSelection(false);
+            v.setSelected(false);
             if (v.getOptions() != null) {
                 for (ValueData x : v.getOptions()) {
                     disableWithChild(x);

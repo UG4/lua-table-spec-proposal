@@ -31,28 +31,28 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                         }
                     });
 
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                     setGraphic(cb);
                 } else {
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                 }
             } else if(item.isDisabled()|| !item.isVisible()) {
                 if(item.isOption() || item.isOptValue()) {
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                     setGraphic(cb);
                 } else {
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                 }
             } else if(!item.isValidationValid()){
                 if(item.isOption() || item.isOptValue()) {
                     CheckBox cb = new CheckBox();
                     cb.setDisable(true);
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                     setGraphic(cb);
                 } else {
-                    setText(item.getValName().get());
+                    setText(item.getValName());
                 }
             }
         }
