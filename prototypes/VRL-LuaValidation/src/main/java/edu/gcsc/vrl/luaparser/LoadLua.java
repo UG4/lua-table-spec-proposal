@@ -54,12 +54,10 @@ public final class LoadLua {
     public static void visitingLuaCode(Entry e, List<ValueData> lv) {
         if (e instanceof Value) {
             ValueData v = new ValueData(e.getName());
-            System.out.println("VAL: " + v.getValName().get());
             ActualDataValue adv = new ActualDataValue();
             settingType((Value) e, adv);
             adv.setValue(((Value) e).getValueAsString());
             v.setActData(adv);
-            System.out.println("wert: " + v.getActData().getValue());
             v.isValue(true);
             lv.add(v);
         } else if (e instanceof Group) {
@@ -109,12 +107,10 @@ public final class LoadLua {
 
                         for (Entry ed : ((Group) e).getEntries()) {
                             ValueData d = new ValueData(ed.getName());
-                            System.out.println("VAL: " + d.getValName().get());
                             ActualDataValue adv = new ActualDataValue();
                             settingType((Value) ed, adv);
                             adv.setValue(((Value) ed).getValueAsString());
                             d.setActData(adv);
-                            System.out.println("wert: " + d.getActData().getValue());
                             d.isValue(true);
                             v.addSubParam(d);
                             d.setParentNode(v);
@@ -127,12 +123,10 @@ public final class LoadLua {
                     for (Entry ed : ((Group) e).getEntries()) {
                         if (ed instanceof Value) {
                             ValueData vf = new ValueData(ed.getName());
-                            System.out.println("VAL: " + vf.getValName().get());
                             ActualDataValue adv = new ActualDataValue();
                             settingType((Value) ed, adv);
                             adv.setValue(((Value) ed).getValueAsString());
                             vf.setActData(adv);
-                            System.out.println("wert: " + vf.getActData().getValue());
                             vf.isValue(true);
                             v.addSubParam(vf);
                             vf.setParentNode(v);
@@ -165,16 +159,13 @@ public final class LoadLua {
             for (Entry ede : ((Group) e).getEntries()) {
                 if (ede instanceof Value) {
                     ValueData vd = new ValueData(ede.getName());
-                    System.out.println("VAL: " + vd.getValName().get());
                     ActualDataValue adv = new ActualDataValue();
                     settingType((Value) ede, adv);
                     adv.setValue(((Value) ede).getValueAsString());
                     vd.setActData(adv);
-                    System.out.println("wert: " + vd.getActData().getValue());
                     vd.isValue(true);
                     x.addSubParam(vd);
                     vd.setParentNode(x);
-                    System.out.println("VAL: " + vd.getValName().get());
                 } else if (ede instanceof Group) {
                     if (!ede.getName().equals("problem") && !ede.getName().equals("root")) {
                         ValueData vd = new ValueData(ede.getName());
@@ -232,12 +223,10 @@ public final class LoadLua {
                             for (Entry ed : ((Group) ede).getEntries()) {
                                 if (ed instanceof Value) {
                                     ValueData vf = new ValueData(ed.getName());
-                                    System.out.println("VAL: " + vf.getValName().get());
                                     ActualDataValue adv = new ActualDataValue();
                                     settingType((Value) ed, adv);
                                     adv.setValue(((Value) ed).getValueAsString());
                                     vf.setActData(adv);
-                                    System.out.println("wert: " + vf.getActData().getValue());
                                     vf.isValue(true);
                                     vd.addSubParam(vf);
                                     vf.setParentNode(vd);
@@ -256,12 +245,10 @@ public final class LoadLua {
             }
         } else if (e instanceof Value) {
             ValueData ve = new ValueData(e.getName());
-            System.out.println("VAL: " + ve.getValName().get());
             ActualDataValue adv = new ActualDataValue();
             settingType((Value) e, adv);
             adv.setValue(((Value) e).getValueAsString());
             ve.setActData(adv);
-            System.out.println("wert: " + ve.getActData().getValue());
             ve.isValue(true);
             v.addSubParam(ve);
             ve.setParentNode(v);
@@ -322,16 +309,16 @@ public final class LoadLua {
      * @param adv ActualDataValue-object
      */
     private static void settingType(Value v, ActualDataValue adv) {
-        if (v.isString()) {
-            adv.setType("String");
-        } else if (v.isInteger()) {
+        if(v.isInteger()){
             adv.setType("Integer");
-        } else if (v.isDouble()) {
+        } else if (v.isDouble()){
             adv.setType("Double");
-        } else if (v.isBoolean()) {
+        } else if (v.isBoolean()){
             adv.setType("Boolean");
-        } else if (v.isFunction()) {
+        } else if (v.isFunction()){
             adv.setType("Function");
+        } else if (v.isString()){
+            adv.setType("String");
         }
     }
 
@@ -386,8 +373,10 @@ public final class LoadLua {
                         for (ValueData p : s.getOptions()) {
                             if (p.isOptValue()) {
                                 if (p.getActData() != null && p.getActData().getValue() != null) {
-                                    p.getActData().setValueLoad(v.getActData().getValue());
-                                    p.setSelectedNew(true);
+                                    if(p.getActData().getType().equals(v.getActData().getType())) {
+                                        p.getActData().setValueLoad(v.getActData().getValue());
+                                        p.setSelectedNew(true);
+                                    }
                                 } else {
                                     ActualDataValue adv = new ActualDataValue();
                                     adv.setType(v.getActData().getType());
@@ -423,14 +412,12 @@ public final class LoadLua {
                     }
                 } else if (v.getOptions() != null) {
                     if (s.getOptions() != null && s.isOption()) {
-                        //System.out.println("1.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
                         for (ValueData opt : s.getOptions()) {
                             if (opt.getOptions() != null) {
                                 match(opt.getOptions(), v.getOptions());
                             }
                         }
                     } else if (s.isNotOptGroup() && s.getValName().get().equals(v.getValName().get())) {
-                        //System.out.println("2.RT: " + s.getValName().get() + " LUA: " + v.getValName().get());
                         match(s.getOptions(), v.getOptions());
                     }
                 }
