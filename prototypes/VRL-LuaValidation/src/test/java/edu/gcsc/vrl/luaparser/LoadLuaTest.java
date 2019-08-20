@@ -147,7 +147,7 @@ class LoadLuaTest {
         Group importedSpec = Group.toGroup(valicode);
 
         List<ValueData> programList = new ArrayList<>();
-        VisitingValidatorSpec.visitOne(importedSpec, programList);
+        VisitingValidatorSpec.visitOne(importedSpec, programList, ValueDataFX::new);
 
         /*
         * Compare parameter names

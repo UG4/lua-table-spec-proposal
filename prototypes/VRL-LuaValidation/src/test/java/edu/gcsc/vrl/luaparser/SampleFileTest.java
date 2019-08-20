@@ -15,7 +15,7 @@ class SampleFileTest {
         * Save the ErrorMessages for comparing with the expected ones
         * */
         Validator validator = new Validator("/sample_validation_test.lua",true);
-        validator.visiting();
+        validator.visiting(ValueDataFX::new);
         /*
         * Load .lua-File with specific parameters
         * */

@@ -66,7 +66,7 @@ class VisitingValidatorSpecTest {
         Group importedCode = Group.toGroup(code);
 
         List<ValueData> programList = new ArrayList<>();
-        VisitingValidatorSpec.visitOne(importedCode,programList);
+        VisitingValidatorSpec.visitOne(importedCode,programList,ValueDataFX::new);
 
         /*
         * Check if all expected names are in the list

@@ -24,7 +24,7 @@ class ValidatorTest {
         * Setup test, load validationtest05.lua
         * */
         Validator vali = new Validator("/validationtest05.lua",true);
-        vali.visiting();
+        vali.visiting(ValueDataFX::new);
         List<ErrorMessage> err =  vali.validate();
 
         /*
@@ -51,7 +51,7 @@ class ValidatorTest {
          * Setup test, load valitest.lua
          * */
         Validator vali = new Validator("/valitest.lua",true);
-        vali.visiting();
+        vali.visiting(ValueDataFX::new);
         List<ErrorMessage> err =  vali.validateValidation();
 
         /*
@@ -62,8 +62,8 @@ class ValidatorTest {
         assertEquals(actualVals.size(),testData.size());
 
         for(ValueData v :  actualVals){
-            assertTrue(testData.containsKey(v.getValName().get()));
-            assertTrue(testData.get(v.getValName().get()).booleanValue() == v.isValidationValid());
+            assertTrue(testData.containsKey(v.getValName()));
+            assertTrue(testData.get(v.getValName()).booleanValue() == v.isValidationValid());
         }
     }
 
@@ -82,7 +82,7 @@ class ValidatorTest {
          * Setup test, load valitest.lua
          * */
         Validator vali = new Validator("/valitest.lua",true);
-        vali.visiting();
+        vali.visiting(ValueDataFX::new);
         List<ErrorMessage> err =  vali.visibleValidation();
 
         /*
@@ -93,8 +93,8 @@ class ValidatorTest {
         assertEquals(actualVals.size(),testData.size());
 
         for(ValueData v :  actualVals){
-            assertTrue(testData.containsKey(v.getValName().get()));
-            assertTrue(testData.get(v.getValName().get()).booleanValue() == v.isVisible());
+            assertTrue(testData.containsKey(v.getValName()));
+            assertTrue(testData.get(v.getValName()).booleanValue() == v.isVisible());
         }
 
     }

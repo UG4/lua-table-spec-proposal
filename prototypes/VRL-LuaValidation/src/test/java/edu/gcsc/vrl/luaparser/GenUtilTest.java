@@ -20,27 +20,27 @@ class GenUtilTest {
         Group importedCode = Group.toGroup(code);
 
         List<ValueData> programList = new ArrayList<>();
-        VisitingValidatorSpec.visitOne(importedCode,programList);
+        VisitingValidatorSpec.visitOne(importedCode,programList,ValueDataFX::new);
 
         /*
         * Run the xpath-commands and compare the results with the expected results
         * */
         ValueData test1 = GenUtil.doXPath(programList,"/problem/valueOne/");
-        assertEquals("valueOne",test1.getValName().get());
+        assertEquals("valueOne",test1.getValName());
 
         ValueData test2 = GenUtil.doXPath(programList,"./valueOne/");
         if(test2 != null) {
-            assertEquals("valueOne", test2.getValName().get());
+            assertEquals("valueOne", test2.getValName());
         } else { System.out.println("Failed");}
 
         ValueData test3 = GenUtil.doXPath(programList,"./2/subParam2/");
-        assertEquals("subParam2",test3.getValName().get());
+        assertEquals("subParam2",test3.getValName());
 
         ValueData test4 = GenUtil.doXPath(programList,"/problem/valueOne/2/subParam2/");
-        assertEquals("subParam2",test4.getValName().get());
+        assertEquals("subParam2",test4.getValName());
 
         ValueData test5 = GenUtil.doXPath(programList,"./subParam2/");
-        assertNotEquals("subParam1", test5.getValName().get());
+        assertNotEquals("subParam1", test5.getValName());
     }
 
     @Test
@@ -53,17 +53,17 @@ class GenUtilTest {
         Group importedCode = Group.toGroup(code);
 
         List<ValueData> programList = new ArrayList<>();
-        VisitingValidatorSpec.visitOne(importedCode,programList);
+        VisitingValidatorSpec.visitOne(importedCode,programList,ValueDataFX::new);
 
         /*
          * Run the xpath-commands and compare the results with the expected results
          * */
         ValueData test1 = GenUtil.doXPath(programList,"/problem/valueOne/2/1/1/subParam3/");
-        assertEquals("subParam3",test1.getValName().get());
+        assertEquals("subParam3",test1.getValName());
 
         ValueData test2 = GenUtil.doXPath(programList,"./2/subParam1/");
         if(test2 != null) {
-            assertEquals("subParam1", test2.getValName().get());
+            assertEquals("subParam1", test2.getValName());
         } else {
             fail("Failed");
         }
