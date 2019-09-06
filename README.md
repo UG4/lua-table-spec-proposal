@@ -329,7 +329,7 @@ Im Ordner `VRL-LuaValidation` befindet sich ein Java-Projekt, mit dessen Hilfe d
 **Benötigte Software**
 
 - Linux, Windows oder OS X
-- JDK >= 11
+- JDK >= 11 (OpenJDK or OracleJDK recommended)
 - Internetverbindung (weitere Abhängigkeiten werden automatisch heruntergeladen)
 
 **Optionale Software**
