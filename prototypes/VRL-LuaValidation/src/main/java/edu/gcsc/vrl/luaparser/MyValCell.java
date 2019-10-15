@@ -19,39 +19,44 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
             if (!item.isDisabled() && item.isVisible() && item.isValidationValid() && item.isValInRange()) {
                 if (item.getOptions().size() < 1) {
                     if (item.getStyle().equals("default")) {
-                        TextField stringField;
-                        if (item.getActData() != null) {
-                            if (item.getActData().getValue() != null) {
-                                try {
-                                    if (item.getActData().getType().equals("Integer")) {
-                                        stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
-                                    } else if (item.getActData().getType().equals("Double")) {
-                                        stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
-                                    } else if (item.getActData().getType().equals("String")) {
-                                        stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
-                                    } else if (item.getActData().getType().equals("Function")) {
-                                        stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
-                                    } else if (item.getActData().getType().equals("Boolean")) {
-                                        stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
-                                    } else if (item.getActData().getType().equals("Double[]") || item.getActData().getType().equals("Integer[]") ||
-                                            item.getActData().getType().equals("String[]") || item.getActData().getType().equals("Boolean[]") ||
-                                            item.getActData().getType().equals("Function[]")) {
-                                        stringField = UIUtil.tfString(item.getActData().getValue(), item);
-                                    } else {
+                        if(!item.isTable()) {
+                            TextField stringField;
+                            if (item.getActData() != null) {
+                                if (item.getActData().getValue() != null) {
+                                    try {
+                                        if (item.getActData().getType().equals("Integer")) {
+                                            stringField = UIUtil.tfString(Integer.toString(Integer.parseInt(item.getActData().getValue().toString())), item);
+                                        } else if (item.getActData().getType().equals("Double")) {
+                                            stringField = UIUtil.tfString(Double.toString(Double.parseDouble(item.getActData().getValue().toString())), item);
+                                        } else if (item.getActData().getType().equals("String")) {
+                                            stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                        } else if (item.getActData().getType().equals("Function")) {
+                                            stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                        } else if (item.getActData().getType().equals("Boolean")) {
+                                            stringField = UIUtil.tfString(String.valueOf(item.getActData().getValue()), item);
+                                        } else if (item.getActData().getType().equals("Double[]") || item.getActData().getType().equals("Integer[]") ||
+                                                item.getActData().getType().equals("String[]") || item.getActData().getType().equals("Boolean[]") ||
+                                                item.getActData().getType().equals("Function[]")) {
+                                            stringField = UIUtil.tfString(item.getActData().getValue(), item);
+                                        } else {
+                                            stringField = UIUtil.tfString("", item);
+                                        }
+                                    } catch (ClassCastException c) {
                                         stringField = UIUtil.tfString("", item);
+                                        System.out.println(item.getActData().getValue().toString());
                                     }
-                                } catch (ClassCastException c) {
+                                } else {
                                     stringField = UIUtil.tfString("", item);
-                                    System.out.println(item.getActData().getValue().toString());
                                 }
                             } else {
                                 stringField = UIUtil.tfString("", item);
                             }
-                        } else {
-                            stringField = UIUtil.tfString("", item);
+                            UIUtil.doTooltip(item, stringField);
+                            setGraphic(stringField);
+                        } else if (item.isTable()){
+                            HBox tableCont = UIUtil.doTable(item);
+                            setGraphic(tableCont);
                         }
-                        UIUtil.doTooltip(item, stringField);
-                        setGraphic(stringField);
 
                     } else if (item.getStyle().equals("selection")) {
                         switch (item.getType()) {

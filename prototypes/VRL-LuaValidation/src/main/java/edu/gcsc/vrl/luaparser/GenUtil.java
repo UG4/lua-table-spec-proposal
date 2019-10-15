@@ -724,4 +724,15 @@ public final class GenUtil {
             }
         }
     }
+
+    public static void printGroupTree(Entry e){
+        if(e instanceof Value){
+            System.out.println("NAME: " + e.getName() + " | VALUE: " + ((Value) e).getValueAsString());
+        } else if(e instanceof Group){
+            System.out.println("GROUP-NAME: " + e.getName());
+            for(Entry ee : ((Group)e).getEntries()){
+                printGroupTree(ee);
+            }
+        }
+    }
 }
