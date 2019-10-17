@@ -1,5 +1,6 @@
 package edu.gcsc.vrl.luaparser;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -313,26 +314,49 @@ public class UIUtil {
         HBox master = new HBox();
 
         TableColumn<Map.Entry<String,String>, String> keys = new TableColumn<>("Keys");
+
         keys.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-                // this callback returns property for just one cell, you can't use a loop here
-                // for first column we use key
                 return new SimpleStringProperty(p.getValue().getKey());
             }
         });
 
-        TableColumn<Map.Entry<String,String>, String> vals = new TableColumn<>("Vals");
-        // Passende CellFactory muss noch hinzugefügt werden
-        vals.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+        TableColumn<Map.Entry<String,String>, Map.Entry<String,String>> vals = new TableColumn<>("Vals");
 
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-                // this callback returns property for just one cell, you can't use a loop here
-                // for first column we use key
-                return new SimpleStringProperty(p.getValue().getValue());
-            }
+        vals.setCellFactory(column -> {
+            return new TableCell<Map.Entry<String, String>, Map.Entry<String, String>>() {
+                @Override
+                protected void updateItem(Map.Entry<String,String> item, boolean empty){
+                    super.updateItem(item, empty);
+
+                    if(item == null || empty){
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        TextField editVal = new TextField(item.getValue());
+                        setGraphic(editVal);
+                        setStyle("");
+
+                        editVal.textProperty().addListener((observable, oldValue, newValue) -> {
+                                    if (!v.getTable().isEmpty()) {
+                                        if(v.getTable().containsKey(item.getKey())){
+                                            v.getTable().replace(item.getKey(),newValue);
+                                            System.out.println("KEY: " + item.getKey() + " | NEW VAL: " + v.getTable().get(item.getKey()));
+                                        }
+                                    } else {
+                                        System.out.println("Fail. The table has no entries!");
+                                    }
+                                }
+                        );
+                    }
+                }
+            };
+        });
+
+        vals.setCellValueFactory(column -> {
+            return new ReadOnlyObjectWrapper(column.getValue());
         });
 
         ObservableList<Map.Entry<String,String>> data = FXCollections.observableArrayList(v.getTable().entrySet());
