@@ -48,6 +48,7 @@ public class ValueData {
     private HashMap<String, String> table = new HashMap<>();
     private ActualDataValue actData = null;
     private boolean isTable = false;
+    private boolean isTimeTable = false;
     private boolean optGroup;
     private boolean notOptGroup;
     private boolean isOptVal;
@@ -81,6 +82,10 @@ public class ValueData {
     }
 
     public boolean isTable() { return this.isTable; }
+
+    public boolean isTimeTable() { return this.isTimeTable; }
+
+    public void setIsTimeTable(boolean isTimeTable) { this.isTimeTable = isTimeTable; }
 
     public void setIsTable(boolean isTab){ this.isTable = isTab; }
 
