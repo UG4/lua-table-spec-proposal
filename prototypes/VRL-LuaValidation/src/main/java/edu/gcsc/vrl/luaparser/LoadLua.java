@@ -5,7 +5,9 @@ import org.apache.commons.lang.math.NumberUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class loads a lua file and matches it parameters on the actual data set.
@@ -66,7 +68,15 @@ public final class LoadLua {
             lv.add(v);
         } else if (e instanceof Group) {
             if (!e.getName().equals("problem") && !e.getName().equals("root")) {
-                if (onlyGroups((Group) e)) {
+                if (isTimeTable((Group) e)){
+                    ValueData v = new ValueData(e.getName());
+                    v.isValue(true);
+                    v.setIsTable(true);
+                    v.setIsTimeTable(true);
+                    extractTimeTableValues((Group) e, v);
+                    System.out.println("TimeTable geladen: " + e.getName());
+                    lv.add(v);
+                } else if(onlyGroups((Group) e)) {
                     ValueData v = new ValueData(e.getName());
                     System.out.println("GROUP1: " + v.getValName());
                     lv.add(v);
@@ -106,7 +116,7 @@ public final class LoadLua {
                         }
                     } else {
                         ValueData v = new ValueData(e.getName());
-                        System.out.println("GROUP1: " + v.getValName());
+                        System.out.println("GROUP2: " + v.getValName());
                         lv.add(v);
 
                         for (Entry ed : ((Group) e).getEntries()) {
@@ -122,7 +132,7 @@ public final class LoadLua {
                     }
                 } else {
                     ValueData v = new ValueData(e.getName());
-                    System.out.println("GROUP1: " + v.getValName());
+                    System.out.println("GROUP3: " + v.getValName());
                     lv.add(v);
                     for (Entry ed : ((Group) e).getEntries()) {
                         if (ed instanceof Value) {
@@ -136,7 +146,7 @@ public final class LoadLua {
                             vf.setParentNode(v);
                         } else if (ed instanceof Group) {
                             ValueData vf = new ValueData(ed.getName());
-                            System.out.println("GROUP2: " + vf.getValName());
+                            System.out.println("GROUP4: " + vf.getValName());
                             v.addSubParam(vf);
                             vf.setParentNode(v);
                             visitGroup(ed, v);
@@ -156,94 +166,114 @@ public final class LoadLua {
      * */
     private static void visitGroup(Entry e, ValueData v) {
         if (e instanceof Group) {
-            ValueData x = new ValueData(e.getName());
-            x.setParentNode(v);
-            v.addSubParam(x);
+            if (isTimeTable((Group) e)) {
+                ValueData x = new ValueData(e.getName());
+                x.isValue(true);
+                x.setIsTable(true);
+                x.setIsTimeTable(true);
+                extractTimeTableValues((Group) e, x);
+                System.out.println("TimeTable geladen(bei visitGroup()): " + e.getName());
+                x.setParentNode(v);
+                v.addSubParam(x);
+            } else {
+                ValueData x = new ValueData(e.getName());
+                x.setParentNode(v);
+                v.addSubParam(x);
 
-            for (Entry ede : ((Group) e).getEntries()) {
-                if (ede instanceof Value) {
-                    ValueData vd = new ValueData(ede.getName());
-                    ActualDataValue adv = new ActualDataValue();
-                    settingType((Value) ede, adv);
-                    adv.setValue(((Value) ede).getValueAsString());
-                    vd.setActData(adv);
-                    vd.isValue(true);
-                    x.addSubParam(vd);
-                    vd.setParentNode(x);
-                } else if (ede instanceof Group) {
-                    if (!ede.getName().equals("problem") && !ede.getName().equals("root")) {
+                for (Entry ede : ((Group) e).getEntries()) {
+                    if (ede instanceof Value) {
                         ValueData vd = new ValueData(ede.getName());
-                        System.out.println("GROUP3: " + vd.getValName());
+                        ActualDataValue adv = new ActualDataValue();
+                        settingType((Value) ede, adv);
+                        adv.setValue(((Value) ede).getValueAsString());
+                        vd.setActData(adv);
+                        vd.isValue(true);
                         x.addSubParam(vd);
                         vd.setParentNode(x);
+                    } else if (ede instanceof Group) {
+                        if (!ede.getName().equals("problem") && !ede.getName().equals("root")) {
+                            ValueData vd = new ValueData(ede.getName());
+                            System.out.println("GROUP5: " + vd.getValName());
+                            x.addSubParam(vd);
+                            vd.setParentNode(x);
 
-                        if (onlyGroups((Group) ede)) {
-                            for (Entry ed : ((Group) ede).getEntries()) {
-                                visitGroup((Group) ed, vd);
-                            }
-                        } else if (onlyValues((Group) ede)) {
-                            if (isArrayOfValues((Group) ede)) {
-                                System.out.println("Array of vals: " +ede.getName());
-                                StringBuilder sb = new StringBuilder();
-                                String actType = "";
-                                int counter = 0;
+                            if (isTimeTable((Group) ede)) {
+                                ValueData zz = new ValueData(ede.getName());
+                                zz.isValue(true);
+                                zz.setIsTable(true);
+                                zz.setIsTimeTable(true);
+                                extractTimeTableValues((Group) ede, zz);
+                                System.out.println("TimeTable geladen: " + ede.getName());
+                                zz.setParentNode(vd);
+                                vd.addSubParam(zz);
+                            } else if (onlyGroups((Group) ede)) {
                                 for (Entry ed : ((Group) ede).getEntries()) {
-                                    if (counter == 0) {
-                                        actType = settingType((Value) ed);
-                                        counter++;
+                                    visitGroup((Group) ed, vd);
+                                }
+                            } else if (onlyValues((Group) ede)) {
+                                if (isArrayOfValues((Group) ede)) {
+                                    System.out.println("Array of vals: " + ede.getName());
+                                    StringBuilder sb = new StringBuilder();
+                                    String actType = "";
+                                    int counter = 0;
+                                    for (Entry ed : ((Group) ede).getEntries()) {
+                                        if (counter == 0) {
+                                            actType = settingType((Value) ed);
+                                            counter++;
+                                        }
+                                        sb.append(((Value) ed).getValueAsString()).append(",");
                                     }
-                                    sb.append(((Value) ed).getValueAsString()).append(",");
-                                }
-                                if (sb.length() > 0) {
-                                    sb.setLength(sb.length() - 1);
-                                }
-                                if (vd.getActData() != null && vd.getActData().getValue() != null) {
-                                    vd.getActData().setValue(sb.toString());
-                                    vd.isValue(true);
+                                    if (sb.length() > 0) {
+                                        sb.setLength(sb.length() - 1);
+                                    }
+                                    if (vd.getActData() != null && vd.getActData().getValue() != null) {
+                                        vd.getActData().setValue(sb.toString());
+                                        vd.isValue(true);
+                                    } else {
+                                        ActualDataValue actData = new ActualDataValue();
+                                        if (!actType.isEmpty()) {
+                                            actData.setType(actType);
+                                            actData.setValue(sb.toString());
+                                            vd.setActData(actData);
+                                        }
+                                        vd.isValue(true);
+                                    }
                                 } else {
-                                    ActualDataValue actData = new ActualDataValue();
-                                    if (!actType.isEmpty()) {
-                                        actData.setType(actType);
-                                        actData.setValue(sb.toString());
-                                        vd.setActData(actData);
+                                    for (Entry ed : ((Group) ede).getEntries()) {
+                                        ValueData d = new ValueData(ed.getName());
+                                        System.out.println("GROUP: " + d.getValName());
+                                        System.out.println("Value: " + ((Value) ed).getValueAsString());
+                                        ActualDataValue adv = new ActualDataValue();
+                                        settingType((Value) ed, adv);
+                                        adv.setValue(((Value) ed).getValueAsString());
+                                        d.setActData(adv);
+                                        d.isValue(true);
+                                        vd.addSubParam(d);
+                                        d.setParentNode(vd);
                                     }
-                                    vd.isValue(true);
                                 }
                             } else {
                                 for (Entry ed : ((Group) ede).getEntries()) {
-                                    ValueData d = new ValueData(ed.getName());
-                                    System.out.println("GROUP: " + d.getValName());
-                                    System.out.println("Value: " + ((Value) ed).getValueAsString());
-                                    ActualDataValue adv = new ActualDataValue();
-                                    settingType((Value) ed, adv);
-                                    adv.setValue(((Value) ed).getValueAsString());
-                                    d.setActData(adv);
-                                    d.isValue(true);
-                                    vd.addSubParam(d);
-                                    d.setParentNode(vd);
+                                    if (ed instanceof Value) {
+                                        ValueData vf = new ValueData(ed.getName());
+                                        ActualDataValue adv = new ActualDataValue();
+                                        settingType((Value) ed, adv);
+                                        adv.setValue(((Value) ed).getValueAsString());
+                                        vf.setActData(adv);
+                                        vf.isValue(true);
+                                        vd.addSubParam(vf);
+                                        vf.setParentNode(vd);
+                                    } else if (ed instanceof Group) {
+                                        ValueData vf = new ValueData(ed.getName());
+                                        System.out.println("GROUP6: " + vf.getValName());
+                                        vd.addSubParam(vf);
+                                        vf.setParentNode(vd);
+                                        visitGroup(ed, vf);
+                                    }
                                 }
                             }
                         } else {
-                            for (Entry ed : ((Group) ede).getEntries()) {
-                                if (ed instanceof Value) {
-                                    ValueData vf = new ValueData(ed.getName());
-                                    ActualDataValue adv = new ActualDataValue();
-                                    settingType((Value) ed, adv);
-                                    adv.setValue(((Value) ed).getValueAsString());
-                                    vf.setActData(adv);
-                                    vf.isValue(true);
-                                    vd.addSubParam(vf);
-                                    vf.setParentNode(vd);
-                                } else if (ed instanceof Group) {
-                                    ValueData vf = new ValueData(ed.getName());
-                                    System.out.println("GROUP4: " + vf.getValName());
-                                    vd.addSubParam(vf);
-                                    vf.setParentNode(vd);
-                                    visitGroup(ed, vf);
-                                }
-                            }
                         }
-                    } else {
                     }
                 }
             }
@@ -257,6 +287,38 @@ public final class LoadLua {
             v.addSubParam(ve);
             ve.setParentNode(v);
         }
+    }
+
+    private static boolean isTimeTable(Group g) {
+        if (onlyGroups(g)) {
+            if(onlyNamelessGroups(g)) {
+                for (Entry e : g.getEntries()) {
+                    if(!onlyValues((Group)e)){
+                        return false;
+                    } else {
+                        if(!isArrayOfValues((Group)e)) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    private static boolean onlyNamelessGroups(Group g) {
+        for (Entry e : g.getEntries()){
+            if (!NumberUtils.isNumber(e.getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -296,13 +358,40 @@ public final class LoadLua {
      * @return boolean
      */
     private static boolean isArrayOfValues(Group g) {
-        System.out.println("check Group: " + g.getName());
+        System.out.println("check Group due to arrays: " + g.getName());
         for (Entry e : g.getEntries()) {
             if (e instanceof Value && NumberUtils.isNumber(e.getName())) {
+                System.out.println("Ich habe einen Array von Vals entdeckt!");
                 return true;
             }
         }
         return false;
+    }
+
+    private static void extractTimeTableValues(Group timetable, ValueData vd) {
+        System.out.println("Ich habe einen TimeTable-Kandidat gefunden!");
+        HashMap<String, String> tempMap = new HashMap<>();
+
+        for (Entry e : timetable.getEntries()) {
+            if (e instanceof Group) {
+                StringBuilder valAsString = new StringBuilder();
+                for (Entry val : ((Group) e).getEntries()){
+                    if (val instanceof Value) {
+                        valAsString.append(((Value) val).getValueAsString()+",");
+                    }
+                }
+                valAsString.setLength(valAsString.length()-1);
+                tempMap.put(e.getName(),valAsString.toString());
+                valAsString = new StringBuilder();
+            } else {
+                System.out.println("timetables format is wrong");
+            }
+        }
+        vd.setTable(tempMap);
+
+        for (Map.Entry<String, String> ee : vd.getTable().entrySet()){
+            System.out.println("LOADED KEY: " + ee.getKey() + " | LOADED VAL: " + ee.getValue());
+        }
     }
 
     /**
