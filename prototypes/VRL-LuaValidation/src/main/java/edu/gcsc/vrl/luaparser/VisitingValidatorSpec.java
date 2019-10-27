@@ -394,7 +394,7 @@ public final class VisitingValidatorSpec {
             if(e instanceof Value){
                 if(e.getName().equals("numberEntries")){
                     try {
-                        for (int i = 0; i < Integer.parseInt(((Value) e).getValueAsString()); i++) {
+                        for (int i = 1; i <= Integer.parseInt(((Value) e).getValueAsString()); i++) {
                             System.out.println("ADDING KEY: " + ((Value) e).getValueAsString());
                             tempMap.put(String.valueOf(i),null);
                         }

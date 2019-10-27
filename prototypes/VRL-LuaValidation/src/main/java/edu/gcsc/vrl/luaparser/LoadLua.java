@@ -128,6 +128,7 @@ public final class LoadLua {
                             d.isValue(true);
                             v.addSubParam(d);
                             d.setParentNode(v);
+
                         }
                     }
                 } else {
@@ -272,7 +273,6 @@ public final class LoadLua {
                                     }
                                 }
                             }
-                        } else {
                         }
                     }
                 }
@@ -296,11 +296,7 @@ public final class LoadLua {
                     if(!onlyValues((Group)e)){
                         return false;
                     } else {
-                        if(!isArrayOfValues((Group)e)) {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return isArrayOfValues((Group)e);
                     }
                 }
             } else {
@@ -358,10 +354,9 @@ public final class LoadLua {
      * @return boolean
      */
     private static boolean isArrayOfValues(Group g) {
-        System.out.println("check Group due to arrays: " + g.getName());
         for (Entry e : g.getEntries()) {
             if (e instanceof Value && NumberUtils.isNumber(e.getName())) {
-                System.out.println("Ich habe einen Array von Vals entdeckt!");
+                System.out.println("Discovered array of vals");
                 return true;
             }
         }
@@ -369,7 +364,7 @@ public final class LoadLua {
     }
 
     private static void extractTimeTableValues(Group timetable, ValueData vd) {
-        System.out.println("Ich habe einen TimeTable-Kandidat gefunden!");
+        System.out.println("Extract time-table vals");
         HashMap<String, String> tempMap = new HashMap<>();
 
         for (Entry e : timetable.getEntries()) {
@@ -377,7 +372,7 @@ public final class LoadLua {
                 StringBuilder valAsString = new StringBuilder();
                 for (Entry val : ((Group) e).getEntries()){
                     if (val instanceof Value) {
-                        valAsString.append(((Value) val).getValueAsString()+",");
+                        valAsString.append(((Value) val).getValueAsString()).append(",");
                     }
                 }
                 valAsString.setLength(valAsString.length()-1);
@@ -479,6 +474,16 @@ public final class LoadLua {
                                 }
                             }
                         }
+                    }  else if (v.getValName().equals(s.getValName()) && s.isTable()) {
+                        if (!s.getTable().isEmpty() && !v.getTable().isEmpty()) {
+                            for (Map.Entry<String,String> ent : v.getTable().entrySet()) {
+                                s.getTable().put(ent.getKey(),ent.getValue());
+                            }
+                        }
+                        for (Map.Entry<String,String> ent2 : s.getTable().entrySet()) {
+                            System.out.println("KEY: " + ent2.getKey() + " | VAL: " + ent2.getValue());
+                        }
+
                     } else if (s.isAValue() && s.getValName().equals(v.getValName())) {
                         if (s.getActData() != null && s.getActData().getValue() != null) {
                             s.getActData().setValueLoad(v.getActData().getValue());
@@ -512,6 +517,18 @@ public final class LoadLua {
                         }
                     } else if (s.isNotOptGroup() && s.getValName().equals(v.getValName())) {
                         match(s.getOptions(), v.getOptions());
+                    } else if(s.isTable()) {
+                        if (s.getValName().equals(v.getValName())) {
+                            if (v.getOptions() != null) {
+                                for (ValueData tableEntries : v.getOptions()) {
+                                    if (s.getTable() != null) {
+                                        if(s.getTable().containsKey(tableEntries.getValName())) {
+                                            s.getTable().put(tableEntries.getValName(), tableEntries.getActData().getValue().toString());
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
