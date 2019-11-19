@@ -75,7 +75,7 @@ public class Validator {
 
         // convert code to group
         this.importedCode = Group.toGroup(code);
-        GenUtil.printGroupTree(this.importedCode);
+        //GenUtil.printGroupTree(this.importedCode);
     }
     /**
     * For testing purposes only
