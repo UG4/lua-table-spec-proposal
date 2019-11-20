@@ -276,6 +276,5 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                 setGraphic(null);
             }
         }
-
     }
 }
