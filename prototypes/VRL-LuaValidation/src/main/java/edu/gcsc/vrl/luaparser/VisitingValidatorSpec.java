@@ -1,9 +1,12 @@
 package edu.gcsc.vrl.luaparser;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.luaj.vm2.ast.Str;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class generates the basic data set with <code>ValueData</code>-objects
@@ -28,6 +31,14 @@ public final class VisitingValidatorSpec {
                 ValueData xd = factory.newInstance(e.getName());
                 xd.setSelected(true);
                 xd.isValue(true);
+                if(isTableVal(e)){
+                    System.out.println(e.getName() + " is a Table!");
+                    xd.setIsTable(true);
+                } else if(isTimeTableVal(e)){
+                    System.out.println(e.getName() + " is a Time-Table!");
+                    xd.setIsTable(true);
+                    xd.setIsTimeTable(true);
+                }
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType());
@@ -64,6 +75,14 @@ public final class VisitingValidatorSpec {
 
                 ValueData xd = factory.newInstance(e.getName());
                 xd.setOptVal(true);
+                if(isTableVal(e)){
+                    System.out.println(e.getName() + " is a Table!");
+                    xd.setIsTable(true);
+                } else if(isTimeTableVal(e)){
+                    System.out.println(e.getName() + " is a Time-Table!");
+                    xd.setIsTable(true);
+                    xd.setIsTimeTable(true);
+                }
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType());
@@ -102,6 +121,14 @@ public final class VisitingValidatorSpec {
                 ValueData xd = factory.newInstance(e.getName());
                 xd.isValue(true);
                 xd.setSelected(true);
+                if(isTableVal(e)){
+                    System.out.println(e.getName() + " is a Table!");
+                    xd.setIsTable(true);
+                } else if(isTimeTableVal(e)){
+                    System.out.println(e.getName() + " is a Time-Table!");
+                    xd.setIsTable(true);
+                    xd.setIsTimeTable(true);
+                }
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType());
@@ -141,6 +168,14 @@ public final class VisitingValidatorSpec {
 
                 ValueData xd = factory.newInstance(e.getName());
                 xd.setOptVal(true);
+                if(isTableVal(e)){
+                    System.out.println(e.getName() + " is a Table!");
+                    xd.setIsTable(true);
+                } else if(isTimeTableVal(e)){
+                    System.out.println(e.getName() + " is a Time-Table!");
+                    xd.setIsTable(true);
+                    xd.setIsTimeTable(true);
+                }
                 setInfos(xd, (Group) e);
                 ActualDataValue adv = new ActualDataValue();
                 adv.setType(xd.getType());
@@ -209,6 +244,32 @@ public final class VisitingValidatorSpec {
         return false;
     }
 
+    private static boolean isTableVal(Entry e) {
+        if (e instanceof Group) {
+            for (Entry p : ((Group) e).getEntries()){
+                if (p instanceof Group){
+                    if("tableContent".equals(p.getName())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isTimeTableVal(Entry e) {
+        if (e instanceof Group) {
+            for (Entry p : ((Group) e).getEntries()){
+                if (p instanceof Group){
+                    if ("timeTableContent".equals(p.getName())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Creates all information from a entry, that is a param
      *
@@ -263,16 +324,102 @@ public final class VisitingValidatorSpec {
                             setValidationInfos((Group) l, vd);
                             break;
                         case "default":
-                            setArrayOfDefault((Group) l, vd);
+                            if(vd.isTable()){
+                                if(vd.isTimeTable()){
+                                    setDefaultTimeTable((Group) l, vd);
+                                } else {
+                                    setDefaultTable((Group) l, vd);
+                                }
+                            } else {
+                                setArrayOfDefault((Group) l, vd);
+                            }
                             break;
                         case "styleOptions":
                             setStyleOptions((Group) l, vd);
+                            break;
+                        case "tableContent":
+                            setTableContent((Group) l, vd);
+                            break;
+                        case "timeTableContent":
+                            setTimeTableContent((Group) l, vd);
                             break;
                     }
                 }
             }
         }
 
+    }
+
+    private static void setDefaultTable(Group g, ValueData v){
+        if (!v.getTable().isEmpty()) {
+            for (Entry e : g.getEntries()) {
+                if (e instanceof Value) {
+                    if(v.getTable().containsKey(e.getName())){
+                        v.getTable().replace(e.getName(), ((Value) e).getValueAsString());
+                    }
+                }
+            }
+        }
+        for(Map.Entry<String,String> ee : v.getTable().entrySet()){
+            System.out.println("KEY: " + ee.getKey() + " | VALUE: " + ee.getValue());
+        }
+    }
+
+    private static void setDefaultTimeTable(Group g, ValueData v){
+        if (!v.getTable().isEmpty()){
+            for (Entry e : g.getEntries()){
+                if (e instanceof Group){
+                    if(v.getTable().containsKey(e.getName())){
+                        StringBuilder temp = new StringBuilder();
+                        for (Entry val : ((Group) e).getEntries()){
+                            if(val instanceof Value){
+                                temp.append(((Value) val).getValueAsString()+",");
+                            }
+                        }
+                        temp.setLength(temp.length()-1);
+                        v.getTable().replace(e.getName(),temp.toString());
+                        temp = new StringBuilder();
+                    }
+                }
+            }
+        }
+        for(Map.Entry<String,String> ee : v.getTable().entrySet()){
+            System.out.println("KEY: " + ee.getKey() + " | VALUE: " + ee.getValue());
+        }
+    }
+
+    private static void setTimeTableContent(Group g, ValueData v){
+        HashMap<String,String> tempMap = new HashMap<>();
+        for (Entry e : g.getEntries()){
+            if(e instanceof Value){
+                if(e.getName().equals("numberEntries")){
+                    try {
+                        for (int i = 1; i <= Integer.parseInt(((Value) e).getValueAsString()); i++) {
+                            System.out.println("ADDING KEY: " + ((Value) e).getValueAsString());
+                            tempMap.put(String.valueOf(i),null);
+                        }
+                        v.setTable(tempMap);
+                    } catch (Exception exc){
+                        System.out.println("The given value is not a number!");
+                    }
+                }
+            }
+        }
+    }
+
+    private static void setTableContent(Group values, ValueData actItem){
+        HashMap<String,String> tempMap = new HashMap<>();
+        for (Entry e : values.getEntries()){
+            if(e instanceof Group){
+                if(e.getName().equals("values")){
+                    for (Entry p : ((Group) e).getEntries()){
+                        System.out.println("ADDIND KEY: " + ((Value)p).getValueAsString());
+                        tempMap.put(((Value)p).getValueAsString(),null);
+                    }
+                    actItem.setTable(tempMap);
+                }
+            }
+        }
     }
 
     private static void setStyleOptions(Group values, ValueData actItem){

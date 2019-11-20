@@ -34,6 +34,8 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                     setText(item.getValName());
                     setGraphic(cb);
                 } else {
+                    setGraphic(null);
+                    setStyle(null);
                     setText(item.getValName());
                 }
             } else if(item.isDisabled()|| !item.isVisible()) {
@@ -43,6 +45,8 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                     setText(item.getValName());
                     setGraphic(cb);
                 } else {
+                    setGraphic(null);
+                    setStyle(null);
                     setText(item.getValName());
                 }
             } else if(!item.isValidationValid()){
@@ -52,6 +56,8 @@ public class FirstColumnCell extends TreeTableCell<ValueData, ValueData> {
                     setText(item.getValName());
                     setGraphic(cb);
                 } else {
+                    setGraphic(null);
+                    setStyle(null);
                     setText(item.getValName());
                 }
             }

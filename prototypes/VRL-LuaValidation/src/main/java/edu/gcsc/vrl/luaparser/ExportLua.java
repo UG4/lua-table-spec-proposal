@@ -1,6 +1,7 @@
 package edu.gcsc.vrl.luaparser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class creates a lua-conform string to write it in a lua-file.
@@ -25,9 +26,11 @@ public final class ExportLua {
         for (int i = 0; i < data.size(); i++) {
             sb.append(data.get(i).getValName() + "=");
 
-            if (data.get(i).isAValue() && data.get(i).isSelected()) {
+            if (data.get(i).isAValue() && data.get(i).isSelected()) { // Normaler Value
                 if (data.get(i).getActData() != null && data.get(i).getActData().getValue() != null) {
                     doStr(data.get(i), sb);
+                } else if (data.get(i).isTable()){
+                    doStrForTables(data.get(i), sb);
                 }
             } else if ((data.get(i).isOption() || data.get(i).isNotOptGroup()) && GenUtil.haveOptValue(data.get(i)) && data.get(i).isSelected()) {
                 if (GenUtil.haveOptValSelected(data.get(i))) {
@@ -126,6 +129,9 @@ public final class ExportLua {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
             sb.append(vData.getValName() + "=");
             doStr(vData, sb);
+        } else if (vData.isTable() && !vData.getTable().isEmpty()) {
+            sb.append(vData.getValName() + "=");
+            doStrForTables(vData, sb);
         }
     }
 
@@ -140,6 +146,8 @@ public final class ExportLua {
     private static void doOptVal(ValueData vData, StringBuilder sb, int dis, boolean last) {
         if (vData.getActData() != null && vData.getActData().getValue() != null) {
             doStr(vData, sb);
+        } else if (vData.isTable() && !vData.getTable().isEmpty()) {
+            doStrForTables(vData, sb);
         }
     }
 
@@ -261,6 +269,29 @@ public final class ExportLua {
         }
 
         return result;
+    }
+
+    /**
+     * This method creates a export-string for table-datatypes
+     * */
+    private static void doStrForTables(ValueData v, StringBuilder sb) {
+        if(v.isTimeTable()){
+            if(!v.getTable().isEmpty()) {
+                sb.append("{");
+                for (Map.Entry<String,String> entry : v.getTable().entrySet()){
+                    sb.append("{" + entry.getValue() + "}");
+                }
+                sb.append("}");
+            }
+        } else {
+            if (!v.getTable().isEmpty()) {
+                sb.append("{");
+                for (Map.Entry<String,String> entry : v.getTable().entrySet()){
+                    sb.append("[\"" + entry.getKey() + "\"]" + "=" + entry.getValue() + "#");
+                }
+                sb.append("}");
+            }
+        }
     }
 
     /**

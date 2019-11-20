@@ -1,18 +1,30 @@
 package edu.gcsc.vrl.luaparser;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
 * This class provides methods, to create specific UI-elements, which are related to the
 * style-property in the validation-spec
@@ -297,6 +309,65 @@ public class UIUtil {
         });
         return master;
     }
+
+    public static HBox doTable(ValueData v){
+        HBox master = new HBox();
+
+        TableColumn<Map.Entry<String,String>, String> keys = new TableColumn<>("Keys");
+
+        keys.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
+                return new SimpleStringProperty(p.getValue().getKey());
+            }
+        });
+
+        TableColumn<Map.Entry<String,String>, Map.Entry<String,String>> vals = new TableColumn<>("Vals");
+
+        vals.setCellFactory(column -> {
+            return new TableCell<Map.Entry<String, String>, Map.Entry<String, String>>() {
+                @Override
+                protected void updateItem(Map.Entry<String,String> item, boolean empty){
+                    super.updateItem(item, empty);
+
+                    if(item == null || empty){
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        TextField editVal = new TextField(item.getValue());
+                        setGraphic(editVal);
+                        setStyle("");
+
+                        editVal.textProperty().addListener((observable, oldValue, newValue) -> {
+                                    if (!v.getTable().isEmpty()) {
+                                        if(v.getTable().containsKey(item.getKey())){
+                                            v.getTable().replace(item.getKey(),newValue);
+                                            System.out.println("KEY: " + item.getKey() + " | NEW VAL: " + v.getTable().get(item.getKey()));
+                                        }
+                                    } else {
+                                        System.out.println("Fail. The table has no entries!");
+                                    }
+                                }
+                        );
+                    }
+                }
+            };
+        });
+
+        vals.setCellValueFactory(column -> {
+            return new ReadOnlyObjectWrapper(column.getValue());
+        });
+
+        ObservableList<Map.Entry<String,String>> data = FXCollections.observableArrayList(v.getTable().entrySet());
+
+        final TableView<Map.Entry<String,String>> table = new TableView<>(data);
+        table.getColumns().setAll(keys,vals);
+
+        master.getChildren().add(table);
+        return master;
+    }
+
 
     public static void logging(String msg, TextArea ta) {
         ta.appendText(msg + "\n");
