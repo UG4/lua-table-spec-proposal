@@ -70,13 +70,15 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                     }
                                 } else {
                                     System.out.println("UI Case: 1");
+                                    TextField ifNoDefault1 = UIUtil.tfString("",item);
+                                    setGraphic(ifNoDefault1);
                                     setStyle(null);
-                                    setGraphic(null);
                                 }
                             } else {
                                 System.out.println("UI Case: 2");
+                                TextField ifNoDefault2 = UIUtil.tfString("",item);
+                                setGraphic(ifNoDefault2);
                                 setStyle(null);
-                                setGraphic(null);
                             }
                         } else if (item.isTable()){
                             HBox tableCont = UIUtil.doTable(item);
@@ -169,12 +171,16 @@ public class MyValCell extends TreeTableCell<ValueData, ValueData> {
                                     System.out.println(item.getActData().getValue().toString());
                                 }
                             } else {
+                                System.out.println("UI Case def: 3");
+                                TextField ifNoDefault3 = UIUtil.tfString("",item);
+                                setGraphic(ifNoDefault3);
                                 setStyle(null);
-                                setGraphic(null);
                             }
                         } else {
+                            System.out.println("UI Case def: 4");
+                            TextField ifNoDefault4 = UIUtil.tfString("",item);
+                            setGraphic(ifNoDefault4);
                             setStyle(null);
-                            setGraphic(null);
                         }
                     }
                 } else {

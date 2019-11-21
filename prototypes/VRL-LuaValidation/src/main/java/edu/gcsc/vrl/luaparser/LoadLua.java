@@ -550,6 +550,7 @@ public final class LoadLua {
                                     if (s.getTable() != null) {
                                         if(s.getTable().containsKey(tableEntries.getValName())) {
                                             s.getTable().put(tableEntries.getValName(), tableEntries.getActData().getValue().toString());
+                                            System.out.println("Habe gesetzt!");
                                         }
                                     }
                                 }
@@ -560,41 +561,39 @@ public final class LoadLua {
                         System.out.println("s drinne2: " + s.getValName());
                         for (ValueData optEnt : s.getOptions()) {
                             if (optEnt.isTable() && v.getOptions() != null) {
-                                System.out.println("BIN HIER DRINNe111");
-                                if (!optEnt.getTable().isEmpty()) {
+                                System.out.println("e111");
+                                if (!optEnt.getTable().keySet().isEmpty()) {
                                     HashMap<String, String> tempEntries = new HashMap<>();
-                                    System.out.println("BIN HIER DRINNe222");
+                                    System.out.println("e222");
                                     for (ValueData entryToMatch : v.getOptions()) {
-                                        System.out.println("NAME: " + entryToMatch.getValName());
-                                        if(entryToMatch.getActData() != null && entryToMatch.getActData().getValue() != null){
-                                            System.out.println("BIN HIER DRINNE333 ");
-                                            System.out.println("NAME: " + entryToMatch.getValName() + " | KEY: " + entryToMatch.getActData().getValue().toString());
-                                            tempEntries.put(entryToMatch.getValName(), entryToMatch.getActData().getValue().toString());
-                                        }
-                                        // TODO Hier aus allen Entries eine HashMap erstellen und von dieser, die Keys mit der Validation-Tabelle
-                                        //      vergleichen, um sie danach matchen zu können.
-                                        /*if(!entryToMatch.getTable().isEmpty()) {
-                                            System.out.println("BIN HIER DRINNe333");
-                                            if (areHashMapKeysEqual(optEnt.getTable(), entryToMatch.getTable())) {
-                                                System.out.println("BIN HIER DRINNe444");
-                                                for (Map.Entry<String,String> tempEnt : entryToMatch.getTable().entrySet()) {
-                                                    optEnt.getTable().put(tempEnt.getKey(),tempEnt.getValue());
-                                                }
+                                        if (entryToMatch.getOptions().size() > 1) {
+                                            System.out.println("entry: " + entryToMatch.getValName() + " | s: " + s.getValName());
+                                            for(ValueData lll : entryToMatch.getOptions()){
+                                                System.out.println("OPT entry: " + lll.getValName());
                                             }
-                                        }*/
+                                            match(s.getOptions(), entryToMatch.getOptions());
+                                        } else {
+                                            System.out.println("NAME: " + entryToMatch.getValName());
 
-                                    }
-                                    for(Map.Entry<String,String> lala : tempEntries.entrySet()){
-                                        System.out.println("Temp Array ");
-                                        System.out.println("NAME: " + lala.getKey() + " | KEY: " + lala.getValue());
-                                    }
-                                    if(!tempEntries.isEmpty()) {
-                                        System.out.println("BIN HIER DRINNE444 ");
-                                        if(areHashMapKeysEqual(tempEntries,optEnt.getTable())){
-                                            System.out.println("BIN HIER DRINNE555 ");
-                                            for (Map.Entry<String,String> tempEnt : tempEntries.entrySet()) {
-                                                optEnt.setSelectedNew(true);
-                                                optEnt.getTable().put(tempEnt.getKey(),tempEnt.getValue());
+                                            if (entryToMatch.getActData() != null && entryToMatch.getActData().getValue() != null) {
+                                                System.out.println("E333 ");
+                                                System.out.println("NAME: " + entryToMatch.getValName() + " | KEY: " + entryToMatch.getActData().getValue().toString());
+                                                tempEntries.put(entryToMatch.getValName(), entryToMatch.getActData().getValue().toString());
+                                            }
+                                            //}
+                                        }
+                                        for (Map.Entry<String, String> lala : tempEntries.entrySet()) {
+                                            System.out.println("Temp Array ");
+                                            System.out.println("NAME: " + lala.getKey() + " | KEY: " + lala.getValue());
+                                        }
+                                        if (!tempEntries.isEmpty()) {
+                                            System.out.println("E444 ");
+                                            if (areHashMapKeysEqual(tempEntries, optEnt.getTable())) {
+                                                System.out.println("E555 ");
+                                                for (Map.Entry<String, String> tempEnt : tempEntries.entrySet()) {
+                                                    optEnt.setSelectedNew(true);
+                                                    optEnt.getTable().put(tempEnt.getKey(), tempEnt.getValue());
+                                                }
                                             }
                                         }
                                     }
