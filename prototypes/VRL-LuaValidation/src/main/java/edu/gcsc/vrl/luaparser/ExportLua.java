@@ -287,7 +287,12 @@ public final class ExportLua {
             if (!v.getTable().isEmpty()) {
                 sb.append("{");
                 for (Map.Entry<String,String> entry : v.getTable().entrySet()){
-                    sb.append("[\"" + entry.getKey() + "\"]" + "=" + entry.getValue() + "#");
+                    if(v.getType().equals("String")) {
+                        sb.append("[\"" + entry.getKey() + "\"]" + "=" + "\""+ entry.getValue() + "\"" + "#");
+                    }
+                    else{
+                        sb.append("[\"" + entry.getKey() + "\"]" + "=" + entry.getValue() + "#");
+                    }
                 }
                 sb.append("}");
             }
