@@ -125,7 +125,7 @@ public final class GenUtil {
      * **/
     public static boolean stringValIsInRange(ValueData v) {
         String[] validStrings = v.getRangeOfStrings();
-        String val = (String) v.getActData().getValue();
+        String val = String.valueOf(v.getActData().getValue());
 
         for(String s : validStrings){
             if(s.equals(val)){
