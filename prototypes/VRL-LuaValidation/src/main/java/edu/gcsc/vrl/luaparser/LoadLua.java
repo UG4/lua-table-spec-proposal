@@ -135,14 +135,6 @@ public final class LoadLua {
                         lv.add(v);
 
                         for (Entry ed : ((Group) e).getEntries()) {
-                            /*ValueData d = new ValueData(ed.getName());
-                            ActualDataValue adv = new ActualDataValue();
-                            settingType((Value) ed, adv);
-                            adv.setValue(((Value) ed).getValueAsString());
-                            d.setActData(adv);
-                            d.isValue(true);
-                            v.addSubParam(d);
-                            d.setParentNode(v);*/
                             if(ed instanceof Value){
                                 ValueData d = new ValueData(ed.getName());
                                 ActualDataValue adv = new ActualDataValue();
@@ -216,16 +208,8 @@ public final class LoadLua {
                 for (Entry ee : ((Group)e).getEntries()){
                     visitingLuaCode(ee, lv, hmap);
                 }
-            } else {/*
-                System.out.println("KOMME ICH REIN 1");
-                System.out.println("parent name lalala: " + e.getName());
-                if((!e.getName().equals("problem")) && (!e.getName().equals("root"))){
-                    System.out.println("DAS ERGIBT SINN");
-                }
-                for (Entry l : ((Group) e).getEntries()) {
-                    System.out.println("child name lalala: " + l.getName());
-                    visitingLuaCode(l, lv);
-                }*/
+            } else {
+
             }
         }
     }
@@ -297,16 +281,6 @@ public final class LoadLua {
                     }
                 } else {
                     for (Entry ed : ((Group) e).getEntries()) {
-                        /*ValueData d = new ValueData(ed.getName());
-                        System.out.println("GROUP2: " + d.getValName());
-                        System.out.println("Value2: " + ((Value) ed).getValueAsString());
-                        ActualDataValue adv = new ActualDataValue();
-                        settingType((Value) ed, adv);
-                        adv.setValue(((Value) ed).getValueAsString());
-                        d.setActData(adv);
-                        d.isValue(true);
-                        x.addSubParam(d);
-                        d.setParentNode(x);*/
                         if(ed instanceof Value) {
                             ValueData d = new ValueData(ed.getName());
                             System.out.println("GROUP2: " + d.getValName());
