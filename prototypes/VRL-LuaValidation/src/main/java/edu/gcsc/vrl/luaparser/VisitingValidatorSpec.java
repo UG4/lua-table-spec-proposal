@@ -23,7 +23,7 @@ public final class VisitingValidatorSpec {
      * @param dataList list to save the data
      * @param e data structure of <code>Groups</code> and <code>Values</code>
      * */
-    public static void visitOne(Entry e, List<ValueData> dataList, ValueDataFactory factory) {
+    public static void visitOne(Entry e, List<ValueData> dataList, ValueDataFactory factory, Map<Integer, ValueData> hmap) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName()) && isVal(e) && !"root".equals(e.getName())) {
                 //VALUE
@@ -46,17 +46,23 @@ public final class VisitingValidatorSpec {
                     adv.setValue(xd.getDefaultVal());
                 }
                 xd.setActData(adv);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
                 dataList.add(xd);
 
             } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isOptVal(e) && !isVal(e) && !"root".equals(e.getName())) {
                 // not-optional group
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
                 ValueData xd = factory.newInstance(e.getName());
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
                 xd.setNotOptGroup(true);
                 xd.setSelected(true);
                 dataList.add(xd);
                 for (Entry p : ((Group) e).getEntries()) {
-                    visitTwo(p, dataList, xd, factory);
+                    visitTwo(p, dataList, xd, factory, hmap);
                 }
 
             } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !"root".equals(e.getName()) && !isOptVal(e)) {
@@ -64,9 +70,12 @@ public final class VisitingValidatorSpec {
                 System.out.println(e.getName() + " is OPTIONAL!");
                 ValueData xd = factory.newInstance(e.getName());
                 xd.setOptional(true);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
                 dataList.add(xd);
                 for (Entry p : ((Group) e).getEntries()) {
-                    visitTwo(p, dataList, xd, factory);
+                    visitTwo(p, dataList, xd, factory, hmap);
                 }
 
             } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
@@ -90,11 +99,14 @@ public final class VisitingValidatorSpec {
                     adv.setValue(xd.getDefaultVal());
                 }
                 xd.setActData(adv);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
                 dataList.add(xd);
 
             } else {
                 for (Entry l : ((Group) e).getEntries()) {
-                    visitOne(l, dataList, factory);
+                    visitOne(l, dataList, factory, hmap);
                 }
             }
 
@@ -113,7 +125,7 @@ public final class VisitingValidatorSpec {
         }
     }
 
-    private static void visitTwo(Entry e, List<ValueData> dataList, ValueData v, ValueDataFactory factory) {
+    private static void visitTwo(Entry e, List<ValueData> dataList, ValueData v, ValueDataFactory factory, Map<Integer, ValueData> hmap) {
         if (e instanceof Group) {
             if (!"problem".equals(e.getName()) && isVal(e)) {
                 //VALUE
@@ -138,6 +150,9 @@ public final class VisitingValidatorSpec {
                 xd.setActData(adv);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
             } else if (!"problem".equals(e.getName()) && !NumberUtils.isNumber(e.getName()) && !isVal(e) && !isOptVal(e)) {
                 //not-optional  group
                 System.out.println(e.getName() + " is NOT-OPTIONAL!");
@@ -146,9 +161,12 @@ public final class VisitingValidatorSpec {
                 xd.setNotOptGroup(true);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
 
                 for (Entry p : ((Group) e).getEntries()) {
-                    visitTwo(p, dataList, xd, factory);
+                    visitTwo(p, dataList, xd, factory, hmap);
                 }
             } else if (!"problem".equals(e.getName()) && NumberUtils.isNumber(e.getName()) && !isOptVal(e)) {
                 //optional
@@ -157,9 +175,12 @@ public final class VisitingValidatorSpec {
                 xd.setOptional(true);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
 
                 for (Entry p : ((Group) e).getEntries()) {
-                    visitTwo(p, dataList, xd, factory);
+                    visitTwo(p, dataList, xd, factory, hmap);
                 }
 
             } else if (!"problem".equals(e.getName()) && !"root".equals(e.getName()) && isOptVal(e)) {
@@ -185,6 +206,9 @@ public final class VisitingValidatorSpec {
                 xd.setActData(adv);
                 xd.setParentNode(v);
                 v.addSubParam(xd);
+                xd.setPathToRoot(GenUtil.getRootPath(xd));
+                xd.setHash(xd.getPathToRoot().hashCode());
+                hmap.put(xd.getHash(),xd);
 
             }
         } else if (e instanceof Value) {

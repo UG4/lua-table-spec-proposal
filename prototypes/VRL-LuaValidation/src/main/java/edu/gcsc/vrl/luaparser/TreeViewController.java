@@ -2,7 +2,9 @@ package edu.gcsc.vrl.luaparser;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -230,9 +232,11 @@ public class TreeViewController {
 
                     if (!path.isEmpty()) {
                         List<ValueData> data = new ArrayList<>();
+                        Map<Integer, ValueData> hmap = new HashMap<>();
                         Group loadedLua = LoadLua.parseLuaFile(path);
-                        LoadLua.visitingLuaCode(loadedLua, data);
-                        LoadLua.match(runtimeObject.getData(),data);
+                        LoadLua.visitingLuaCode(loadedLua, data, hmap);
+                        //LoadLua.match(runtimeObject.getData(),data,0);
+                        Match.matchLuaCode(runtimeObject.getHmap(),hmap);
                     }
                     outputTable.refresh();
                 } catch (IOException io) {

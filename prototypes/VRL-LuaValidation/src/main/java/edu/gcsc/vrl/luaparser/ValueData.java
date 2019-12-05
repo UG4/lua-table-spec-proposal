@@ -69,6 +69,8 @@ public class ValueData {
     private boolean disabled;
 
     private ValueData parentNode;
+    private String pathToRoot;
+    private int hash;
 
 
     // GETTER - methods
@@ -375,6 +377,9 @@ public class ValueData {
         return this.dependsOnVisible;
     }
 
+    public int getHash() { return this.hash; }
+
+    public String getPathToRoot() { return this.pathToRoot; }
 
 
 
@@ -638,6 +643,10 @@ public class ValueData {
     public void setDependsOnVisible(boolean dependsOn) {
         this.dependsOnVisible = dependsOn;
     }
+
+    public void setHash(int hash) { this.hash = hash; }
+
+    public void setPathToRoot(String path) { this.pathToRoot = path; }
 
     /**
      * Checks whether the object has a subparam with a specific name

@@ -2,10 +2,12 @@ package edu.gcsc.vrl.luaparser;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
+import java.util.Map;
 
 /**
 * This class represents the run-time model of the application. It contains the dataset with
@@ -20,10 +22,12 @@ public class Validator {
     private Group importedCode;
     private String validationFileName;
     private String validationFilePath;
+    private Map<Integer, ValueData> hmap;
 
     /*
      * GETTER/SETTER methods
      * */
+    public Map<Integer, ValueData> getHmap() { return this.hmap; }
     /**
     * returns the actual dataset
     *
@@ -94,10 +98,12 @@ public class Validator {
     * Coordinates the creation of the data model objects.
     * */
     public void visiting(ValueDataFactory vdFactory) {
+        Map<Integer, ValueData> tempHmap = new HashMap<>();
         List<ValueData> dataList = new ArrayList<>();
         if (importedCode != null) {
-            VisitingValidatorSpec.visitOne(importedCode, dataList, vdFactory);
+            VisitingValidatorSpec.visitOne(importedCode, dataList, vdFactory, tempHmap);
             this.myData = dataList;
+            this.hmap = tempHmap;
         }
     }
 
