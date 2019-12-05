@@ -735,4 +735,57 @@ public final class GenUtil {
             }
         }
     }
+
+    public static void printVdTree(ValueData v, int ind){
+        System.out.println(indent(ind) + "Name: " + v.getValName());
+        System.out.println(indent(ind) + "path: " + v.getPathToRoot());
+        if(v.getOptions().size() > 0) {
+            for(ValueData opt : v.getOptions()){
+                System.out.println(indent(ind) + "Child name: " + opt.getValName());
+                System.out.println(indent(ind) + "path: " + opt.getPathToRoot());
+                printVdTreeRec(opt, ind+1);
+            }
+        }
+    }
+
+    public static void printVdTreeRec(ValueData v, int ind){
+        if(v.getOptions().size() > 0) {
+            for(ValueData opt : v.getOptions()){
+                System.out.println(indent(ind) + "Child name: " + opt.getValName());
+                System.out.println(indent(ind) + "path: " + opt.getPathToRoot());
+                printVdTreeRec(opt, ind+1);
+            }
+        }
+    }
+
+    private static String indent(int n) {
+        String s = "  ";
+        String result = "";
+
+        for (int i = 0; i < n; i++) {
+            result += s;
+        }
+
+        return result;
+    }
+
+    public static String getRootPath(ValueData v){
+        StringBuilder sb = new StringBuilder();
+        sb.append(v.getValName());
+        if(v.getParentNode() != null) {
+            rootPathLoop(v.getParentNode(),sb);
+        } else if(v.getParentNode() == null){
+            System.out.println("No direct parent node ");
+        }
+        return sb.toString();
+    }
+
+    private static void rootPathLoop(ValueData v, StringBuilder sb) {
+        sb.insert(0,v.getValName() +"/");
+        if(v.getParentNode() != null){
+            rootPathLoop(v.getParentNode(),sb);
+        } else if(v.getParentNode() == null) {
+            System.out.println("Finished!");
+        }
+    }
 }
